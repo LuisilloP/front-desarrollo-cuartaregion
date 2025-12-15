@@ -1,0 +1,23 @@
+node_modules/
+dist/
+.astro/
+
+# Environment and local config
+.env
+.env.local
+.env.*.local
+
+# Tooling output
+coverage/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editors and OS
+.DS_Store
+.vscode/
+.idea/
+.vercel/
+.netlify/

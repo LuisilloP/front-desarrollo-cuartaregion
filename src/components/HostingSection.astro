@@ -1,0 +1,58 @@
+---
+import type { SiteSettings } from "../data/mock";
+import { buildWhatsAppLink } from "../lib/utils";
+
+interface Props {
+  siteSettings: SiteSettings;
+}
+
+const { siteSettings } = Astro.props;
+const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Quiero hosting administrado y mantención integral.");
+---
+
+<section class="py-16" data-animate="reveal">
+  <div class="section-shell card bg-white/90 border-slate-200 dark:bg-slate-900/80 dark:border-slate-800 grid md:grid-cols-2 gap-8 items-center">
+    <div class="space-y-4">
+      <p class="pill bg-primary/10 border-primary/40 text-highlight">Operación continua</p>
+      <h3 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+        Hosting, mantención y soporte para que todo corra fino
+      </h3>
+      <p class="text-slate-700 dark:text-slate-300">
+        Incluimos monitoreo, certificados SSL renovados, backups y despliegues controlados. Además, llevamos limpieza
+        y ajustes de desempeño a tus equipos gamer o estaciones de venta para que la experiencia física y digital sea consistente.
+      </p>
+      <ul class="grid sm:grid-cols-2 gap-3 text-sm text-slate-700 dark:text-slate-200">
+        <li class="flex items-start gap-2">
+          <span class="mt-1 h-2 w-2 rounded-full bg-accent"></span>Backups automáticos y restauraciones rápidas
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="mt-1 h-2 w-2 rounded-full bg-accent"></span>CDN y optimización de rendimiento
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="mt-1 h-2 w-2 rounded-full bg-accent"></span>Soporte local y priorización de incidencias
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="mt-1 h-2 w-2 rounded-full bg-accent"></span>Strapi seguro con roles y logs de cambios
+        </li>
+      </ul>
+    </div>
+    <div class="space-y-4">
+      <div class="p-5 rounded-2xl bg-gradient-to-br from-white to-slate-100 border border-slate-200 dark:from-slate-800/90 dark:to-slate-900 dark:border-slate-700">
+        <p class="text-sm text-accent mb-2 font-semibold">¿Qué incluye la mantención física?</p>
+        <ol class="space-y-3 text-slate-700 dark:text-slate-200 text-sm">
+          <li>1. Limpieza antiestática, cable management y cambio de pasta térmica.</li>
+          <li>2. Stress test y ajustes de ventilación para que tus sitios y estaciones no se caigan.</li>
+          <li>3. Reporte mensual unificado (web + hardware) para tomar decisiones rápidas.</li>
+        </ol>
+      </div>
+      <a
+        href={whatsappUrl}
+        target="_blank"
+        rel="noreferrer"
+        class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-secondary font-semibold shadow-soft hover:shadow-lg transition w-full sm:w-auto"
+      >
+        Quiero operación con mantención
+      </a>
+    </div>
+  </div>
+</section>

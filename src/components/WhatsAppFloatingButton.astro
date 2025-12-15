@@ -1,0 +1,22 @@
+---
+import { buildWhatsAppLink } from "../lib/utils";
+
+interface Props {
+  whatsappNumber: string;
+  message?: string;
+}
+
+const { whatsappNumber, message } = Astro.props;
+const whatsappUrl = buildWhatsAppLink(whatsappNumber, message ?? "Hola! Necesito una web/automatización.");
+---
+
+<a
+  href={whatsappUrl}
+  target="_blank"
+  rel="noreferrer"
+  class="fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 px-4 py-3 rounded-full bg-accent text-secondary font-semibold shadow-2xl hover:scale-[1.02] transition"
+  aria-label="WhatsApp"
+>
+  <span aria-hidden="true">💬</span>
+  WhatsApp
+</a>

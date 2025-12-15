@@ -1,0 +1,151 @@
+---
+import type { SiteSettings } from "../data/mock";
+import { buildWhatsAppLink } from "../lib/utils";
+
+interface Props {
+  siteSettings: SiteSettings;
+}
+
+const { siteSettings } = Astro.props;
+const navLinks = [
+  { href: "#inicio", label: "Inicio" },
+  { href: "#servicios", label: "Servicios" },
+  { href: "#casos", label: "Casos" },
+  { href: "#resenas", label: "Reseñas" },
+  { href: "#contacto", label: "Contacto" },
+  { href: "#faq", label: "FAQ" }
+];
+const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero cotizar mi web/automatización.");
+---
+
+<header class="sticky top-0 z-50 bg-white/90 dark:bg-slate-950/85 backdrop-blur border-b border-slate-200/70 dark:border-slate-800">
+  <div class="section-shell flex items-center justify-between py-4 gap-3 relative">
+    <a href="#inicio" class="flex items-center gap-3">
+      <div class="h-11 w-11 rounded-2xl bg-gradient-to-br from-primary to-accent grid place-content-center text-secondary font-bold">
+        ND
+      </div>
+      <p class="text-lg font-semibold text-slate-900 dark:text-white leading-tight">{siteSettings.siteName}</p>
+    </a>
+
+    <nav class="hidden lg:flex items-center gap-6 text-sm text-slate-700 dark:text-slate-200">
+      {navLinks.map((link) => (
+        <a class="hover:text-slate-900 dark:hover:text-white transition-colors" href={link.href}>{link.label}</a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <button
+        id="theme-toggle"
+        class="hidden sm:inline-flex items-center justify-center h-10 w-10 rounded-full border border-slate-200 text-slate-800 bg-white hover:border-primary/60 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+        type="button"
+        aria-label="Cambiar tema"
+      >
+        ☀
+      </button>
+      <button
+        id="menu-toggle"
+        class="lg:hidden inline-flex items-center justify-center h-10 w-10 rounded-full border border-slate-200 text-slate-800 bg-white hover:border-primary/60 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+        type="button"
+        aria-label="Abrir menú"
+        aria-controls="mobile-nav"
+        aria-expanded="false"
+      >
+        ☰
+      </button>
+    </div>
+
+    <div
+      id="mobile-overlay"
+      class="fixed inset-0 z-40 bg-slate-900/60 opacity-0 pointer-events-none transition-opacity duration-200 hidden"
+    ></div>
+    <nav
+      id="mobile-nav"
+      class="fixed z-50 inset-x-0 top-24 mx-auto w-[90%] max-w-sm flex flex-col gap-3 rounded-3xl border border-slate-200 bg-white text-slate-900 p-5 shadow-2xl dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100 opacity-0 -translate-y-4 scale-95 pointer-events-none transition-all duration-200 hidden"
+    >
+      <div class="flex flex-col gap-2">
+        {navLinks.map((link) => (
+          <a
+            class="px-4 py-3 rounded-2xl bg-white text-left font-semibold text-slate-900 shadow-sm border border-slate-100 hover:border-primary/40 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700 dark:hover:bg-slate-800"
+            href={link.href}
+          >
+            {link.label}
+          </a>
+        ))}
+      </div>
+      <a
+        class="mt-4 inline-flex items-center gap-2 px-4 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-secondary font-semibold shadow-soft hover:shadow-lg transition justify-center"
+        href={whatsappUrl}
+        target="_blank"
+        rel="noreferrer"
+      >
+        WhatsApp
+        <span aria-hidden="true">↗</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script is:inline>
+  const root = document.documentElement;
+  const btn = document.getElementById("theme-toggle");
+  const menuBtn = document.getElementById("menu-toggle");
+  const mobileNav = document.getElementById("mobile-nav");
+  const overlay = document.getElementById("mobile-overlay");
+  const THEME_KEY = "theme";
+
+  const applyTheme = (theme) => {
+    if (theme === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+    localStorage.setItem(THEME_KEY, theme);
+    if (btn) btn.textContent = theme === "dark" ? "☀" : "🌙";
+  };
+
+  const stored = localStorage.getItem(THEME_KEY);
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  applyTheme(stored || (prefersDark ? "dark" : "light"));
+
+  btn?.addEventListener("click", () => {
+    const next = root.classList.contains("dark") ? "light" : "dark";
+    applyTheme(next);
+  });
+
+  const showMenu = () => {
+    if (!mobileNav || !overlay || !menuBtn) return;
+    overlay.classList.remove("hidden");
+    mobileNav.classList.remove("hidden");
+    requestAnimationFrame(() => {
+      overlay.classList.remove("opacity-0", "pointer-events-none");
+      mobileNav.classList.remove("opacity-0", "-translate-y-4", "scale-95", "pointer-events-none");
+    });
+    menuBtn.setAttribute("aria-expanded", "true");
+  };
+
+  const hideMenu = () => {
+    if (!mobileNav || !overlay || !menuBtn) return;
+    overlay.classList.add("opacity-0", "pointer-events-none");
+    mobileNav.classList.add("opacity-0", "-translate-y-4", "scale-95", "pointer-events-none");
+    const handleTransitionEnd = () => {
+      overlay.classList.add("hidden");
+      mobileNav.classList.add("hidden");
+      menuBtn.setAttribute("aria-expanded", "false");
+    };
+    mobileNav.addEventListener("transitionend", handleTransitionEnd, { once: true });
+  };
+
+  const toggleMenu = () => {
+    if (mobileNav?.classList.contains("hidden")) {
+      showMenu();
+    } else {
+      hideMenu();
+    }
+  };
+
+  menuBtn?.addEventListener("click", toggleMenu);
+  overlay?.addEventListener("click", hideMenu);
+  mobileNav?.querySelectorAll("a").forEach((anchor) => {
+    anchor.addEventListener("click", hideMenu);
+  });
+</script>

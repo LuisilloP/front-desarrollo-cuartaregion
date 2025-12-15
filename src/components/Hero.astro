@@ -1,0 +1,132 @@
+---
+import type { SiteSettings } from "../data/mock";
+import { buildWhatsAppLink } from "../lib/utils";
+
+interface Props {
+  siteSettings: SiteSettings;
+}
+
+const { siteSettings } = Astro.props;
+const whatsappUrl = buildWhatsAppLink(
+  siteSettings.whatsappNumber,
+  "Hola! Quiero una web y automatización para mi negocio."
+);
+---
+
+<section
+  id="inicio"
+  class="relative overflow-hidden pb-24 pt-12 sm:pt-20"
+  data-animate="reveal"
+>
+  <div class="absolute inset-0 pointer-events-none">
+    <div
+      class="absolute -top-24 -left-10 w-80 h-80 bg-primary/20 rounded-full blur-3xl"
+    >
+    </div>
+    <div
+      class="absolute top-10 right-0 w-96 h-96 bg-accent/20 rounded-full blur-3xl"
+    >
+    </div>
+  </div>
+  <div class="section-shell relative grid lg:grid-cols-2 gap-12 items-center">
+    <div class="space-y-6">
+      <div class="pill w-fit bg-primary/10 border-primary/40 text-highlight">
+        <span class="h-2 w-2 rounded-full bg-accent"></span>
+        Agencia local · {siteSettings.region}
+      </div>
+      <h1
+        class="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white leading-tight"
+      >
+        Páginas web y automatizaciones de WhatsApp para tu negocio en la {
+          siteSettings.region
+        }
+      </h1>
+      <p class="text-lg text-slate-700 dark:text-slate-300 max-w-2xl">
+        Web, automatizaciones e inventario. Mantención de PCs (oficina/gamer) y
+        presencia digital. Tú vendes; nosotros lo dejamos funcionando.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a
+          class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-secondary font-semibold shadow-soft hover:shadow-lg transition"
+          href={whatsappUrl}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {siteSettings.primaryCTA || "Hablemos por WhatsApp"}
+          <span aria-hidden="true">↗</span>
+        </a>
+        <a
+          class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-slate-800 text-slate-100 border border-slate-700 hover:border-highlight transition"
+          href="#servicios"
+        >
+          {siteSettings.secondaryCTA || "Ver planes"}
+        </a>
+      </div>
+      <div class="grid sm:grid-cols-3 gap-3 text-sm text-slate-200">
+        <div class="card">
+          <p class="font-semibold text-slate-900 dark:text-white">
+            Entrega rápida
+          </p>
+          <p class="text-slate-600 dark:text-slate-400">
+            Landings y funnels montados en menos de 7 días.
+          </p>
+        </div>
+        <div class="card">
+          <p class="font-semibold text-slate-900 dark:text-white">
+            Soporte local
+          </p>
+          <p class="text-slate-600 dark:text-slate-400">
+            Equipo basado en la región, horario CL.
+          </p>
+        </div>
+        <div class="card">
+          <p class="font-semibold text-slate-900 dark:text-white">
+            Mantención gamer
+          </p>
+          <p class="text-slate-600 dark:text-slate-400">
+            Limpieza, cable management y stress test programados.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="relative">
+      <div
+        class="card bg-gradient-to-br from-white/90 to-white/70 border-slate-200 dark:from-slate-900/80 dark:to-slate-900/40 dark:border-slate-800"
+      >
+        <p class="text-sm text-accent mb-2 font-semibold">
+          Checklist de lanzamiento
+        </p>
+        <ul class="space-y-3 text-slate-200">
+          <li class="flex items-start gap-3">
+            <span
+              class="h-6 w-6 rounded-full bg-accent/20 text-accent grid place-content-center"
+              >✓</span
+            >
+            Diseño con foco en conversión y SEO local.
+          </li>
+          <li class="flex items-start gap-3">
+            <span
+              class="h-6 w-6 rounded-full bg-accent/20 text-accent grid place-content-center"
+              >✓</span
+            >
+            Integración a WhatsApp, flujos y CRM sin código.
+          </li>
+          <li class="flex items-start gap-3">
+            <span
+              class="h-6 w-6 rounded-full bg-accent/20 text-accent grid place-content-center"
+              >✓</span
+            >
+            Mantención y limpieza de tus equipos gamer o estación de venta.
+          </li>
+          <li class="flex items-start gap-3">
+            <span
+              class="h-6 w-6 rounded-full bg-accent/20 text-accent grid place-content-center"
+              >✓</span
+            >
+            Dashboard en Strapi para actualizar precios, FAQ y casos.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

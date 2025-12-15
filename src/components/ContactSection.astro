@@ -1,0 +1,110 @@
+---
+import type { SiteSettings } from "../data/mock";
+import { buildWhatsAppLink } from "../lib/utils";
+
+interface Props {
+  siteSettings: SiteSettings;
+}
+
+const { siteSettings } = Astro.props;
+const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola, quiero cotizar mi sitio/automatización.");
+const mockEndpoint = "/api/contact"; // Ejemplo; puedes apuntar a Strapi o tu backend.
+---
+
+<section id="contacto" class="py-20" data-animate="reveal">
+  <div class="section-shell grid lg:grid-cols-2 gap-10 items-start">
+    <div class="space-y-4">
+      <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">Contacto</p>
+      <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">Conversemos y arma tu plan</h2>
+      <p class="text-slate-700 dark:text-slate-300">
+        Cuéntanos si necesitas una nueva landing, mantención para tu setup gamer/empresa o presencia digital constante. Respondemos
+        en horario laboral CL en menos de 24h. Si prefieres, escribe directo a WhatsApp.
+      </p>
+      <a
+        href={whatsappUrl}
+        target="_blank"
+        rel="noreferrer"
+        class="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-secondary font-semibold shadow-soft hover:shadow-lg transition"
+      >
+        Abrir WhatsApp
+        <span aria-hidden="true">↗</span>
+      </a>
+      <div class="card text-sm text-slate-700 dark:text-slate-200">
+        <p class="font-semibold text-slate-900 dark:text-white mb-2">¿Qué pasa con el formulario?</p>
+        <p>
+          Se envía a <code class="text-highlight">{mockEndpoint}</code> (modifícalo). Puedes apuntarlo a un endpoint de Strapi o a tu
+          función serverless. Mantenemos los campos <strong>name</strong>, <strong>contact</strong> y <strong>message</strong>.
+        </p>
+      </div>
+    </div>
+    <form
+      class="card bg-white/90 border-slate-200 space-y-4 dark:bg-slate-900/70 dark:border-slate-800"
+      method="post"
+      action={mockEndpoint}
+      data-endpoint={mockEndpoint}
+    >
+      <div>
+        <label for="name" class="block text-sm font-medium text-slate-900 dark:text-white mb-1">Nombre</label>
+        <input
+          id="name"
+          name="name"
+          required
+        class="w-full rounded-xl bg-white border border-slate-200 text-slate-900 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-highlight dark:bg-slate-800 dark:border-slate-700 dark:text-white"
+          placeholder="Tu nombre o negocio"
+        />
+      </div>
+      <div>
+        <label for="contact" class="block text-sm font-medium text-slate-900 dark:text-white mb-1">Correo o teléfono</label>
+        <input
+          id="contact"
+          name="contact"
+          type="text"
+          required
+        class="w-full rounded-xl bg-white border border-slate-200 text-slate-900 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-highlight dark:bg-slate-800 dark:border-slate-700 dark:text-white"
+          placeholder="tucorreo@empresa.cl / +569..."
+        />
+      </div>
+      <div>
+        <label for="message" class="block text-sm font-medium text-slate-900 dark:text-white mb-1">Mensaje</label>
+        <textarea
+          id="message"
+          name="message"
+          rows="4"
+          required
+        class="w-full rounded-xl bg-white border border-slate-200 text-slate-900 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-highlight dark:bg-slate-800 dark:border-slate-700 dark:text-white"
+          placeholder="Cuéntanos qué necesitas"
+        ></textarea>
+      </div>
+      <button
+        type="submit"
+        class="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-secondary font-semibold shadow-soft hover:shadow-lg transition"
+      >
+        Enviar consulta
+      </button>
+      <p class="text-xs text-slate-500 dark:text-slate-400">Al enviar aceptas nuestra <a class="underline" href="/privacidad">política de privacidad</a>.</p>
+    </form>
+  </div>
+  <script is:inline>
+    const form = document.currentScript?.previousElementSibling as HTMLFormElement | null;
+    if (form) {
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const endpoint = form.dataset.endpoint ?? form.action;
+        const formData = new FormData(form);
+        const payload = Object.fromEntries(formData.entries());
+        try {
+          await fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+          alert("Consulta enviada. Te contactaremos pronto.");
+          form.reset();
+        } catch (err) {
+          alert("No se pudo enviar. Revisa el endpoint o inténtalo por WhatsApp.");
+          console.error(err);
+        }
+      });
+    }
+  </script>
+</section>

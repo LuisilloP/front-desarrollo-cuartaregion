@@ -1,0 +1,44 @@
+---
+import type { CaseStudy } from "../data/mock";
+
+interface Props {
+  cases: CaseStudy[];
+}
+
+const { cases } = Astro.props;
+const sorted = [...cases].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+---
+
+<section id="casos" class="py-20 space-y-6" data-animate="reveal">
+  <div class="section-shell flex flex-col gap-3 max-w-3xl">
+    <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">Casos reales</p>
+    <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">Resultados con negocios de la región</h2>
+    <p class="text-slate-700 dark:text-slate-300">Integraciones con WhatsApp, reservas y performance para industrias locales.</p>
+  </div>
+  <div class="section-shell grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {sorted.map((item) => (
+      <article class="card flex flex-col gap-3">
+        <div class="relative w-full h-44 overflow-hidden rounded-xl bg-slate-200 dark:bg-slate-800">
+          {item.image ? (
+            <img src={item.image} alt={`Caso ${item.clientName}`} loading="lazy" class="w-full h-full object-cover" />
+          ) : (
+            <div class="absolute inset-0 bg-gradient-to-br from-primary/30 to-accent/30"></div>
+          )}
+        </div>
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-lg font-semibold text-slate-900 dark:text-white">{item.clientName}</p>
+            <p class="text-sm text-highlight">{item.industry}</p>
+          </div>
+          {item.url && (
+            <a class="text-highlight text-sm hover:text-white" href={item.url} target="_blank" rel="noreferrer">
+              Ver sitio ↗
+            </a>
+          )}
+        </div>
+        <p class="text-slate-700 dark:text-slate-200 text-sm">{item.summary}</p>
+        <p class="text-accent font-semibold">{item.results}</p>
+      </article>
+    ))}
+  </div>
+</section>

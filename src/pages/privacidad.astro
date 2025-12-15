@@ -1,0 +1,21 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Footer from "../components/Footer.astro";
+import Navbar from "../components/Navbar.astro";
+import { fetchLegalPage, fetchSiteSettings } from "../lib/strapi";
+
+const siteSettings = await fetchSiteSettings();
+const legal = await fetchLegalPage("privacidad");
+---
+
+<Layout title={legal?.title ?? "Privacidad"} description={siteSettings.tagline} siteSettings={siteSettings}>
+  <Navbar siteSettings={siteSettings} />
+  <main class="section-shell py-16 space-y-6">
+    <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">Legal</p>
+    <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">{legal?.title ?? "Política de Privacidad"}</h1>
+    <article class="prose max-w-3xl text-slate-800 dark:prose-invert dark:text-slate-200">
+      <p>{legal?.content ?? "Actualiza esta sección desde Strapi para mostrar tu política de privacidad."}</p>
+    </article>
+  </main>
+  <Footer siteSettings={siteSettings} />
+</Layout>
