@@ -6,16 +6,106 @@ import { fetchLegalPage, fetchSiteSettings } from "../lib/strapi";
 
 const siteSettings = await fetchSiteSettings();
 const legal = await fetchLegalPage("privacidad");
+const forceFallback =
+  (import.meta.env.USE_MOCK_DATA ?? "true").toString().toLowerCase() === "true";
+const legalContent = legal?.content?.trim();
+const hasLegalContent = Boolean(!forceFallback && legalContent && legalContent.length > 0);
+const pageTitle = hasLegalContent ? legal?.title ?? "Privacidad" : "Política de privacidad";
+
+const fallbackPolicy = {
+  title: "Política de privacidad",
+  intro:
+    "Esta política explica cómo tratamos los datos personales cuando navegas en nuestro sitio y nos contactas. Intentamos ser claros y usar la menor cantidad de datos posible.",
+  sections: [
+    {
+      title: "Qué datos recopilamos",
+      list: [
+        "Datos de contacto que envías en formularios: nombre, correo, teléfono, empresa y mensaje.",
+        "Datos técnicos de navegación (IP, dispositivo, navegador, páginas visitadas) mediante cookies y analítica.",
+        "Comunicaciones posteriores (correo, WhatsApp o llamadas) para dar seguimiento a tus solicitudes."
+      ]
+    },
+    {
+      title: "Para qué usamos los datos",
+      list: [
+        "Responder tus solicitudes y preparar propuestas o contratos.",
+        "Enviar información comercial solo con tu consentimiento (puedes retirarlo en cualquier momento).",
+        "Medir el uso del sitio para mejorar contenido y rendimiento.",
+        "Prevenir fraude o uso indebido de nuestros servicios."
+      ]
+    },
+    {
+      title: "Base legal",
+      list: [
+        "Consentimiento para comunicaciones comerciales y uso de cookies no esenciales.",
+        "Interés legítimo para analítica agregada y seguridad del sitio.",
+        "Cumplimiento de obligaciones legales cuando corresponda (facturación, retención mínima)."
+      ]
+    },
+    {
+      title: "Conservación",
+      body:
+        "Guardamos los datos de contacto mientras gestionamos tu solicitud y, si eres cliente, por el tiempo necesario para la relación contractual y obligaciones legales. Los datos de analítica se conservan en forma agregada por periodos acotados."
+    },
+    {
+      title: "Con quién los compartimos",
+      list: [
+        "No vendemos tus datos.",
+        "Proveedores que nos ayudan con infraestructura, analítica o soporte (bajo acuerdos de confidencialidad y protección de datos).",
+        "Autoridades u obligaciones legales si fuera requerido."
+      ]
+    },
+    {
+      title: "Transferencias internacionales",
+      body:
+        "Si un proveedor procesa datos fuera de tu país, aplicamos cláusulas contractuales estándar o mecanismos equivalentes para protegerlos."
+    },
+    {
+      title: "Tus derechos",
+      list: [
+        "Acceso, rectificación, supresión, oposición, limitación y portabilidad de tus datos.",
+        "Retirar el consentimiento en cualquier momento para comunicaciones comerciales.",
+        "Ejercer estos derechos escribiendo a contacto@nortedigital.cl."
+      ]
+    },
+    {
+      title: "Cookies",
+      body:
+        "Usamos cookies técnicas y de analítica agregada. Puedes gestionarlas desde tu navegador; desactivarlas puede afectar algunas funcionalidades."
+    },
+    {
+      title: "Contacto",
+      body: "Escríbenos a contacto@nortedigital.cl para cualquier consulta sobre privacidad."
+    }
+  ]
+};
 ---
 
-<Layout title={legal?.title ?? "Privacidad"} description={siteSettings.tagline} siteSettings={siteSettings}>
+<Layout title={pageTitle} description={siteSettings.tagline} siteSettings={siteSettings}>
   <Navbar siteSettings={siteSettings} />
   <main class="section-shell py-16 space-y-6">
     <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">Legal</p>
-    <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">{legal?.title ?? "Política de Privacidad"}</h1>
-    <article class="prose max-w-3xl text-slate-800 dark:prose-invert dark:text-slate-200">
-      <p>{legal?.content ?? "Actualiza esta sección desde Strapi para mostrar tu política de privacidad."}</p>
-    </article>
+    <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">{pageTitle}</h1>
+    {hasLegalContent ? (
+      <article class="prose max-w-3xl text-slate-800 dark:prose-invert dark:text-slate-200" set:html={legalContent} />
+    ) : (
+      <article class="prose max-w-3xl text-slate-800 dark:prose-invert dark:text-slate-200 space-y-5">
+        <p>{fallbackPolicy.intro}</p>
+        {fallbackPolicy.sections.map((section) => (
+          <section class="space-y-2">
+            <h2>{section.title}</h2>
+            {section.body && <p>{section.body}</p>}
+            {section.list && (
+              <ul>
+                {section.list.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            )}
+          </section>
+        ))}
+      </article>
+    )}
   </main>
   <Footer siteSettings={siteSettings} />
 </Layout>
