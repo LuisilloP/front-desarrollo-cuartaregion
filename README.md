@@ -11,6 +11,7 @@ Landing estatico en Astro + Tailwind con data opcional desde Strapi. Usa mocks s
 - `STRAPI_URL`: base URL de tu Strapi (ej. `https://tu-strapi.com`)
 - `STRAPI_API_TOKEN`: token de API si Strapi no es publico
 - `STRAPI_CASES_ENDPOINT`: endpoint de casos si cambiaste el nombre de la collection (ej. `/api/casos`)
+- `USE_MOCK_DATA`: por defecto es `true` (usa los datos mock). Ponlo en `false` junto a `STRAPI_URL` para construir con datos reales.
 Nota: al ser un build estatico los datos se toman durante la fase de build; si cambian en Strapi hay que volver a desplegar.
 
 ## Despliegue en Dokploy con GitHub

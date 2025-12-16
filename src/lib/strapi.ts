@@ -20,6 +20,10 @@ const STRAPI_URL = process.env.STRAPI_URL ?? import.meta.env.STRAPI_URL;
 const STRAPI_API_TOKEN = process.env.STRAPI_API_TOKEN ?? import.meta.env.STRAPI_API_TOKEN;
 const STRAPI_CASES_ENDPOINT =
   process.env.STRAPI_CASES_ENDPOINT ?? import.meta.env.STRAPI_CASES_ENDPOINT ?? "/api/cases";
+const USE_MOCK_DATA =
+  (process.env.USE_MOCK_DATA ?? import.meta.env.USE_MOCK_DATA ?? "true").toString().toLowerCase() ===
+  "true";
+const SHOULD_USE_MOCK = USE_MOCK_DATA || !STRAPI_URL;
 
 type StrapiData<T> = {
   id?: number;
@@ -95,6 +99,7 @@ const fetchJson = async <T>(path: string, params: Record<string, string | number
 };
 
 const withFallback = async <T>(fn: () => Promise<T>, fallback: T): Promise<T> => {
+  if (SHOULD_USE_MOCK) return fallback;
   try {
     return await fn();
   } catch (error) {
