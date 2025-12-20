@@ -1,62 +1,11 @@
-export type SiteSettings = {
-  siteName: string;
-  tagline: string;
-  region: string;
-  whatsappNumber: string;
-  primaryCTA: string;
-  secondaryCTA: string;
-  socialLinks: { label: string; url: string }[];
-  footerText: string;
-};
+import type { CaseStudy, Faq, LegalPage, Post, Review, Service, SiteSettings } from "../lib/api/types";
 
-export type Service = {
-  slug: string;
-  name: string;
-  description: string;
-  idealFor: string;
-  priceCLP: number;
-  features: string[];
-  isFeatured?: boolean;
-  order?: number;
-  category: "web" | "maintenance" | "digital";
-};
-
-export type CaseStudy = {
-  slug: string;
-  clientName: string;
-  industry: string;
-  summary: string;
-  results: string;
-  image?: string;
-  url?: string;
-  order?: number;
-};
-
-export type Review = {
-  clientName: string;
-  business: string;
-  rating: number;
-  quote: string;
-  avatar?: string;
-  order?: number;
-};
-
-export type Faq = {
-  question: string;
-  answer: string;
-  order?: number;
-};
-
-export type LegalPage = {
-  slug: string;
-  title: string;
-  content: string;
-};
+export type { CaseStudy, Faq, LegalPage, Post, Review, Service, SiteSettings };
 
 export const mockSiteSettings: SiteSettings = {
   siteName: "Norte Digital",
   tagline: "Diseñamos y automatizamos tu presencia online con resultados medibles.",
-  region: "Región de Coquimbo",
+  region: "Región de Santiago de Chile",
   whatsappNumber: "+56912345678",
   primaryCTA: "Cotizar por WhatsApp",
   secondaryCTA: "Ver planes",
@@ -223,3 +172,15 @@ export const mockLegalPages: Record<string, LegalPage> = {
       "Los servicios se cotizan en CLP y se pagan 50% al inicio y 50% contra entrega. Hosting administrado se factura de forma mensual. Ajustes y mejoras posteriores se cotizan aparte."
   }
 };
+
+export const mockPosts: Post[] = [
+  {
+    slug: "post",
+    title: "prueba",
+    excerpt: "prueba2",
+    content: "ola",
+    createdAt: "2025-12-18T19:58:55.652Z",
+    updatedAt: "2025-12-18T19:58:55.652Z",
+    publishedAt: "2025-12-18T19:58:55.676Z"
+  }
+];

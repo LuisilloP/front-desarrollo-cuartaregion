@@ -1,0 +1,77 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+import WhatsAppFloatingButton from "../../components/WhatsAppFloatingButton.astro";
+import { buildWhatsAppLink, formatCLP } from "../../lib/utils";
+import { fetchServices, fetchSiteSettings } from "../../lib/api/services";
+import type { Service } from "../../lib/api/types";
+
+export async function getStaticPaths() {
+  const services = await fetchServices();
+  return services
+    .filter((service) => Boolean(service.slug))
+    .map((service) => ({ params: { slug: service.slug }, props: { service } }));
+}
+
+const { service } = Astro.props as { service: Service };
+if (!service) throw new Error("Service not found");
+
+const siteSettings = await fetchSiteSettings();
+const whatsappUrl = buildWhatsAppLink(
+  siteSettings.whatsappNumber,
+  `Hola! Quiero cotizar el servicio ${service.name || "servicio"}.`
+);
+const pageTitle = service.name || "Servicio";
+---
+
+<Layout title={pageTitle} description={service.description} siteSettings={siteSettings}>
+  <Navbar siteSettings={siteSettings} />
+  <main class="section-shell py-16 space-y-10">
+    <div class="space-y-3 max-w-3xl">
+      <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">Servicio</p>
+      <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">{service.name}</h1>
+      {service.description && <p class="text-slate-700 dark:text-slate-300">{service.description}</p>}
+      {service.idealFor && <p class="text-sm text-slate-500 dark:text-slate-400">Ideal para: {service.idealFor}</p>}
+    </div>
+
+    {service.features && service.features.length > 0 && (
+      <section class="card space-y-3">
+        <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Incluye</h2>
+        <ul class="grid sm:grid-cols-2 gap-2 text-sm text-slate-700 dark:text-slate-200">
+          {service.features.map((feature) => (
+            <li class="flex items-start gap-2">
+              <span class="text-accent">+</span>
+              <span>{feature}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {service.priceCLP && service.priceCLP > 0 && (
+      <div class="text-lg font-semibold text-slate-900 dark:text-white">
+        Precio desde {formatCLP(service.priceCLP)}
+      </div>
+    )}
+
+    <div class="flex flex-wrap gap-3">
+      <a
+        class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-secondary font-semibold shadow-soft hover:shadow-lg transition"
+        href={whatsappUrl}
+        target="_blank"
+        rel="noreferrer"
+      >
+        Cotizar por WhatsApp
+      </a>
+      <a
+        class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-slate-800 text-slate-100 border border-slate-700 hover:border-highlight transition"
+        href="/"
+      >
+        Volver al inicio
+      </a>
+    </div>
+  </main>
+  <Footer siteSettings={siteSettings} />
+  <WhatsAppFloatingButton whatsappNumber={siteSettings.whatsappNumber} message="Hola! Quiero cotizar un servicio." />
+</Layout>

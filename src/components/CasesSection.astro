@@ -7,38 +7,141 @@ interface Props {
 
 const { cases } = Astro.props;
 const sorted = [...cases].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+const listFromText = (value: unknown) => {
+  if (Array.isArray(value)) return value;
+  if (typeof value === "string") {
+    return value
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(Boolean);
+  }
+  return [];
+};
+
+const problemDotColors = ["bg-rose-500", "bg-orange-500", "bg-amber-500", "bg-red-500"];
+const problemBadgeColors = ["bg-rose-500/15", "bg-orange-500/15", "bg-amber-500/15", "bg-red-500/15"];
+const resultDotColors = ["bg-emerald-500", "bg-teal-500", "bg-sky-500", "bg-blue-500"];
+const resultBadgeColors = ["bg-emerald-500/15", "bg-teal-500/15", "bg-sky-500/15", "bg-blue-500/15"];
 ---
 
-<section id="casos" class="py-20 space-y-6" data-animate="reveal">
+<section id="casos" class="py-20 space-y-10" data-animate="reveal">
   <div class="section-shell flex flex-col gap-3 max-w-3xl">
     <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">Casos reales</p>
-    <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">Resultados con negocios de la región</h2>
-    <p class="text-slate-700 dark:text-slate-300">Integraciones con WhatsApp, reservas y performance para industrias locales.</p>
+    <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">
+      Resultados con negocios de la Región de Santiago de Chile
+    </h2>
+    <p class="text-slate-700 dark:text-slate-300">
+      Integraciones con WhatsApp, reservas y performance para industrias locales.
+    </p>
   </div>
-  <div class="section-shell grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-    {sorted.map((item) => (
-      <article class="card flex flex-col gap-3">
-        <div class="relative w-full h-44 overflow-hidden rounded-xl bg-slate-200 dark:bg-slate-800">
-          {item.image ? (
-            <img src={item.image} alt={`Caso ${item.clientName}`} loading="lazy" class="w-full h-full object-cover" />
-          ) : (
-            <div class="absolute inset-0 bg-gradient-to-br from-primary/30 to-accent/30"></div>
-          )}
-        </div>
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-lg font-semibold text-slate-900 dark:text-white">{item.clientName}</p>
-            <p class="text-sm text-highlight">{item.industry}</p>
+
+  <div class="section-shell grid gap-2 md:grid-cols-2 lg:grid-cols-3">
+    {sorted.map((item) => {
+      const resList = listFromText(item.results);
+      const problemList = listFromText(item.problem);
+      const hasProblem = problemList.length > 0;
+      const title = (item as any).title ?? item.summary ?? item.clientName;
+
+      return (
+        <article class="relative flex h-full cursor-pointer flex-col overflow-hidden rounded-3xl border border-slate-200/60 bg-white/90 shadow-soft transition duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-slate-800/80 dark:bg-slate-900/70">
+          <div class="flex flex-1 flex-col gap-5 p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div class="space-y-2">
+                <p class="text-2xl font-semibold text-slate-900 dark:text-white">{title}</p>
+                {item.clientName && (
+                  <div class="inline-flex w-fit items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-highlight">
+                    {item.clientName}
+                  </div>
+                )}
+              </div>
+              <div class="shrink-0 rounded-full border border-slate-200/60 bg-white/80 p-2 text-slate-400 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/80">
+                <svg viewBox="0 0 24 24" fill="none" class="h-5 w-5" aria-hidden="true">
+                  <path
+                    d="M10 3h4l.6 2.4 2 .9 2.3-1.2 2 3.4-1.9 1.5.2 2.2 2.2 1.1-1 3.9-2.4-.2-1.6 1.6.2 2.4-3.9 1-1.1-2.2-2.2-.2-1.5 1.9-3.4-2 1.2-2.3-.9-2-2.4-.6V10l2.4-.6.9-2-1.2-2.3 3.4-2 1.5 1.9 2.2-.2L10 3z"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  />
+                  <circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="1.5" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="rounded-2xl border border-slate-200/60 bg-white/95 p-3 dark:border-slate-800 dark:bg-slate-950/70">
+              {item.image ? (
+                <div class="flex h-48 items-center justify-center overflow-hidden rounded-xl bg-white">
+                  <img
+                    src={item.image}
+                    alt={`Caso ${item.clientName || title}`}
+                    loading="lazy"
+                    class="max-h-full w-full object-contain"
+                  />
+                </div>
+              ) : (
+                <div class="h-48 rounded-xl bg-gradient-to-br from-primary/20 via-slate-200/60 to-accent/20 dark:from-primary/30 dark:via-slate-900/60 dark:to-accent/30"></div>
+              )}
+            </div>
+
+            {hasProblem ? (
+              <div class="space-y-2">
+                <p class="text-[11px] uppercase tracking-wide text-slate-500 dark:text-slate-400">Problema</p>
+                <div class="flex flex-wrap gap-2">
+                  {problemList.map((line, index) => {
+                    const dotClass = problemDotColors[index % problemDotColors.length];
+                    const badgeClass = problemBadgeColors[index % problemBadgeColors.length];
+                    return (
+                      <span
+                        class={`inline-flex items-center gap-2 rounded-full ${badgeClass} px-3 py-1 text-xs font-semibold text-slate-800 dark:text-slate-200`}
+                      >
+                        <span class={`h-1.5 w-1.5 rounded-full ${dotClass}`}></span>
+                        {line}
+                      </span>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : (
+              item.summary && <p class="text-sm leading-relaxed text-slate-700 dark:text-slate-300">{item.summary}</p>
+            )}
+
+            {(resList.length > 0 || item.url) && (
+              <div class="space-y-3 border-t border-slate-200/70 pt-4 dark:border-slate-800">
+                {resList.length > 0 && (
+                  <div class="space-y-2">
+                    <p class="text-[11px] uppercase tracking-wide text-slate-500 dark:text-slate-400">Resultados</p>
+                    <div class="flex flex-wrap gap-2">
+                      {resList.map((res, index) => {
+                        const dotClass = resultDotColors[index % resultDotColors.length];
+                        const badgeClass = resultBadgeColors[index % resultBadgeColors.length];
+                        return (
+                          <span
+                            class={`inline-flex items-center gap-2 rounded-full ${badgeClass} px-3 py-1 text-xs font-semibold text-slate-800 dark:text-slate-200`}
+                          >
+                            <span class={`h-1.5 w-1.5 rounded-full ${dotClass}`}></span>
+                            {res}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {item.url && (
+                  <a
+                    class="inline-flex items-center gap-2 text-sm font-semibold text-highlight transition hover:text-accent"
+                    href={item.url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Ver sitio
+                    <span class="text-accent">&gt;</span>
+                  </a>
+                )}
+              </div>
+            )}
           </div>
-          {item.url && (
-            <a class="text-highlight text-sm hover:text-white" href={item.url} target="_blank" rel="noreferrer">
-              Ver sitio ↗
-            </a>
-          )}
-        </div>
-        <p class="text-slate-700 dark:text-slate-200 text-sm">{item.summary}</p>
-        <p class="text-accent font-semibold">{item.results}</p>
-      </article>
-    ))}
+        </article>
+      );
+    })}
   </div>
 </section>

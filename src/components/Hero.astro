@@ -7,6 +7,7 @@ interface Props {
 }
 
 const { siteSettings } = Astro.props;
+const region = siteSettings.region || "Región de Santiago de Chile";
 const whatsappUrl = buildWhatsAppLink(
   siteSettings.whatsappNumber,
   "Hola! Quiero una web y automatización para mi negocio."
@@ -32,14 +33,12 @@ const whatsappUrl = buildWhatsAppLink(
     <div class="space-y-6">
       <div class="pill w-fit bg-primary/10 border-primary/40 text-highlight">
         <span class="h-2 w-2 rounded-full bg-accent"></span>
-        Agencia local · {siteSettings.region}
+        Agencia local · {region}
       </div>
       <h1
         class="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white leading-tight"
       >
-        Páginas web y automatizaciones de WhatsApp para tu negocio en la {
-          siteSettings.region
-        }
+        Páginas web y automatizaciones de WhatsApp para tu negocio en la {region}
       </h1>
       <p class="text-lg text-slate-700 dark:text-slate-300 max-w-2xl">
         Web, automatizaciones e inventario. Mantención de PCs (oficina/gamer) y

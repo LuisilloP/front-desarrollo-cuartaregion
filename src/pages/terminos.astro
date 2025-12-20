@@ -2,7 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import Footer from "../components/Footer.astro";
 import Navbar from "../components/Navbar.astro";
-import { fetchLegalPage, fetchSiteSettings } from "../lib/strapi";
+import { fetchLegalPage, fetchSiteSettings } from "../lib/api/services";
 
 const siteSettings = await fetchSiteSettings();
 const legal = await fetchLegalPage("terminos");

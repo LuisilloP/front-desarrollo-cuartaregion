@@ -1,0 +1,72 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+import WhatsAppFloatingButton from "../../components/WhatsAppFloatingButton.astro";
+import { fetchCases, fetchSiteSettings } from "../../lib/api/services";
+import type { CaseStudy } from "../../lib/api/types";
+
+export async function getStaticPaths() {
+  const cases = await fetchCases();
+  return cases
+    .filter((item) => Boolean(item.slug))
+    .map((item) => ({ params: { slug: item.slug }, props: { caseStudy: item } }));
+}
+
+const { caseStudy } = Astro.props as { caseStudy: CaseStudy };
+if (!caseStudy) throw new Error("Case study not found");
+
+const siteSettings = await fetchSiteSettings();
+const pageTitle = caseStudy.title || caseStudy.clientName || "Caso";
+const results = Array.isArray(caseStudy.results) ? caseStudy.results : caseStudy.results ? [caseStudy.results] : [];
+const problems = Array.isArray(caseStudy.problem) ? caseStudy.problem : caseStudy.problem ? [caseStudy.problem] : [];
+---
+
+<Layout title={pageTitle} description={caseStudy.summary} siteSettings={siteSettings}>
+  <Navbar siteSettings={siteSettings} />
+  <main class="section-shell py-16 space-y-10">
+    <div class="space-y-3 max-w-3xl">
+      <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">Caso</p>
+      <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">{pageTitle}</h1>
+      {caseStudy.summary && <p class="text-slate-700 dark:text-slate-300">{caseStudy.summary}</p>}
+    </div>
+
+    {caseStudy.image && (
+      <div class="card overflow-hidden">
+        <img src={caseStudy.image} alt={pageTitle} class="w-full h-80 object-contain" loading="lazy" />
+      </div>
+    )}
+
+    {problems.length > 0 && (
+      <section class="card space-y-3">
+        <p class="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Problema</p>
+        <ul class="space-y-2 text-sm text-slate-700 dark:text-slate-200">
+          {problems.map((problem) => (
+            <li class="flex gap-2">
+              <span class="text-accent">•</span>
+              <span>{problem}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {results.length > 0 && (
+      <section class="card space-y-3">
+        <p class="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Resultados</p>
+        <ul class="space-y-2 text-sm text-slate-700 dark:text-slate-200">
+          {results.map((result) => (
+            <li class="flex gap-2">
+              <span class="text-accent">+</span>
+              <span>{result}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <a class="text-sm font-semibold text-highlight hover:text-white" href="/#casos">Ver más casos</a>
+  </main>
+  <Footer siteSettings={siteSettings} />
+  <WhatsAppFloatingButton whatsappNumber={siteSettings.whatsappNumber} message="Hola! Me interesa este caso." />
+</Layout>

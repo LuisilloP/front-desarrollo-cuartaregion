@@ -1,0 +1,59 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+import { fetchAllPosts, fetchSiteSettings } from "../../lib/api/services";
+import type { Post } from "../../lib/api/types";
+
+export async function getStaticPaths() {
+  const posts = await fetchAllPosts({ pageSize: 100 });
+  return posts
+    .filter((post) => Boolean(post.slug))
+    .map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props as { post: Post };
+if (!post) throw new Error("Post not found");
+
+const siteSettings = await fetchSiteSettings();
+const pageTitle = post.title || "Blog";
+const publishedDate = post.publishedAt ? new Date(post.publishedAt).toLocaleDateString("es-CL") : "";
+const paragraphs = post.content ? post.content.split("\n").filter(Boolean) : [];
+---
+
+<Layout title={pageTitle} description={post.excerpt} siteSettings={siteSettings}>
+  <Navbar siteSettings={siteSettings} />
+  <main class="section-shell py-16 space-y-8">
+    <header class="space-y-2 max-w-3xl">
+      <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">Blog</p>
+      <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">{post.title}</h1>
+      <div class="flex flex-wrap items-center gap-3 text-sm text-slate-500 dark:text-slate-400">
+        {publishedDate && <span>{publishedDate}</span>}
+        {post.category && <span>Categoría: {post.category.name}</span>}
+      </div>
+      {post.tags && post.tags.length > 0 && (
+        <div class="flex flex-wrap gap-2">
+          {post.tags.map((tag) => (
+            <span class="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs dark:bg-slate-800 dark:text-slate-200">
+              {tag.name}
+            </span>
+          ))}
+        </div>
+      )}
+      {post.excerpt && <p class="text-slate-700 dark:text-slate-300">{post.excerpt}</p>}
+    </header>
+
+    {post.cover?.url && (
+      <div class="card overflow-hidden">
+        <img src={post.cover.url} alt={post.cover.alternativeText ?? post.title} class="w-full h-96 object-cover" loading="lazy" />
+      </div>
+    )}
+
+    <article class="prose max-w-3xl text-slate-800 dark:prose-invert dark:text-slate-200">
+      {paragraphs.length > 0 ? paragraphs.map((text) => <p>{text}</p>) : <p>{post.content}</p>}
+    </article>
+
+    <a class="text-sm font-semibold text-highlight hover:text-white" href="/blog">Volver al blog</a>
+  </main>
+  <Footer siteSettings={siteSettings} />
+</Layout>

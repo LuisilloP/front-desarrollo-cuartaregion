@@ -3,16 +3,30 @@
 
 declare namespace NodeJS {
   interface ProcessEnv {
+    PUBLIC_STRAPI_URL?: string;
+    PUBLIC_STRAPI_GRAPHQL_URL?: string;
+    STRAPI_TOKEN?: string;
+    PUBLIC_SITE_URL?: string;
+    PUBLIC_ENV?: string;
+    STRAPI_USE_MOCK?: string;
+    USE_MOCK_DATA?: string;
+    SITE_URL?: string;
     STRAPI_URL?: string;
     STRAPI_API_TOKEN?: string;
-    STRAPI_CASES_ENDPOINT?: string;
   }
 }
 
 interface ImportMetaEnv {
+  readonly PUBLIC_STRAPI_URL?: string;
+  readonly PUBLIC_STRAPI_GRAPHQL_URL?: string;
+  readonly STRAPI_TOKEN?: string;
+  readonly PUBLIC_SITE_URL?: string;
+  readonly PUBLIC_ENV?: string;
+  readonly STRAPI_USE_MOCK?: string;
+  readonly USE_MOCK_DATA?: string;
+  readonly SITE_URL?: string;
   readonly STRAPI_URL?: string;
   readonly STRAPI_API_TOKEN?: string;
-  readonly STRAPI_CASES_ENDPOINT?: string;
 }
 
 interface ImportMeta {

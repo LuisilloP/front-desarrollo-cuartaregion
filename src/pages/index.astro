@@ -13,26 +13,30 @@ import WhatsAppFloatingButton from "../components/WhatsAppFloatingButton.astro";
 import {
   fetchCases,
   fetchFaqs,
-  fetchReviews,
-  fetchServices,
+  fetchFeaturedServices,
+  fetchTestimonials,
   fetchSiteSettings
-} from "../lib/strapi";
+} from "../lib/api/services";
 
-const siteSettings = await fetchSiteSettings();
-const services = await fetchServices();
-const cases = await fetchCases();
-const reviews = await fetchReviews();
-const faqs = await fetchFaqs();
+const [siteSettings, featuredServices, cases, testimonials, faqs] = await Promise.all([
+  fetchSiteSettings(),
+  fetchFeaturedServices(),
+  fetchCases(),
+  fetchTestimonials(),
+  fetchFaqs()
+]);
+
+const recentCases = cases.slice(0, 3);
 ---
 
 <Layout title={siteSettings.siteName} description={siteSettings.tagline} siteSettings={siteSettings}>
   <Navbar siteSettings={siteSettings} />
   <main class="space-y-8">
     <Hero siteSettings={siteSettings} />
-    <ServicesSection services={services} whatsappNumber={siteSettings.whatsappNumber} />
+    <ServicesSection services={featuredServices} whatsappNumber={siteSettings.whatsappNumber} />
     <HostingSection siteSettings={siteSettings} />
-    <CasesSection cases={cases} />
-    <ReviewsSection reviews={reviews} />
+    <CasesSection cases={recentCases} />
+    <ReviewsSection reviews={testimonials} />
     <ContactSection siteSettings={siteSettings} />
     <FAQSection faqs={faqs} />
   </main>

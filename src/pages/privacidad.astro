@@ -2,12 +2,14 @@
 import Layout from "../layouts/Layout.astro";
 import Footer from "../components/Footer.astro";
 import Navbar from "../components/Navbar.astro";
-import { fetchLegalPage, fetchSiteSettings } from "../lib/strapi";
+import { fetchLegalPage, fetchSiteSettings } from "../lib/api/services";
 
 const siteSettings = await fetchSiteSettings();
 const legal = await fetchLegalPage("privacidad");
 const forceFallback =
-  (import.meta.env.USE_MOCK_DATA ?? "true").toString().toLowerCase() === "true";
+  (import.meta.env.STRAPI_USE_MOCK ?? import.meta.env.USE_MOCK_DATA ?? "false")
+    .toString()
+    .toLowerCase() === "true";
 const legalContent = legal?.content?.trim();
 const hasLegalContent = Boolean(!forceFallback && legalContent && legalContent.length > 0);
 const pageTitle = hasLegalContent ? legal?.title ?? "Privacidad" : "Política de privacidad";

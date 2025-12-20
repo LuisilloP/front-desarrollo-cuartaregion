@@ -1,4 +1,6 @@
-const SITE_URL = process.env.SITE_URL || "https://example.com";
+import { env } from "../lib/env";
+
+const SITE_URL = env.siteUrl || "https://example.com";
 const routes = ["/", "/privacidad", "/terminos"];
 
 export function GET() {
