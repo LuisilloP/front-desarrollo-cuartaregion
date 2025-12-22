@@ -18,8 +18,9 @@ if (!caseStudy) throw new Error("Case study not found");
 
 const siteSettings = await fetchSiteSettings();
 const pageTitle = caseStudy.title || caseStudy.clientName || "Caso";
-const results = Array.isArray(caseStudy.results) ? caseStudy.results : caseStudy.results ? [caseStudy.results] : [];
-const problems = Array.isArray(caseStudy.problem) ? caseStudy.problem : caseStudy.problem ? [caseStudy.problem] : [];
+const toList = (value: string | string[] | undefined) => (Array.isArray(value) ? value : value ? [value] : []);
+const results = toList(caseStudy.results);
+const problems = toList(caseStudy.problem);
 ---
 
 <Layout title={pageTitle} description={caseStudy.summary} siteSettings={siteSettings}>

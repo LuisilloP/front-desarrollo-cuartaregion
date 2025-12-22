@@ -8,8 +8,6 @@ interface Props {
 }
 
 const { services, whatsappNumber } = Astro.props;
-const sorted = [...services].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-
 const categories = [
   {
     key: "web",
@@ -30,6 +28,7 @@ const categories = [
       "SEO local, contenidos en Strapi y redes con piezas de alto impacto.",
   },
 ] as const;
+const sortedServices = [...services].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 ---
 
 <section id="servicios" class="py-20 space-y-8" data-animate="reveal">
@@ -50,7 +49,7 @@ const categories = [
   <div class="section-shell space-y-12">
     {
       categories.map((category) => {
-        const group = sorted.filter((service) => service.type === category.key);
+        const group = sortedServices.filter((service) => service.type === category.key);
         if (!group.length) return null;
         return (
           <section class="space-y-5">

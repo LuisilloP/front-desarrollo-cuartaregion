@@ -23,17 +23,15 @@ const whatsappUrl = buildWhatsAppLink(
   `Hola! Quiero cotizar el servicio ${service.title || "servicio"}.`
 );
 const pageTitle = service.title || "Servicio";
-const description = service.what_it_solves ?? "";
-const benefits = service.benefits ?? [];
-const deliverables = service.deliverables ?? [];
-const includes = [...benefits, ...deliverables];
+const pageDescription = service.what_it_solves ?? "";
+const includes = [...(service.benefits ?? []), ...(service.deliverables ?? [])];
 const price = (service.price ?? "").trim();
 const deliveryTime = service.delivery_time?.trim();
 const guarantee = service.guarantee?.trim();
 const hasPricing = Boolean(price || deliveryTime || guarantee);
 ---
 
-<Layout title={pageTitle} description={description} siteSettings={siteSettings}>
+<Layout title={pageTitle} description={pageDescription} siteSettings={siteSettings}>
   <Navbar siteSettings={siteSettings} />
   <main class="section-shell py-16 space-y-10">
     <div class="space-y-3 max-w-3xl">

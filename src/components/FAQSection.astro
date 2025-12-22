@@ -7,7 +7,7 @@ interface Props {
 }
 
 const { faqs } = Astro.props;
-const sorted = [...faqs].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+const sortedFaqs = [...faqs].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 ---
 
 <section id="faq" class="py-20 space-y-6" data-animate="reveal">
@@ -17,7 +17,7 @@ const sorted = [...faqs].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
     <p class="text-slate-700 dark:text-slate-300">Respuestas rápidas. Puedes editar estas preguntas en Strapi.</p>
   </div>
   <div class="section-shell grid md:grid-cols-2 gap-4">
-    {sorted.map((faq, index) => (
+    {sortedFaqs.map((faq, index) => (
       <AccordionItem question={faq.question} answer={faq.answer} defaultOpen={index === 0} />
     ))}
   </div>

@@ -8,19 +8,18 @@ interface Props {
 }
 
 const { service, whatsappNumber } = Astro.props;
-const title = service.title ?? "";
-const forWho = service.for_who ?? "";
-const whatItSolves = service.what_it_solves ?? "";
+const title = (service.title ?? "").trim();
+const forWho = (service.for_who ?? "").trim();
+const whatItSolves = (service.what_it_solves ?? "").trim();
 const whatsappUrl = buildWhatsAppLink(
   whatsappNumber,
   `Hola! Me interesa el servicio ${title || "servicio"}.`
 );
-const rawBenefits = service.benefits ?? [];
-const rawDeliverables = service.deliverables ?? [];
-const benefits = rawBenefits;
-const deliverables = rawDeliverables;
-const isFeatured = service.featured ?? false;
-const topBanner = (service.top_banner ?? "").trim() || (isFeatured ? "Mas vendido" : "");
+const benefits = service.benefits ?? [];
+const deliverables = service.deliverables ?? [];
+const isFeatured = Boolean(service.featured);
+const topBanner = (service.top_banner ?? "").trim();
+const bannerLabel = topBanner || (isFeatured ? "Mas vendido" : "");
 const priceLabel = (service.price ?? "").trim();
 const deliveryTime = service.delivery_time?.trim();
 const guarantee = service.guarantee?.trim();
@@ -38,14 +37,14 @@ const isAnchor = ctaHref.startsWith("#");
     isFeatured ? "border-primary/40 dark:border-primary/40" : "border-slate-200/70 dark:border-slate-800/80"
   }`}
 >
-  {topBanner && (
+  {bannerLabel && (
     <span class="absolute right-5 top-5 inline-flex items-center rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-[11px] font-semibold text-primary dark:text-highlight">
-      {topBanner}
+      {bannerLabel}
     </span>
   )}
 
   <div class="space-y-2">
-    <h3 class={`text-2xl font-semibold text-slate-900 dark:text-white ${topBanner ? "pr-16" : ""}`}>{title}</h3>
+    <h3 class={`text-2xl font-semibold text-slate-900 dark:text-white ${bannerLabel ? "pr-16" : ""}`}>{title}</h3>
     {forWho && <p class="text-xs text-highlight">{forWho}</p>}
   </div>
 

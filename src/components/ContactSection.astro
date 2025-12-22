@@ -8,7 +8,7 @@ interface Props {
 
 const { siteSettings } = Astro.props;
 const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola, quiero cotizar mi sitio/automatización.");
-const mockEndpoint = "/api/contact"; // Ejemplo; puedes apuntar a Strapi o tu backend.
+const formEndpoint = "/api/contact";
 ---
 
 <section id="contacto" class="py-20" data-animate="reveal">
@@ -32,7 +32,7 @@ const mockEndpoint = "/api/contact"; // Ejemplo; puedes apuntar a Strapi o tu ba
       <div class="card text-sm text-slate-700 dark:text-slate-200">
         <p class="font-semibold text-slate-900 dark:text-white mb-2">¿Qué pasa con el formulario?</p>
         <p>
-          Se envía a <code class="text-highlight">{mockEndpoint}</code> (modifícalo). Puedes apuntarlo a un endpoint de Strapi o a tu
+          Se envía a <code class="text-highlight">{formEndpoint}</code> (modifícalo). Puedes apuntarlo a un endpoint de Strapi o a tu
           función serverless. Mantenemos los campos <strong>name</strong>, <strong>contact</strong> y <strong>message</strong>.
         </p>
       </div>
@@ -40,8 +40,8 @@ const mockEndpoint = "/api/contact"; // Ejemplo; puedes apuntar a Strapi o tu ba
     <form
       class="card bg-white/90 border-slate-200 space-y-4 dark:bg-slate-900/70 dark:border-slate-800"
       method="post"
-      action={mockEndpoint}
-      data-endpoint={mockEndpoint}
+      action={formEndpoint}
+      data-endpoint={formEndpoint}
     >
       <div>
         <label for="name" class="block text-sm font-medium text-slate-900 dark:text-white mb-1">Nombre</label>
@@ -108,3 +108,4 @@ const mockEndpoint = "/api/contact"; // Ejemplo; puedes apuntar a Strapi o tu ba
     }
   </script>
 </section>
+

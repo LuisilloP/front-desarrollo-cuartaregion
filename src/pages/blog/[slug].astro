@@ -18,7 +18,7 @@ if (!post) throw new Error("Post not found");
 const siteSettings = await fetchSiteSettings();
 const pageTitle = post.title || "Blog";
 const publishedDate = post.publishedAt ? new Date(post.publishedAt).toLocaleDateString("es-CL") : "";
-const paragraphs = post.content ? post.content.split("\n").filter(Boolean) : [];
+const contentParagraphs = post.content ? post.content.split("\n").filter(Boolean) : [];
 ---
 
 <Layout title={pageTitle} description={post.excerpt} siteSettings={siteSettings}>
@@ -50,7 +50,7 @@ const paragraphs = post.content ? post.content.split("\n").filter(Boolean) : [];
     )}
 
     <article class="prose max-w-3xl text-slate-800 dark:prose-invert dark:text-slate-200">
-      {paragraphs.length > 0 ? paragraphs.map((text) => <p>{text}</p>) : <p>{post.content}</p>}
+      {contentParagraphs.length > 0 ? contentParagraphs.map((text) => <p>{text}</p>) : <p>{post.content}</p>}
     </article>
 
     <a class="text-sm font-semibold text-highlight hover:text-white" href="/blog">Volver al blog</a>

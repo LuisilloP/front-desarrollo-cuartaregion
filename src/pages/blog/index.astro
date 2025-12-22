@@ -4,8 +4,7 @@ import Navbar from "../../components/Navbar.astro";
 import Footer from "../../components/Footer.astro";
 import { fetchPostsPage, fetchSiteSettings } from "../../lib/api/services";
 
-const page = 1;
-const { data: posts, pagination } = await fetchPostsPage({ page, pageSize: 6 });
+const { data: posts, pagination } = await fetchPostsPage({ page: 1, pageSize: 6 });
 const siteSettings = await fetchSiteSettings();
 const pageTitle = "Blog";
 const pageLink = (pageNumber: number) => (pageNumber <= 1 ? "/blog" : `/blog/${pageNumber}`);

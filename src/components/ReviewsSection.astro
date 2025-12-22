@@ -6,7 +6,7 @@ interface Props {
 }
 
 const { reviews } = Astro.props;
-const sorted = [...reviews].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+const sortedReviews = [...reviews].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 ---
 
 <section id="resenas" class="py-20 space-y-6" data-animate="reveal">
@@ -16,7 +16,7 @@ const sorted = [...reviews].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
     <p class="text-slate-700 dark:text-slate-300">Historias de dueños que venden más con sitios rápidos y automatizados.</p>
   </div>
   <div class="section-shell grid lg:grid-cols-3 gap-6 auto-rows-fr">
-    {sorted.map((item) => (
+    {sortedReviews.map((item) => (
       <article class="card flex flex-col gap-3">
         <div class="flex items-center justify-between">
           <div>
