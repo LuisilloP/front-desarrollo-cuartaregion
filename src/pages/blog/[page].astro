@@ -4,10 +4,8 @@ import Navbar from "../../components/Navbar.astro";
 import Footer from "../../components/Footer.astro";
 import { fetchPostsPage, fetchSiteSettings } from "../../lib/api/services";
 
-const PAGE_SIZE = 6;
-
 export async function getStaticPaths() {
-  const first = await fetchPostsPage({ page: 1, pageSize: PAGE_SIZE });
+  const first = await fetchPostsPage({ page: 1, pageSize: 6 });
   const pageCount = first.pagination.pageCount;
   const pages = Math.max(pageCount - 1, 0);
 
@@ -17,7 +15,7 @@ export async function getStaticPaths() {
 }
 
 const page = Number(Astro.params.page ?? "1");
-const { data: posts, pagination } = await fetchPostsPage({ page, pageSize: PAGE_SIZE });
+const { data: posts, pagination } = await fetchPostsPage({ page, pageSize: 6 });
 const siteSettings = await fetchSiteSettings();
 const pageTitle = `Blog - Página ${page}`;
 const pageLink = (pageNumber: number) => (pageNumber <= 1 ? "/blog" : `/blog/${pageNumber}`);
