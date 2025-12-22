@@ -19,64 +19,94 @@ export const mockSiteSettings: SiteSettings = {
 export const mockServices: Service[] = [
   {
     slug: "landing-conversion-local",
-    name: "Landing conversión local",
-    description: "Sitio de una sola página optimizado para captar contactos con storytelling y pruebas sociales.",
-    idealFor: "Campañas relámpago y negocios que recién digitalizan.",
-    priceCLP: 210000,
-    features: ["Entrega en 5-7 días", "Copywriting orientado a venta", "Integración CRM o WhatsApp", "SEO on-page local"],
-    isFeatured: true,
+    type: "web",
+    title: "Landing conversion local",
+    for_who: "Campanas relampago y negocios que recien digitalizan.",
+    what_it_solves: "Sitio de una sola pagina optimizado para captar contactos con storytelling y pruebas sociales.",
+    benefits: ["Copywriting orientado a venta", "Integracion CRM o WhatsApp"],
+    deliverables: ["SEO on-page local"],
+    delivery_time: "5-7 dias habiles",
+    price: "$210.000 CLP",
+    ctaType: "form",
+    guarantee: "Precio depende de alcance.",
+    top_banner: "Mas vendido",
     order: 1,
-    category: "web"
+    featured: true
   },
   {
     slug: "web-con-reservas",
-    name: "Web + Reservas inteligentes",
-    description: "Sitio multi sección con agenda, pagos y dashboard para tu equipo.",
-    idealFor: "Clínicas, barberías, estudios creativos o coworks.",
-    priceCLP: 350000,
-    features: ["Calendario con recordatorios", "Pasarela de pago opcional", "Panel en Strapi para editar contenido", "Soporte prioritario"],
+    type: "web",
+    title: "Web + Reservas inteligentes",
+    for_who: "Clinicas, barberias, estudios creativos o coworks.",
+    what_it_solves: "Sitio multi seccion con agenda, pagos y dashboard para tu equipo.",
+    benefits: ["Calendario con recordatorios", "Pasarela de pago opcional"],
+    deliverables: ["Panel en Strapi para editar contenido", "Soporte prioritario"],
+    delivery_time: "2-3 semanas",
+    price: "$350.000 CLP",
+    ctaType: "whatsapp",
+    guarantee: "Precio depende de alcance.",
     order: 2,
-    category: "web"
+    featured: false
   },
   {
     slug: "mantencion-gamer-pro",
-    name: "Mantención Pro Equipos Gamer",
-    description: "Limpieza profunda, cambio de pasta térmica, cable management y stress test de componentes.",
-    idealFor: "Gamers, streamers y oficinas con PCs de alto rendimiento.",
-    priceCLP: 95000,
-    features: ["Limpieza física antiestática", "Curva de ventiladores optimizada", "Reporte de temperaturas antes/después", "Retiro y entrega opcional"],
+    type: "maintenance",
+    title: "Mantencion Pro Equipos Gamer",
+    for_who: "Gamers, streamers y oficinas con PCs de alto rendimiento.",
+    what_it_solves: "Limpieza profunda, cambio de pasta termica, cable management y stress test de componentes.",
+    benefits: ["Limpieza fisica antiestatica", "Curva de ventiladores optimizada"],
+    deliverables: ["Reporte de temperaturas antes/despues", "Retiro y entrega opcional"],
+    delivery_time: "2-3 dias habiles",
+    price: "$95.000 CLP",
+    ctaType: "whatsapp",
+    guarantee: "Precio depende de alcance.",
     order: 3,
-    category: "maintenance"
+    featured: false
   },
   {
     slug: "mantencion-empresarial",
-    name: "Mantención TI empresas",
-    description: "Plan mensual para computadores de tu equipo: limpieza, actualizaciones críticas y respaldo.",
-    idealFor: "Pymes que quieren prevenir caídas de servicio.",
-    priceCLP: 130000,
-    features: ["On-site o remoto por ticket", "Checklist de seguridad y parches", "Inventario de hardware/software", "Soporte WhatsApp dedicado"],
+    type: "maintenance",
+    title: "Mantencion TI empresas",
+    for_who: "Pymes que quieren prevenir caidas de servicio.",
+    what_it_solves: "Plan mensual para computadores de tu equipo: limpieza, actualizaciones criticas y respaldo.",
+    benefits: ["On-site o remoto por ticket", "Checklist de seguridad y parches"],
+    deliverables: ["Inventario de hardware/software", "Soporte WhatsApp dedicado"],
+    delivery_time: "Plan mensual",
+    price: "$130.000 CLP",
+    ctaType: "whatsapp",
+    guarantee: "Precio depende de alcance.",
     order: 4,
-    category: "maintenance"
+    featured: false
   },
   {
     slug: "presencia-digital-seo",
-    name: "Presencia digital + SEO local",
-    description: "Arquitectura de contenidos, SEO técnico y Google Business Profile optimizado.",
-    idealFor: "Negocios que quieren aparecer primeros en búsquedas locales.",
-    priceCLP: 180000,
-    features: ["Investigación de palabras clave", "Plan editorial Strapi", "Optimización velocidad Astro", "Automatizaciones reportes"],
+    type: "digital",
+    title: "Presencia digital + SEO local",
+    for_who: "Negocios que quieren aparecer primeros en busquedas locales.",
+    what_it_solves: "Arquitectura de contenidos, SEO tecnico y Google Business Profile optimizado.",
+    benefits: ["Investigacion de palabras clave", "Plan editorial Strapi"],
+    deliverables: ["Optimizacion velocidad Astro", "Automatizaciones reportes"],
+    delivery_time: "2 semanas",
+    price: "$180.000 CLP",
+    ctaType: "whatsapp",
+    guarantee: "Precio depende de alcance.",
     order: 5,
-    category: "digital"
+    featured: false
   },
   {
     slug: "gestion-redes-automatizada",
-    name: "Redes sociales + automatización",
-    description: "Calendario creativo, piezas de alto impacto y bots que responden leads mientras duermes.",
-    idealFor: "Marcas que quieren coherencia visual y respuesta inmediata.",
-    priceCLP: 240000,
-    features: ["Diseños responsivos (Reels, stories, banners)", "Biblioteca de prompts/guiones", "Automatización WhatsApp FAQ", "Reporte de métricas clave"],
+    type: "digital",
+    title: "Redes sociales + automatizacion",
+    for_who: "Marcas que quieren coherencia visual y respuesta inmediata.",
+    what_it_solves: "Calendario creativo, piezas de alto impacto y bots que responden leads mientras duermes.",
+    benefits: ["Disenos responsivos (Reels, stories, banners)", "Biblioteca de prompts/guiones"],
+    deliverables: ["Automatizacion WhatsApp FAQ", "Reporte de metricas clave"],
+    delivery_time: "Plan mensual",
+    price: "$240.000 CLP",
+    ctaType: "whatsapp",
+    guarantee: "Precio depende de alcance.",
     order: 6,
-    category: "digital"
+    featured: false
   }
 ];
 
@@ -184,3 +214,5 @@ export const mockPosts: Post[] = [
     publishedAt: "2025-12-18T19:58:55.676Z"
   }
 ];
+
+

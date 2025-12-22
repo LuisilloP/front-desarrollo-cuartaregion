@@ -1,6 +1,6 @@
 ---
 import type { Service } from "../data/mock";
-import { buildWhatsAppLink, formatCLP } from "../lib/utils";
+import { buildWhatsAppLink } from "../lib/utils";
 
 interface Props {
   service: Service;
@@ -8,48 +8,110 @@ interface Props {
 }
 
 const { service, whatsappNumber } = Astro.props;
-const whatsappUrl = buildWhatsAppLink(whatsappNumber, `Hola! Me interesa el plan ${service.name}.`);
+const title = service.title ?? "";
+const forWho = service.for_who ?? "";
+const whatItSolves = service.what_it_solves ?? "";
+const whatsappUrl = buildWhatsAppLink(
+  whatsappNumber,
+  `Hola! Me interesa el servicio ${title || "servicio"}.`
+);
+const rawBenefits = service.benefits ?? [];
+const rawDeliverables = service.deliverables ?? [];
+const benefits = rawBenefits;
+const deliverables = rawDeliverables;
+const isFeatured = service.featured ?? false;
+const topBanner = (service.top_banner ?? "").trim() || (isFeatured ? "Mas vendido" : "");
+const priceLabel = (service.price ?? "").trim();
+const deliveryTime = service.delivery_time?.trim();
+const guarantee = service.guarantee?.trim();
+const hasPricing = Boolean(priceLabel || deliveryTime || guarantee);
+const ctaType = (service.ctaType ?? "").trim().toLowerCase();
+const isFormCta = ["form", "formulario", "contacto"].includes(ctaType);
+const isAgendaCta = ["agenda", "agendar"].includes(ctaType);
+const ctaLabel = isAgendaCta ? "Agendar llamada" : "Cotizar ahora";
+const ctaHref = isFormCta ? "#contacto" : whatsappUrl;
+const isAnchor = ctaHref.startsWith("#");
 ---
 
 <article
-  class={`card h-full flex flex-col gap-4 ${service.isFeatured ? "border-primary/60 bg-white dark:bg-slate-900/80" : ""}`}
+  class={`relative flex h-full flex-col gap-5 rounded-[24px] border bg-white p-6 shadow-soft transition duration-300 hover:-translate-y-1 hover:shadow-xl dark:bg-slate-900/80 ${
+    isFeatured ? "border-primary/40 dark:border-primary/40" : "border-slate-200/70 dark:border-slate-800/80"
+  }`}
 >
-  <div class="flex items-start justify-between gap-3">
-    <div class="space-y-1">
-      <h3 class="text-xl font-semibold text-slate-900 dark:text-white">{service.name}</h3>
-      <p class="text-sm text-highlight">{service.idealFor}</p>
+  {topBanner && (
+    <span class="absolute right-5 top-5 inline-flex items-center rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-[11px] font-semibold text-primary dark:text-highlight">
+      {topBanner}
+    </span>
+  )}
+
+  <div class="space-y-2">
+    <h3 class={`text-2xl font-semibold text-slate-900 dark:text-white ${topBanner ? "pr-16" : ""}`}>{title}</h3>
+    {forWho && <p class="text-xs text-highlight">{forWho}</p>}
+  </div>
+
+  {whatItSolves && <p class="text-sm leading-relaxed text-slate-700 dark:text-slate-300">{whatItSolves}</p>}
+
+  {benefits.length > 0 && (
+    <div class="space-y-3 border-t border-slate-200/70 pt-4 dark:border-slate-800/80">
+      <ul class="space-y-2 text-sm text-slate-700 dark:text-slate-200">
+        {benefits.map((benefit) => (
+          <li class="flex items-start gap-3">
+            <span class="mt-1.5 h-2 w-2 rounded-full bg-accent"></span>
+            <span>{benefit}</span>
+          </li>
+        ))}
+      </ul>
     </div>
-    {service.isFeatured && (
-      <span class="px-3 py-1 text-xs rounded-full bg-primary/15 text-highlight border border-primary/40">
-        Recomendado
-      </span>
+  )}
+
+  {deliverables.length > 0 && (
+    <div class="space-y-3 border-t border-slate-200/70 pt-4 dark:border-slate-800/80">
+      <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Entregables:</p>
+      <ul class="space-y-2 text-sm text-slate-700 dark:text-slate-200">
+        {deliverables.map((item) => (
+          <li class="flex items-start gap-3">
+            <span class="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 text-primary dark:text-highlight">
+              <svg viewBox="0 0 20 20" fill="none" class="h-4 w-4" aria-hidden="true">
+                <path
+                  d="M4 10.5l3.5 3.5L16 6"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+
+  <div class="mt-auto space-y-4">
+    {hasPricing && (
+      <div class="space-y-1 border-t border-slate-200/70 pt-4 dark:border-slate-800/80">
+        {priceLabel && <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Desde</p>}
+        <div class="flex flex-wrap items-baseline gap-2 text-slate-900 dark:text-white">
+          {priceLabel && <p class="text-2xl font-semibold">{priceLabel}</p>}
+          {deliveryTime && (
+            <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">
+              {priceLabel ? "|" : ""}
+              {deliveryTime}
+            </span>
+          )}
+        </div>
+        {guarantee && <p class="text-[11px] text-slate-500 dark:text-slate-400">* {guarantee}</p>}
+      </div>
     )}
+
+    <a
+      href={ctaHref}
+      target={isAnchor ? undefined : "_blank"}
+      rel={isAnchor ? undefined : "noreferrer"}
+      class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary to-accent px-4 py-3 text-sm font-semibold text-white shadow-soft transition hover:shadow-lg"
+    >
+      {ctaLabel}
+    </a>
   </div>
-
-  <p class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed min-h-[84px]">
-    {service.description}
-  </p>
-
-  <div class="space-y-1">
-    <p class="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Desde</p>
-    <p class="text-3xl font-bold text-slate-900 dark:text-white">{formatCLP(service.priceCLP)}</p>
-  </div>
-
-  <ul class="space-y-2 text-sm text-slate-700 dark:text-slate-200 flex-1 min-h-[120px]">
-    {service.features?.map((feature) => (
-      <li class="flex items-start gap-2">
-        <span class="mt-0.5 h-2 w-2 rounded-full bg-accent"></span>
-        {feature}
-      </li>
-    ))}
-  </ul>
-
-  <a
-    href={whatsappUrl}
-    target="_blank"
-    rel="noreferrer"
-    class="inline-flex items-center gap-2 px-4 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-secondary font-semibold shadow-soft hover:shadow-lg transition w-full text-center justify-center"
-  >
-    Cotizar ahora
-  </a>
 </article>

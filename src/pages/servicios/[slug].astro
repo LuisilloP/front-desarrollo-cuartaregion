@@ -3,7 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import Navbar from "../../components/Navbar.astro";
 import Footer from "../../components/Footer.astro";
 import WhatsAppFloatingButton from "../../components/WhatsAppFloatingButton.astro";
-import { buildWhatsAppLink, formatCLP } from "../../lib/utils";
+import { buildWhatsAppLink } from "../../lib/utils";
 import { fetchServices, fetchSiteSettings } from "../../lib/api/services";
 import type { Service } from "../../lib/api/types";
 
@@ -20,26 +20,34 @@ if (!service) throw new Error("Service not found");
 const siteSettings = await fetchSiteSettings();
 const whatsappUrl = buildWhatsAppLink(
   siteSettings.whatsappNumber,
-  `Hola! Quiero cotizar el servicio ${service.name || "servicio"}.`
+  `Hola! Quiero cotizar el servicio ${service.title || "servicio"}.`
 );
-const pageTitle = service.name || "Servicio";
+const pageTitle = service.title || "Servicio";
+const description = service.what_it_solves ?? "";
+const benefits = service.benefits ?? [];
+const deliverables = service.deliverables ?? [];
+const includes = [...benefits, ...deliverables];
+const price = (service.price ?? "").trim();
+const deliveryTime = service.delivery_time?.trim();
+const guarantee = service.guarantee?.trim();
+const hasPricing = Boolean(price || deliveryTime || guarantee);
 ---
 
-<Layout title={pageTitle} description={service.description} siteSettings={siteSettings}>
+<Layout title={pageTitle} description={description} siteSettings={siteSettings}>
   <Navbar siteSettings={siteSettings} />
   <main class="section-shell py-16 space-y-10">
     <div class="space-y-3 max-w-3xl">
       <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">Servicio</p>
-      <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">{service.name}</h1>
-      {service.description && <p class="text-slate-700 dark:text-slate-300">{service.description}</p>}
-      {service.idealFor && <p class="text-sm text-slate-500 dark:text-slate-400">Ideal para: {service.idealFor}</p>}
+      <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">{service.title}</h1>
+      {service.what_it_solves && <p class="text-slate-700 dark:text-slate-300">{service.what_it_solves}</p>}
+      {service.for_who && <p class="text-sm text-slate-500 dark:text-slate-400">Ideal para: {service.for_who}</p>}
     </div>
 
-    {service.features && service.features.length > 0 && (
+    {includes.length > 0 && (
       <section class="card space-y-3">
         <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Incluye</h2>
         <ul class="grid sm:grid-cols-2 gap-2 text-sm text-slate-700 dark:text-slate-200">
-          {service.features.map((feature) => (
+          {includes.map((feature) => (
             <li class="flex items-start gap-2">
               <span class="text-accent">+</span>
               <span>{feature}</span>
@@ -49,9 +57,11 @@ const pageTitle = service.name || "Servicio";
       </section>
     )}
 
-    {service.priceCLP && service.priceCLP > 0 && (
-      <div class="text-lg font-semibold text-slate-900 dark:text-white">
-        Precio desde {formatCLP(service.priceCLP)}
+    {hasPricing && (
+      <div class="card space-y-1 text-slate-900 dark:text-white">
+        {price && <p class="text-lg font-semibold">Precio desde {price}</p>}
+        {deliveryTime && <p class="text-sm text-slate-500 dark:text-slate-400">Entrega: {deliveryTime}</p>}
+        {guarantee && <p class="text-xs text-slate-500 dark:text-slate-400">* {guarantee}</p>}
       </div>
     )}
 

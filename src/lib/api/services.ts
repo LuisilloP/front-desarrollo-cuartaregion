@@ -53,12 +53,15 @@ const SERVICE_FIELDS = `
   title
   slug
   type
-  tag
-  cliente_objetivo
-  shortDescription
-  longDescription
+  for_who
+  what_it_solves
   benefits { text }
   deliverables { text }
+  delivery_time
+  price
+  ctaType
+  guarantee
+  top_banner
   order
   featured
   publishedAt
@@ -197,15 +200,18 @@ type StrapiSiteSetting = {
 
 type StrapiService = {
   documentId?: string | null;
-  title?: string;
-  slug?: string;
-  type?: string;
-  tag?: string | null;
-  cliente_objetivo?: string | null;
-  shortDescription?: string | null;
-  longDescription?: StrapiBlocks | string | null;
+  title?: string | null;
+  slug?: string | null;
+  type?: string | null;
+  for_who?: string | null;
+  what_it_solves?: string | null;
   benefits?: StrapiBullet[] | null;
   deliverables?: StrapiBullet[] | null;
+  delivery_time?: string | null;
+  price?: string | null;
+  ctaType?: string | null;
+  guarantee?: string | null;
+  top_banner?: string | null;
   order?: number | null;
   featured?: boolean | null;
   publishedAt?: string | null;
@@ -272,7 +278,7 @@ type ServiceListParams = {
   page?: number;
   pageSize?: number;
   featured?: boolean;
-  type?: string;
+  type?: ServiceCategory;
   tag?: string;
   sort?: string[];
   status?: PublicationStatus;
@@ -308,18 +314,25 @@ const mapSiteSettings = (item: StrapiSiteSetting): SiteSettings => {
 };
 
 const mapService = (item: StrapiService): Service => {
-  const features = [...bulletsToStrings(item.benefits), ...bulletsToStrings(item.deliverables)];
+  const benefits = bulletsToStrings(item.benefits);
+  const deliverables = bulletsToStrings(item.deliverables);
+  const type = (item.type as ServiceCategory) ?? undefined;
 
   return {
     slug: item.slug ?? toSlug(item),
-    name: item.title ?? "",
-    description: item.shortDescription ?? blocksToText(item.longDescription) ?? "",
-    idealFor: item.cliente_objetivo ?? "",
-    priceCLP: 0,
-    features,
-    isFeatured: Boolean(item.featured),
+    type,
+    title: item.title ?? "",
+    for_who: item.for_who ?? undefined,
+    what_it_solves: item.what_it_solves ?? undefined,
+    benefits,
+    deliverables,
+    delivery_time: item.delivery_time ?? undefined,
+    price: item.price ?? undefined,
+    ctaType: item.ctaType ?? undefined,
+    guarantee: item.guarantee ?? undefined,
+    top_banner: item.top_banner ?? undefined,
     order: item.order ?? 0,
-    category: (item.type as ServiceCategory) ?? "web"
+    featured: Boolean(item.featured)
   };
 };
 

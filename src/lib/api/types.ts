@@ -39,14 +39,19 @@ export type ServiceCategory = "web" | "maintenance" | "digital";
 
 export type Service = {
   slug: string;
-  name: string;
-  description: string;
-  idealFor: string;
-  priceCLP: number;
-  features: string[];
-  isFeatured?: boolean;
+  type?: ServiceCategory;
+  title: string;
+  for_who?: string;
+  what_it_solves?: string;
+  benefits?: string[];
+  deliverables?: string[];
+  delivery_time?: string;
+  price?: string;
+  ctaType?: string;
+  guarantee?: string;
+  top_banner?: string;
   order?: number;
-  category: ServiceCategory;
+  featured?: boolean;
 };
 
 export type CaseStudy = {
