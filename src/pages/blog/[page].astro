@@ -4,20 +4,11 @@ import Navbar from "../../components/Navbar.astro";
 import Footer from "../../components/Footer.astro";
 import { fetchPostsPage, fetchSiteSettings } from "../../lib/api/services";
 
-export async function getStaticPaths() {
-  const first = await fetchPostsPage({ page: 1, pageSize: 6 });
-  const pageCount = first.pagination.pageCount;
-  const pages = Math.max(pageCount - 1, 0);
-
-  return Array.from({ length: pages }, (_, index) => ({
-    params: { page: String(index + 2) }
-  }));
-}
-
-const page = Number(Astro.params.page ?? "1");
-const { data: posts, pagination } = await fetchPostsPage({ page, pageSize: 6 });
+const { page } = Astro.params;
+const pageNumber = Number(page ?? 1);
 const siteSettings = await fetchSiteSettings();
-const pageTitle = `Blog - Página ${page}`;
+const { data: posts, pagination } = await fetchPostsPage({ page: pageNumber, pageSize: 6 });
+const pageTitle = `Blog - Pagina ${page}`;
 const pageLink = (pageNumber: number) => (pageNumber <= 1 ? "/blog" : `/blog/${pageNumber}`);
 ---
 
@@ -26,8 +17,8 @@ const pageLink = (pageNumber: number) => (pageNumber <= 1 ? "/blog" : `/blog/${p
   <main class="section-shell py-16 space-y-10">
     <header class="space-y-2 max-w-2xl">
       <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">Blog</p>
-      <h1 class="text-3xl sm:text-4xl font-bold text-content">Página {page}</h1>
-      <p class="text-muted">Explora los últimos artículos y recursos.</p>
+      <h1 class="text-3xl sm:text-4xl font-bold text-content">Pagina {page}</h1>
+      <p class="text-muted">Explora los ultimos articulos y recursos.</p>
     </header>
 
     <section class="grid md:grid-cols-2 gap-6">
@@ -40,7 +31,7 @@ const pageLink = (pageNumber: number) => (pageNumber <= 1 ? "/blog" : `/blog/${p
             <h2 class="text-xl font-semibold text-content">{post.title}</h2>
             {post.excerpt && <p class="text-sm text-muted">{post.excerpt}</p>}
             <a class="text-sm font-semibold text-highlight hover:text-contrast" href={`/blog/${post.slug}`}>
-              Leer artículo
+              Leer articulo
             </a>
           </div>
         </article>
@@ -55,7 +46,7 @@ const pageLink = (pageNumber: number) => (pageNumber <= 1 ? "/blog" : `/blog/${p
           </a>
         )}
         <span class="text-sm text-muted/80">
-          Página {pagination.page} de {pagination.pageCount}
+          Pagina {pagination.page} de {pagination.pageCount}
         </span>
         {pagination.page < pagination.pageCount && (
           <a class="text-sm font-semibold text-highlight hover:text-contrast" href={pageLink(pagination.page + 1)}>

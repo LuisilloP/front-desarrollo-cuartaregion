@@ -7,42 +7,27 @@ interface Props {
 }
 
 const { siteSettings } = Astro.props;
-const region = siteSettings.region || "Región de Santiago de Chile";
-const whatsappUrl = buildWhatsAppLink(
-  siteSettings.whatsappNumber,
-  "Hola! Quiero una web y automatización para mi negocio."
-);
+const region = siteSettings.region || "Region Metropolitana";
+const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero una web y automatizacion para mi negocio.");
 ---
 
-<section
-  id="inicio"
-  class="relative overflow-hidden pb-24 pt-12 sm:pt-20"
-  data-animate="reveal"
->
+<section id="inicio" class="relative overflow-hidden pb-24 pt-12 sm:pt-20" data-animate="reveal">
   <div class="absolute inset-0 pointer-events-none">
-    <div
-      class="absolute -top-24 -left-10 w-80 h-80 bg-primary/20 rounded-full blur-3xl"
-    >
-    </div>
-    <div
-      class="absolute top-10 right-0 w-96 h-96 bg-accent/20 rounded-full blur-3xl"
-    >
-    </div>
+    <div class="absolute -top-24 -left-10 w-80 h-80 bg-primary/20 rounded-full blur-3xl"></div>
+    <div class="absolute top-10 right-0 w-96 h-96 bg-accent/20 rounded-full blur-3xl"></div>
   </div>
   <div class="section-shell relative grid lg:grid-cols-2 gap-12 items-center">
     <div class="space-y-6">
       <div class="pill w-fit bg-primary/10 border-primary/40 text-highlight">
         <span class="h-2 w-2 rounded-full bg-accent"></span>
-        Agencia local · {region}
+        Agencia local - {region}
       </div>
-      <h1
-        class="text-4xl sm:text-5xl font-bold text-content leading-tight"
-      >
-        Páginas web y automatizaciones de WhatsApp para tu negocio en la {region}
+      <h1 class="text-4xl sm:text-5xl font-bold text-content leading-tight">
+        Sitios y automatizaciones de WhatsApp para negocios que quieren crecer
       </h1>
       <p class="text-lg text-muted max-w-2xl">
-        Web, automatizaciones e inventario. Mantención de PCs (oficina/gamer) y
-        presencia digital. Tú vendes; nosotros lo dejamos funcionando.
+        Disenamos y lanzamos rapido: landings, reservas, bots y soporte TI para que tu equipo venda mas y dedique menos tiempo a
+        tareas repetitivas.
       </p>
       <div class="flex flex-wrap gap-3">
         <a
@@ -52,7 +37,7 @@ const whatsappUrl = buildWhatsAppLink(
           rel="noreferrer"
         >
           {siteSettings.primaryCTA || "Hablemos por WhatsApp"}
-          <span aria-hidden="true">↗</span>
+          <span aria-hidden="true">-></span>
         </a>
         <a
           class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-secondary text-contrast border border-border hover:border-highlight transition"
@@ -63,66 +48,38 @@ const whatsappUrl = buildWhatsAppLink(
       </div>
       <div class="grid sm:grid-cols-3 gap-3 text-sm text-muted">
         <div class="card">
-          <p class="font-semibold text-content">
-            Entrega rápida
-          </p>
-          <p class="text-muted">
-            Landings y funnels montados en menos de 7 días.
-          </p>
+          <p class="font-semibold text-content">Entrega rapida</p>
+          <p class="text-muted">Landings y funnels montados en menos de 7 dias habiles.</p>
         </div>
         <div class="card">
-          <p class="font-semibold text-content">
-            Soporte local
-          </p>
-          <p class="text-muted">
-            Equipo basado en la región, horario CL.
-          </p>
+          <p class="font-semibold text-content">Soporte local</p>
+          <p class="text-muted">Equipo basado en la region, horario Chile.</p>
         </div>
         <div class="card">
-          <p class="font-semibold text-content">
-            Mantención gamer
-          </p>
-          <p class="text-muted">
-            Limpieza, cable management y stress test programados.
-          </p>
+          <p class="font-semibold text-content">Monitoreo y mantencion</p>
+          <p class="text-muted">Backups, parches y limpieza programada para tu stack y equipos.</p>
         </div>
       </div>
     </div>
     <div class="relative">
-      <div
-        class="card bg-gradient-to-br from-card/90 to-card/70 border-border"
-      >
-        <p class="text-sm text-accent mb-2 font-semibold">
-          Checklist de lanzamiento
-        </p>
+      <div class="card bg-gradient-to-br from-card/90 to-card/70 border-border">
+        <p class="text-sm text-accent mb-2 font-semibold">Checklist de lanzamiento</p>
         <ul class="space-y-3 text-content">
           <li class="flex items-start gap-3">
-            <span
-              class="h-6 w-6 rounded-full bg-accent/20 text-accent grid place-content-center"
-              >✓</span
-            >
-            Diseño con foco en conversión y SEO local.
+            <span class="h-6 w-6 rounded-full bg-accent/20 text-accent grid place-content-center">-</span>
+            Diseno enfocado en conversion y SEO local.
           </li>
           <li class="flex items-start gap-3">
-            <span
-              class="h-6 w-6 rounded-full bg-accent/20 text-accent grid place-content-center"
-              >✓</span
-            >
-            Integración a WhatsApp, flujos y CRM sin código.
+            <span class="h-6 w-6 rounded-full bg-accent/20 text-accent grid place-content-center">-</span>
+            Integracion a WhatsApp, flujos y CRM sin codigo.
           </li>
           <li class="flex items-start gap-3">
-            <span
-              class="h-6 w-6 rounded-full bg-accent/20 text-accent grid place-content-center"
-              >✓</span
-            >
-            Mantención y limpieza de tus equipos gamer o estación de venta.
+            <span class="h-6 w-6 rounded-full bg-accent/20 text-accent grid place-content-center">-</span>
+            Panel de edicion para contenido y precios.
           </li>
           <li class="flex items-start gap-3">
-            <span
-              class="h-6 w-6 rounded-full bg-accent/20 text-accent grid place-content-center"
-              >✓</span
-            >
-            Dashboard en Strapi para actualizar precios, FAQ y casos.
+            <span class="h-6 w-6 rounded-full bg-accent/20 text-accent grid place-content-center">-</span>
+            Monitoreo y respaldos listos para operaciones.
           </li>
         </ul>
       </div>

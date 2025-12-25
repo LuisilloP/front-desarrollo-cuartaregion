@@ -14,11 +14,11 @@ const navLinks = [
   { href: withHome("#inicio"), label: "Inicio" },
   { href: withHome("#servicios"), label: "Servicios" },
   { href: withHome("#casos"), label: "Casos" },
-  { href: withHome("#resenas"), label: "Reseñas" },
+  { href: withHome("#resenas"), label: "Resenas" },
   { href: withHome("#contacto"), label: "Contacto" },
   { href: withHome("#faq"), label: "FAQ" }
 ];
-const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero cotizar mi web/automatización.");
+const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero cotizar mi web o automatizacion.");
 ---
 
 <header class="sticky top-0 z-50 bg-surface/90 backdrop-blur border-b border-border/70">
@@ -43,17 +43,17 @@ const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero
         type="button"
         aria-label="Cambiar tema"
       >
-        ☀
+        L
       </button>
       <button
         id="menu-toggle"
         class="lg:hidden inline-flex items-center justify-center h-10 w-10 rounded-full border border-border text-content bg-card hover:border-primary/60"
         type="button"
-        aria-label="Abrir menú"
+        aria-label="Abrir menu"
         aria-controls="mobile-nav"
         aria-expanded="false"
       >
-        ☰
+        Menu
       </button>
     </div>
 
@@ -82,7 +82,7 @@ const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero
         rel="noreferrer"
       >
         WhatsApp
-        <span aria-hidden="true">↗</span>
+        <span aria-hidden="true">-></span>
       </a>
     </nav>
   </div>
@@ -103,7 +103,7 @@ const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero
       root.classList.remove("dark");
     }
     localStorage.setItem(THEME_KEY, theme);
-    if (btn) btn.textContent = theme === "dark" ? "☀" : "🌙";
+    if (btn) btn.textContent = theme === "dark" ? "D" : "L";
   };
 
   const stored = localStorage.getItem(THEME_KEY);

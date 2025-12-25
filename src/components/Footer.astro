@@ -27,12 +27,12 @@ const { siteSettings } = Astro.props;
       <p class="text-content font-semibold mb-3">Legal y redes</p>
       <ul class="space-y-2">
         <li><a class="hover:text-content" href="/privacidad">Privacidad</a></li>
-        <li><a class="hover:text-content" href="/terminos">Términos</a></li>
+        <li><a class="hover:text-content" href="/terminos">Terminos</a></li>
         {siteSettings.socialLinks?.map((link) => (
           <li><a class="hover:text-content" href={link.url} target="_blank" rel="noreferrer">{link.label}</a></li>
         ))}
       </ul>
     </div>
   </div>
-  <div class="section-shell pb-8 text-xs text-muted/80">© {new Date().getFullYear()} {siteSettings.siteName}. Todos los derechos reservados.</div>
+  <div class="section-shell pb-8 text-xs text-muted/80">(c) {new Date().getFullYear()} {siteSettings.siteName}. Todos los derechos reservados.</div>
 </footer>

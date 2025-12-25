@@ -12,8 +12,8 @@ const sortedReviews = [...reviews].sort((a, b) => (a.order ?? 0) - (b.order ?? 0
 <section id="resenas" class="py-20 space-y-6" data-animate="reveal">
   <div class="section-shell flex flex-col gap-3 max-w-3xl">
     <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">Clientes felices</p>
-    <h2 class="text-3xl sm:text-4xl font-bold text-content">Reseñas</h2>
-    <p class="text-muted">Historias de dueños que venden más con sitios rápidos y automatizados.</p>
+    <h2 class="text-3xl sm:text-4xl font-bold text-content">Resenas</h2>
+    <p class="text-muted">Historias de clientes que venden mas con sitios rapidos y automatizados.</p>
   </div>
   <div class="section-shell grid lg:grid-cols-3 gap-6 auto-rows-fr">
     {sortedReviews.map((item) => (
@@ -25,11 +25,11 @@ const sortedReviews = [...reviews].sort((a, b) => (a.order ?? 0) - (b.order ?? 0
           </div>
           <div class="flex items-center gap-1 text-amber-300" aria-label={`Rating ${item.rating} de 5`}>
             {Array.from({ length: 5 }).map((_, idx) => (
-              <span aria-hidden="true">{idx < item.rating ? "★" : "☆"}</span>
+              <span aria-hidden="true">{idx < item.rating ? "*" : "-"}</span>
             ))}
           </div>
         </div>
-        <p class="text-muted text-sm leading-relaxed">“{item.quote}”</p>
+        <p class="text-muted text-sm leading-relaxed">"{item.quote}"</p>
       </article>
     ))}
   </div>

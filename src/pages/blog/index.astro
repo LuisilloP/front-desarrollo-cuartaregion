@@ -16,9 +16,7 @@ const pageLink = (pageNumber: number) => (pageNumber <= 1 ? "/blog" : `/blog/${p
     <header class="space-y-2 max-w-2xl">
       <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">Blog</p>
       <h1 class="text-3xl sm:text-4xl font-bold text-content">Ideas y casos reales</h1>
-      <p class="text-muted">
-        Novedades sobre sitios Astro, automatizaciones y marketing local.
-      </p>
+      <p class="text-muted">Novedades sobre sitios Astro, automatizaciones y marketing local.</p>
     </header>
 
     <section class="grid md:grid-cols-2 gap-6">
@@ -31,7 +29,7 @@ const pageLink = (pageNumber: number) => (pageNumber <= 1 ? "/blog" : `/blog/${p
             <h2 class="text-xl font-semibold text-content">{post.title}</h2>
             {post.excerpt && <p class="text-sm text-muted">{post.excerpt}</p>}
             <a class="text-sm font-semibold text-highlight hover:text-contrast" href={`/blog/${post.slug}`}>
-              Leer artículo
+              Leer articulo
             </a>
           </div>
         </article>
@@ -46,7 +44,7 @@ const pageLink = (pageNumber: number) => (pageNumber <= 1 ? "/blog" : `/blog/${p
           </a>
         )}
         <span class="text-sm text-muted/80">
-          Página {pagination.page} de {pagination.pageCount}
+          Pagina {pagination.page} de {pagination.pageCount}
         </span>
         {pagination.page < pagination.pageCount && (
           <a class="text-sm font-semibold text-highlight hover:text-contrast" href={pageLink(pagination.page + 1)}>

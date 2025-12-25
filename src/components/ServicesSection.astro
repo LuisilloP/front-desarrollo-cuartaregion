@@ -8,41 +8,35 @@ interface Props {
 }
 
 const { services, whatsappNumber } = Astro.props;
+
 const categories = [
   {
     key: "web",
     label: "Experiencias web + automatizaciones",
-    description:
-      "Sitios Astro + Strapi listos para escalar, conectar formularios, reservas y WhatsApp.",
+    description: "Sitios listos para escalar, con formularios, reservas y flujos de WhatsApp."
   },
   {
-    key: "mantencion_pc",
-    label: "Mantención y limpieza de equipos",
-    description:
-      "Cuidamos tus rigs gamer y el parque computacional de tu empresa para que rindan al 100%.",
+    key: "maintenance",
+    label: "Mantencion y soporte TI",
+    description: "Limpieza, parches, respaldos y monitoreo para que tus equipos criticos no se detengan."
   },
   {
     key: "digital",
-    label: "Presencia digital y contenido",
-    description:
-      "SEO local, contenidos en Strapi y redes con piezas de alto impacto.",
-  },
+    label: "Automatizacion y contenido",
+    description: "SEO local, contenido omnicanal y automatizaciones que mantienen vivo tu funnel."
+  }
 ] as const;
+
 const sortedServices = [...services].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 ---
 
 <section id="servicios" class="py-20 space-y-8" data-animate="reveal">
   <div class="section-shell flex flex-col gap-4">
-    <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">
-      Planes listos para lanzar
-    </p>
+    <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">Planes listos para lanzar</p>
     <div class="flex flex-col gap-3 max-w-3xl">
-      <h2 class="text-3xl sm:text-4xl font-bold text-content">
-        Servicios agrupados por lo que más necesitas
-      </h2>
+      <h2 class="text-3xl sm:text-4xl font-bold text-content">Servicios agrupados por lo que mas necesitas</h2>
       <p class="text-muted">
-        Armamos paquetes claros: webs que convierten, mantención para equipos
-        gamer y operación de tu presencia digital desde Strapi.
+        Armamos paquetes claros: webs que convierten, soporte TI sin friccion y automatizaciones que siguen vendiendo.
       </p>
     </div>
   </div>
@@ -54,19 +48,12 @@ const sortedServices = [...services].sort((a, b) => (a.order ?? 0) - (b.order ??
         return (
           <section class="space-y-5">
             <div class="flex flex-col gap-2">
-              <h3 class="text-2xl font-semibold text-content">
-                {category.label}
-              </h3>
-              <p class="text-muted text-sm">
-                {category.description}
-              </p>
+              <h3 class="text-2xl font-semibold text-content">{category.label}</h3>
+              <p class="text-muted text-sm">{category.description}</p>
             </div>
             <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
               {group.map((service) => (
-                <ServiceCard
-                  service={service}
-                  whatsappNumber={whatsappNumber}
-                />
+                <ServiceCard service={service} whatsappNumber={whatsappNumber} />
               ))}
             </div>
           </section>

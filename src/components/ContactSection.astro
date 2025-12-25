@@ -7,7 +7,7 @@ interface Props {
 }
 
 const { siteSettings } = Astro.props;
-const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola, quiero cotizar mi sitio/automatización.");
+const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola, quiero cotizar mi sitio o automatizacion.");
 const formEndpoint = "/api/contact";
 ---
 
@@ -17,8 +17,8 @@ const formEndpoint = "/api/contact";
       <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">Contacto</p>
       <h2 class="text-3xl sm:text-4xl font-bold text-content">Conversemos y arma tu plan</h2>
       <p class="text-muted">
-        Cuéntanos si necesitas una nueva landing, mantención para tu setup gamer/empresa o presencia digital constante. Respondemos
-        en horario laboral CL en menos de 24h. Si prefieres, escribe directo a WhatsApp.
+        Cuentanos si necesitas una landing de alto rendimiento, automatizar WhatsApp o soporte TI continuo. Respondemos en horario
+        laboral Chile en menos de 24h. Si prefieres, escribe directo a WhatsApp.
       </p>
       <a
         href={whatsappUrl}
@@ -27,40 +27,35 @@ const formEndpoint = "/api/contact";
         class="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-secondary font-semibold shadow-soft hover:shadow-lg transition"
       >
         Abrir WhatsApp
-        <span aria-hidden="true">↗</span>
+        <span aria-hidden="true">-></span>
       </a>
       <div class="card text-sm text-muted">
-        <p class="font-semibold text-content mb-2">¿Qué pasa con el formulario?</p>
+        <p class="font-semibold text-content mb-2">Como gestionamos tu solicitud?</p>
         <p>
-          Se envía a <code class="text-highlight">{formEndpoint}</code> (modifícalo). Puedes apuntarlo a un endpoint de Strapi o a tu
-          función serverless. Mantenemos los campos <strong>name</strong>, <strong>contact</strong> y <strong>message</strong>.
+          Enviamos este formulario a <code class="text-highlight">{formEndpoint}</code>. Puedes cambiar la ruta para conectarla con
+          tu CRM o backend. Mantenemos los campos <strong>name</strong>, <strong>contact</strong> y <strong>message</strong>.
         </p>
       </div>
     </div>
-    <form
-      class="card bg-card/90 border-border space-y-4"
-      method="post"
-      action={formEndpoint}
-      data-endpoint={formEndpoint}
-    >
+    <form class="card bg-card/90 border-border space-y-4" method="post" action={formEndpoint} data-endpoint={formEndpoint}>
       <div>
         <label for="name" class="block text-sm font-medium text-content mb-1">Nombre</label>
         <input
           id="name"
           name="name"
           required
-        class="w-full rounded-xl bg-card border border-border text-content px-4 py-3 focus:outline-none focus:ring-2 focus:ring-highlight placeholder:text-muted/80"
+          class="w-full rounded-xl bg-card border border-border text-content px-4 py-3 focus:outline-none focus:ring-2 focus:ring-highlight placeholder:text-muted/80"
           placeholder="Tu nombre o negocio"
         />
       </div>
       <div>
-        <label for="contact" class="block text-sm font-medium text-content mb-1">Correo o teléfono</label>
+        <label for="contact" class="block text-sm font-medium text-content mb-1">Correo o telefono</label>
         <input
           id="contact"
           name="contact"
           type="text"
           required
-        class="w-full rounded-xl bg-card border border-border text-content px-4 py-3 focus:outline-none focus:ring-2 focus:ring-highlight placeholder:text-muted/80"
+          class="w-full rounded-xl bg-card border border-border text-content px-4 py-3 focus:outline-none focus:ring-2 focus:ring-highlight placeholder:text-muted/80"
           placeholder="tucorreo@empresa.cl / +569..."
         />
       </div>
@@ -71,8 +66,8 @@ const formEndpoint = "/api/contact";
           name="message"
           rows="4"
           required
-        class="w-full rounded-xl bg-card border border-border text-content px-4 py-3 focus:outline-none focus:ring-2 focus:ring-highlight placeholder:text-muted/80"
-          placeholder="Cuéntanos qué necesitas"
+          class="w-full rounded-xl bg-card border border-border text-content px-4 py-3 focus:outline-none focus:ring-2 focus:ring-highlight placeholder:text-muted/80"
+          placeholder="Cuentanos que necesitas"
         ></textarea>
       </div>
       <button
@@ -81,7 +76,9 @@ const formEndpoint = "/api/contact";
       >
         Enviar consulta
       </button>
-      <p class="text-xs text-muted/80">Al enviar aceptas nuestra <a class="underline" href="/privacidad">política de privacidad</a>.</p>
+      <p class="text-xs text-muted/80">
+        Al enviar aceptas nuestra <a class="underline" href="/privacidad">politica de privacidad</a>.
+      </p>
     </form>
   </div>
   <script is:inline>
@@ -101,11 +98,10 @@ const formEndpoint = "/api/contact";
           alert("Consulta enviada. Te contactaremos pronto.");
           form.reset();
         } catch (err) {
-          alert("No se pudo enviar. Revisa el endpoint o inténtalo por WhatsApp.");
+          alert("No se pudo enviar. Intentalo de nuevo o escribe por WhatsApp.");
           console.error(err);
         }
       });
     }
   </script>
 </section>
-
