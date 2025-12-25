@@ -7,7 +7,7 @@ import {
   mockServices,
   mockSiteSettings
 } from "../../data/mock";
-import { getMediaUrl } from "./media";
+import { getMediaAlt, getMediaUrl } from "./media";
 import { fetchGraphQL, withFallback, bulletsToStrings, blocksToText } from "./strapi";
 import type {
   CaseStudy,
@@ -21,6 +21,8 @@ import type {
   SiteSettings,
   StrapiBlocks,
   StrapiBullet,
+  StrapiCasePoint,
+  StrapiImpactTag,
   StrapiMedia,
   Tag,
   Testimonial,
@@ -107,9 +109,26 @@ const CASE_FIELDS = `
   title
   slug
   clientName
+  summary
+  industry
+  city
+  coverImage { url alternativeText }
+  beforeTitle
+  afterTitle
+  beforePoints { text tone }
+  afterPoints { text tone }
+  impactTags { text variant }
+  ctaPrimaryType
+  ctaPrimaryLabel
+  ctaPrimaryUrl
+  siteUrl
+  order
+  featured
+  gallery { url alternativeText }
+  screenshotsBefore { url alternativeText }
+  screenshotsAfter { url alternativeText }
   problem { text }
   results { text }
-  gallery { url alternativeText }
   publicAllowed
   publishedAt
 `;
@@ -219,12 +238,29 @@ type StrapiService = {
 
 type StrapiCase = {
   documentId?: string | null;
-  title?: string;
-  slug?: string;
+  title?: string | null;
+  slug?: string | null;
   clientName?: string | null;
+  summary?: string | null;
+  industry?: string | null;
+  city?: string | null;
+  coverImage?: StrapiMedia | null;
+  beforeTitle?: string | null;
+  afterTitle?: string | null;
+  beforePoints?: StrapiCasePoint[] | null;
+  afterPoints?: StrapiCasePoint[] | null;
+  impactTags?: StrapiImpactTag[] | null;
+  ctaPrimaryType?: string | null;
+  ctaPrimaryLabel?: string | null;
+  ctaPrimaryUrl?: string | null;
+  siteUrl?: string | null;
+  order?: number | null;
+  featured?: boolean | null;
   problem?: StrapiBullet[] | null;
   results?: StrapiBullet[] | null;
   gallery?: StrapiMedia | null;
+  screenshotsBefore?: StrapiMedia | null;
+  screenshotsAfter?: StrapiMedia | null;
   publicAllowed?: boolean | null;
   publishedAt?: string | null;
 };
@@ -336,23 +372,85 @@ const mapService = (item: StrapiService): Service => {
   };
 };
 
+const cleanText = (value?: string | null): string | undefined => {
+  if (typeof value !== "string") return undefined;
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : undefined;
+};
+
+const mapCasePoints = (items?: StrapiCasePoint[] | null): Array<{ text: string; tone?: string }> => {
+  if (!Array.isArray(items)) return [];
+  return items
+    .map((item) => {
+      const text = typeof item?.text === "string" ? item.text.trim() : "";
+      if (!text) return null;
+      const tone = typeof item?.tone === "string" ? item.tone.trim() : "";
+      return { text, tone: tone || undefined };
+    })
+    .filter(Boolean) as Array<{ text: string; tone?: string }>;
+};
+
+const mapImpactTags = (items?: StrapiImpactTag[] | null): Array<{ text: string; variant?: string }> => {
+  if (!Array.isArray(items)) return [];
+  return items
+    .map((item) => {
+      const text = typeof item?.text === "string" ? item.text.trim() : "";
+      if (!text) return null;
+      const variant = typeof item?.variant === "string" ? item.variant.trim() : "";
+      return { text, variant: variant || undefined };
+    })
+    .filter(Boolean) as Array<{ text: string; variant?: string }>;
+};
+
+const mediaToUrls = (media?: StrapiMedia | null): string[] => {
+  if (!media) return [];
+  if (Array.isArray(media)) {
+    return media.map((item) => getMediaUrl(item)).filter(Boolean) as string[];
+  }
+  const data = (media as { data?: unknown }).data;
+  if (data) {
+    const array = Array.isArray(data) ? data : [data];
+    return array.map((item) => getMediaUrl(item as StrapiMedia)).filter(Boolean) as string[];
+  }
+  const url = getMediaUrl(media);
+  return url ? [url] : [];
+};
+
 const mapCase = (item: StrapiCase): CaseStudy => {
-  const image = getMediaUrl(item.gallery ?? undefined);
-  const order = item.publishedAt ? -new Date(item.publishedAt).getTime() : 0;
   const problemList = bulletsToStrings(item.problem);
-  const summary = problemList[0] ?? "";
+  const resultsList = bulletsToStrings(item.results);
+  const beforePoints = mapCasePoints(item.beforePoints);
+  const afterPoints = mapCasePoints(item.afterPoints);
+  const summary = cleanText(item.summary) ?? beforePoints[0]?.text ?? problemList[0] ?? "";
+  const order =
+    typeof item.order === "number" ? item.order : item.publishedAt ? -new Date(item.publishedAt).getTime() : 0;
+  const coverMedia = item.coverImage ?? item.gallery ?? undefined;
 
   return {
     slug: item.slug ?? toSlug(item),
     title: item.title ?? "",
     clientName: item.clientName ?? "",
-    industry: "",
+    industry: cleanText(item.industry) ?? "",
+    city: cleanText(item.city),
     summary,
     problem: problemList,
-    results: bulletsToStrings(item.results),
-    image,
-    url: undefined,
-    order
+    results: resultsList,
+    coverImage: getMediaUrl(coverMedia),
+    coverImageAlt: getMediaAlt(coverMedia),
+    beforeTitle: cleanText(item.beforeTitle),
+    afterTitle: cleanText(item.afterTitle),
+    beforePoints,
+    afterPoints,
+    impactTags: mapImpactTags(item.impactTags),
+    ctaPrimaryType: cleanText(item.ctaPrimaryType),
+    ctaPrimaryLabel: cleanText(item.ctaPrimaryLabel),
+    ctaPrimaryUrl: cleanText(item.ctaPrimaryUrl),
+    siteUrl: cleanText(item.siteUrl),
+    gallery: mediaToUrls(item.gallery ?? undefined),
+    screenshotsBefore: mediaToUrls(item.screenshotsBefore ?? undefined),
+    screenshotsAfter: mediaToUrls(item.screenshotsAfter ?? undefined),
+    order,
+    featured: Boolean(item.featured)
   };
 };
 

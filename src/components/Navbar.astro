@@ -7,20 +7,23 @@ interface Props {
 }
 
 const { siteSettings } = Astro.props;
+const pathname = Astro.url?.pathname ?? "/";
+const isHome = pathname === "/" || pathname === "";
+const withHome = (href: string) => (href.startsWith("#") && !isHome ? `/${href}` : href);
 const navLinks = [
-  { href: "#inicio", label: "Inicio" },
-  { href: "#servicios", label: "Servicios" },
-  { href: "#casos", label: "Casos" },
-  { href: "#resenas", label: "Reseñas" },
-  { href: "#contacto", label: "Contacto" },
-  { href: "#faq", label: "FAQ" }
+  { href: withHome("#inicio"), label: "Inicio" },
+  { href: withHome("#servicios"), label: "Servicios" },
+  { href: withHome("#casos"), label: "Casos" },
+  { href: withHome("#resenas"), label: "Reseñas" },
+  { href: withHome("#contacto"), label: "Contacto" },
+  { href: withHome("#faq"), label: "FAQ" }
 ];
 const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero cotizar mi web/automatización.");
 ---
 
 <header class="sticky top-0 z-50 bg-white/90 dark:bg-slate-950/85 backdrop-blur border-b border-slate-200/70 dark:border-slate-800">
   <div class="section-shell flex items-center justify-between py-4 gap-3 relative">
-    <a href="#inicio" class="flex items-center gap-3">
+    <a href={withHome("#inicio")} class="flex items-center gap-3">
       <div class="h-11 w-11 rounded-2xl bg-gradient-to-br from-primary to-accent grid place-content-center text-secondary font-bold">
         ND
       </div>

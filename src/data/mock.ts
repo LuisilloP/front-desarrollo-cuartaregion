@@ -112,31 +112,84 @@ export const mockServices: Service[] = [
 
 export const mockCases: CaseStudy[] = [
   {
-    slug: "cafe-litoral",
-    clientName: "Café Litoral",
-    industry: "Gastronomía",
-    summary: "Nueva carta y reservas online.",
-    results: "Reservas +38% en 6 semanas",
-    image: "/images/case-cafe.jpg",
-    url: "https://ejemplo-cafe.cl",
-    order: 1
+    slug: "inventario-reportes",
+    clientName: "Angel Calameno",
+    title: "Sistema ERP de inventario + reportes",
+    industry: "Restaurante",
+    city: "Ovalle",
+    summary: "Control de stock con movimientos trazables y reportes semanales automaticos.",
+    coverImage: "/images/case-inventario.jpg",
+    beforeTitle: "Antes",
+    afterTitle: "Despues",
+    beforePoints: [
+      { text: "Inventario en planillas desactualizadas", tone: "danger" },
+      { text: "Reportes manuales semanales", tone: "danger" }
+    ],
+    afterPoints: [
+      { text: "Sistema de inventario con stock actual", tone: "success" },
+      { text: "Reportes automaticos listos para revision", tone: "success" }
+    ],
+    impactTags: [
+      { text: "Stock actualizado", variant: "blue" },
+      { text: "Trazabilidad de movimientos", variant: "green" }
+    ],
+    ctaPrimaryType: "contact",
+    ctaPrimaryLabel: "Quiero un inventario asi",
+    siteUrl: "https://ejemplo-inventario.cl",
+    order: 1,
+    featured: true
   },
   {
     slug: "clinica-norte",
-    clientName: "Clínica Norte",
+    clientName: "Clinica Norte",
+    title: "Agenda online y WhatsApp asistido",
     industry: "Salud",
-    summary: "Landing con agenda y WhatsApp derivado a recepción.",
-    results: "Tasa de respuesta 2x en horarios peak",
-    image: "/images/case-clinica.jpg",
+    city: "Santiago",
+    summary: "Landing con agenda y derivacion directa a recepcion.",
+    coverImage: "/images/case-clinica.jpg",
+    beforeTitle: "Antes",
+    afterTitle: "Despues",
+    beforePoints: [
+      { text: "Llamadas perdidas en horarios peak", tone: "danger" },
+      { text: "Agenda manual sin recordatorios", tone: "warning" }
+    ],
+    afterPoints: [
+      { text: "Agenda automatizada con recordatorios", tone: "success" },
+      { text: "Derivacion inmediata por WhatsApp", tone: "success" }
+    ],
+    impactTags: [
+      { text: "Tasa de respuesta 2x", variant: "blue" },
+      { text: "Menos ausencias", variant: "green" }
+    ],
+    ctaPrimaryType: "contact",
+    ctaPrimaryLabel: "Quiero mi agenda asi",
+    siteUrl: "https://ejemplo-clinica.cl",
     order: 2
   },
   {
     slug: "turismo-pisco",
     clientName: "Turismo Pisco",
     industry: "Turismo",
-    summary: "Automatización de preguntas frecuentes y reservas.",
-    results: "Menos 60% de tiempo atendiendo inbox",
-    image: "/images/case-turismo.jpg",
+    city: "La Serena",
+    summary: "Automatizacion de preguntas frecuentes y reservas.",
+    coverImage: "/images/case-turismo.jpg",
+    beforeTitle: "Antes",
+    afterTitle: "Despues",
+    beforePoints: [
+      { text: "Consultas repetidas en redes sociales", tone: "danger" },
+      { text: "Reservas sin confirmacion automatica", tone: "warning" }
+    ],
+    afterPoints: [
+      { text: "Respuestas automaticas con FAQ", tone: "success" },
+      { text: "Reservas confirmadas por WhatsApp", tone: "success" }
+    ],
+    impactTags: [
+      { text: "Menos tiempo en inbox", variant: "blue" },
+      { text: "Reservas mas rapidas", variant: "green" }
+    ],
+    ctaPrimaryType: "contact",
+    ctaPrimaryLabel: "Quiero automatizar",
+    siteUrl: "https://ejemplo-turismo.cl",
     order: 3
   }
 ];

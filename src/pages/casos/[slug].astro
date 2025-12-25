@@ -5,6 +5,7 @@ import Footer from "../../components/Footer.astro";
 import WhatsAppFloatingButton from "../../components/WhatsAppFloatingButton.astro";
 import { fetchCases, fetchSiteSettings } from "../../lib/api/services";
 import type { CaseStudy } from "../../lib/api/types";
+import { buildWhatsAppLink } from "../../lib/utils";
 
 export async function getStaticPaths() {
   const cases = await fetchCases();
@@ -18,56 +19,258 @@ if (!caseStudy) throw new Error("Case study not found");
 
 const siteSettings = await fetchSiteSettings();
 const pageTitle = caseStudy.title || caseStudy.clientName || "Caso";
+const summary = typeof caseStudy.summary === "string" ? caseStudy.summary.trim() : "";
+const industry = typeof caseStudy.industry === "string" ? caseStudy.industry.trim() : "";
+const city = typeof caseStudy.city === "string" ? caseStudy.city.trim() : "";
+const coverImage = caseStudy.coverImage;
+const coverAlt = caseStudy.coverImageAlt || `Caso ${pageTitle}`;
+
 const toList = (value: string | string[] | undefined) => (Array.isArray(value) ? value : value ? [value] : []);
-const results = toList(caseStudy.results);
-const problems = toList(caseStudy.problem);
+const normalizePoints = (
+  items: CaseStudy["beforePoints"] | undefined,
+  fallback: string | string[] | undefined,
+  defaultTone: string
+) => {
+  if (Array.isArray(items) && items.length > 0) {
+    return items
+      .map((item) => {
+        const text = typeof item?.text === "string" ? item.text.trim() : "";
+        if (!text) return null;
+        const tone = typeof item?.tone === "string" ? item.tone.trim() : "";
+        return { text, tone: tone || defaultTone };
+      })
+      .filter(Boolean) as Array<{ text: string; tone: string }>;
+  }
+  return toList(fallback).map((text) => ({ text, tone: defaultTone }));
+};
+
+const beforeTitle = (caseStudy.beforeTitle ?? "Antes").trim() || "Antes";
+const afterTitle = (caseStudy.afterTitle ?? "Despues").trim() || "Despues";
+const beforePoints = normalizePoints(caseStudy.beforePoints, caseStudy.problem, "danger");
+const afterPoints = normalizePoints(caseStudy.afterPoints, caseStudy.results, "success");
+const hasComparison = beforePoints.length > 0 || afterPoints.length > 0;
+
+const impactTags = (caseStudy.impactTags ?? []).filter(
+  (tag) => typeof tag?.text === "string" && tag.text.trim().length > 0
+);
+
+const toneDots: Record<string, string> = {
+  danger: "bg-rose-500",
+  warning: "bg-amber-500",
+  success: "bg-emerald-500",
+  info: "bg-sky-500",
+  neutral: "bg-slate-400"
+};
+
+const getDotClass = (tone?: string, fallback?: string) => {
+  const key = (tone ?? fallback ?? "").toLowerCase();
+  return toneDots[key] ?? toneDots.neutral;
+};
+
+const tagStyles: Record<string, string> = {
+  blue: "border-blue-200/70 bg-blue-500/15 text-blue-700 dark:border-blue-500/30 dark:text-blue-200",
+  green: "border-emerald-200/70 bg-emerald-500/15 text-emerald-700 dark:border-emerald-500/30 dark:text-emerald-200",
+  red: "border-rose-200/70 bg-rose-500/15 text-rose-700 dark:border-rose-500/30 dark:text-rose-200",
+  yellow: "border-amber-200/70 bg-amber-500/15 text-amber-700 dark:border-amber-500/30 dark:text-amber-200",
+  orange: "border-orange-200/70 bg-orange-500/15 text-orange-700 dark:border-orange-500/30 dark:text-orange-200",
+  purple: "border-violet-200/70 bg-violet-500/15 text-violet-700 dark:border-violet-500/30 dark:text-violet-200",
+  slate: "border-slate-200/70 bg-slate-500/10 text-slate-700 dark:border-slate-700/70 dark:text-slate-200"
+};
+
+const getTagClass = (variant?: string) => {
+  const key = (variant ?? "").trim().toLowerCase();
+  return tagStyles[key] ?? tagStyles.slate;
+};
+
+const normalizeUrl = (value?: string | null) => {
+  if (!value) return undefined;
+  const trimmed = value.trim();
+  if (!trimmed) return undefined;
+  if (trimmed.startsWith("#") || trimmed.startsWith("/")) return trimmed;
+  if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) return trimmed;
+  return `https://${trimmed}`;
+};
+
+const siteUrl = normalizeUrl(caseStudy.siteUrl ?? undefined);
+const isExternalSite = Boolean(siteUrl && !siteUrl.startsWith("#") && !siteUrl.startsWith("/"));
+const whatsappMessage = `Hola! Me interesa el caso ${pageTitle}.`;
+const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, whatsappMessage);
+const ctaType = (caseStudy.ctaPrimaryType ?? "").trim().toLowerCase();
+const ctaLabel = (caseStudy.ctaPrimaryLabel ?? "").trim() || "Quiero algo similar";
+const ctaUrlOverride = normalizeUrl(caseStudy.ctaPrimaryUrl ?? undefined);
+const isFormCta = ["form", "formulario"].includes(ctaType);
+const isContactCta = ["contact", "contacto", "whatsapp", "wpp"].includes(ctaType);
+
+let ctaHref = ctaUrlOverride;
+if (!ctaHref) {
+  if (isFormCta) ctaHref = "/#contacto";
+  else if (isContactCta) ctaHref = whatsappUrl;
+  else if (siteUrl) ctaHref = siteUrl;
+}
+
+const isExternalCta = Boolean(ctaHref && !ctaHref.startsWith("#") && !ctaHref.startsWith("/"));
 ---
 
-<Layout title={pageTitle} description={caseStudy.summary} siteSettings={siteSettings}>
+<Layout title={pageTitle} description={summary || pageTitle} siteSettings={siteSettings}>
   <Navbar siteSettings={siteSettings} />
-  <main class="section-shell py-16 space-y-10">
-    <div class="space-y-3 max-w-3xl">
-      <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">Caso</p>
-      <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">{pageTitle}</h1>
-      {caseStudy.summary && <p class="text-slate-700 dark:text-slate-300">{caseStudy.summary}</p>}
+  <main class="section-shell py-16">
+    <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
+      <div class="space-y-6">
+        <div class="space-y-3">
+          <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">Caso</p>
+          {caseStudy.clientName && <p class="text-sm font-semibold text-highlight">{caseStudy.clientName}</p>}
+          <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">{pageTitle}</h1>
+          {summary && <p class="text-slate-700 dark:text-slate-300">{summary}</p>}
+
+          {(industry || city) && (
+            <div class="flex flex-wrap items-center gap-3 text-xs font-semibold text-slate-500 dark:text-slate-400">
+              {industry && (
+                <span class="inline-flex items-center gap-2">
+                  <svg viewBox="0 0 24 24" fill="none" class="h-4 w-4" aria-hidden="true">
+                    <path
+                      d="M4 20V4h10v16M14 20V8h6v12M3 20h18"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  {industry}
+                </span>
+              )}
+              {city && (
+                <span class="inline-flex items-center gap-2">
+                  <svg viewBox="0 0 24 24" fill="none" class="h-4 w-4" aria-hidden="true">
+                    <path
+                      d="M12 21s6-6.4 6-11a6 6 0 1 0-12 0c0 4.6 6 11 6 11z"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                    />
+                    <circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="1.6" />
+                  </svg>
+                  {city}
+                </span>
+              )}
+            </div>
+          )}
+
+          {siteUrl && (
+            <a
+              class="inline-flex items-center gap-2 text-sm font-semibold text-highlight transition hover:text-accent"
+              href={siteUrl}
+              target={isExternalSite ? "_blank" : undefined}
+              rel={isExternalSite ? "noreferrer" : undefined}
+            >
+              Ver sitio
+              <span class="text-accent">&gt;</span>
+            </a>
+          )}
+        </div>
+
+        {coverImage && (
+          <div class="overflow-hidden rounded-3xl bg-slate-100/70 dark:bg-slate-900/60">
+            <img src={coverImage} alt={coverAlt} class="h-auto w-full object-contain" loading="lazy" />
+          </div>
+        )}
+      </div>
+
+      <aside class="card space-y-5">
+        <div class="flex items-center justify-between border-b border-slate-200/70 pb-3 dark:border-slate-800/70">
+          <div class="flex items-center gap-6 text-sm font-semibold text-slate-500 dark:text-slate-300">
+            <span
+              class={`border-b-2 pb-2 ${
+                beforePoints.length > 0 ? "border-rose-500 text-slate-900 dark:text-white" : "border-transparent"
+              }`}
+            >
+              {beforeTitle}
+            </span>
+            <span
+              class={`border-b-2 pb-2 ${
+                afterPoints.length > 0 ? "border-emerald-500 text-slate-900 dark:text-white" : "border-transparent"
+              }`}
+            >
+              {afterTitle}
+            </span>
+          </div>
+        </div>
+
+        {hasComparison && (
+          <div class={`grid gap-4 ${beforePoints.length > 0 && afterPoints.length > 0 ? "md:grid-cols-2" : ""}`}>
+            {beforePoints.length > 0 && (
+              <div class="overflow-hidden rounded-2xl border border-rose-200/60 bg-white/90 dark:border-rose-500/30 dark:bg-slate-950/70">
+                <div class="bg-rose-500 px-4 py-2 text-sm font-semibold text-white">{beforeTitle}</div>
+                <ul class="space-y-3 p-4 text-sm text-slate-700 dark:text-slate-200">
+                  {beforePoints.map((point) => (
+                    <li class="flex items-start gap-3">
+                      <span class={`mt-2 h-1.5 w-1.5 rounded-full ${getDotClass(point.tone, "danger")}`}></span>
+                      <span>{point.text}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {afterPoints.length > 0 && (
+              <div class="overflow-hidden rounded-2xl border border-emerald-200/60 bg-white/90 dark:border-emerald-500/30 dark:bg-slate-950/70">
+                <div class="bg-emerald-500 px-4 py-2 text-sm font-semibold text-white">{afterTitle}</div>
+                <ul class="space-y-3 p-4 text-sm text-slate-700 dark:text-slate-200">
+                  {afterPoints.map((point) => (
+                    <li class="flex items-start gap-3">
+                      <span class={`mt-2 h-1.5 w-1.5 rounded-full ${getDotClass(point.tone, "success")}`}></span>
+                      <span>{point.text}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
+
+        {impactTags.length > 0 && (
+          <div class="space-y-3 border-t border-slate-200/70 pt-4 dark:border-slate-800/70">
+            <p class="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Impacto</p>
+            <div class="flex flex-wrap gap-2">
+              {impactTags.map((tag) => (
+                <span
+                  class={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold ${getTagClass(
+                    tag.variant
+                  )}`}
+                >
+                  {tag.text}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {ctaHref && (
+          <a
+            href={ctaHref}
+            target={isExternalCta ? "_blank" : undefined}
+            rel={isExternalCta ? "noreferrer" : undefined}
+            class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-emerald-500 px-4 py-3 text-sm font-semibold text-white shadow-soft transition hover:bg-emerald-600"
+          >
+            {isContactCta && (
+              <svg viewBox="0 0 24 24" fill="none" class="h-5 w-5" aria-hidden="true">
+                <path
+                  d="M4 12a8 8 0 1 1 3.2 6.4L4 20l1.6-3.2A8 8 0 0 1 4 12z"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            )}
+            {ctaLabel}
+          </a>
+        )}
+      </aside>
     </div>
 
-    {caseStudy.image && (
-      <div class="card overflow-hidden">
-        <img src={caseStudy.image} alt={pageTitle} class="w-full h-80 object-contain" loading="lazy" />
-      </div>
-    )}
-
-    {problems.length > 0 && (
-      <section class="card space-y-3">
-        <p class="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Problema</p>
-        <ul class="space-y-2 text-sm text-slate-700 dark:text-slate-200">
-          {problems.map((problem) => (
-            <li class="flex gap-2">
-              <span class="text-accent">•</span>
-              <span>{problem}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
-    )}
-
-    {results.length > 0 && (
-      <section class="card space-y-3">
-        <p class="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Resultados</p>
-        <ul class="space-y-2 text-sm text-slate-700 dark:text-slate-200">
-          {results.map((result) => (
-            <li class="flex gap-2">
-              <span class="text-accent">+</span>
-              <span>{result}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
-    )}
-
-    <a class="text-sm font-semibold text-highlight hover:text-white" href="/#casos">Ver más casos</a>
+    <div class="mt-10">
+      <a class="text-sm font-semibold text-highlight hover:text-white" href="/#casos">Ver mas casos</a>
+    </div>
   </main>
+
   <Footer siteSettings={siteSettings} />
   <WhatsAppFloatingButton whatsappNumber={siteSettings.whatsappNumber} message="Hola! Me interesa este caso." />
 </Layout>

@@ -22,6 +22,8 @@ export type StrapiMedia =
   | Array<{ url?: string; alternativeText?: string }>;
 
 export type StrapiBullet = { text?: string | null };
+export type StrapiCasePoint = { text?: string | null; tone?: string | null };
+export type StrapiImpactTag = { text?: string | null; variant?: string | null };
 export type StrapiBlocks = Array<{ type?: string; children?: Array<{ text?: string | null }> }>;
 
 export type SiteSettings = {
@@ -59,12 +61,27 @@ export type CaseStudy = {
   clientName: string;
   industry: string;
   summary: string;
-  results: string[] | string;
+  city?: string;
   title?: string;
+  coverImage?: string;
+  coverImageAlt?: string;
+  beforeTitle?: string;
+  afterTitle?: string;
+  beforePoints?: Array<{ text: string; tone?: string }>;
+  afterPoints?: Array<{ text: string; tone?: string }>;
+  impactTags?: Array<{ text: string; variant?: string }>;
+  ctaPrimaryType?: string;
+  ctaPrimaryLabel?: string;
+  ctaPrimaryUrl?: string | null;
+  siteUrl?: string | null;
+  gallery?: string[];
+  screenshotsBefore?: string[];
+  screenshotsAfter?: string[];
+  impactMetrics?: Array<{ label?: string; value?: string; suffix?: string; variant?: string }>;
   problem?: string[] | string;
-  image?: string;
-  url?: string;
+  results?: string[] | string;
   order?: number;
+  featured?: boolean;
 };
 
 export type Testimonial = {

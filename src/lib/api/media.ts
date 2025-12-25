@@ -33,3 +33,29 @@ export const getMediaUrl = (media?: StrapiMedia | null): string | undefined => {
   const url = extractMediaUrl(media ?? undefined);
   return toAbsoluteUrl(url);
 };
+
+const extractMediaAlt = (media: StrapiMedia | undefined | null): string | undefined => {
+  if (!media) return undefined;
+
+  if (Array.isArray(media)) {
+    const first = media[0];
+    return first?.alternativeText ?? first?.attributes?.alternativeText;
+  }
+
+  const data = (media as { data?: unknown }).data;
+  if (data) {
+    const array = Array.isArray(data) ? data : [data];
+    const first = array[0] as StrapiEntity<{ alternativeText?: string }> | undefined;
+    return first?.attributes?.alternativeText;
+  }
+
+  return (
+    (media as { alternativeText?: string }).alternativeText ??
+    (media as { attributes?: { alternativeText?: string } }).attributes?.alternativeText
+  );
+};
+
+export const getMediaAlt = (media?: StrapiMedia | null): string | undefined => {
+  const alt = extractMediaAlt(media ?? undefined);
+  return alt?.trim() || undefined;
+};
