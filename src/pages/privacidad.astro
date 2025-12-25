@@ -87,11 +87,11 @@ const fallbackPolicy = {
   <Navbar siteSettings={siteSettings} />
   <main class="section-shell py-16 space-y-6">
     <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">Legal</p>
-    <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">{pageTitle}</h1>
+    <h1 class="text-3xl sm:text-4xl font-bold text-content">{pageTitle}</h1>
     {hasLegalContent ? (
-      <article class="prose max-w-3xl text-slate-800 dark:prose-invert dark:text-slate-200" set:html={legalContent} />
+      <article class="prose max-w-3xl text-content prose-headings:text-content prose-p:text-muted prose-a:text-highlight" set:html={legalContent} />
     ) : (
-      <article class="prose max-w-3xl text-slate-800 dark:prose-invert dark:text-slate-200 space-y-5">
+      <article class="prose max-w-3xl text-content prose-headings:text-content prose-p:text-muted prose-a:text-highlight space-y-5">
         <p>{fallbackPolicy.intro}</p>
         {fallbackPolicy.sections.map((section) => (
           <section class="space-y-2">

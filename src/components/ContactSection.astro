@@ -15,8 +15,8 @@ const formEndpoint = "/api/contact";
   <div class="section-shell grid lg:grid-cols-2 gap-10 items-start">
     <div class="space-y-4">
       <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">Contacto</p>
-      <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">Conversemos y arma tu plan</h2>
-      <p class="text-slate-700 dark:text-slate-300">
+      <h2 class="text-3xl sm:text-4xl font-bold text-content">Conversemos y arma tu plan</h2>
+      <p class="text-muted">
         Cuéntanos si necesitas una nueva landing, mantención para tu setup gamer/empresa o presencia digital constante. Respondemos
         en horario laboral CL en menos de 24h. Si prefieres, escribe directo a WhatsApp.
       </p>
@@ -29,8 +29,8 @@ const formEndpoint = "/api/contact";
         Abrir WhatsApp
         <span aria-hidden="true">↗</span>
       </a>
-      <div class="card text-sm text-slate-700 dark:text-slate-200">
-        <p class="font-semibold text-slate-900 dark:text-white mb-2">¿Qué pasa con el formulario?</p>
+      <div class="card text-sm text-muted">
+        <p class="font-semibold text-content mb-2">¿Qué pasa con el formulario?</p>
         <p>
           Se envía a <code class="text-highlight">{formEndpoint}</code> (modifícalo). Puedes apuntarlo a un endpoint de Strapi o a tu
           función serverless. Mantenemos los campos <strong>name</strong>, <strong>contact</strong> y <strong>message</strong>.
@@ -38,40 +38,40 @@ const formEndpoint = "/api/contact";
       </div>
     </div>
     <form
-      class="card bg-white/90 border-slate-200 space-y-4 dark:bg-slate-900/70 dark:border-slate-800"
+      class="card bg-card/90 border-border space-y-4"
       method="post"
       action={formEndpoint}
       data-endpoint={formEndpoint}
     >
       <div>
-        <label for="name" class="block text-sm font-medium text-slate-900 dark:text-white mb-1">Nombre</label>
+        <label for="name" class="block text-sm font-medium text-content mb-1">Nombre</label>
         <input
           id="name"
           name="name"
           required
-        class="w-full rounded-xl bg-white border border-slate-200 text-slate-900 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-highlight dark:bg-slate-800 dark:border-slate-700 dark:text-white"
+        class="w-full rounded-xl bg-card border border-border text-content px-4 py-3 focus:outline-none focus:ring-2 focus:ring-highlight placeholder:text-muted/80"
           placeholder="Tu nombre o negocio"
         />
       </div>
       <div>
-        <label for="contact" class="block text-sm font-medium text-slate-900 dark:text-white mb-1">Correo o teléfono</label>
+        <label for="contact" class="block text-sm font-medium text-content mb-1">Correo o teléfono</label>
         <input
           id="contact"
           name="contact"
           type="text"
           required
-        class="w-full rounded-xl bg-white border border-slate-200 text-slate-900 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-highlight dark:bg-slate-800 dark:border-slate-700 dark:text-white"
+        class="w-full rounded-xl bg-card border border-border text-content px-4 py-3 focus:outline-none focus:ring-2 focus:ring-highlight placeholder:text-muted/80"
           placeholder="tucorreo@empresa.cl / +569..."
         />
       </div>
       <div>
-        <label for="message" class="block text-sm font-medium text-slate-900 dark:text-white mb-1">Mensaje</label>
+        <label for="message" class="block text-sm font-medium text-content mb-1">Mensaje</label>
         <textarea
           id="message"
           name="message"
           rows="4"
           required
-        class="w-full rounded-xl bg-white border border-slate-200 text-slate-900 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-highlight dark:bg-slate-800 dark:border-slate-700 dark:text-white"
+        class="w-full rounded-xl bg-card border border-border text-content px-4 py-3 focus:outline-none focus:ring-2 focus:ring-highlight placeholder:text-muted/80"
           placeholder="Cuéntanos qué necesitas"
         ></textarea>
       </div>
@@ -81,7 +81,7 @@ const formEndpoint = "/api/contact";
       >
         Enviar consulta
       </button>
-      <p class="text-xs text-slate-500 dark:text-slate-400">Al enviar aceptas nuestra <a class="underline" href="/privacidad">política de privacidad</a>.</p>
+      <p class="text-xs text-muted/80">Al enviar aceptas nuestra <a class="underline" href="/privacidad">política de privacidad</a>.</p>
     </form>
   </div>
   <script is:inline>

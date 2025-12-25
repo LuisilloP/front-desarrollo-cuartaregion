@@ -33,26 +33,26 @@ const isAnchor = ctaHref.startsWith("#");
 ---
 
 <article
-  class={`relative flex h-full flex-col gap-5 rounded-[24px] border bg-white p-6 shadow-soft transition duration-300 hover:-translate-y-1 hover:shadow-xl dark:bg-slate-900/80 ${
-    isFeatured ? "border-primary/40 dark:border-primary/40" : "border-slate-200/70 dark:border-slate-800/80"
+  class={`relative flex h-full flex-col gap-5 rounded-[24px] border bg-card p-6 shadow-soft transition duration-300 hover:-translate-y-1 hover:shadow-xl ${
+    isFeatured ? "border-primary/40" : "border-border/70"
   }`}
 >
   {bannerLabel && (
-    <span class="absolute right-5 top-5 inline-flex items-center rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-[11px] font-semibold text-primary dark:text-highlight">
+    <span class="absolute right-5 top-5 inline-flex items-center rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-[11px] font-semibold text-primary">
       {bannerLabel}
     </span>
   )}
 
   <div class="space-y-2">
-    <h3 class={`text-2xl font-semibold text-slate-900 dark:text-white ${bannerLabel ? "pr-16" : ""}`}>{title}</h3>
+    <h3 class={`text-2xl font-semibold text-content ${bannerLabel ? "pr-16" : ""}`}>{title}</h3>
     {forWho && <p class="text-xs text-highlight">{forWho}</p>}
   </div>
 
-  {whatItSolves && <p class="text-sm leading-relaxed text-slate-700 dark:text-slate-300">{whatItSolves}</p>}
+  {whatItSolves && <p class="text-sm leading-relaxed text-muted">{whatItSolves}</p>}
 
   {benefits.length > 0 && (
-    <div class="space-y-3 border-t border-slate-200/70 pt-4 dark:border-slate-800/80">
-      <ul class="space-y-2 text-sm text-slate-700 dark:text-slate-200">
+    <div class="space-y-3 border-t border-border/70 pt-4">
+      <ul class="space-y-2 text-sm text-muted">
         {benefits.map((benefit) => (
           <li class="flex items-start gap-3">
             <span class="mt-1.5 h-2 w-2 rounded-full bg-accent"></span>
@@ -64,12 +64,12 @@ const isAnchor = ctaHref.startsWith("#");
   )}
 
   {deliverables.length > 0 && (
-    <div class="space-y-3 border-t border-slate-200/70 pt-4 dark:border-slate-800/80">
-      <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Entregables:</p>
-      <ul class="space-y-2 text-sm text-slate-700 dark:text-slate-200">
+    <div class="space-y-3 border-t border-border/70 pt-4">
+      <p class="text-xs font-semibold text-muted/80">Entregables:</p>
+      <ul class="space-y-2 text-sm text-muted">
         {deliverables.map((item) => (
           <li class="flex items-start gap-3">
-            <span class="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 text-primary dark:text-highlight">
+            <span class="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 text-primary">
               <svg viewBox="0 0 20 20" fill="none" class="h-4 w-4" aria-hidden="true">
                 <path
                   d="M4 10.5l3.5 3.5L16 6"
@@ -89,18 +89,18 @@ const isAnchor = ctaHref.startsWith("#");
 
   <div class="mt-auto space-y-4">
     {hasPricing && (
-      <div class="space-y-1 border-t border-slate-200/70 pt-4 dark:border-slate-800/80">
-        {priceLabel && <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Desde</p>}
-        <div class="flex flex-wrap items-baseline gap-2 text-slate-900 dark:text-white">
+      <div class="space-y-1 border-t border-border/70 pt-4">
+        {priceLabel && <p class="text-xs font-semibold text-muted/80">Desde</p>}
+        <div class="flex flex-wrap items-baseline gap-2 text-content">
           {priceLabel && <p class="text-2xl font-semibold">{priceLabel}</p>}
           {deliveryTime && (
-            <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">
+            <span class="text-xs font-semibold text-muted/80">
               {priceLabel ? "|" : ""}
               {deliveryTime}
             </span>
           )}
         </div>
-        {guarantee && <p class="text-[11px] text-slate-500 dark:text-slate-400">* {guarantee}</p>}
+        {guarantee && <p class="text-[11px] text-muted/80">* {guarantee}</p>}
       </div>
     )}
 
@@ -108,7 +108,7 @@ const isAnchor = ctaHref.startsWith("#");
       href={ctaHref}
       target={isAnchor ? undefined : "_blank"}
       rel={isAnchor ? undefined : "noreferrer"}
-      class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary to-accent px-4 py-3 text-sm font-semibold text-white shadow-soft transition hover:shadow-lg"
+      class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary to-accent px-4 py-3 text-sm font-semibold text-contrast shadow-soft transition hover:shadow-lg"
     >
       {ctaLabel}
     </a>

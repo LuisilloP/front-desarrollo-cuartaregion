@@ -37,10 +37,10 @@ const sortedServices = [...services].sort((a, b) => (a.order ?? 0) - (b.order ??
       Planes listos para lanzar
     </p>
     <div class="flex flex-col gap-3 max-w-3xl">
-      <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">
+      <h2 class="text-3xl sm:text-4xl font-bold text-content">
         Servicios agrupados por lo que más necesitas
       </h2>
-      <p class="text-slate-700 dark:text-slate-300">
+      <p class="text-muted">
         Armamos paquetes claros: webs que convierten, mantención para equipos
         gamer y operación de tu presencia digital desde Strapi.
       </p>
@@ -54,10 +54,10 @@ const sortedServices = [...services].sort((a, b) => (a.order ?? 0) - (b.order ??
         return (
           <section class="space-y-5">
             <div class="flex flex-col gap-2">
-              <h3 class="text-2xl font-semibold text-slate-900 dark:text-white">
+              <h3 class="text-2xl font-semibold text-content">
                 {category.label}
               </h3>
-              <p class="text-slate-600 dark:text-slate-300 text-sm">
+              <p class="text-muted text-sm">
                 {category.description}
               </p>
             </div>
