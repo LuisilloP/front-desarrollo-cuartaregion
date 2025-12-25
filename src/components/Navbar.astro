@@ -1,6 +1,7 @@
 ---
 import type { SiteSettings } from "../data/mock";
 import { buildWhatsAppLink } from "../lib/utils";
+import { Icon } from "astro-icon/components";
 
 interface Props {
   siteSettings: SiteSettings;
@@ -43,7 +44,18 @@ const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero
         type="button"
         aria-label="Cambiar tema"
       >
-        L
+        <Icon
+          name="lucide:sun-medium"
+          class="h-5 w-5"
+          aria-hidden="true"
+          data-theme-icon="light"
+        />
+        <Icon
+          name="lucide:moon-star"
+          class="h-5 w-5 hidden"
+          aria-hidden="true"
+          data-theme-icon="dark"
+        />
       </button>
       <button
         id="menu-toggle"
@@ -96,6 +108,13 @@ const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero
   const overlay = document.getElementById("mobile-overlay");
   const THEME_KEY = "theme";
 
+  const setThemeIcon = (theme) => {
+    btn?.querySelectorAll("[data-theme-icon]").forEach((icon) => {
+      const target = icon.getAttribute("data-theme-icon");
+      icon.classList.toggle("hidden", target !== theme);
+    });
+  };
+
   const applyTheme = (theme) => {
     if (theme === "dark") {
       root.classList.add("dark");
@@ -103,7 +122,7 @@ const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero
       root.classList.remove("dark");
     }
     localStorage.setItem(THEME_KEY, theme);
-    if (btn) btn.textContent = theme === "dark" ? "D" : "L";
+    setThemeIcon(theme);
   };
 
   const stored = localStorage.getItem(THEME_KEY);

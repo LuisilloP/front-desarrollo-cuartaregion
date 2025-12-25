@@ -1,6 +1,7 @@
 ---
 import type { SiteSettings } from "../data/mock";
 import { buildWhatsAppLink } from "../lib/utils";
+import { Icon } from "astro-icon/components";
 
 interface Props {
   siteSettings: SiteSettings;
@@ -47,17 +48,26 @@ const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero
         </a>
       </div>
       <div class="grid sm:grid-cols-3 gap-3 text-sm text-muted">
-        <div class="card">
-          <p class="font-semibold text-content">Entrega rapida</p>
-          <p class="text-muted">Landings y funnels montados en menos de 7 dias habiles.</p>
+        <div class="card flex flex-col gap-2">
+          <div class="flex items-center gap-2 text-content">
+            <Icon name="lucide:rocket" class="h-5 w-5 flex-shrink-0 text-accent" aria-hidden="true" />
+            <p class="font-semibold">Entrega rapida</p>
+          </div>
+          <p class="text-muted leading-relaxed">Landings y funnels listos en menos de 7 dias habiles.</p>
         </div>
-        <div class="card">
-          <p class="font-semibold text-content">Soporte local</p>
-          <p class="text-muted">Equipo basado en la region, horario Chile.</p>
+        <div class="card flex flex-col gap-2">
+          <div class="flex items-center gap-2 text-content">
+            <Icon name="lucide:headset" class="h-5 w-5 flex-shrink-0 text-accent" aria-hidden="true" />
+            <p class="font-semibold">Soporte local</p>
+          </div>
+          <p class="text-muted leading-relaxed">Equipo basado en la region, horario Chile y soporte directo.</p>
         </div>
-        <div class="card">
-          <p class="font-semibold text-content">Monitoreo y mantencion</p>
-          <p class="text-muted">Backups, parches y limpieza programada para tu stack y equipos.</p>
+        <div class="card flex flex-col gap-2">
+          <div class="flex items-center gap-2 text-content">
+            <Icon name="lucide:shield-check" class="h-5 w-5 flex-shrink-0 text-accent" aria-hidden="true" />
+            <p class="font-semibold">Monitoreo y mantencion</p>
+          </div>
+          <p class="text-muted leading-relaxed">Backups, parches y limpieza programada para tu stack y equipos.</p>
         </div>
       </div>
     </div>
@@ -66,19 +76,27 @@ const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero
         <p class="text-sm text-accent mb-2 font-semibold">Checklist de lanzamiento</p>
         <ul class="space-y-3 text-content">
           <li class="flex items-start gap-3">
-            <span class="h-6 w-6 rounded-full bg-accent/20 text-accent grid place-content-center">-</span>
+            <span class="h-6 w-6 rounded-full bg-accent/15 text-accent grid place-content-center">
+              <span class="block h-2 w-2 rounded-full bg-accent"></span>
+            </span>
             Diseno enfocado en conversion y SEO local.
           </li>
           <li class="flex items-start gap-3">
-            <span class="h-6 w-6 rounded-full bg-accent/20 text-accent grid place-content-center">-</span>
+            <span class="h-6 w-6 rounded-full bg-accent/15 text-accent grid place-content-center">
+              <span class="block h-2 w-2 rounded-full bg-accent"></span>
+            </span>
             Integracion a WhatsApp, flujos y CRM sin codigo.
           </li>
           <li class="flex items-start gap-3">
-            <span class="h-6 w-6 rounded-full bg-accent/20 text-accent grid place-content-center">-</span>
+            <span class="h-6 w-6 rounded-full bg-accent/15 text-accent grid place-content-center">
+              <span class="block h-2 w-2 rounded-full bg-accent"></span>
+            </span>
             Panel de edicion para contenido y precios.
           </li>
           <li class="flex items-start gap-3">
-            <span class="h-6 w-6 rounded-full bg-accent/20 text-accent grid place-content-center">-</span>
+            <span class="h-6 w-6 rounded-full bg-accent/15 text-accent grid place-content-center">
+              <span class="block h-2 w-2 rounded-full bg-accent"></span>
+            </span>
             Monitoreo y respaldos listos para operaciones.
           </li>
         </ul>

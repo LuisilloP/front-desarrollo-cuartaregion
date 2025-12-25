@@ -1,5 +1,6 @@
 ---
 import { buildWhatsAppLink } from "../lib/utils";
+import { Icon } from "astro-icon/components";
 
 interface Props {
   whatsappNumber: string;
@@ -17,6 +18,6 @@ const whatsappUrl = buildWhatsAppLink(whatsappNumber, message ?? "Hola! Necesito
   class="fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 px-4 py-3 rounded-full bg-accent text-secondary font-semibold shadow-2xl hover:scale-[1.02] transition"
   aria-label="WhatsApp"
 >
-  <span aria-hidden="true">WA</span>
+  <Icon name="simple-icons:whatsapp" class="h-5 w-5" aria-hidden="true" />
   WhatsApp
 </a>
