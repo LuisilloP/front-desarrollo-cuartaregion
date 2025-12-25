@@ -25,9 +25,12 @@ const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero
 <header class="sticky top-0 z-50 bg-surface/90 backdrop-blur border-b border-border/70">
   <div class="section-shell flex items-center justify-between py-4 gap-3 relative">
     <a href={withHome("#inicio")} class="flex items-center gap-3">
-      <div class="h-11 w-11 rounded-2xl bg-gradient-to-br from-primary to-accent grid place-content-center text-secondary font-bold">
-        ND
-      </div>
+      <img
+        src="/logo.png"
+        alt={siteSettings.siteName}
+        class="h-20 w-auto rounded-2xl border border-border bg-card object-contain p-1.5"
+        loading="lazy"
+      />
       <p class="text-lg font-semibold text-content leading-tight">{siteSettings.siteName}</p>
     </a>
 

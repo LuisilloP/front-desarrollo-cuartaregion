@@ -3,7 +3,7 @@ import type { CaseStudy, Faq, LegalPage, Post, Review, Service, SiteSettings } f
 export type { CaseStudy, Faq, LegalPage, Post, Review, Service, SiteSettings };
 
 export const mockSiteSettings: SiteSettings = {
-  siteName: "NovaTech Digital",
+  siteName: "Nortech Digital",
   tagline: "Sitios y automatizaciones con performance medible.",
   region: "Santiago, Chile",
   whatsappNumber: "+56987654321",
