@@ -23,8 +23,8 @@ const stars = Array.from({ length: 5 });
 <section id="resenas" class="py-20 space-y-8" data-animate="reveal">
   <div class="section-shell flex flex-col gap-3 max-w-3xl">
     <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">Clientes felices</p>
-    <h2 class="text-3xl sm:text-4xl font-bold text-content">Reseñas</h2>
-    <p class="text-muted">Historias de dueños que venden más con sitios rápidos y automatizados.</p>
+    <h2 class="text-3xl sm:text-4xl font-bold text-content">Resenas</h2>
+    <p class="text-muted">Historias de clientes que venden mas con sitios rapidos y automatizados.</p>
   </div>
   <div class="section-shell grid gap-6 [grid-template-columns:repeat(auto-fit,minmax(260px,1fr))]">
     {sortedReviews.map((item) => {
@@ -56,6 +56,7 @@ const stars = Array.from({ length: 5 });
               {ratingValue.toFixed(1)}
             </span>
           </div>
+<<<<<<< HEAD
           <blockquote class="relative text-sm leading-relaxed text-muted">
             <svg viewBox="0 0 32 24" fill="none" class="absolute -left-1 -top-2 h-5 w-5 text-accent/40" aria-hidden="true">
               <path
@@ -76,8 +77,14 @@ const stars = Array.from({ length: 5 });
               </svg>
             ))}
           </div>
-        </article>
-      );
-    })}
+          <div class="flex items-center gap-1 text-amber-300" aria-label={`Rating ${item.rating} de 5`}>
+            {Array.from({ length: 5 }).map((_, idx) => (
+              <span aria-hidden="true">{idx < item.rating ? "★" : "☆"}</span>
+            ))}
+          </div>
+        </div>
+        <p class="text-muted text-sm leading-relaxed">“{item.quote}”</p>
+      </article>
+    ))}
   </div>
 </section>

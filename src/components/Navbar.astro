@@ -1,6 +1,7 @@
 ---
 import type { SiteSettings } from "../data/mock";
 import { buildWhatsAppLink } from "../lib/utils";
+import { Icon } from "astro-icon/components";
 
 interface Props {
   siteSettings: SiteSettings;
@@ -14,19 +15,22 @@ const navLinks = [
   { href: withHome("#inicio"), label: "Inicio" },
   { href: withHome("#servicios"), label: "Servicios" },
   { href: withHome("#casos"), label: "Casos" },
-  { href: withHome("#resenas"), label: "Reseñas" },
+  { href: withHome("#resenas"), label: "Resenas" },
   { href: withHome("#contacto"), label: "Contacto" },
   { href: withHome("#faq"), label: "FAQ" }
 ];
-const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero cotizar mi web/automatización.");
+const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero cotizar mi web o automatizacion.");
 ---
 
 <header class="sticky top-0 z-50 bg-surface/90 backdrop-blur border-b border-border/70">
   <div class="section-shell flex items-center justify-between py-4 gap-3 relative">
     <a href={withHome("#inicio")} class="flex items-center gap-3">
-      <div class="h-11 w-11 rounded-2xl bg-gradient-to-br from-primary to-accent grid place-content-center text-secondary font-bold">
-        ND
-      </div>
+      <img
+        src="/logo.png"
+        alt={siteSettings.siteName}
+        class="h-20 w-auto rounded-2xl border border-border bg-card object-contain p-1.5"
+        loading="lazy"
+      />
       <p class="text-lg font-semibold text-content leading-tight">{siteSettings.siteName}</p>
     </a>
 
@@ -43,17 +47,28 @@ const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero
         type="button"
         aria-label="Cambiar tema"
       >
-        ☀
+        <Icon
+          name="lucide:sun-medium"
+          class="h-5 w-5"
+          aria-hidden="true"
+          data-theme-icon="light"
+        />
+        <Icon
+          name="lucide:moon-star"
+          class="h-5 w-5 hidden"
+          aria-hidden="true"
+          data-theme-icon="dark"
+        />
       </button>
       <button
         id="menu-toggle"
         class="lg:hidden inline-flex items-center justify-center h-10 w-10 rounded-full border border-border text-content bg-card hover:border-primary/60"
         type="button"
-        aria-label="Abrir menú"
+        aria-label="Abrir menu"
         aria-controls="mobile-nav"
         aria-expanded="false"
       >
-        ☰
+        Menu
       </button>
     </div>
 
@@ -82,7 +97,7 @@ const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero
         rel="noreferrer"
       >
         WhatsApp
-        <span aria-hidden="true">↗</span>
+        <span aria-hidden="true">-></span>
       </a>
     </nav>
   </div>
@@ -96,6 +111,13 @@ const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero
   const overlay = document.getElementById("mobile-overlay");
   const THEME_KEY = "theme";
 
+  const setThemeIcon = (theme) => {
+    btn?.querySelectorAll("[data-theme-icon]").forEach((icon) => {
+      const target = icon.getAttribute("data-theme-icon");
+      icon.classList.toggle("hidden", target !== theme);
+    });
+  };
+
   const applyTheme = (theme) => {
     if (theme === "dark") {
       root.classList.add("dark");
@@ -103,7 +125,7 @@ const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero
       root.classList.remove("dark");
     }
     localStorage.setItem(THEME_KEY, theme);
-    if (btn) btn.textContent = theme === "dark" ? "☀" : "🌙";
+    setThemeIcon(theme);
   };
 
   const stored = localStorage.getItem(THEME_KEY);

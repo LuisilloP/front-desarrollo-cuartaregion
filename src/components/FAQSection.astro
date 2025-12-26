@@ -14,7 +14,7 @@ const sortedFaqs = [...faqs].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
   <div class="section-shell flex flex-col gap-3 max-w-3xl">
     <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">FAQ</p>
     <h2 class="text-3xl sm:text-4xl font-bold text-content">Preguntas frecuentes</h2>
-    <p class="text-muted">Respuestas rápidas. Puedes editar estas preguntas en Strapi.</p>
+    <p class="text-muted">Respuestas rapidas sobre tiempos, soporte y operaciones.</p>
   </div>
   <div class="section-shell grid md:grid-cols-2 gap-4">
     {sortedFaqs.map((faq, index) => (
