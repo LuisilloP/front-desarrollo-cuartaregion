@@ -7,30 +7,77 @@ interface Props {
 
 const { reviews } = Astro.props;
 const sortedReviews = [...reviews].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+const getInitials = (name: string) => {
+  const cleaned = (name ?? "").trim();
+  if (!cleaned) return "";
+  const parts = cleaned.split(/\s+/);
+  const first = parts[0]?.[0] ?? "";
+  const last = parts.length > 1 ? parts[parts.length - 1]?.[0] ?? "" : "";
+  return `${first}${last}`.toUpperCase();
+};
+
+const stars = Array.from({ length: 5 });
 ---
 
-<section id="resenas" class="py-20 space-y-6" data-animate="reveal">
+<section id="resenas" class="py-20 space-y-8" data-animate="reveal">
   <div class="section-shell flex flex-col gap-3 max-w-3xl">
     <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">Clientes felices</p>
     <h2 class="text-3xl sm:text-4xl font-bold text-content">Reseñas</h2>
     <p class="text-muted">Historias de dueños que venden más con sitios rápidos y automatizados.</p>
   </div>
-  <div class="section-shell grid lg:grid-cols-3 gap-6 auto-rows-fr">
-    {sortedReviews.map((item) => (
-      <article class="card flex flex-col gap-3">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-lg font-semibold text-content">{item.clientName}</p>
-            <p class="text-sm text-highlight">{item.business}</p>
+  <div class="section-shell grid gap-6 [grid-template-columns:repeat(auto-fit,minmax(260px,1fr))]">
+    {sortedReviews.map((item) => {
+      const initials = getInitials(item.clientName);
+      const ratingValue = typeof item.rating === "number" ? item.rating : 0;
+      const rating = Math.max(0, Math.min(5, Math.round(ratingValue)));
+
+      return (
+        <article class="group relative flex h-full flex-col gap-4 overflow-hidden rounded-3xl border border-border/70 bg-card/80 p-6 shadow-soft transition duration-300 hover:-translate-y-1 hover:border-primary/40">
+          <div class="pointer-events-none absolute -right-16 -top-16 h-32 w-32 rounded-full bg-primary/20 blur-3xl"></div>
+          <div class="pointer-events-none absolute -left-10 -bottom-12 h-28 w-28 rounded-full bg-accent/15 blur-3xl"></div>
+          <div class="relative flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <div class="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-primary/70 to-accent/70 text-secondary text-sm font-semibold">
+                {initials}
+              </div>
+              <div>
+                <p class="text-base font-semibold text-content">{item.clientName}</p>
+                <p class="text-xs uppercase tracking-wide text-muted">{item.business}</p>
+              </div>
+            </div>
+            <span
+              class="inline-flex items-center gap-1 rounded-full border border-amber-200/20 bg-amber-200/10 px-2 py-1 text-[11px] font-semibold text-amber-200"
+              aria-label={`Rating ${ratingValue} de 5`}
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor" class="h-3 w-3" aria-hidden="true">
+                <path d="M12 2.5l2.9 6 6.6.9-4.8 4.5 1.2 6.5L12 17.8 6.1 20.4l1.2-6.5-4.8-4.5 6.6-.9L12 2.5z" />
+              </svg>
+              {ratingValue.toFixed(1)}
+            </span>
           </div>
-          <div class="flex items-center gap-1 text-amber-300" aria-label={`Rating ${item.rating} de 5`}>
-            {Array.from({ length: 5 }).map((_, idx) => (
-              <span aria-hidden="true">{idx < item.rating ? "★" : "☆"}</span>
+          <blockquote class="relative text-sm leading-relaxed text-muted">
+            <svg viewBox="0 0 32 24" fill="none" class="absolute -left-1 -top-2 h-5 w-5 text-accent/40" aria-hidden="true">
+              <path
+                d="M12 2H4a4 4 0 0 0-4 4v8a8 8 0 0 0 8 8h4v-4H8a4 4 0 0 1-4-4V6h8V2zm20 0h-8a4 4 0 0 0-4 4v8a8 8 0 0 0 8 8h4v-4h-4a4 4 0 0 1-4-4V6h8V2z"
+                fill="currentColor"
+              />
+            </svg>
+            <p class="pl-6">{item.quote}</p>
+          </blockquote>
+          <div class="mt-auto flex items-center gap-1 text-amber-300/90" aria-hidden="true">
+            {stars.map((_, idx) => (
+              <svg
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class={`h-4 w-4 ${idx < rating ? "opacity-100" : "opacity-30"}`}
+              >
+                <path d="M12 2.5l2.9 6 6.6.9-4.8 4.5 1.2 6.5L12 17.8 6.1 20.4l1.2-6.5-4.8-4.5 6.6-.9L12 2.5z" />
+              </svg>
             ))}
           </div>
-        </div>
-        <p class="text-muted text-sm leading-relaxed">“{item.quote}”</p>
-      </article>
-    ))}
+        </article>
+      );
+    })}
   </div>
 </section>
