@@ -6,13 +6,13 @@ import { fetchPostsPage, fetchSiteSettings } from "../../lib/api/services";
 
 export const prerender = true;
 
-export const getStaticPaths = async () => {
+export async function getStaticPaths() {
   const { pagination } = await fetchPostsPage({ page: 1, pageSize: 6 });
   const totalPages = Math.max(1, pagination.pageCount ?? 1);
   return Array.from({ length: totalPages }, (_, index) => index + 1)
     .filter((pageNumber) => pageNumber > 1)
     .map((pageNumber) => ({ params: { page: pageNumber.toString() } }));
-};
+}
 
 const { page } = Astro.params;
 const pageNumber = Number(page ?? 1);
