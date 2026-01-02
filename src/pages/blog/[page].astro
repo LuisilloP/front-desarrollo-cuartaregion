@@ -4,13 +4,15 @@ import Navbar from "../../components/Navbar.astro";
 import Footer from "../../components/Footer.astro";
 import { fetchPostsPage, fetchSiteSettings } from "../../lib/api/services";
 
-export async function getStaticPaths() {
+export const prerender = true;
+
+export const getStaticPaths = async () => {
   const { pagination } = await fetchPostsPage({ page: 1, pageSize: 6 });
   const totalPages = Math.max(1, pagination.pageCount ?? 1);
   return Array.from({ length: totalPages }, (_, index) => index + 1)
     .filter((pageNumber) => pageNumber > 1)
     .map((pageNumber) => ({ params: { page: pageNumber.toString() } }));
-}
+};
 
 const { page } = Astro.params;
 const pageNumber = Number(page ?? 1);
