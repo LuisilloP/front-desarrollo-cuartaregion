@@ -8,12 +8,15 @@ interface Props {
 const { question, answer, defaultOpen = false } = Astro.props;
 ---
 
-<details class="group rounded-2xl border border-border bg-card/70 p-4" open={defaultOpen}>
+<details class="faq-item rounded-2xl border border-border bg-card/70 p-4" open={defaultOpen} data-faq>
   <summary
-    class="flex items-center justify-between cursor-pointer text-content font-semibold text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-highlight rounded"
+    class="flex items-start gap-3 cursor-pointer text-content font-semibold text-base leading-snug text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-highlight rounded"
+    data-faq-summary
   >
-    {question}
-    <span class="text-muted/70 group-open:rotate-45 transition-transform text-xl">+</span>
+    <span class="flex-1">{question}</span>
+    <span class="faq-toggle mt-0.5 text-muted/70 transition-transform text-xl">+</span>
   </summary>
-  <div class="mt-3 text-muted text-sm leading-relaxed">{answer}</div>
+  <div class="faq-answer" data-faq-content>
+    <div class="mt-3 text-muted text-sm leading-relaxed whitespace-pre-line">{answer}</div>
+  </div>
 </details>

@@ -167,12 +167,8 @@ const TESTIMONIAL_FIELDS = `
 `;
 
 const FAQ_FIELDS = `
-  documentId
   question
   answer
-  order
-  publishedAt
-  relatedService { slug title }
 `;
 
 const POST_FIELDS = `
@@ -276,12 +272,8 @@ type StrapiTestimonial = {
 };
 
 type StrapiFaq = {
-  documentId?: string | null;
   question?: string | null;
-  answer?: string | null;
-  order?: number | null;
-  publishedAt?: string | null;
-  relatedService?: { slug?: string; title?: string } | null;
+  answer?: StrapiBlocks | string | null;
 };
 
 type StrapiCategory = {
@@ -463,12 +455,8 @@ const mapTestimonial = (item: StrapiTestimonial): Testimonial => ({
 });
 
 const mapFaq = (item: StrapiFaq): Faq => ({
-  question: item.question ?? "",
-  answer: item.answer ?? "",
-  order: item.order ?? 0,
-  relatedService: item.relatedService
-    ? { slug: item.relatedService.slug ?? "", title: item.relatedService.title ?? "" }
-    : undefined
+  question: cleanText(item.question) ?? "",
+  answer: blocksToText(item.answer)
 });
 
 const mapCategory = (item?: StrapiCategory | null): Category | null => {
@@ -682,34 +670,18 @@ export const fetchTestimonials = async (): Promise<Testimonial[]> =>
       .filter(Boolean) as Testimonial[];
   }, mockReviews);
 
-export const fetchFaqs = async (serviceSlug?: string): Promise<Faq[]> =>
+export const fetchFaqs = async (): Promise<Faq[]> =>
   withFallback(async () => {
-    const withService = Boolean(serviceSlug);
     const query = `
-      query Faqs${withService ? "($serviceSlug: String!)" : ""} {
-        faqs(
-          sort: ["order:asc"]
-          filters: {
-            publishedAt: { notNull: true }
-            ${withService ? "relatedService: { slug: { eq: $serviceSlug } }" : ""}
-          }
-        ) {
+      query Faqs {
+        faqs {
           ${FAQ_FIELDS}
         }
       }
     `;
-    const data = await fetchGraphQL<{ faqs: StrapiFaq[] }>(
-      "Faqs",
-      query,
-      withService ? { serviceSlug } : undefined
-    );
+    const data = await fetchGraphQL<{ faqs: StrapiFaq[] }>("Faqs", query);
 
-    return data.faqs
-      .map((item) => {
-        if (!item.publishedAt) return undefined;
-        return mapFaq(item);
-      })
-      .filter(Boolean) as Faq[];
+    return data.faqs.map((item) => mapFaq(item)).filter(Boolean) as Faq[];
   }, mockFaqs);
 
 export type FetchPostsParams = {
@@ -842,10 +814,22 @@ export const fetchLegalPage = async (slug: string): Promise<LegalPage> =>
         }
       }
     `;
-    const data = await fetchGraphQL<{ legalPages: LegalPage[] }>("LegalPage", query, { slug });
-    const page = data.legalPages[0];
-    if (!page) throw new Error(`Legal page ${slug} not found`);
-    return page;
+
+    try {
+      const data = await fetchGraphQL<{ legalPages: LegalPage[] }>("LegalPage", query, { slug });
+      const page = data.legalPages[0];
+      if (!page) throw new Error(`Legal page ${slug} not found`);
+      return page;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error ?? "");
+      const isMissingLegal =
+        message.includes("Cannot query field") && message.includes("legalPages");
+      const isGraphqlValidation = message.includes("GRAPHQL_VALIDATION_FAILED");
+      if (isMissingLegal || isGraphqlValidation) {
+        return mockLegalPages[slug] ?? { slug, title: slug, content: "" };
+      }
+      throw error;
+    }
   }, mockLegalPages[slug] ?? { slug, title: slug, content: "" });
 
 export const fetchReviews = fetchTestimonials;

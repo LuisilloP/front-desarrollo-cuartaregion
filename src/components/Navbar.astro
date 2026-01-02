@@ -28,7 +28,7 @@ const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero
       <img
         src="/logo.png"
         alt={siteSettings.siteName}
-        class="h-20 w-auto rounded-2xl border border-border bg-card object-contain p-1.5"
+        class="h-14 w-auto rounded-2xl border border-border bg-card object-contain p-1.5"
         loading="lazy"
       />
       <p class="text-lg font-semibold text-content leading-tight">{siteSettings.siteName}</p>
@@ -68,14 +68,10 @@ const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero
         aria-controls="mobile-nav"
         aria-expanded="false"
       >
-        Menu
+        <Icon name="lucide:menu" class="h-4 w-4" aria-hidden="true" />
       </button>
     </div>
 
-    <div
-      id="mobile-overlay"
-      class="fixed inset-0 z-40 bg-surface-strong/60 opacity-0 pointer-events-none transition-opacity duration-200 hidden"
-    ></div>
     <nav
       id="mobile-nav"
       class="fixed z-50 inset-x-0 top-24 mx-auto w-[90%] max-w-sm flex flex-col gap-3 rounded-3xl border border-border bg-card text-content p-5 shadow-2xl opacity-0 -translate-y-4 scale-95 pointer-events-none transition-all duration-200 hidden"
@@ -108,7 +104,6 @@ const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero
   const btn = document.getElementById("theme-toggle");
   const menuBtn = document.getElementById("menu-toggle");
   const mobileNav = document.getElementById("mobile-nav");
-  const overlay = document.getElementById("mobile-overlay");
   const THEME_KEY = "theme";
 
   const setThemeIcon = (theme) => {
@@ -138,22 +133,18 @@ const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero
   });
 
   const showMenu = () => {
-    if (!mobileNav || !overlay || !menuBtn) return;
-    overlay.classList.remove("hidden");
+    if (!mobileNav || !menuBtn) return;
     mobileNav.classList.remove("hidden");
     requestAnimationFrame(() => {
-      overlay.classList.remove("opacity-0", "pointer-events-none");
       mobileNav.classList.remove("opacity-0", "-translate-y-4", "scale-95", "pointer-events-none");
     });
     menuBtn.setAttribute("aria-expanded", "true");
   };
 
   const hideMenu = () => {
-    if (!mobileNav || !overlay || !menuBtn) return;
-    overlay.classList.add("opacity-0", "pointer-events-none");
+    if (!mobileNav || !menuBtn) return;
     mobileNav.classList.add("opacity-0", "-translate-y-4", "scale-95", "pointer-events-none");
     const handleTransitionEnd = () => {
-      overlay.classList.add("hidden");
       mobileNav.classList.add("hidden");
       menuBtn.setAttribute("aria-expanded", "false");
     };
@@ -169,7 +160,14 @@ const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero
   };
 
   menuBtn?.addEventListener("click", toggleMenu);
-  overlay?.addEventListener("click", hideMenu);
+  document.addEventListener("click", (event) => {
+    if (!mobileNav || !menuBtn) return;
+    if (mobileNav.classList.contains("hidden")) return;
+    const target = event.target;
+    if (!(target instanceof Node)) return;
+    if (mobileNav.contains(target) || menuBtn.contains(target)) return;
+    hideMenu();
+  });
   mobileNav?.querySelectorAll("a").forEach((anchor) => {
     anchor.addEventListener("click", hideMenu);
   });

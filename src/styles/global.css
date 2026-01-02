@@ -47,6 +47,15 @@ a {
   color: rgb(var(--color-content));
 }
 
+.faq-answer {
+  overflow: hidden;
+  will-change: height, opacity, transform;
+}
+
+.faq-item[open] .faq-toggle {
+  transform: rotate(45deg);
+}
+
 [data-animate="reveal"] {
   opacity: 0;
   transform: translateY(30px) scale(0.98);

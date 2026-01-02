@@ -11,6 +11,8 @@ const metaEnvMap: EnvMap = {
   USE_MOCK_DATA: metaEnv.USE_MOCK_DATA,
   SITE_URL: metaEnv.SITE_URL,
   STRAPI_URL: metaEnv.STRAPI_URL,
+  STRAPI_INTERNAL_URL: metaEnv.STRAPI_INTERNAL_URL,
+  STRAPI_INTERNAL_GRAPHQL_URL: metaEnv.STRAPI_INTERNAL_GRAPHQL_URL,
   STRAPI_API_TOKEN: metaEnv.STRAPI_API_TOKEN,
   MODE: metaEnv.MODE
 };
@@ -33,13 +35,16 @@ const stripLeadingSlash = (value: string) => (value.startsWith("/") ? value.slic
 const joinUrl = (base: string, path: string) => `${stripTrailingSlash(base)}/${stripLeadingSlash(path)}`;
 
 const mode = getEnvValue("PUBLIC_ENV") ?? metaEnvMap.MODE ?? "development";
-const strapiUrl = getEnvValue("PUBLIC_STRAPI_URL") ?? getEnvValue("STRAPI_URL") ?? "http://localhost:1337";
-const strapiGraphqlUrl = getEnvValue("PUBLIC_STRAPI_GRAPHQL_URL") ?? joinUrl(strapiUrl, "/graphql");
+const isServer = typeof window === "undefined";
+const publicStrapiUrl = getEnvValue("PUBLIC_STRAPI_URL") ?? getEnvValue("STRAPI_URL") ?? "http://localhost:1337";
+const internalStrapiUrl = getEnvValue("STRAPI_INTERNAL_URL") ?? publicStrapiUrl;
+const publicGraphqlUrl = getEnvValue("PUBLIC_STRAPI_GRAPHQL_URL") ?? joinUrl(publicStrapiUrl, "/graphql");
+const internalGraphqlUrl = getEnvValue("STRAPI_INTERNAL_GRAPHQL_URL") ?? joinUrl(internalStrapiUrl, "/graphql");
 
 export const env = {
   publicEnv: mode,
-  strapiUrl,
-  strapiGraphqlUrl,
+  strapiUrl: publicStrapiUrl,
+  strapiGraphqlUrl: isServer ? internalGraphqlUrl : publicGraphqlUrl,
   strapiToken: getEnvValue("STRAPI_TOKEN") ?? getEnvValue("STRAPI_API_TOKEN"),
   siteUrl: getEnvValue("PUBLIC_SITE_URL") ?? getEnvValue("SITE_URL"),
   useMock: parseBool(getEnvValue("STRAPI_USE_MOCK") ?? getEnvValue("USE_MOCK_DATA"), false)

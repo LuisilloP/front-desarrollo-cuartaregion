@@ -1,0 +1,147 @@
+---
+export interface Slide {
+  src: string;
+  alt?: string;
+  position?: string;
+}
+
+interface Props {
+  slides: Slide[];
+  intervalMs?: number;
+  transitionMs?: number;
+  class?: string;
+}
+
+const { slides = [], intervalMs = 7000, transitionMs = 1200, class: className = "" } = Astro.props as Props;
+const slideshowId = `hero-slideshow-${crypto.randomUUID?.() ?? Math.random().toString(36).slice(2)}`;
+---
+
+<div
+  id={slideshowId}
+  class={`absolute inset-0 -z-10 overflow-hidden pointer-events-none isolate ${className}`}
+  data-hero-slideshow
+  data-interval={intervalMs}
+  data-transition={transitionMs}
+>
+  {slides.map((slide, index) => (
+    <img
+      data-hero-slide
+      src={slide.src}
+      alt={slide.alt ?? ""}
+      loading={index === 0 ? "eager" : "lazy"}
+      decoding={index === 0 ? "sync" : "async"}
+      fetchpriority={index === 0 ? "high" : "auto"}
+      class={`hero-slide absolute inset-0 h-full w-full object-cover transition-opacity ease-in-out ${
+        index === 0 ? "opacity-100" : "opacity-0"
+      } motion-reduce:transition-none`}
+      style={`object-position: ${slide.position ?? "center"}; transition-duration: ${transitionMs}ms;`}
+      aria-hidden="true"
+    />
+  ))}
+
+  <div class="absolute inset-0 bg-gradient-to-br from-secondary/80 via-secondary/60 to-secondary/40 backdrop-blur-[2px]"></div>
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.18),transparent_42%),radial-gradient(circle_at_80%_0%,rgba(14,165,233,0.16),transparent_38%)]"></div>
+
+  <script is:inline type="module">
+    const ready = () =>
+      new Promise((resolve) => {
+        if (document.readyState === "complete" || document.readyState === "interactive") {
+          resolve(void 0);
+        } else {
+          window.addEventListener("DOMContentLoaded", () => resolve(void 0), { once: true });
+        }
+      });
+
+    ready().then(async () => {
+      const container = document.getElementById("${slideshowId}");
+      if (!container) return;
+
+      const slides = Array.from(container.querySelectorAll("[data-hero-slide]"));
+      if (slides.length <= 1) return;
+
+      let animateFn;
+      try {
+        ({ animate: animateFn } = await import("framer-motion"));
+      } catch (error) {
+        console.warn("framer-motion no se pudo cargar, usando fallback simple", error);
+      }
+
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const interval = Number(container.dataset.interval) || 7000;
+      const transition = Number(container.dataset.transition) || 1200;
+      let activeIndex = 0;
+      let timer;
+
+      slides.forEach((slide, idx) => {
+        slide.style.opacity = idx === 0 ? "1" : "0";
+      });
+
+      const setActive = (nextIndex) => {
+        if (nextIndex === activeIndex) return;
+        const current = slides[activeIndex];
+        const next = slides[nextIndex];
+
+        if (animateFn) {
+          animateFn(
+            current,
+            { opacity: [1, 0] },
+            { duration: transition / 1000, ease: "easeInOut", overwrite: true }
+          );
+          animateFn(
+            next,
+            { opacity: [0, 1] },
+            { duration: transition / 1000, ease: "easeInOut", overwrite: true }
+          );
+        } else {
+          current.style.transition = `opacity ${transition}ms ease-in-out`;
+          next.style.transition = `opacity ${transition}ms ease-in-out`;
+          current.style.opacity = "0";
+          next.style.opacity = "1";
+        }
+
+        activeIndex = nextIndex;
+      };
+
+      const stop = () => {
+        if (timer) {
+          clearInterval(timer);
+          timer = undefined;
+        }
+      };
+
+      const start = () => {
+        if (slides.length <= 1 || prefersReducedMotion.matches) return;
+        stop();
+        timer = window.setInterval(() => {
+          const nextIndex = (activeIndex + 1) % slides.length;
+          setActive(nextIndex);
+        }, interval);
+      };
+
+      const handleMotionChange = (event) => {
+        if (event.matches) {
+          stop();
+          setActive(0);
+        } else {
+          start();
+        }
+      };
+
+      if (prefersReducedMotion.addEventListener) {
+        prefersReducedMotion.addEventListener("change", handleMotionChange);
+      } else {
+        prefersReducedMotion.onchange = handleMotionChange;
+      }
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          stop();
+        } else {
+          start();
+        }
+      });
+
+      start();
+    });
+  </script>
+</div>

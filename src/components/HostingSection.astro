@@ -2,55 +2,132 @@
 import type { SiteSettings } from "../data/mock";
 import { buildWhatsAppLink } from "../lib/utils";
 
+type UseCaseIcon = "calendar" | "package" | "messageCircle" | "layout";
+
 interface Props {
   siteSettings: SiteSettings;
 }
 
 const { siteSettings } = Astro.props;
-const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Quiero hosting administrado y mantencion integral.");
+const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero un proyecto según uno de los casos típicos.");
+const useCases: { title: string; description: string; icon: UseCaseIcon }[] = [
+  {
+    title: "Reservas y agenda",
+    description: "Confirmaciones automáticas + recordatorios por WhatsApp / correo.",
+    icon: "calendar"
+  },
+  {
+    title: "Inventario y ventas",
+    description: "Stock, movimientos, alertas y reportes semanales.",
+    icon: "package"
+  },
+  {
+    title: "Leads por WhatsApp",
+    description: "Formulario -> WhatsApp -> CRM/planilla, con etiquetas y seguimiento.",
+    icon: "messageCircle"
+  },
+  {
+    title: "Sitio administrable",
+    description: "Servicios, precios, blog y SEO local con panel de edición.",
+    icon: "layout"
+  }
+];
 ---
 
-<section class="py-16" data-animate="reveal">
-  <div class="section-shell card bg-card/90 border-border grid md:grid-cols-2 gap-8 items-center">
-    <div class="space-y-4">
-      <p class="pill bg-primary/10 border-primary/40 text-highlight">Operacion continua</p>
-      <h3 class="text-2xl sm:text-3xl font-bold text-content">Hosting, mantencion y soporte para que todo corra fino</h3>
-      <p class="text-muted">
-        Incluimos monitoreo, certificados SSL renovados, backups y despliegues controlados. Tambien hacemos limpieza y ajustes de
-        performance en tus equipos para que la experiencia digital y fisica sea consistente.
-      </p>
-      <ul class="grid sm:grid-cols-2 gap-3 text-sm text-muted">
-        <li class="flex items-start gap-2">
-          <span class="mt-1 h-2 w-2 rounded-full bg-accent"></span>Backups automaticos y restauraciones rapidas
-        </li>
-        <li class="flex items-start gap-2">
-          <span class="mt-1 h-2 w-2 rounded-full bg-accent"></span>CDN y optimizacion de rendimiento
-        </li>
-        <li class="flex items-start gap-2">
-          <span class="mt-1 h-2 w-2 rounded-full bg-accent"></span>Soporte local y priorizacion de incidencias
-        </li>
-        <li class="flex items-start gap-2">
-          <span class="mt-1 h-2 w-2 rounded-full bg-accent"></span>Panel seguro con roles, bitacoras y auditoria
-        </li>
-      </ul>
-    </div>
-    <div class="space-y-4">
-      <div class="p-5 rounded-2xl bg-gradient-to-br from-card to-surface-strong/60 border border-border">
-        <p class="text-sm text-accent mb-2 font-semibold">Que incluye la mantencion fisica?</p>
-        <ol class="space-y-3 text-muted text-sm">
-          <li>1. Limpieza antiestatica, cable management y cambio de pasta termica.</li>
-          <li>2. Stress test y ajustes de ventilacion para que tus sitios y estaciones no se caigan.</li>
-          <li>3. Reporte mensual unificado (web + hardware) para tomar decisiones rapidas.</li>
-        </ol>
+<section class="py-12 md:py-14" data-animate="reveal">
+  <div class="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-white/60 backdrop-blur-sm">
+    <div class="pointer-events-none absolute inset-0 bg-gradient-to-r from-sky-50/50 via-transparent to-accent/5"></div>
+    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 overflow-hidden rounded-3xl border border-slate-200/60 bg-white/80 shadow-sm backdrop-blur-sm">
+      <div class="pointer-events-none absolute -right-10 top-0 h-32 w-32 rounded-full bg-sky-400/12 blur-2xl"></div>
+
+      <div class="relative grid items-center gap-6 md:gap-8 md:grid-cols-[1.2fr,1fr] py-8 md:py-10">
+        <div class="space-y-4">
+          <p class="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-gradient-to-r from-primary/10 to-accent/10 px-3 py-1.5 text-[11px] font-semibold text-highlight shadow-sm">
+            <span class="h-2 w-2 rounded-full bg-highlight shadow-[0_0_0_4px] shadow-highlight/20"></span>
+            Casos comunes
+          </p>
+          <div class="space-y-2">
+            <h2 class="text-3xl sm:text-4xl font-semibold text-content leading-snug tracking-tight">¿Qué necesitas hoy? Nosotros lo construimos</h2>
+            <p class="text-sm sm:text-base text-muted">Elige un caso típico y lo adaptamos a tu negocio.</p>
+          </div>
+          <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noreferrer"
+              class="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary to-accent px-5 py-3 text-sm font-semibold text-secondary shadow-md transition hover:-translate-y-0.5 hover:shadow-lg"
+              aria-label="Quiero mi caso"
+            >
+              Quiero mi caso
+            </a>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {useCases.map((item) => (
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noreferrer"
+              class="group flex items-start gap-4 md:gap-5 rounded-xl border border-slate-200/70 bg-slate-50/80 p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md"
+            >
+              <div class="shrink-0 grid place-items-center h-10 w-10 md:h-12 md:w-12 rounded-xl bg-gradient-to-br from-sky-500/15 to-indigo-500/10 text-highlight ring-1 ring-sky-500/20">
+                {(() => {
+                  switch (item.icon) {
+                    case "calendar":
+                      return (
+                        <svg viewBox="0 0 24 24" fill="none" class="h-5 w-5 md:h-6 md:w-6" aria-hidden="true">
+                          <rect x="4" y="5" width="16" height="15" rx="2" stroke="currentColor" stroke-width="1.6" />
+                          <path d="M8 3v4M16 3v4M4 10h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                          <path d="M9 13h2v2H9zM13 13h2v2h-2z" fill="currentColor" />
+                        </svg>
+                      );
+                    case "package":
+                      return (
+                        <svg viewBox="0 0 24 24" fill="none" class="h-5 w-5 md:h-6 md:w-6" aria-hidden="true">
+                          <path
+                            d="M4 7.5L12 12l8-4.5M4 7.5l8-4.5 8 4.5M4 7.5V16l8 4.5 8-4.5V7.5"
+                            stroke="currentColor"
+                            stroke-width="1.6"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path d="M12 12v8.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                      );
+                    case "messageCircle":
+                      return (
+                        <svg viewBox="0 0 24 24" fill="none" class="h-5 w-5 md:h-6 md:w-6" aria-hidden="true">
+                          <path
+                            d="M20 11.5c0 4.142-3.582 7.5-8 7.5-.88 0-1.727-.127-2.52-.364-.32-.096-.48-.144-.602-.159a1 1 0 0 0-.307.01c-.122.027-.253.101-.515.248l-2.684 1.5.605-2.58c.115-.49.172-.735.163-.941a1 1 0 0 0-.146-.458c-.099-.166-.26-.305-.58-.584C4.588 15.63 4 13.986 4 12c0-4.142-3.582-7.5 8-7.5s8 3.358 8 7.5Z"
+                            stroke="currentColor"
+                            stroke-width="1.6"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path d="M9 11.5h6M9 9h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                        </svg>
+                      );
+                    case "layout":
+                      return (
+                        <svg viewBox="0 0 24 24" fill="none" class="h-5 w-5 md:h-6 md:w-6" aria-hidden="true">
+                          <rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.6" />
+                          <path d="M9.5 4v16M4 10h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                        </svg>
+                      );
+                    default:
+                      return null;
+                  }
+                })()}
+              </div>
+              <div class="space-y-1">
+                <h3 class="text-base font-semibold text-content leading-snug">{item.title}</h3>
+                <p class="text-xs text-muted leading-relaxed line-clamp-2 md:line-clamp-1">{item.description}</p>
+              </div>
+            </a>
+          ))}
+        </div>
       </div>
-      <a
-        href={whatsappUrl}
-        target="_blank"
-        rel="noreferrer"
-        class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-secondary font-semibold shadow-soft hover:shadow-lg transition w-full sm:w-auto"
-      >
-        Quiero operacion con mantencion
-      </a>
     </div>
   </div>
 </section>

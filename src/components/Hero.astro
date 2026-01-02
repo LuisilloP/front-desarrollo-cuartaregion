@@ -2,6 +2,7 @@
 import type { SiteSettings } from "../data/mock";
 import { buildWhatsAppLink } from "../lib/utils";
 import { Icon } from "astro-icon/components";
+import HeroBackgroundSlideshow from "./hero/HeroBackgroundSlideshow";
 
 interface Props {
   siteSettings: SiteSettings;
@@ -9,97 +10,77 @@ interface Props {
 
 const { siteSettings } = Astro.props;
 const region = siteSettings.region || "Region Metropolitana";
-const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero una web y automatizacion para mi negocio.");
+const whatsappUrl = buildWhatsAppLink(
+  siteSettings.whatsappNumber,
+  "Hola! Quiero una web y automatizacion para mi negocio."
+);
+
+const slides = [
+  {
+    src: "/images/hero/coquimbo.jpg",
+    alt: "Bahia y puerto de Coquimbo",
+    position: "center",
+  },
+  {
+    src: "/images/hero/serena.png",
+    alt: "Atardecer en La Serena",
+    position: "center",
+  },
+  {
+    src: "/images/hero/astro.png",
+    alt: "Cielo estrellado en Valle del Elqui",
+    position: "center",
+  },
+];
 ---
 
-<section id="inicio" class="relative overflow-hidden pb-24 pt-12 sm:pt-20" data-animate="reveal">
+<section
+  id="inicio"
+  class="relative isolate overflow-hidden pb-24 pt-14 sm:pt-24 lg:pt-28"
+  data-animate="reveal"
+>
+  <HeroBackgroundSlideshow client:load slides={slides} intervalMs={7000} transitionMs={1200} />
+
   <div class="absolute inset-0 pointer-events-none">
-    <div class="absolute -top-24 -left-10 w-80 h-80 bg-primary/20 rounded-full blur-3xl"></div>
-    <div class="absolute top-10 right-0 w-96 h-96 bg-accent/20 rounded-full blur-3xl"></div>
+    <div
+      class="absolute -top-24 -left-10 w-80 h-80 bg-primary/25 rounded-full blur-3xl"
+    >
+    </div>
+    <div
+      class="absolute top-10 right-0 w-96 h-96 bg-accent/25 rounded-full blur-3xl"
+    >
+    </div>
   </div>
-  <div class="section-shell relative grid lg:grid-cols-2 gap-12 items-center">
-    <div class="space-y-6">
-      <div class="pill w-fit bg-primary/10 border-primary/40 text-highlight">
-        <span class="h-2 w-2 rounded-full bg-accent"></span>
+
+  <div class="section-shell relative grid items-center gap-12 lg:gap-16">
+    <div class="relative z-10 space-y-7 text-contrast max-w-3xl">
+      <div class="pill w-fit bg-white/10 border-white/25 text-contrast/90 backdrop-blur-[1px] shadow-soft">
+        <span class="h-2 w-2 rounded-full bg-highlight"></span>
         Agencia local - {region}
       </div>
-      <h1 class="text-4xl sm:text-5xl font-bold text-content leading-tight">
-        Sitios y automatizaciones de WhatsApp para negocios que quieren crecer
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-display font-semibold leading-[1.05] tracking-tight">
+        Desarrollamos el sistema o pagina que tu negocio necesita.
       </h1>
-      <p class="text-lg text-muted max-w-2xl">
-        Disenamos y lanzamos rapido: landings, reservas, bots y soporte TI para que tu equipo venda mas y dedique menos tiempo a
-        tareas repetitivas.
+      <p class="text-lg sm:text-xl text-contrast/80 max-w-2xl leading-relaxed">
+        Creamos landing pages, sitios administrables y sistemas de gestion (inventario, reservas y paneles). Automatizamos
+        procesos con WhatsApp y flujos para que tu equipo ahorre tiempo y venda mas.
       </p>
-      <div class="flex flex-wrap gap-3">
+      <div class="flex flex-wrap gap-4">
         <a
-          class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-secondary font-semibold shadow-soft hover:shadow-lg transition"
+          class="inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-gradient-to-r from-primary to-accent text-contrast font-semibold shadow-soft hover:shadow-lg hover:scale-[1.01] transition"
           href={whatsappUrl}
           target="_blank"
           rel="noreferrer"
         >
-          {siteSettings.primaryCTA || "Hablemos por WhatsApp"}
-          <span aria-hidden="true">-></span>
+          {siteSettings.primaryCTA || "Agenda una llamada"}
+          <span aria-hidden="true" class="text-xl leading-none">-&gt;</span>
         </a>
         <a
-          class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-secondary text-contrast border border-border hover:border-highlight transition"
+          class="inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-white/12 text-contrast border border-white/25 hover:border-highlight transition backdrop-blur-[1px]"
           href="#servicios"
         >
-          {siteSettings.secondaryCTA || "Ver planes"}
+          {siteSettings.secondaryCTA || "Ver servicios"}
         </a>
-      </div>
-      <div class="grid sm:grid-cols-3 gap-3 text-sm text-muted">
-        <div class="card flex flex-col gap-2">
-          <div class="flex items-center gap-2 text-content">
-            <Icon name="lucide:rocket" class="h-5 w-5 flex-shrink-0 text-accent" aria-hidden="true" />
-            <p class="font-semibold">Entrega rapida</p>
-          </div>
-          <p class="text-muted leading-relaxed">Landings y funnels listos en menos de 7 dias habiles.</p>
-        </div>
-        <div class="card flex flex-col gap-2">
-          <div class="flex items-center gap-2 text-content">
-            <Icon name="lucide:headset" class="h-5 w-5 flex-shrink-0 text-accent" aria-hidden="true" />
-            <p class="font-semibold">Soporte local</p>
-          </div>
-          <p class="text-muted leading-relaxed">Equipo basado en la region, horario Chile y soporte directo.</p>
-        </div>
-        <div class="card flex flex-col gap-2">
-          <div class="flex items-center gap-2 text-content">
-            <Icon name="lucide:shield-check" class="h-5 w-5 flex-shrink-0 text-accent" aria-hidden="true" />
-            <p class="font-semibold">Monitoreo y mantencion</p>
-          </div>
-          <p class="text-muted leading-relaxed">Backups, parches y limpieza programada para tu stack y equipos.</p>
-        </div>
-      </div>
-    </div>
-    <div class="relative">
-      <div class="card bg-gradient-to-br from-card/90 to-card/70 border-border">
-        <p class="text-sm text-accent mb-2 font-semibold">Checklist de lanzamiento</p>
-        <ul class="space-y-3 text-content">
-          <li class="flex items-start gap-3">
-            <span class="h-6 w-6 rounded-full bg-accent/15 text-accent grid place-content-center">
-              <span class="block h-2 w-2 rounded-full bg-accent"></span>
-            </span>
-            Diseno enfocado en conversion y SEO local.
-          </li>
-          <li class="flex items-start gap-3">
-            <span class="h-6 w-6 rounded-full bg-accent/15 text-accent grid place-content-center">
-              <span class="block h-2 w-2 rounded-full bg-accent"></span>
-            </span>
-            Integracion a WhatsApp, flujos y CRM sin codigo.
-          </li>
-          <li class="flex items-start gap-3">
-            <span class="h-6 w-6 rounded-full bg-accent/15 text-accent grid place-content-center">
-              <span class="block h-2 w-2 rounded-full bg-accent"></span>
-            </span>
-            Panel de edicion para contenido y precios.
-          </li>
-          <li class="flex items-start gap-3">
-            <span class="h-6 w-6 rounded-full bg-accent/15 text-accent grid place-content-center">
-              <span class="block h-2 w-2 rounded-full bg-accent"></span>
-            </span>
-            Monitoreo y respaldos listos para operaciones.
-          </li>
-        </ul>
       </div>
     </div>
   </div>

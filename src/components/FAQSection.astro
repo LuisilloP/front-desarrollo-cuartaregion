@@ -16,9 +16,123 @@ const sortedFaqs = [...faqs].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
     <h2 class="text-3xl sm:text-4xl font-bold text-content">Preguntas frecuentes</h2>
     <p class="text-muted">Respuestas rapidas sobre tiempos, soporte y operaciones.</p>
   </div>
-  <div class="section-shell grid md:grid-cols-2 gap-4">
+  <div class="section-shell grid gap-4">
     {sortedFaqs.map((faq, index) => (
       <AccordionItem question={faq.question} answer={faq.answer} defaultOpen={index === 0} />
     ))}
   </div>
 </section>
+
+<script is:inline>
+  (() => {
+    if (typeof window === "undefined") return;
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const items = document.querySelectorAll("[data-faq]");
+
+    items.forEach((item) => {
+      if (!(item instanceof HTMLDetailsElement)) return;
+      const summary = item.querySelector("[data-faq-summary]");
+      const content = item.querySelector("[data-faq-content]");
+      if (!(summary instanceof HTMLElement) || !(content instanceof HTMLElement)) return;
+
+      let animation;
+      let isClosing = false;
+      let isExpanding = false;
+
+      const setCollapsed = () => {
+        content.style.height = "0px";
+        content.style.opacity = "0";
+        content.style.transform = "translateY(-4px)";
+      };
+
+      const setExpanded = () => {
+        content.style.height = "auto";
+        content.style.opacity = "1";
+        content.style.transform = "translateY(0)";
+      };
+
+      const open = () => {
+        if (isClosing) return;
+        isExpanding = true;
+        item.open = true;
+
+        if (prefersReducedMotion) {
+          setExpanded();
+          isExpanding = false;
+          return;
+        }
+
+        content.style.height = "0px";
+        content.style.opacity = "0";
+        content.style.transform = "translateY(-4px)";
+
+        const endHeight = content.scrollHeight;
+        if (animation) animation.cancel();
+        animation = content.animate(
+          { height: ["0px", `${endHeight}px`], opacity: [0, 1], transform: ["translateY(-4px)", "translateY(0)"] },
+          { duration: 260, easing: "ease-out" }
+        );
+
+        animation.onfinish = () => {
+          setExpanded();
+          animation = null;
+          isExpanding = false;
+        };
+
+        animation.oncancel = () => {
+          isExpanding = false;
+        };
+      };
+
+      const close = () => {
+        if (isExpanding) return;
+        isClosing = true;
+
+        if (prefersReducedMotion) {
+          item.open = false;
+          setCollapsed();
+          isClosing = false;
+          return;
+        }
+
+        const startHeight = content.offsetHeight;
+        if (animation) animation.cancel();
+        animation = content.animate(
+          {
+            height: [`${startHeight}px`, "0px"],
+            opacity: [1, 0],
+            transform: ["translateY(0)", "translateY(-4px)"]
+          },
+          { duration: 220, easing: "ease-out" }
+        );
+
+        animation.onfinish = () => {
+          item.open = false;
+          setCollapsed();
+          animation = null;
+          isClosing = false;
+        };
+
+        animation.oncancel = () => {
+          isClosing = false;
+        };
+      };
+
+      if (item.open) {
+        setExpanded();
+      } else {
+        setCollapsed();
+      }
+
+      summary.addEventListener("click", (event) => {
+        event.preventDefault();
+        if (item.open) {
+          close();
+        } else {
+          open();
+        }
+      });
+    });
+  })();
+</script>
