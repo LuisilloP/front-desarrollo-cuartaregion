@@ -15,7 +15,7 @@ const whatsappUrl = buildWhatsAppLink(
   "Hola! Quiero una web y automatizacion para mi negocio."
 );
 
-const slides = [
+const heroImages = [
   {
     src: "/images/hero/coquimbo.jpg",
     alt: "Bahia y puerto de Coquimbo",
@@ -32,55 +32,70 @@ const slides = [
     position: "center",
   },
 ];
+
+const heroBg = heroImages[0];
+const slides = heroImages.length ? heroImages : [heroBg];
 ---
 
 <section
   id="inicio"
-  class="relative isolate overflow-hidden pb-24 pt-14 sm:pt-24 lg:pt-28"
+  class="relative isolate min-h-screen overflow-hidden text-contrast"
   data-animate="reveal"
 >
-  <HeroBackgroundSlideshow client:load slides={slides} intervalMs={7000} transitionMs={1200} />
+  <HeroBackgroundSlideshow
+    client:load
+    slides={slides}
+    intervalMs={7000}
+    transitionMs={1200}
+  />
 
-  <div class="absolute inset-0 pointer-events-none">
-    <div
-      class="absolute -top-24 -left-10 w-80 h-80 bg-primary/25 rounded-full blur-3xl"
-    >
-    </div>
-    <div
-      class="absolute top-10 right-0 w-96 h-96 bg-accent/25 rounded-full blur-3xl"
-    >
-    </div>
-  </div>
-
-  <div class="section-shell relative grid items-center gap-12 lg:gap-16">
-    <div class="relative z-10 space-y-7 text-contrast max-w-3xl">
-      <div class="pill w-fit bg-white/10 border-white/25 text-contrast/90 backdrop-blur-[1px] shadow-soft">
-        <span class="h-2 w-2 rounded-full bg-highlight"></span>
+  <div
+    class="section-shell relative z-10 flex min-h-screen items-center py-24 sm:py-28 lg:py-32"
+  >
+    <div class="max-w-3xl space-y-8 mt-32">
+      <div
+        class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm backdrop-blur"
+      >
+        <span
+          class="h-2 w-2 rounded-full bg-highlight shadow-[0_0_0_6px_rgba(255,255,255,0.08)]"
+        ></span>
         Agencia local - {region}
       </div>
-      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-display font-semibold leading-[1.05] tracking-tight">
-        Desarrollamos el sistema o pagina que tu negocio necesita.
+      <h1
+        class="text-4xl sm:text-5xl lg:text-6xl font-display font-semibold leading-[1.05] tracking-tight"
+      >
+        Desarrollamos la web o sistema que tu negocio necesita
       </h1>
-      <p class="text-lg sm:text-xl text-contrast/80 max-w-2xl leading-relaxed">
-        Creamos landing pages, sitios administrables y sistemas de gestion (inventario, reservas y paneles). Automatizamos
-        procesos con WhatsApp y flujos para que tu equipo ahorre tiempo y venda mas.
+      <p class="text-lg sm:text-xl text-contrast/85 max-w-2xl leading-relaxed">
+        Landing pages, sitios administrables y sistemas de gestion.
+        Automatizamos procesos con WhatsApp para que vendas mas.
       </p>
       <div class="flex flex-wrap gap-4">
         <a
-          class="inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-gradient-to-r from-primary to-accent text-contrast font-semibold shadow-soft hover:shadow-lg hover:scale-[1.01] transition"
+          class="inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-white text-secondary font-semibold shadow-[0_18px_40px_rgba(0,0,0,0.35)] transition hover:-translate-y-0.5 hover:shadow-[0_25px_60px_rgba(0,0,0,0.35)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           href={whatsappUrl}
           target="_blank"
           rel="noreferrer"
         >
           {siteSettings.primaryCTA || "Agenda una llamada"}
-          <span aria-hidden="true" class="text-xl leading-none">-&gt;</span>
+          <span aria-hidden="true" class="text-lg leading-none">-&gt;</span>
         </a>
         <a
-          class="inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-white/12 text-contrast border border-white/25 hover:border-highlight transition backdrop-blur-[1px]"
+          class="inline-flex items-center gap-3 px-7 py-3.5 rounded-full border border-white/35 bg-white/5 text-contrast/90 transition hover:bg-white/12 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
           href="#servicios"
         >
           {siteSettings.secondaryCTA || "Ver servicios"}
         </a>
+      </div>
+      <div class="flex flex-wrap gap-6 text-sm text-contrast/70">
+        <div class="flex items-center gap-2">
+          <span class="h-2 w-2 rounded-full bg-white/60"></span>
+          Integraciones con WhatsApp, CRM y pagos
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="h-2 w-2 rounded-full bg-white/60"></span>
+          Lanzamientos en semanas, no meses
+        </div>
       </div>
     </div>
   </div>
