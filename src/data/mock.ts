@@ -190,24 +190,40 @@ export const mockReviews: Review[] = [
 
 export const mockFaqs: Faq[] = [
   {
-    question: "Cuanto demoramos en lanzar?",
-    answer: "Landings en 5-7 dias habiles. Proyectos con reservas o bots avanzados entre 2 y 3 semanas.",
+    question: "Cuanto tarda cada tipo de proyecto?",
+    answer:
+      "Landings de conversion salen en 5-7 dias habiles. Sitios con reservas o pasarela en 2-3 semanas. Automatizaciones y bots en 10-14 dias. Mantencion TI se activa la misma semana.",
     order: 1
   },
   {
-    question: "Incluyen hosting y dominio?",
-    answer: "Podemos administrarlos. Conectamos tu dominio o te ayudamos a gestionarlo a tu nombre.",
+    question: "Como aseguramos que convierta?",
+    answer:
+      "Arrancamos con oferta y mensajes validados, agregamos pruebas sociales, formularios claros y analytics listos para medir. Incluimos una ronda de ajustes con datos reales.",
     order: 2
   },
   {
-    question: "Puedo editar el contenido?",
-    answer: "Si. Dejamos un panel para textos, precios, FAQ y casos sin tocar codigo.",
+    question: "Se integra con mi CRM, agenda o pasarela?",
+    answer:
+      "Si. Conectamos con HubSpot, Pipedrive, Notion, Google Calendar o agendas medicas. Para pagos usamos Webpay, MercadoPago o Stripe segun tu rubro.",
     order: 3
   },
   {
-    question: "Ofrecen soporte local?",
-    answer: "Soporte en horario laboral Chile (09:00 a 19:00) por WhatsApp o correo, con SLA de 24h habiles.",
+    question: "Que pasa con hosting, dominio y seguridad?",
+    answer:
+      "Podemos administrarlos a tu nombre. Configuramos SSL, backups y monitoreo basico. En mantencion TI agregamos parches, antivirus gestionado y reportes mensuales.",
     order: 4
+  },
+  {
+    question: "Puedo editar y medir sin soporte?",
+    answer:
+      "Si. Dejamos panel para textos, precios, FAQ y casos sin tocar codigo. Entregamos dashboard con visitas, conversiones y origenes para que marketing decida rapido.",
+    order: 5
+  },
+  {
+    question: "Como es el soporte y SLA?",
+    answer:
+      "Atendemos por WhatsApp y correo en horario laboral Chile (09:00 a 19:00) con SLA de 24h habiles. Para urgencias TI ofrecemos soporte on-site y remoto segun plan.",
+    order: 6
   }
 ];
 

@@ -1,6 +1,7 @@
 ---
 import type { Service } from "../data/mock";
 import ServiceCard from "./ServiceCard.astro";
+import { Icon } from "astro-icon/components";
 
 interface Props {
   services: Service[];
@@ -32,7 +33,10 @@ const sortedServices = [...services].sort((a, b) => (a.order ?? 0) - (b.order ??
 
 <section id="servicios" class="py-20 space-y-8" data-animate="reveal">
   <div class="section-shell flex flex-col gap-4">
-    <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">Planes listos para lanzar</p>
+    <p class="pill inline-flex items-center gap-2 w-fit bg-primary/10 border-primary/40 text-highlight">
+      <Icon name="lucide:rocket" class="h-4 w-4 text-highlight/80" />
+      Planes listos para lanzar
+    </p>
     <div class="flex flex-col gap-3 max-w-3xl">
       <h2 class="text-3xl sm:text-4xl font-bold text-content">Servicios agrupados por lo que mas necesitas</h2>
       <p class="text-muted">
