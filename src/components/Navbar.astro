@@ -20,82 +20,111 @@ const navLinks = [
   { href: withHome("#faq"), label: "FAQ" }
 ];
 const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero cotizar mi web o automatizacion.");
+
+const headerClass = isHome
+  ? "fixed inset-x-0 top-0 z-50"
+  : "sticky top-0 z-50 bg-surface/90 backdrop-blur border-b border-border/70";
+const shellClass = isHome ? "section-shell pt-6 pb-3" : "section-shell py-3";
+const panelClass = isHome
+  ? "flex items-center justify-between gap-3 rounded-3xl bg-secondary/75 text-contrast shadow-[0_18px_80px_rgba(0,0,0,0.45)] backdrop-blur-xl px-4 sm:px-6 py-3"
+  : "flex items-center justify-between gap-3 rounded-3xl border border-border/80 bg-surface/90 text-content shadow-soft backdrop-blur px-4 sm:px-6 py-3";
+const logoBgClass = isHome ? "border border-transparent bg-white/10" : "border border-border bg-card";
+const titleClass = isHome ? "text-lg font-semibold text-contrast leading-tight" : "text-lg font-semibold text-content leading-tight";
+const navLinkClass = isHome
+  ? "text-contrast/80 hover:text-contrast transition-colors"
+  : "text-muted hover:text-content transition-colors";
+const iconBtnClass = isHome
+  ? "items-center justify-center h-10 w-10 rounded-full border border-transparent text-contrast bg-white/10 hover:bg-white/15"
+  : "items-center justify-center h-10 w-10 rounded-full border border-border text-content bg-card hover:border-primary/60";
+const mobileNavClass = `fixed z-50 inset-x-0 top-24 mx-auto w-[90%] max-w-sm flex flex-col gap-3 rounded-3xl p-5 shadow-2xl opacity-0 -translate-y-4 scale-95 pointer-events-none transition-all duration-200 hidden ${
+  isHome
+    ? "border border-white/15 bg-secondary/95 text-contrast backdrop-blur-xl shadow-[0_22px_90px_rgba(0,0,0,0.55)]"
+    : "border border-border bg-card text-content"
+}`;
+const mobileLinkClass = isHome
+  ? "px-4 py-3 rounded-2xl bg-white/5 text-left font-semibold text-contrast shadow-sm border border-white/10 hover:border-white/20 hover:bg-white/10"
+  : "px-4 py-3 rounded-2xl bg-card text-left font-semibold text-content shadow-sm border border-border/80 hover:border-primary/40 hover:bg-surface-strong/20";
+const mobileCtaClass = isHome
+  ? "mt-4 inline-flex items-center gap-2 px-4 py-3 rounded-full bg-white text-secondary font-semibold shadow-[0_15px_60px_rgba(0,0,0,0.4)] hover:-translate-y-0.5 transition justify-center"
+  : "mt-4 inline-flex items-center gap-2 px-4 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-secondary font-semibold shadow-soft hover:shadow-lg transition justify-center";
 ---
 
-<header class="sticky top-0 z-50 bg-surface/90 backdrop-blur border-b border-border/70">
-  <div class="section-shell flex items-center justify-between py-4 gap-3 relative">
-    <a href={withHome("#inicio")} class="flex items-center gap-3">
-      <img
-        src="/logo.png"
-        alt={siteSettings.siteName}
-        class="h-14 w-auto rounded-2xl border border-border bg-card object-contain p-1.5"
-        loading="lazy"
-      />
-      <p class="text-lg font-semibold text-content leading-tight">{siteSettings.siteName}</p>
-    </a>
-
-    <nav class="hidden lg:flex items-center gap-6 text-sm text-muted">
-      {navLinks.map((link) => (
-        <a class="hover:text-content transition-colors" href={link.href}>{link.label}</a>
-      ))}
-    </nav>
-
-    <div class="flex items-center gap-2">
-      <button
-        id="theme-toggle"
-        class="hidden sm:inline-flex items-center justify-center h-10 w-10 rounded-full border border-border text-content bg-card hover:border-primary/60"
-        type="button"
-        aria-label="Cambiar tema"
-      >
-        <Icon
-          name="lucide:sun-medium"
-          class="h-5 w-5"
-          aria-hidden="true"
-          data-theme-icon="light"
+<header class={headerClass}>
+  <div class={shellClass}>
+    <div class={panelClass}>
+      <a href={withHome("#inicio")} class="flex items-center gap-3">
+        <img
+          src="/logo.png"
+          alt={siteSettings.siteName}
+          class={`h-14 w-auto rounded-2xl object-contain p-1.5 ${logoBgClass}`}
+          loading="lazy"
         />
-        <Icon
-          name="lucide:moon-star"
-          class="h-5 w-5 hidden"
-          aria-hidden="true"
-          data-theme-icon="dark"
-        />
-      </button>
-      <button
-        id="menu-toggle"
-        class="lg:hidden inline-flex items-center justify-center h-10 w-10 rounded-full border border-border text-content bg-card hover:border-primary/60"
-        type="button"
-        aria-label="Abrir menu"
-        aria-controls="mobile-nav"
-        aria-expanded="false"
-      >
-        <Icon name="lucide:menu" class="h-4 w-4" aria-hidden="true" />
-      </button>
-    </div>
-
-    <nav
-      id="mobile-nav"
-      class="fixed z-50 inset-x-0 top-24 mx-auto w-[90%] max-w-sm flex flex-col gap-3 rounded-3xl border border-border bg-card text-content p-5 shadow-2xl opacity-0 -translate-y-4 scale-95 pointer-events-none transition-all duration-200 hidden"
-    >
-      <div class="flex flex-col gap-2">
-        {navLinks.map((link) => (
-          <a
-            class="px-4 py-3 rounded-2xl bg-card text-left font-semibold text-content shadow-sm border border-border/80 hover:border-primary/40 hover:bg-surface-strong/20"
-            href={link.href}
-          >
-            {link.label}
-          </a>
-        ))}
-      </div>
-      <a
-        class="mt-4 inline-flex items-center gap-2 px-4 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-secondary font-semibold shadow-soft hover:shadow-lg transition justify-center"
-        href={whatsappUrl}
-        target="_blank"
-        rel="noreferrer"
-      >
-        WhatsApp
-        <span aria-hidden="true">-></span>
+        <p class={titleClass}>{siteSettings.siteName}</p>
       </a>
-    </nav>
+
+      <nav class="hidden lg:flex items-center gap-6 text-sm">
+        {navLinks.map((link) => (
+          <a class={navLinkClass} href={link.href}>{link.label}</a>
+        ))}
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <button
+          id="theme-toggle"
+          class={`hidden sm:inline-flex ${iconBtnClass}`}
+          type="button"
+          aria-label="Cambiar tema"
+        >
+          <Icon
+            name="lucide:sun-medium"
+            class="h-5 w-5"
+            aria-hidden="true"
+            data-theme-icon="light"
+          />
+          <Icon
+            name="lucide:moon-star"
+            class="h-5 w-5 hidden"
+            aria-hidden="true"
+            data-theme-icon="dark"
+          />
+        </button>
+        <button
+          id="menu-toggle"
+          class={`lg:hidden inline-flex ${iconBtnClass}`}
+          type="button"
+          aria-label="Abrir menu"
+          aria-controls="mobile-nav"
+          aria-expanded="false"
+        >
+          <Icon name="lucide:menu" class="h-4 w-4" aria-hidden="true" />
+        </button>
+      </div>
+
+      <nav
+        id="mobile-nav"
+        class={mobileNavClass}
+      >
+        <div class="flex flex-col gap-2">
+          {navLinks.map((link) => (
+            <a
+              class={mobileLinkClass}
+              href={link.href}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+        <a
+          class={mobileCtaClass}
+          href={whatsappUrl}
+          target="_blank"
+          rel="noreferrer"
+        >
+          WhatsApp
+          <span aria-hidden="true">-></span>
+        </a>
+      </nav>
+    </div>
   </div>
 </header>
 
