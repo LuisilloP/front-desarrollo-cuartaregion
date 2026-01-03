@@ -13,6 +13,9 @@ declare namespace NodeJS {
     SITE_URL?: string;
     STRAPI_URL?: string;
     STRAPI_API_TOKEN?: string;
+    STRAPI_INTERNAL_URL?: string;
+    STRAPI_INTERNAL_GRAPHQL_URL?: string;
+    NODE_ENV?: string;
   }
 }
 
@@ -27,6 +30,9 @@ interface ImportMetaEnv {
   readonly SITE_URL?: string;
   readonly STRAPI_URL?: string;
   readonly STRAPI_API_TOKEN?: string;
+  readonly STRAPI_INTERNAL_URL?: string;
+  readonly STRAPI_INTERNAL_GRAPHQL_URL?: string;
+  readonly NODE_ENV?: string;
 }
 
 interface ImportMeta {

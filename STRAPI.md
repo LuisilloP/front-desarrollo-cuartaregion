@@ -5,7 +5,7 @@ Este documento explica como funciona la integracion Strapi v5 (GraphQL) en este 
 ## 1) Flujo de datos (de ENV a la UI)
 
 1. **Variables de entorno** se cargan desde `.env` / `.env.example`.
-2. **`src/lib/env.ts`** expone `env` con `strapiGraphqlUrl`, `strapiToken`, `useMock`, etc.
+2. **`src/lib/env.ts`** expone `useMocks()`, `getStrapiUrl()`, `getStrapiGraphqlUrl()`, `getStrapiToken()` y `assertStrapiConfig()`.
 3. **`src/lib/api/strapi.ts`** usa `env` para ejecutar GraphQL (`fetchGraphQL`).
 4. **`src/lib/api/services.ts`** define queries y mapea la respuesta a tipos del frontend.
 5. **Paginas Astro** llaman funciones como `fetchCases`, `getServicesList`, `fetchSiteSettings`.
@@ -17,16 +17,20 @@ En modo dev, si hay errores de Strapi, el wrapper puede caer a mocks (`withFallb
 
 Revisa `.env.example` y `.env`. Variables usadas:
 
-- `PUBLIC_STRAPI_URL`: base URL del backend (ej: `http://localhost:1337`).
-- `PUBLIC_STRAPI_GRAPHQL_URL`: endpoint GraphQL (ej: `http://localhost:1337/graphql`).
-- `STRAPI_TOKEN`: token Bearer si el API no es publico.
+- `USE_MOCK_DATA`: por defecto `true`. Si falta `STRAPI_URL`, tambien se activan mocks. `STRAPI_USE_MOCK` funciona como alias.
+- `STRAPI_URL`: base URL del backend para el build (ej: `http://localhost:1337`). Para cliente usa `PUBLIC_STRAPI_URL`.
+- `PUBLIC_STRAPI_URL` / `PUBLIC_STRAPI_GRAPHQL_URL`: solo si necesitas la URL en cliente.
+- `STRAPI_API_TOKEN` o `STRAPI_TOKEN`: token Bearer si el API no es publico.
 - `PUBLIC_SITE_URL`: URL del front para OG/sitemap.
 - `PUBLIC_ENV`: `development` o `production`.
-- `STRAPI_USE_MOCK`: `true` fuerza mocks en dev.
+- `STRAPI_INTERNAL_GRAPHQL_URL`: opcional para usar una URL interna en server.
 
 Resolucion en `src/lib/env.ts`:
-- `strapiGraphqlUrl` usa `PUBLIC_STRAPI_GRAPHQL_URL`, o cae a `${PUBLIC_STRAPI_URL}/graphql`.
-- `strapiToken` usa `STRAPI_TOKEN` o `STRAPI_API_TOKEN`.
+- `useMocks()` es `true` si `USE_MOCK_DATA=true` o falta `STRAPI_URL`.
+- `getStrapiUrl()` prioriza `STRAPI_URL` y luego `PUBLIC_STRAPI_URL`.
+- `getStrapiGraphqlUrl()` usa `STRAPI_INTERNAL_GRAPHQL_URL`, `PUBLIC_STRAPI_GRAPHQL_URL` o `${STRAPI_URL}/graphql`.
+- `getStrapiToken()` usa `STRAPI_API_TOKEN` o `STRAPI_TOKEN`.
+- `assertStrapiConfig()` solo lanza si `useMocks()` es `false` y faltan URLs.
 
 ## 3) Carpeta y archivos clave
 
@@ -37,7 +41,7 @@ Resolucion en `src/lib/env.ts`:
 - `types.ts`: tipos TS usados en frontend.
 
 **`src/data/`**
-- `mock.ts`: data mock usada cuando Strapi falla o `STRAPI_USE_MOCK=true`.
+- `mock.ts`: data mock usada cuando Strapi no se usa (`USE_MOCK_DATA=true` o falta `STRAPI_URL`).
 
 **`src/pages/`**
 - Paginas Astro que llaman la capa `services` y pasan props a componentes.
@@ -118,6 +122,7 @@ return cases.map((item) => ({ params: { slug: item.slug }, props: { caseStudy: i
 
 ## 8) Debug rapido
 
+- Revisa `USE_MOCK_DATA` y `STRAPI_URL`: si falta URL o el flag esta en `true`, se usan mocks.
 - Verifica `PUBLIC_STRAPI_GRAPHQL_URL` y `STRAPI_TOKEN`.
 - Usa Thunder/GraphQL Playground con el mismo token.
 - Si ves `fallback to mock data` en dev, revisa errores de query.
@@ -129,4 +134,3 @@ return cases.map((item) => ({ params: { slug: item.slug }, props: { caseStudy: i
 2. Crea query y mapper en `src/lib/api/services.ts`.
 3. Usa `fetchGraphQL` para ejecutar y mapear.
 4. Consume la funcion en paginas/componentes.
-

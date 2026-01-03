@@ -1,4 +1,4 @@
-import { env } from "../env";
+import { getPublicStrapiUrl } from "../env";
 import type { StrapiEntity, StrapiMedia } from "./types";
 
 const stripTrailingSlash = (value: string) => (value.endsWith("/") ? value.slice(0, -1) : value);
@@ -7,8 +7,9 @@ const stripLeadingSlash = (value: string) => (value.startsWith("/") ? value.slic
 export const toAbsoluteUrl = (url?: string | null): string | undefined => {
   if (!url) return undefined;
   if (url.startsWith("http://") || url.startsWith("https://")) return url;
-  const base = stripTrailingSlash(env.strapiUrl);
-  return `${base}/${stripLeadingSlash(url)}`;
+  const base = getPublicStrapiUrl();
+  if (!base) return `/${stripLeadingSlash(url)}`;
+  return `${stripTrailingSlash(base)}/${stripLeadingSlash(url)}`;
 };
 
 const extractMediaUrl = (media: StrapiMedia | undefined | null): string | undefined => {

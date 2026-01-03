@@ -1,4 +1,4 @@
-import { env, isDev } from "../env";
+import { assertStrapiConfig, getStrapiGraphqlUrl, getStrapiToken, isDev, useMocks } from "../env";
 import type { StrapiBlocks, StrapiBullet } from "./types";
 
 type GraphqlResponse<T> = {
@@ -11,14 +11,25 @@ export const fetchGraphQL = async <T>(
   query: string,
   variables?: Record<string, unknown>
 ): Promise<T> => {
+  if (useMocks()) {
+    throw new Error(`[${queryName}] Strapi disabled because USE_MOCK_DATA=true or STRAPI_URL is missing.`);
+  }
+
+  assertStrapiConfig();
+  const graphqlUrl = getStrapiGraphqlUrl();
+  if (!graphqlUrl) {
+    throw new Error(`[${queryName}] Missing Strapi GraphQL URL. Set STRAPI_URL or PUBLIC_STRAPI_GRAPHQL_URL.`);
+  }
+
   const headers = new Headers({ "Content-Type": "application/json" });
-  if (env.strapiToken) headers.set("Authorization", `Bearer ${env.strapiToken}`);
+  const token = getStrapiToken();
+  if (token) headers.set("Authorization", `Bearer ${token}`);
 
   if (isDev) {
     console.log(`[strapi] ${queryName} variables`, variables ?? {});
   }
 
-  const response = await fetch(env.strapiGraphqlUrl, {
+  const response = await fetch(graphqlUrl, {
     method: "POST",
     headers,
     body: JSON.stringify({ query, variables })
@@ -53,8 +64,9 @@ export const strapiGraphql = async <T>(query: string, variables?: Record<string,
   fetchGraphQL("AnonymousQuery", query, variables);
 
 export const withFallback = async <T>(fn: () => Promise<T>, fallback: T): Promise<T> => {
-  if (env.useMock) return fallback;
+  if (useMocks()) return fallback;
   try {
+    assertStrapiConfig();
     return await fn();
   } catch (error) {
     if (isDev) {
