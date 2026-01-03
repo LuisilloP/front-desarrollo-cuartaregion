@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = ["nodejs_24", "npm"]
+
+[phases.install]
+cmds = ["npm ci"]
+
+[phases.build]
+cmds = ["npm run build"]
+
+[variables]
+NIXPACKS_NODE_VERSION = "24"
