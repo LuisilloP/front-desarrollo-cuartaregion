@@ -3,7 +3,7 @@
 Landing estatico en Astro + Tailwind con data opcional desde Strapi. Usa mocks si no hay backend disponible en build.
 
 ## Requisitos locales
-- Node 20
+- Node 24
 - `npm ci` antes de desarrollar
 - `.env` es opcional: sin variables el build usa los mocks
 
@@ -27,7 +27,7 @@ Nota: al ser un build estatico los datos se toman durante la fase de build; si c
 ## Despliegue en Vercel
 - Recomendado: `USE_MOCK_DATA=true` para previews o cuando no tengas backend.
 - Para usar Strapi: `USE_MOCK_DATA=false`, `STRAPI_URL=https://tu-strapi.com`, `STRAPI_API_TOKEN=<token>` (si aplica). Recuerda que las variables para cliente deben empezar con `PUBLIC_`.
-- Node 20 ya esta fijado en `package.json`.
+- Node 24 ya esta fijado en `package.json`.
 - Mas detalles en `docs/vercel.md`.
 
 ## Probar local

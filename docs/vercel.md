@@ -5,5 +5,5 @@
 - Pruebas rapidas locales:
   - `USE_MOCK_DATA=true npm run build`
   - `USE_MOCK_DATA=false STRAPI_URL=https://tu-strapi.com STRAPI_API_TOKEN=<token> npm run build`
-- Node 20 esta fijado en `package.json` (`"node": "20.x"`). En Vercel se respeta o puedes fijar `NODE_VERSION=20`.
+- Node 24 esta fijado en `package.json` (`"node": "24.x"`). En Vercel se respeta o puedes fijar `NODE_VERSION=24`.
 - Recordatorio: las variables expuestas al navegador deben llevar prefijo `PUBLIC_`.
