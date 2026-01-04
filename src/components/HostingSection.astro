@@ -1,7 +1,6 @@
 ---
 import type { SiteSettings } from "../data/mock";
 import { buildWhatsAppLink } from "../lib/utils";
-import { Icon } from "astro-icon/components";
 
 type UseCaseIcon = "calendar" | "package" | "messageCircle" | "layout";
 
@@ -10,11 +9,7 @@ interface Props {
 }
 
 const { siteSettings } = Astro.props;
-const whatsappUrl = buildWhatsAppLink(
-  siteSettings.whatsappNumber,
-  "Hola! Quiero un proyecto según uno de los casos típicos."
-);
-
+const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero un proyecto según uno de los casos típicos.");
 const useCases: { title: string; description: string; icon: UseCaseIcon }[] = [
   {
     title: "Reservas y agenda",
@@ -28,7 +23,7 @@ const useCases: { title: string; description: string; icon: UseCaseIcon }[] = [
   },
   {
     title: "Leads por WhatsApp",
-    description: "Formulario → WhatsApp → CRM/planilla, con etiquetas y seguimiento.",
+    description: "Formulario -> WhatsApp -> CRM/planilla, con etiquetas y seguimiento.",
     icon: "messageCircle"
   },
   {
@@ -40,36 +35,27 @@ const useCases: { title: string; description: string; icon: UseCaseIcon }[] = [
 ---
 
 <section class="py-12 md:py-14" data-animate="reveal">
-  <!-- full-width background band -->
-  <div class="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
-    <!-- main card -->
-    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 overflow-hidden rounded-3xl border border-border bg-card shadow-sm backdrop-blur-sm">
-      <!-- decorative glow -->
-      <div class="pointer-events-none absolute -right-10 top-0 h-32 w-32 rounded-full bg-highlight/10 blur-2xl"></div>
+  <div class="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] bg-white/60 backdrop-blur-sm">
+    <div class="pointer-events-none absolute inset-0 bg-gradient-to-r from-sky-50/50 via-transparent to-accent/5"></div>
+    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 overflow-hidden rounded-3xl border border-slate-200/60 bg-white/80 shadow-sm backdrop-blur-sm">
+      <div class="pointer-events-none absolute -right-10 top-0 h-32 w-32 rounded-full bg-sky-400/12 blur-2xl"></div>
 
-      <div class="relative grid gap-6 md:gap-8 md:grid-cols-[1.2fr,1fr] py-8 md:py-10">
-        <!-- left column -->
+      <div class="relative grid items-center gap-6 md:gap-8 md:grid-cols-[1.2fr,1fr] py-8 md:py-10">
         <div class="space-y-4">
+          <p class="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-gradient-to-r from-primary/10 to-accent/10 px-3 py-1.5 text-[11px] font-semibold text-highlight shadow-sm">
+            <span class="h-2 w-2 rounded-full bg-highlight shadow-[0_0_0_4px] shadow-highlight/20"></span>
+            Casos comunes
+          </p>
           <div class="space-y-2">
-            <h2 class="text-3xl sm:text-4xl font-semibold text-content leading-snug tracking-tight">
-              ¿Qué necesitas hoy? Nosotros lo construimos
-            </h2>
-            <p class="text-sm sm:text-base text-muted">
-              Elige un caso típico y lo adaptamos a tu negocio.
-            </p>
+            <h2 class="text-3xl sm:text-4xl font-semibold text-content leading-snug tracking-tight">¿Qué necesitas hoy? Nosotros lo construimos</h2>
+            <p class="text-sm sm:text-base text-muted">Elige un caso típico y lo adaptamos a tu negocio.</p>
           </div>
-
-          <div class="flex flex-col items-start gap-3">
-            <p class="pill inline-flex items-center gap-2 bg-primary/10 border-primary/40 text-highlight">
-              <Icon name="lucide:briefcase-business" class="h-4 w-4 text-highlight/80" />
-              Casos Comunes
-            </p>
-
+          <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
             <a
               href={whatsappUrl}
               target="_blank"
               rel="noreferrer"
-              class="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary to-accent px-5 py-3 text-sm font-semibold text-secondary shadow-md transition hover:-translate-y-0.5 hover:shadow-lg"
+              class="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary to-accent px-5 py-3 text-sm font-semibold text-secondary shadow-md transition hover:-translate-y-0.5 hover:shadow-lg"
               aria-label="Quiero mi caso"
             >
               Quiero mi caso
@@ -77,16 +63,15 @@ const useCases: { title: string; description: string; icon: UseCaseIcon }[] = [
           </div>
         </div>
 
-        <!-- right column -->
-        <div class="grid grid-cols-1 sm:grid-cols-1 gap-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {useCases.map((item) => (
             <a
               href={whatsappUrl}
               target="_blank"
               rel="noreferrer"
-              class="group flex items-start gap-4 md:gap-5 rounded-xl border border-border bg-card/70 p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md"
+              class="group flex items-start gap-4 md:gap-5 rounded-xl border border-slate-200/70 bg-slate-50/80 p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md"
             >
-              <div class="shrink-0 grid place-items-center h-10 w-10 md:h-12 md:w-12 rounded-xl bg-gradient-to-br from-highlight/15 to-accent/10 text-highlight ring-1 ring-highlight/20">
+              <div class="shrink-0 grid place-items-center h-10 w-10 md:h-12 md:w-12 rounded-xl bg-gradient-to-br from-sky-500/15 to-indigo-500/10 text-highlight ring-1 ring-sky-500/20">
                 {(() => {
                   switch (item.icon) {
                     case "calendar":
@@ -114,7 +99,7 @@ const useCases: { title: string; description: string; icon: UseCaseIcon }[] = [
                       return (
                         <svg viewBox="0 0 24 24" fill="none" class="h-5 w-5 md:h-6 md:w-6" aria-hidden="true">
                           <path
-                            d="M20 11.5c0 4.142-3.582 7.5-8 7.5-.88 0-1.727-.127-2.52-.364-.32-.096-.48-.144-.602-.159a1 1 0 0 0-.307.01c-.122.027-.253.101-.515.248l-2.684 1.5.605-2.58c.115-.49.172-.735.163-.941a1 1 0 0 0-.146-.458c-.099-.166-.26-.305-.58-.584C4.588 15.63 4 13.986 4 12c0-4.142 3.582-7.5 8-7.5s8 3.358 8 7.5Z"
+                            d="M20 11.5c0 4.142-3.582 7.5-8 7.5-.88 0-1.727-.127-2.52-.364-.32-.096-.48-.144-.602-.159a1 1 0 0 0-.307.01c-.122.027-.253.101-.515.248l-2.684 1.5.605-2.58c.115-.49.172-.735.163-.941a1 1 0 0 0-.146-.458c-.099-.166-.26-.305-.58-.584C4.588 15.63 4 13.986 4 12c0-4.142-3.582-7.5 8-7.5s8 3.358 8 7.5Z"
                             stroke="currentColor"
                             stroke-width="1.6"
                             stroke-linecap="round"
@@ -135,14 +120,9 @@ const useCases: { title: string; description: string; icon: UseCaseIcon }[] = [
                   }
                 })()}
               </div>
-
               <div class="space-y-1">
-                <h3 class="text-base font-semibold text-content leading-snug">
-                  {item.title}
-                </h3>
-                <p class="text-xs text-muted leading-relaxed line-clamp-2">
-                  {item.description}
-                </p>
+                <h3 class="text-base font-semibold text-content leading-snug">{item.title}</h3>
+                <p class="text-xs text-muted leading-relaxed line-clamp-2 md:line-clamp-1">{item.description}</p>
               </div>
             </a>
           ))}
