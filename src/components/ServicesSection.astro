@@ -31,17 +31,18 @@ const categories = [
 const sortedServices = [...services].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 ---
 
-<section id="servicios" class="py-20 space-y-8" data-animate="reveal">
+<section class="py-20 space-y-8" >
+  <p id="servicios">
   <div class="section-shell flex flex-col gap-4">
-    <p class="pill inline-flex items-center gap-2 w-fit bg-primary/10 border-primary/40 text-highlight">
-      <Icon name="lucide:rocket" class="h-4 w-4 text-highlight/80" />
-      Planes listos para lanzar
-    </p>
-    <div class="flex flex-col gap-3 max-w-3xl">
+    <div class="flex flex-col gap-3 max-w-3xl" data-animate="reveal">
       <h2 class="text-3xl sm:text-4xl font-bold text-content">Servicios agrupados por lo que mas necesitas</h2>
       <p class="text-muted">
         Armamos paquetes claros: webs que convierten, soporte TI sin friccion y automatizaciones que siguen vendiendo.
       </p>
+      <p class="pill inline-flex items-center gap-2 w-fit bg-primary/10 border-primary/40 text-highlight">
+      <Icon name="lucide:rocket" class="h-4 w-4 text-highlight/80" />
+      Planes listos para lanzar
+    </p>
     </div>
   </div>
   <div class="section-shell space-y-12">
@@ -50,7 +51,7 @@ const sortedServices = [...services].sort((a, b) => (a.order ?? 0) - (b.order ??
         const group = sortedServices.filter((service) => service.type === category.key);
         if (!group.length) return null;
         return (
-          <section class="space-y-5">
+          <section class="space-y-5" data-animate="reveal">
             <div class="flex flex-col gap-2">
               <h3 class="text-2xl font-semibold text-content">{category.label}</h3>
               <p class="text-muted text-sm">{category.description}</p>

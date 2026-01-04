@@ -38,15 +38,15 @@ const slides = heroImages.length ? heroImages : [heroBg];
 ---
 
 <section
-  id="inicio"
   class="relative isolate min-h-screen overflow-hidden text-contrast"
   data-animate="reveal"
 >
+  <p id="inicio"></p>
   <HeroBackgroundSlideshow
     client:load
     slides={slides}
-    intervalMs={7000}
-    transitionMs={1200}
+    intervalMs={8000}
+    transitionMs={2000}
   />
 
   <div

@@ -81,7 +81,6 @@ const HeroBackgroundSlideshow = ({
           fetchPriority="high"
         />
       )}
-
       <div className="absolute inset-0 bg-gradient-to-r from-secondary/85 via-secondary/60 to-secondary/30" />
       <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-transparent" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_25%,rgba(59,130,246,0.18),transparent_40%),radial-gradient(circle_at_78%_10%,rgba(14,165,233,0.16),transparent_36%)]" />
