@@ -6,6 +6,7 @@ import WhatsAppFloatingButton from "../../components/WhatsAppFloatingButton.astr
 import { buildWhatsAppLink } from "../../lib/utils";
 import { fetchServices, fetchSiteSettings } from "../../lib/api/services";
 import type { Service } from "../../lib/api/types";
+import { Icon } from "astro-icon/components";
 
 export async function getStaticPaths() {
   const services = await fetchServices();
@@ -65,11 +66,12 @@ const hasPricing = Boolean(price || deliveryTime || guarantee);
 
     <div class="flex flex-wrap gap-3">
       <a
-        class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-secondary font-semibold shadow-soft hover:shadow-lg transition"
+        class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-[#25D366] text-white font-semibold shadow-soft hover:shadow-lg transition"
         href={whatsappUrl}
         target="_blank"
         rel="noreferrer"
       >
+        <Icon name="simple-icons:whatsapp" class="h-4 w-4 text-white" aria-hidden="true" />
         Cotizar por WhatsApp
       </a>
       <a

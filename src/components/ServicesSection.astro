@@ -1,6 +1,6 @@
 ---
 import type { Service } from "../data/mock";
-import ServiceCard from "./ServiceCard.astro";
+import { buildWhatsAppLink } from "../lib/utils";
 import { Icon } from "astro-icon/components";
 
 interface Props {
@@ -10,59 +10,101 @@ interface Props {
 
 const { services, whatsappNumber } = Astro.props;
 
-const categories = [
-  {
-    key: "web",
-    label: "Experiencias web + automatizaciones",
-    description: "Sitios listos para escalar, con formularios, reservas y flujos de WhatsApp."
-  },
-  {
-    key: "maintenance",
-    label: "Mantencion y soporte TI",
-    description: "Limpieza, parches, respaldos y monitoreo para que tus equipos criticos no se detengan."
-  },
-  {
-    key: "digital",
-    label: "Automatizacion y contenido",
-    description: "SEO local, contenido omnicanal y automatizaciones que mantienen vivo tu funnel."
-  }
-] as const;
-
 const sortedServices = [...services].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+const buildCta = (service: Service) => {
+  const title = (service.title ?? "servicio").trim();
+  const ctaType = (service.ctaType ?? "").trim().toLowerCase();
+  const isFormCta = ["form", "formulario", "contacto"].includes(ctaType);
+  const isAgendaCta = ["agenda", "agendar"].includes(ctaType);
+  const label = isAgendaCta ? "Agendar llamada" : "Cotizar";
+  const href = isFormCta
+    ? "#contacto"
+    : buildWhatsAppLink(whatsappNumber, `Hola! Me interesa el servicio ${title}.`);
+  return { label, href, isAnchor: href.startsWith("#"), isWhatsApp: !isFormCta };
+};
 ---
 
 <section id="servicios" class="py-20 space-y-8" data-animate="reveal">
   <div class="section-shell flex flex-col gap-4">
     <p class="pill inline-flex items-center gap-2 w-fit border border-border/70 bg-card/80 text-content shadow-soft backdrop-blur-sm">
       <Icon name="lucide:rocket" class="h-4 w-4 text-highlight" />
-      Planes listos para lanzar
+      Servicios listos para activar
     </p>
     <div class="flex flex-col gap-3 max-w-3xl">
-      <h2 class="text-3xl sm:text-4xl font-bold text-content">Servicios agrupados por lo que mas necesitas</h2>
+      <h2 class="text-3xl sm:text-4xl font-bold text-content">Un solo paquete claro con todo lo que hacemos</h2>
       <p class="text-muted">
-        Armamos paquetes claros: webs que convierten, soporte TI sin friccion y automatizaciones que siguen vendiendo.
+        Mismo equipo, misma metodologia. Escoge el servicio que mas impacta tu negocio y lo dejamos listo para producir.
       </p>
     </div>
   </div>
-  <div class="section-shell space-y-12">
-    {
-      categories.map((category) => {
-        const group = sortedServices.filter((service) => service.type === category.key);
-        if (!group.length) return null;
-        return (
-          <section class="space-y-5">
-            <div class="flex flex-col gap-2">
-              <h3 class="text-2xl font-semibold text-content">{category.label}</h3>
-              <p class="text-muted text-sm">{category.description}</p>
+  <div class="section-shell">
+    <div class="rounded-3xl border border-border/70 bg-card/90 shadow-soft backdrop-blur-sm">
+      <div class="divide-y divide-border/70">
+        {sortedServices.map((service) => {
+          const title = (service.title ?? "Servicio").trim();
+          const forWho = (service.for_who ?? "").trim();
+          const whatItSolves = (service.what_it_solves ?? "").trim();
+          const topBanner = (service.top_banner ?? "").trim();
+          const bannerLabel = topBanner || (service.featured ? "Mas solicitado" : "");
+          const priceLabel = (service.price ?? "").trim();
+          const deliveryTime = service.delivery_time?.trim();
+          const guarantee = service.guarantee?.trim();
+          const includes = [...(service.benefits ?? []), ...(service.deliverables ?? [])].filter(Boolean).slice(0, 4);
+          const { label, href, isAnchor, isWhatsApp } = buildCta(service);
+
+          return (
+            <div class="grid gap-6 px-6 py-6 lg:grid-cols-[1.6fr,1fr,0.8fr]">
+              <div class="space-y-2">
+                {bannerLabel && (
+                  <span class="inline-flex items-center rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-[11px] font-semibold text-primary">
+                    {bannerLabel}
+                  </span>
+                )}
+                <div class="space-y-1">
+                  <h3 class="text-xl sm:text-2xl font-semibold text-content">{title}</h3>
+                  {forWho && <p class="text-xs text-highlight">{forWho}</p>}
+                </div>
+                {whatItSolves && <p class="text-sm leading-relaxed text-muted">{whatItSolves}</p>}
+              </div>
+              <div class="space-y-2">
+                <p class="text-xs font-semibold uppercase tracking-wide text-muted/80">Incluye</p>
+                {includes.length > 0 ? (
+                  <ul class="grid gap-2 text-sm text-muted">
+                    {includes.map((item) => (
+                      <li class="flex items-start gap-2">
+                        <span class="mt-1 h-2 w-2 rounded-full bg-accent"></span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p class="text-sm text-muted">Paquete flexible segun alcance.</p>
+                )}
+              </div>
+              <div class="flex flex-col gap-3">
+                <div class="space-y-1 text-content">
+                  {priceLabel && <p class="text-lg font-semibold">{priceLabel}</p>}
+                  {deliveryTime && <p class="text-xs text-muted/80">Entrega: {deliveryTime}</p>}
+                  {guarantee && <p class="text-xs text-muted/70">* {guarantee}</p>}
+                </div>
+                <a
+                  href={href}
+                  target={isAnchor ? undefined : "_blank"}
+                  rel={isAnchor ? undefined : "noreferrer"}
+                  class={`inline-flex items-center justify-center gap-2 rounded-full px-4 py-3 text-sm font-semibold shadow-soft transition hover:shadow-lg ${
+                    isWhatsApp ? "bg-[#25D366] text-white" : "bg-gradient-to-r from-primary to-accent text-contrast"
+                  }`}
+                >
+                  {isWhatsApp && (
+                    <Icon name="simple-icons:whatsapp" class="h-4 w-4 text-white" aria-hidden="true" />
+                  )}
+                  {label}
+                </a>
+              </div>
             </div>
-            <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {group.map((service) => (
-                <ServiceCard service={service} whatsappNumber={whatsappNumber} />
-              ))}
-            </div>
-          </section>
-        );
-      })
-    }
+          );
+        })}
+      </div>
+    </div>
   </div>
 </section>

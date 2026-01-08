@@ -9,10 +9,10 @@ interface Props {
 }
 
 const { siteSettings } = Astro.props;
-const region = siteSettings.region || "Region Metropolitana";
+const region = siteSettings.region || "Region de Coquimbo";
 const whatsappUrl = buildWhatsAppLink(
   siteSettings.whatsappNumber,
-  "Hola! Quiero una web y automatizacion para mi negocio."
+  "Hola! Quiero potenciar mi web y automatizar ventas."
 );
 
 const heroImages = [
@@ -64,19 +64,19 @@ const slides = heroImages.length ? heroImages : [heroBg];
       <h1
         class="text-4xl sm:text-5xl lg:text-6xl font-display font-semibold leading-[1.05] tracking-tight"
       >
-        Desarrollamos la web o sistema que tu negocio necesita
+        Webs, sistemas y automatizaciones que impulsan ventas
       </h1>
       <p class="text-lg sm:text-xl text-contrast/85 max-w-2xl leading-relaxed">
-        Landing pages, sitios administrables y sistemas de gestion.
-        Automatizamos procesos con WhatsApp para que vendas mas.
+        Disenamos experiencias que convierten: landings, sitios administrables y flujos WhatsApp conectados a tu CRM.
       </p>
       <div class="flex flex-wrap gap-4">
         <a
-          class="inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-gradient-to-r from-primary to-accent text-contrast font-semibold shadow-soft transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/70"
+          class="inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-[#25D366] text-white font-semibold shadow-soft transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366]"
           href={whatsappUrl}
           target="_blank"
           rel="noreferrer"
         >
+          <Icon name="simple-icons:whatsapp" class="h-4 w-4 text-white" aria-hidden="true" />
           {siteSettings.primaryCTA || "Agenda una llamada"}
           <span aria-hidden="true" class="text-lg leading-none">-&gt;</span>
         </a>
@@ -90,11 +90,11 @@ const slides = heroImages.length ? heroImages : [heroBg];
       <div class="flex flex-wrap gap-6 text-sm text-contrast/70">
         <div class="flex items-center gap-2">
           <span class="h-2 w-2 rounded-full bg-contrast/70"></span>
-          Integraciones con WhatsApp, CRM y pagos
+          Estrategia, diseno y tecnologia en un solo equipo
         </div>
         <div class="flex items-center gap-2">
           <span class="h-2 w-2 rounded-full bg-contrast/70"></span>
-          Lanzamientos en semanas, no meses
+          Lanzamientos en semanas con soporte local
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 ---
 import type { Service } from "../data/mock";
 import { buildWhatsAppLink } from "../lib/utils";
+import { Icon } from "astro-icon/components";
 
 interface Props {
   service: Service;
@@ -30,6 +31,7 @@ const isAgendaCta = ["agenda", "agendar"].includes(ctaType);
 const ctaLabel = isAgendaCta ? "Agendar llamada" : "Cotizar ahora";
 const ctaHref = isFormCta ? "#contacto" : whatsappUrl;
 const isAnchor = ctaHref.startsWith("#");
+const isWhatsApp = !isFormCta;
 ---
 
 <article
@@ -108,8 +110,11 @@ const isAnchor = ctaHref.startsWith("#");
       href={ctaHref}
       target={isAnchor ? undefined : "_blank"}
       rel={isAnchor ? undefined : "noreferrer"}
-      class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary to-accent px-4 py-3 text-sm font-semibold text-contrast shadow-soft transition hover:shadow-lg"
+      class={`inline-flex w-full items-center justify-center gap-2 rounded-full px-4 py-3 text-sm font-semibold shadow-soft transition hover:shadow-lg ${
+        isWhatsApp ? "bg-[#25D366] text-white" : "bg-gradient-to-r from-primary to-accent text-contrast"
+      }`}
     >
+      {isWhatsApp && <Icon name="simple-icons:whatsapp" class="h-4 w-4 text-white" aria-hidden="true" />}
       {ctaLabel}
     </a>
   </div>

@@ -1,36 +1,36 @@
 const themes = {
   light: {
-    surface: "246 248 252",
-    surfaceStrong: "229 234 243",
+    surface: "246 247 249",
+    surfaceStrong: "231 235 242",
     card: "255 255 255",
     cardAlpha: "1",
-    border: "223 231 242",
-    content: "12 18 31",
-    muted: "83 99 126",
-    pill: "232 240 251",
+    border: "218 224 236",
+    content: "13 20 33",
+    muted: "88 102 130",
+    pill: "235 241 249",
     pillAlpha: "1",
-    pillBorder: "223 231 242",
-    primary: "59 130 246",
-    secondary: "12 18 31",
-    accent: "14 165 233",
-    highlight: "125 211 252",
+    pillBorder: "218 224 236",
+    primary: "20 76 167",
+    secondary: "10 18 32",
+    accent: "9 125 127",
+    highlight: "122 207 214",
     contrast: "255 255 255"
   },
   dark: {
-    surface: "7 10 18",
-    surfaceStrong: "11 16 28",
-    card: "16 23 38",
+    surface: "9 12 18",
+    surfaceStrong: "15 21 32",
+    card: "17 24 38",
     cardAlpha: "0.92",
-    border: "38 51 74",
+    border: "37 48 70",
     content: "226 232 240",
-    muted: "148 163 184",
-    pill: "16 23 38",
+    muted: "150 163 184",
+    pill: "17 24 38",
     pillAlpha: "0.75",
-    pillBorder: "38 51 74",
-    primary: "59 130 246",
-    secondary: "7 10 18",
-    accent: "14 165 233",
-    highlight: "125 211 252",
+    pillBorder: "37 48 70",
+    primary: "45 108 201",
+    secondary: "9 12 18",
+    accent: "13 159 164",
+    highlight: "125 216 224",
     contrast: "255 255 255"
   }
 };
@@ -44,7 +44,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        display: ['"Space Grotesk"', "Inter", "ui-sans-serif", "system-ui"]
+        sans: ['"Manrope"', "ui-sans-serif", "system-ui", "Segoe UI", "sans-serif"],
+        display: ['"Space Grotesk"', '"Manrope"', "ui-sans-serif", "system-ui", "Segoe UI", "sans-serif"]
       },
       colors: {
         surface: withOpacity("--color-surface"),
@@ -62,7 +63,7 @@ module.exports = {
         contrast: withOpacity("--color-contrast")
       },
       boxShadow: {
-        soft: "0 20px 40px rgba(0,0,0,0.08)"
+        soft: "0 24px 60px rgba(15,23,42,0.08)"
       }
     }
   },

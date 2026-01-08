@@ -15,7 +15,7 @@ const navLinks = [
   { href: withHome("#inicio"), label: "Inicio" },
   { href: withHome("#servicios"), label: "Servicios" },
   { href: withHome("#casos"), label: "Casos" },
-  { href: withHome("#resenas"), label: "Resenas" },
+  { href: withHome("#resenas"), label: "Testimonios" },
   { href: withHome("#contacto"), label: "Contacto" },
   { href: withHome("#faq"), label: "FAQ" }
 ];
@@ -26,27 +26,29 @@ const headerClass = isHome
   : "sticky top-0 z-50 bg-surface/90 backdrop-blur border-b border-border/70";
 const shellClass = isHome ? "section-shell pt-6 pb-3" : "section-shell py-3";
 const panelClass = isHome
-  ? "flex items-center justify-between gap-3 rounded-3xl bg-secondary/75 text-contrast shadow-[0_18px_80px_rgba(0,0,0,0.45)] backdrop-blur-xl px-4 sm:px-6 py-3"
+  ? "flex items-center justify-between gap-3 rounded-3xl border border-border/70 bg-card/95 text-content shadow-soft backdrop-blur-xl px-4 sm:px-6 py-3 dark:border-transparent dark:bg-secondary/75 dark:text-contrast dark:shadow-[0_18px_80px_rgba(0,0,0,0.45)]"
   : "flex items-center justify-between gap-3 rounded-3xl border border-border/80 bg-surface/90 text-content shadow-soft backdrop-blur px-4 sm:px-6 py-3";
-const logoBgClass = isHome ? "border border-transparent bg-white/10" : "border border-border bg-card";
-const titleClass = isHome ? "text-lg font-semibold text-contrast leading-tight" : "text-lg font-semibold text-content leading-tight";
+const logoBgClass = isHome
+  ? "border border-border/60 bg-white/70 dark:border-transparent dark:bg-white/10"
+  : "border border-border bg-card";
+const titleClass = isHome
+  ? "text-lg font-semibold text-content leading-tight dark:text-contrast"
+  : "text-lg font-semibold text-content leading-tight";
 const navLinkClass = isHome
-  ? "text-contrast/80 hover:text-contrast transition-colors"
+  ? "text-content/80 hover:text-content transition-colors dark:text-contrast/80 dark:hover:text-contrast"
   : "text-muted hover:text-content transition-colors";
 const iconBtnClass = isHome
-  ? "items-center justify-center h-10 w-10 rounded-full border border-transparent text-contrast bg-white/10 hover:bg-white/15"
+  ? "items-center justify-center h-10 w-10 rounded-full border border-border/70 text-content bg-card/80 hover:bg-card dark:border-transparent dark:text-contrast dark:bg-white/10 dark:hover:bg-white/15"
   : "items-center justify-center h-10 w-10 rounded-full border border-border text-content bg-card hover:border-primary/60";
 const mobileNavClass = `fixed z-50 inset-x-0 top-24 mx-auto w-[90%] max-w-sm flex flex-col gap-3 rounded-3xl p-5 shadow-2xl opacity-0 -translate-y-4 scale-95 pointer-events-none transition-all duration-200 hidden ${
   isHome
-    ? "border border-white/15 bg-secondary/95 text-contrast backdrop-blur-xl shadow-[0_22px_90px_rgba(0,0,0,0.55)]"
+    ? "border border-border/80 bg-card/95 text-content backdrop-blur-xl shadow-soft dark:border-white/15 dark:bg-secondary/95 dark:text-contrast dark:shadow-[0_22px_90px_rgba(0,0,0,0.55)]"
     : "border border-border bg-card text-content"
 }`;
 const mobileLinkClass = isHome
-  ? "px-4 py-3 rounded-2xl bg-white/5 text-left font-semibold text-contrast shadow-sm border border-white/10 hover:border-white/20 hover:bg-white/10"
+  ? "px-4 py-3 rounded-2xl bg-card/80 text-left font-semibold text-content shadow-sm border border-border/70 hover:border-primary/30 hover:bg-card dark:bg-white/5 dark:text-contrast dark:border-white/10 dark:hover:border-white/20 dark:hover:bg-white/10"
   : "px-4 py-3 rounded-2xl bg-card text-left font-semibold text-content shadow-sm border border-border/80 hover:border-primary/40 hover:bg-surface-strong/20";
-const mobileCtaClass = isHome
-  ? "mt-4 inline-flex items-center gap-2 px-4 py-3 rounded-full bg-white text-secondary font-semibold shadow-[0_15px_60px_rgba(0,0,0,0.4)] hover:-translate-y-0.5 transition justify-center"
-  : "mt-4 inline-flex items-center gap-2 px-4 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-secondary font-semibold shadow-soft hover:shadow-lg transition justify-center";
+const mobileCtaClass = "mt-4 inline-flex items-center gap-2 px-4 py-3 rounded-full bg-[#25D366] text-white font-semibold shadow-soft hover:shadow-lg hover:-translate-y-0.5 transition justify-center";
 ---
 
 <header class={headerClass}>
@@ -120,6 +122,7 @@ const mobileCtaClass = isHome
           target="_blank"
           rel="noreferrer"
         >
+          <Icon name="simple-icons:whatsapp" class="h-4 w-4 text-white" aria-hidden="true" />
           WhatsApp
           <span aria-hidden="true">-></span>
         </a>

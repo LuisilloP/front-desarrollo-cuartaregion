@@ -4,26 +4,26 @@ export type { CaseStudy, Faq, LegalPage, Post, Review, Service, SiteSettings };
 
 export const mockSiteSettings: SiteSettings = {
   siteName: "Nortech Digital",
-  tagline: "Sitios y automatizaciones con performance medible.",
-  region: "Santiago, Chile",
+  tagline: "Webs y automatizaciones con impacto medible en ventas.",
+  region: "Region de Coquimbo",
   whatsappNumber: "+56987654321",
-  primaryCTA: "Agenda una llamada",
-  secondaryCTA: "Ver servicios",
+  primaryCTA: "Agenda tu llamada",
+  secondaryCTA: "Ver soluciones",
   socialLinks: [
-    { label: "LinkedIn", url: "https://www.linkedin.com/company/novatech-digital" },
-    { label: "Instagram", url: "https://www.instagram.com/novatechdigital" }
+    { label: "LinkedIn", url: "https://www.linkedin.com/company/nortech-digital" },
+    { label: "Instagram", url: "https://www.instagram.com/nortechdigital" }
   ],
-  footerText: "Estrategia, diseno y tecnologia para negocios que quieren crecer."
+  footerText: "Estrategia, diseno y tecnologia para negocios que buscan crecer con datos."
 };
 
 export const mockServices: Service[] = [
   {
     slug: "landing-conversion",
     type: "web",
-    title: "Landing de conversion",
-    for_who: "Equipos de marketing y founders que necesitan resultados rapidos.",
-    what_it_solves: "Pagina enfocada en captar leads con narrativa clara, pruebas sociales y analytics listos.",
-    benefits: ["Copy orientado a decision", "Integracion inmediata a CRM o WhatsApp"],
+    title: "Landing de conversion inmediata",
+    for_who: "Equipos de marketing y founders que necesitan leads rapido.",
+    what_it_solves: "Pagina enfocada en captar oportunidades con narrativa clara, prueba social y medicion desde el dia uno.",
+    benefits: ["Copy orientado a decision", "Integracion con CRM o WhatsApp"],
     deliverables: ["SEO on-page", "Dashboard de rendimiento"],
     delivery_time: "5-7 dias habiles",
     price: "Desde $220.000 CLP",
@@ -36,10 +36,10 @@ export const mockServices: Service[] = [
   {
     slug: "web-reservas-pagos",
     type: "web",
-    title: "Web con reservas y pagos",
-    for_who: "Clinicas, gimnasios, coworks y servicios profesionales.",
-    what_it_solves: "Sitio multi seccion con agenda, recordatorios, pagos y panel simple para tu equipo.",
-    benefits: ["Agenda con recordatorios", "Pasarela de pago opcional"],
+    title: "Web con reservas y pagos online",
+    for_who: "Clinicas, gimnasios, turismo y servicios profesionales.",
+    what_it_solves: "Sitio multipagina con agenda, recordatorios, pagos y panel simple para tu equipo.",
+    benefits: ["Agenda con recordatorios", "Pagos y confirmaciones automaticas"],
     deliverables: ["Panel para editar contenido", "Soporte prioritario"],
     delivery_time: "2-3 semanas",
     price: "Desde $380.000 CLP",
@@ -52,23 +52,23 @@ export const mockServices: Service[] = [
     slug: "automatizacion-whatsapp-crm",
     type: "digital",
     title: "Automatizacion WhatsApp + CRM",
-    for_who: "Equipos comerciales que quieren responder 24/7 y ordenar el pipeline.",
+    for_who: "Equipos comerciales que necesitan respuesta 24/7 y pipeline ordenado.",
     what_it_solves: "Bots con preguntas frecuentes, derivacion a agentes y sincronizacion con tu CRM.",
     benefits: ["Flujos sin codigo", "Alertas y reportes por canal"],
     deliverables: ["Playbook de mensajes", "Dashboard de conversion"],
     delivery_time: "10-14 dias",
     price: "Desde $260.000 CLP",
     ctaType: "whatsapp",
-    guarantee: "Iteracion incluida en el primer mes.",
+    guarantee: "Iteracion incluida durante el primer mes.",
     order: 3,
     featured: false
   },
   {
     slug: "mantencion-ti-monitoreo",
     type: "maintenance",
-    title: "Mantencion TI y monitoreo",
-    for_who: "Pymes con equipos criticos que no pueden parar.",
-    what_it_solves: "Plan mensual con limpieza, parches, respaldos y monitoreo de incidentes.",
+    title: "Mantencion TI y monitoreo proactivo",
+    for_who: "Pymes con equipos criticos que no pueden detenerse.",
+    what_it_solves: "Plan mensual con limpieza, parches, respaldos y monitoreo preventivo.",
     benefits: ["Soporte local con SLA", "Checklist de seguridad y parches"],
     deliverables: ["Inventario y reportes mensuales", "Backups verificados"],
     delivery_time: "Plan mensual",
@@ -84,10 +84,10 @@ export const mockCases: CaseStudy[] = [
   {
     slug: "agenda-medica-digital",
     clientName: "Clinica Andes",
-    title: "Agenda medica con pagos en linea",
+    title: "Agenda medica con pagos online",
     industry: "Salud",
-    city: "Santiago",
-    summary: "Turnos con recordatorios automatizados y pago previo para reducir ausencias.",
+    city: "La Serena",
+    summary: "Agenda online con recordatorios y pago previo para reducir ausencias.",
     coverImage: "/images/case-clinica.jpg",
     beforeTitle: "Antes",
     afterTitle: "Despues",
@@ -96,12 +96,12 @@ export const mockCases: CaseStudy[] = [
       { text: "Cobros manuales sin trazabilidad", tone: "warning" }
     ],
     afterPoints: [
-      { text: "Reserva y pago en linea con recordatorios", tone: "success" },
+      { text: "Reserva y pago online con recordatorios", tone: "success" },
       { text: "Reportes listos para finanzas y recepcion", tone: "success" }
     ],
     impactTags: [
       { text: "No show -35%", variant: "green" },
-      { text: "Tickets cerrados 2x mas rapido", variant: "blue" }
+      { text: "Turnos confirmados +40%", variant: "blue" }
     ],
     ctaPrimaryType: "contact",
     ctaPrimaryLabel: "Quiero una agenda similar",
@@ -112,10 +112,10 @@ export const mockCases: CaseStudy[] = [
   {
     slug: "b2b-inventario",
     clientName: "Andes Supply",
-    title: "Portal B2B con inventario y status",
+    title: "Portal B2B con inventario en tiempo real",
     industry: "Logistica",
-    city: "Concepcion",
-    summary: "Catalogo privado con stock en linea y aviso automatico de despacho.",
+    city: "Coquimbo",
+    summary: "Catalogo privado con stock online y avisos automaticos de despacho.",
     coverImage: "/images/case-inventario.jpg",
     beforeTitle: "Antes",
     afterTitle: "Despues",
@@ -129,7 +129,7 @@ export const mockCases: CaseStudy[] = [
     ],
     impactTags: [
       { text: "Reclamos -40%", variant: "green" },
-      { text: "Pedidos mas rapidos", variant: "blue" }
+      { text: "Pedidos 2x mas rapidos", variant: "blue" }
     ],
     ctaPrimaryType: "contact",
     ctaPrimaryLabel: "Necesito un portal B2B",
@@ -140,17 +140,17 @@ export const mockCases: CaseStudy[] = [
     slug: "turismo-experiencias",
     clientName: "Ruta del Valle",
     industry: "Turismo",
-    city: "La Serena",
-    summary: "Reservas y bots de respuesta para tours premium.",
+    city: "Vicuna",
+    summary: "Reservas con pago anticipado y bots que responden 24/7.",
     coverImage: "/images/case-turismo.jpg",
     beforeTitle: "Antes",
     afterTitle: "Despues",
     beforePoints: [
-      { text: "Consultas repetidas por redes", tone: "danger" },
+      { text: "Consultas repetidas en temporada alta", tone: "danger" },
       { text: "Confirmaciones manuales", tone: "warning" }
     ],
     afterPoints: [
-      { text: "Bots con preguntas frecuentes y derivacion a agente", tone: "success" },
+      { text: "Bots con FAQs y derivacion a agente", tone: "success" },
       { text: "Reservas confirmadas con pago anticipado", tone: "success" }
     ],
     impactTags: [
@@ -169,14 +169,14 @@ export const mockReviews: Review[] = [
     clientName: "Paula Martinez",
     business: "Cafeteria Litoral",
     rating: 5,
-    quote: "El sitio y las automatizaciones nos bajaron el tiempo de respuesta y aumentaron reservas el mismo mes.",
+    quote: "El sitio y las automatizaciones bajaron el tiempo de respuesta y subieron las reservas en el primer mes.",
     order: 1
   },
   {
     clientName: "Rodrigo Pino",
     business: "Clinica Andes",
     rating: 5,
-    quote: "No perdemos pacientes en horarios peak y el equipo tiene visibilidad del pipeline.",
+    quote: "Hoy no perdemos pacientes en horarios peak y el equipo tiene visibilidad del pipeline.",
     order: 2
   },
   {
@@ -192,13 +192,13 @@ export const mockFaqs: Faq[] = [
   {
     question: "Cuanto tarda cada tipo de proyecto?",
     answer:
-      "Landings de conversion salen en 5-7 dias habiles. Sitios con reservas o pasarela en 2-3 semanas. Automatizaciones y bots en 10-14 dias. Mantencion TI se activa la misma semana.",
+      "Landings de conversion salen en 5-7 dias habiles. Sitios con reservas o pasarela en 2-3 semanas. Automatizaciones en 10-14 dias. Mantencion TI se activa la misma semana.",
     order: 1
   },
   {
     question: "Como aseguramos que convierta?",
     answer:
-      "Arrancamos con oferta y mensajes validados, agregamos pruebas sociales, formularios claros y analytics listos para medir. Incluimos una ronda de ajustes con datos reales.",
+      "Partimos con la oferta y los mensajes clave, sumamos pruebas sociales, formularios claros y medicion desde el dia uno. Incluimos una ronda de ajustes con datos reales.",
     order: 2
   },
   {
@@ -210,7 +210,7 @@ export const mockFaqs: Faq[] = [
   {
     question: "Que pasa con hosting, dominio y seguridad?",
     answer:
-      "Podemos administrarlos a tu nombre. Configuramos SSL, backups y monitoreo basico. En mantencion TI agregamos parches, antivirus gestionado y reportes mensuales.",
+      "Podemos administrarlos a tu nombre. Configuramos SSL, backups y monitoreo basico. En mantencion TI sumamos parches, antivirus gestionado y reportes mensuales.",
     order: 4
   },
   {
@@ -220,7 +220,7 @@ export const mockFaqs: Faq[] = [
     order: 5
   },
   {
-    question: "Como es el soporte y SLA?",
+    question: "Como es el soporte y el SLA?",
     answer:
       "Atendemos por WhatsApp y correo en horario laboral Chile (09:00 a 19:00) con SLA de 24h habiles. Para urgencias TI ofrecemos soporte on-site y remoto segun plan.",
     order: 6
@@ -232,7 +232,7 @@ export const mockLegalPages: Record<string, LegalPage> = {
     slug: "privacidad",
     title: "Politica de Privacidad",
     content:
-      "Usamos tu informacion para responder solicitudes y prestar el servicio. No vendemos datos. Puedes pedir eliminacion escribiendo a contacto@novatechdigital.com."
+      "Usamos tu informacion para responder solicitudes y prestar el servicio. No vendemos datos. Puedes pedir eliminacion escribiendo a contacto@nortechdigital.cl."
   },
   terminos: {
     slug: "terminos",
@@ -246,9 +246,9 @@ export const mockPosts: Post[] = [
   {
     slug: "performance-landing",
     title: "Checklist para lanzar una landing que convierta",
-    excerpt: "Los pasos clave para salir a produccion con performance y medicion desde el dia uno.",
+    excerpt: "Pasos clave para salir a produccion con performance y medicion desde el dia uno.",
     content:
-      "Define una oferta clara, prueba el copy con clientes, implementa analytics y mapas de calor, y prepara variantes para test A/B.",
+      "Define una oferta clara, valida el copy con clientes, implementa analytics y mapas de calor, y prepara variantes para test A/B.",
     createdAt: "2025-01-10T00:00:00.000Z",
     updatedAt: "2025-01-10T00:00:00.000Z",
     publishedAt: "2025-01-10T00:00:00.000Z"
@@ -256,7 +256,7 @@ export const mockPosts: Post[] = [
   {
     slug: "automatizar-whatsapp",
     title: "Como automatizar WhatsApp sin perder el tono humano",
-    excerpt: "Flujos que resuelven rapido y saben cuando escalar a un agente.",
+    excerpt: "Flujos que responden rapido y saben cuando escalar a un agente.",
     content:
       "Define mensajes de bienvenida, FAQs y derivaciones. Usa horarios para respuestas diferidas y mide el tiempo a primer contacto humano.",
     createdAt: "2025-01-12T00:00:00.000Z",
@@ -264,4 +264,3 @@ export const mockPosts: Post[] = [
     publishedAt: "2025-01-12T00:00:00.000Z"
   }
 ];
-

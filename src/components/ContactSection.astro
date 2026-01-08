@@ -19,25 +19,26 @@ const formEndpoint = "/api/contact";
         <Icon name="lucide:message-circle" class="h-4 w-4 text-highlight" />
         Contacto
       </p>
-      <h2 class="text-3xl sm:text-4xl font-bold text-content">Conversemos y arma tu plan</h2>
+      <h2 class="text-3xl sm:text-4xl font-bold text-content">Conversemos y armamos tu plan</h2>
       <p class="text-muted">
-        Cuentanos si necesitas una landing de alto rendimiento, automatizar WhatsApp o soporte TI continuo. Respondemos en horario
-        laboral Chile en menos de 24h. Si prefieres, escribe directo a WhatsApp.
+        Cuentanos si necesitas una landing de alto rendimiento, automatizar WhatsApp o soporte TI continuo. Respondemos en menos de
+        24h habiles con una propuesta inicial y tiempos claros.
       </p>
       <a
         href={whatsappUrl}
         target="_blank"
         rel="noreferrer"
-        class="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-secondary font-semibold shadow-soft hover:shadow-lg transition"
+        class="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-[#25D366] text-white font-semibold shadow-soft hover:shadow-lg transition"
       >
-        Abrir WhatsApp
+        <Icon name="simple-icons:whatsapp" class="h-4 w-4 text-white" aria-hidden="true" />
+        Hablar por WhatsApp
         <span aria-hidden="true">-></span>
       </a>
       <div class="card text-sm text-muted">
-        <p class="font-semibold text-content mb-2">Como gestionamos tu solicitud?</p>
+        <p class="font-semibold text-content mb-2">Que pasa despues?</p>
         <p>
-          Enviamos este formulario a <code class="text-highlight">{formEndpoint}</code>. Puedes cambiar la ruta para conectarla con
-          tu CRM o backend. Mantenemos los campos <strong>name</strong>, <strong>contact</strong> y <strong>message</strong>.
+          Revisamos tu mensaje, proponemos alcance y entregables, y coordinamos una llamada breve si hace falta. Todo queda por
+          escrito antes de iniciar.
         </p>
       </div>
     </div>
