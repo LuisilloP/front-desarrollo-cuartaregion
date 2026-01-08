@@ -6,7 +6,6 @@ import ServicesSection from "../components/ServicesSection.astro";
 import HostingSection from "../components/HostingSection.astro";
 import CasesSection from "../components/CasesSection.astro";
 import ReviewsSection from "../components/ReviewsSection.astro";
-import ContactSection from "../components/ContactSection.astro";
 import FAQSection from "../components/FAQSection.astro";
 import Footer from "../components/Footer.astro";
 import WhatsAppFloatingButton from "../components/WhatsAppFloatingButton.astro";
@@ -37,7 +36,6 @@ const recentCases = cases.slice(0, 3);
     <HostingSection siteSettings={siteSettings} />
     <CasesSection cases={recentCases} />
     <ReviewsSection reviews={testimonials} />
-    <ContactSection siteSettings={siteSettings} />
     <FAQSection faqs={faqs} />
   </main>
   <Footer siteSettings={siteSettings} />

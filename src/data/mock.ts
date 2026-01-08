@@ -7,7 +7,7 @@ export const mockSiteSettings: SiteSettings = {
   tagline: "Webs y automatizaciones con impacto medible en ventas.",
   region: "Region de Coquimbo",
   whatsappNumber: "+56987654321",
-  primaryCTA: "Agenda tu llamada",
+  primaryCTA: "Cotizar por WhatsApp",
   secondaryCTA: "Ver soluciones",
   socialLinks: [
     { label: "LinkedIn", url: "https://www.linkedin.com/company/nortech-digital" },

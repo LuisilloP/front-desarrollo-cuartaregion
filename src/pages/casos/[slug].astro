@@ -101,11 +101,13 @@ const ctaLabel = (caseStudy.ctaPrimaryLabel ?? "").trim() || "Quiero algo simila
 const ctaUrlOverride = normalizeUrl(caseStudy.ctaPrimaryUrl ?? undefined);
 const isFormCta = ["form", "formulario"].includes(ctaType);
 const isContactCta = ["contact", "contacto", "whatsapp", "wpp"].includes(ctaType);
+const labelIncludesWhatsApp = ctaLabel.toLowerCase().includes("whatsapp");
+const ctaLabelFinal =
+  (isFormCta || isContactCta) && !labelIncludesWhatsApp ? `${ctaLabel} por WhatsApp` : ctaLabel;
 
 let ctaHref = ctaUrlOverride;
 if (!ctaHref) {
-  if (isFormCta) ctaHref = "/#contacto";
-  else if (isContactCta) ctaHref = whatsappUrl;
+  if (isFormCta || isContactCta) ctaHref = whatsappUrl;
   else if (siteUrl) ctaHref = siteUrl;
 }
 
@@ -256,7 +258,7 @@ const ctaClass = isContactCta
             {isContactCta && (
               <Icon name="simple-icons:whatsapp" class="h-4 w-4 text-white" aria-hidden="true" />
             )}
-            {ctaLabel}
+            {ctaLabelFinal}
           </a>
         )}
       </aside>

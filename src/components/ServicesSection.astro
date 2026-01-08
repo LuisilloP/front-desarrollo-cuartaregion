@@ -14,13 +14,10 @@ const sortedServices = [...services].sort((a, b) => (a.order ?? 0) - (b.order ??
 const buildCta = (service: Service) => {
   const title = (service.title ?? "servicio").trim();
   const ctaType = (service.ctaType ?? "").trim().toLowerCase();
-  const isFormCta = ["form", "formulario", "contacto"].includes(ctaType);
   const isAgendaCta = ["agenda", "agendar"].includes(ctaType);
-  const label = isAgendaCta ? "Agendar llamada" : "Cotizar";
-  const href = isFormCta
-    ? "#contacto"
-    : buildWhatsAppLink(whatsappNumber, `Hola! Me interesa el servicio ${title}.`);
-  return { label, href, isAnchor: href.startsWith("#"), isWhatsApp: !isFormCta };
+  const label = isAgendaCta ? "Agendar por WhatsApp" : "Cotizar por WhatsApp";
+  const href = buildWhatsAppLink(whatsappNumber, `Hola! Me interesa el servicio ${title}.`);
+  return { label, href, isAnchor: false, isWhatsApp: true };
 };
 ---
 
@@ -28,12 +25,12 @@ const buildCta = (service: Service) => {
   <div class="section-shell flex flex-col gap-4">
     <p class="pill inline-flex items-center gap-2 w-fit border border-border/70 bg-card/80 text-content shadow-soft backdrop-blur-sm">
       <Icon name="lucide:rocket" class="h-4 w-4 text-highlight" />
-      Servicios listos para activar
+      Soluciones listas para activar
     </p>
     <div class="flex flex-col gap-3 max-w-3xl">
-      <h2 class="text-3xl sm:text-4xl font-bold text-content">Un solo paquete claro con todo lo que hacemos</h2>
+      <h2 class="text-3xl sm:text-4xl font-bold text-content">Soluciones claras para cada necesidad</h2>
       <p class="text-muted">
-        Mismo equipo, misma metodologia. Escoge el servicio que mas impacta tu negocio y lo dejamos listo para producir.
+        Cotiza directo por WhatsApp y recibe alcance, tiempos y costo en menos de 24h habiles.
       </p>
     </div>
   </div>

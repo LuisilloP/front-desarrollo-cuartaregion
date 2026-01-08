@@ -26,12 +26,11 @@ const deliveryTime = service.delivery_time?.trim();
 const guarantee = service.guarantee?.trim();
 const hasPricing = Boolean(priceLabel || deliveryTime || guarantee);
 const ctaType = (service.ctaType ?? "").trim().toLowerCase();
-const isFormCta = ["form", "formulario", "contacto"].includes(ctaType);
 const isAgendaCta = ["agenda", "agendar"].includes(ctaType);
-const ctaLabel = isAgendaCta ? "Agendar llamada" : "Cotizar ahora";
-const ctaHref = isFormCta ? "#contacto" : whatsappUrl;
-const isAnchor = ctaHref.startsWith("#");
-const isWhatsApp = !isFormCta;
+const ctaLabel = isAgendaCta ? "Agendar por WhatsApp" : "Cotizar por WhatsApp";
+const ctaHref = whatsappUrl;
+const isAnchor = false;
+const isWhatsApp = true;
 ---
 
 <article
