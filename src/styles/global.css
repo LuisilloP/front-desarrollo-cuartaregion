@@ -66,3 +66,42 @@ a {
   opacity: 1;
   transform: translateY(0) scale(1);
 }
+
+.prose {
+  color: rgb(var(--color-content));
+}
+
+.prose :where(p, li, blockquote):not(:where([class~="not-prose"] *)) {
+  color: rgb(var(--color-muted));
+}
+
+.prose :where(h1, h2, h3, h4, h5, h6):not(:where([class~="not-prose"] *)) {
+  color: rgb(var(--color-content));
+}
+
+.prose :where(a):not(:where([class~="not-prose"] *)) {
+  color: rgb(var(--color-highlight));
+  text-decoration: underline;
+  text-decoration-color: rgb(var(--color-highlight) / 0.4);
+  text-underline-offset: 3px;
+}
+
+.prose :where(code):not(:where([class~="not-prose"] *)) {
+  color: inherit;
+  background: rgb(var(--color-surface-strong) / 0.55);
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.35rem;
+}
+
+.prose :where(blockquote):not(:where([class~="not-prose"] *)) {
+  border-left: 3px solid rgb(var(--color-border));
+  background: rgb(var(--color-surface-strong) / 0.6);
+  padding-inline: 1rem;
+  padding-block: 0.8rem;
+}
+
+.prose :where(ul, ol):not(:where([class~="not-prose"] *)) {
+  padding-left: 1.25rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
