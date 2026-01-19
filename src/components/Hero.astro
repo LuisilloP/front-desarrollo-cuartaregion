@@ -1,15 +1,15 @@
----
+--- 
 import { Icon } from "astro-icon/components";
-import type { SiteSettings } from "../data/mock";
+import type { SiteSettings, HeroSectionContent } from "../lib/api/types";
 import { buildWhatsAppLink } from "../lib/utils";
 import HeroBackgroundSlideshow from "./hero/HeroBackgroundSlideshow.tsx";
 
 interface Props {
   siteSettings: SiteSettings;
+  content: HeroSectionContent;
 }
 
-const { siteSettings } = Astro.props;
-const region = siteSettings.region || "Region de Coquimbo";
+const { siteSettings, content } = Astro.props;
 const whatsappUrl = buildWhatsAppLink(
   siteSettings.whatsappNumber,
   "Hola! Quiero potenciar mi web y automatizar ventas."
@@ -39,21 +39,21 @@ const heroImages = [
           <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-300 opacity-75"></span>
           <span class="relative inline-flex rounded-full h-2 w-2 bg-sky-400"></span>
         </span>
-        Agencia local - {region}
+        {content.eyebrow}
       </div>
 
       <h1
         class="text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl"
-        style="animation: fade-in-up 0.8s 0.2s both cubic-bezier(0.25, 0.46, 0.45, 0.94);"
+        style="animation: fade-in-in-up 0.8s 0.2s both cubic-bezier(0.25, 0.46, 0.45, 0.94);"
       >
-        Webs, sistemas y automatizaciones que impulsan ventas
+        {content.title}
       </h1>
 
       <p
         class="max-w-2xl text-lg text-white/80 md:text-xl"
         style="animation: fade-in-up 0.8s 0.4s both cubic-bezier(0.25, 0.46, 0.45, 0.94);"
       >
-        Diseñamos experiencias que convierten: landings, sitios administrables y flujos de WhatsApp conectados a tu CRM.
+        {content.description}
       </p>
 
       <div

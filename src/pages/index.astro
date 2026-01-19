@@ -10,6 +10,13 @@ import FAQSection from "../components/FAQSection.astro";
 import ContactSection from "../components/ContactSection.astro";
 import Footer from "../components/Footer.astro";
 import WhatsAppFloatingButton from "../components/WhatsAppFloatingButton.astro";
+import {
+  fetchSiteSettings,
+  fetchServices,
+  fetchCases,
+  fetchReviews,
+  fetchFaqs,
+} from "../lib/api/services";
 
 // Import the new Content type for full type safety
 import type { Content } from '../lib/api/types';
@@ -17,21 +24,25 @@ import type { Content } from '../lib/api/types';
 import contentJson from '../data/content.json';
 
 // Cast the imported JSON to our new Content type
-const content = contentJson as Content;
+const staticContent = contentJson as Content;
 
-const { 
-  siteSettings, 
+const {
   navLinks,
-  services,
+  heroSection,
   useCasesSection,
-  cases, 
-  reviews,
   reviewsSection,
-  faqs,
   faqSection,
   contactSection,
   legalPages
-} = content;
+} = staticContent;
+
+
+const siteSettings = await fetchSiteSettings();
+const services = await fetchServices();
+const cases = await fetchCases();
+const reviews = await fetchReviews();
+const faqs = await fetchFaqs();
+
 
 const recentCases = cases.slice(0, 3);
 ---
@@ -39,7 +50,7 @@ const recentCases = cases.slice(0, 3);
 <Layout title={siteSettings.siteName} description={siteSettings.tagline} siteSettings={siteSettings}>
   <Navbar siteSettings={siteSettings} navLinks={navLinks} />
   <main class="space-y-8">
-    <Hero siteSettings={siteSettings} />
+    <Hero siteSettings={siteSettings} content={heroSection} />
     {/* Pass all services to the section, not just featured ones */}
     <ServicesSection services={services} whatsappNumber={siteSettings.whatsappNumber} />
     <HostingSection content={useCasesSection} />

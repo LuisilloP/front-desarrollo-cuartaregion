@@ -1,7 +1,7 @@
 {
   "siteSettings": {
-    "siteName": "Nortech Digital xddd",
-    "tagline": "Webs y automatizaciones con impacto medible en ventas.",
+    "siteName": "Aliado Digital",
+    "tagline": "Tu aliado tecnológico para crecer con soluciones a medida.",
     "region": "Region de Coquimbo",
     "whatsappNumber": "+56987654321",
     "primaryCTA": "Cotizar por WhatsApp",
@@ -23,19 +23,24 @@
         "icon": "simple-icons:instagram"
       }
     ],
-    "footerText": "Estrategia, diseno y tecnologia para negocios que buscan crecer con datos."
+    "footerText": "Estrategia, diseño y tecnología para negocios que buscan crecer con datos."
   },
   "navLinks": [
     { "href": "#inicio", "label": "Inicio" },
     { "href": "#servicios", "label": "Servicios" },
-    { "href": "#casos", "label": "Casos" },
+    { "href": "#casos", "label": "Casos de Éxito" },
     { "href": "#resenas", "label": "Testimonios" },
     { "href": "#faq", "label": "FAQ" }
   ],
+  "heroSection": {
+    "eyebrow": "Tu Aliado Digital en la Región de Coquimbo",
+    "title": "Soluciones Digitales que Impulsan tu Negocio",
+    "description": "Creamos sitios web, aplicaciones y automatizaciones a medida que convierten visitantes en clientes. Hagamos crecer tu negocio juntos."
+  },
   "contactSection": {
     "eyebrow": "Hablemos",
-    "title": "Transforma tu idea en una solución digital",
-    "description": "Estamos listos para escuchar tu proyecto. Contáctanos por WhatsApp para una conversación inicial o encuéntranos en nuestras redes. Respondemos en menos de 24 horas hábiles.",
+    "title": "Hagamos equipo para tu próximo proyecto",
+    "description": "Cuéntanos tu visión. Agenda una conversación sin compromiso y descubre cómo podemos potenciar tu negocio como tu aliado tecnológico.",
     "socialLinks": [
       {
         "name": "LinkedIn",
@@ -56,8 +61,8 @@
   },
   "useCasesSection": {
     "eyebrow": "Casos Frecuentes",
-    "title": "¿Te suena familiar? Lo resolvemos",
-    "description": "Estos son algunos de los problemas más comunes que solucionamos. Adaptamos cada solución a las necesidades específicas de tu negocio.",
+    "title": "¿Enfrentas uno de estos desafíos? Te ayudamos",
+    "description": "Estos son algunos de los problemas más comunes que solucionamos, adaptando cada solución a las necesidades específicas de tu negocio.",
     "cases": [
       {
         "title": "Necesito una agenda online",
@@ -82,14 +87,14 @@
     ]
   },
   "reviewsSection": {
-    "eyebrow": "Testimonios",
-    "title": "La voz de nuestros clientes",
-    "description": "Negocios que hoy venden más y atienden mejor con procesos digitales claros y eficientes."
+    "eyebrow": "Nuestros Aliados",
+    "title": "Historias de éxito en conjunto",
+    "description": "Negocios que hoy venden más y atienden mejor gracias a nuestra colaboración y procesos digitales eficientes."
   },
   "faqSection": {
-    "eyebrow": "Dudas",
-    "title": "Preguntas Frecuentes",
-    "description": "Respuestas claras a las preguntas más comunes antes de empezar un proyecto de desarrollo, automatización o soporte."
+    "eyebrow": "Resolvemos tus dudas",
+    "title": "Todo claro antes de empezar",
+    "description": "Respuestas directas a las preguntas más comunes para que tomes la mejor decisión para tu negocio."
   },
   "services": [
     {

@@ -175,9 +175,16 @@ export interface FaqSectionContent {
   description: string;
 }
 
+export interface HeroSectionContent {
+  eyebrow: string;
+  title: string;
+  description: string;
+}
+
 export interface Content {
   siteSettings: SiteSettings;
   navLinks: NavLink[];
+  heroSection: HeroSectionContent;
   contactSection: ContactSectionContent;
   useCasesSection: UseCasesSectionContent;
   reviewsSection: ReviewsSectionContent;
