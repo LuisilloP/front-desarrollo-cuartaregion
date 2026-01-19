@@ -7,10 +7,89 @@
     "primaryCTA": "Cotizar por WhatsApp",
     "secondaryCTA": "Ver soluciones",
     "socialLinks": [
-      { "label": "LinkedIn", "url": "https://www.linkedin.com/company/nortech-digital" },
-      { "label": "Instagram", "url": "https://www.instagram.com/nortechdigital" }
+      {
+        "name": "LinkedIn",
+        "url": "https://www.linkedin.com/company/nortech-digital",
+        "icon": "simple-icons:linkedin"
+      },
+      {
+        "name": "GitHub",
+        "url": "https://github.com/nortech-digital",
+        "icon": "simple-icons:github"
+      },
+      {
+        "name": "Instagram",
+        "url": "https://www.instagram.com/nortechdigital",
+        "icon": "simple-icons:instagram"
+      }
     ],
     "footerText": "Estrategia, diseno y tecnologia para negocios que buscan crecer con datos."
+  },
+  "navLinks": [
+    { "href": "#inicio", "label": "Inicio" },
+    { "href": "#servicios", "label": "Servicios" },
+    { "href": "#casos", "label": "Casos" },
+    { "href": "#resenas", "label": "Testimonios" },
+    { "href": "#faq", "label": "FAQ" }
+  ],
+  "contactSection": {
+    "eyebrow": "Hablemos",
+    "title": "Transforma tu idea en una solución digital",
+    "description": "Estamos listos para escuchar tu proyecto. Contáctanos por WhatsApp para una conversación inicial o encuéntranos en nuestras redes. Respondemos en menos de 24 horas hábiles.",
+    "socialLinks": [
+      {
+        "name": "LinkedIn",
+        "url": "https://www.linkedin.com/company/nortech-digital",
+        "icon": "simple-icons:linkedin"
+      },
+      {
+        "name": "GitHub",
+        "url": "https://github.com/nortech-digital",
+        "icon": "simple-icons:github"
+      },
+      {
+        "name": "Instagram",
+        "url": "https://www.instagram.com/nortechdigital",
+        "icon": "simple-icons:instagram"
+      }
+    ]
+  },
+  "useCasesSection": {
+    "eyebrow": "Casos Frecuentes",
+    "title": "¿Te suena familiar? Lo resolvemos",
+    "description": "Estos son algunos de los problemas más comunes que solucionamos. Adaptamos cada solución a las necesidades específicas de tu negocio.",
+    "cases": [
+      {
+        "title": "Necesito una agenda online",
+        "description": "Implementamos sistemas de reserva con confirmaciones y recordatorios automáticos por WhatsApp.",
+        "icon": "lucide:calendar-check"
+      },
+      {
+        "title": "Quiero vender, pero sin sitio complejo",
+        "description": "Creamos 'Landing Pages' de alta conversión que capturan leads y los envían directo a tu WhatsApp o CRM.",
+        "icon": "lucide:target"
+      },
+      {
+        "title": "Mi inventario es un caos",
+        "description": "Desarrollamos sistemas de gestión de stock con alertas y reportes para que siempre sepas qué tienes.",
+        "icon": "lucide:package-check"
+      },
+      {
+        "title": "Quiero que mi web sea editable",
+        "description": "Entregamos sitios con un panel de administración intuitivo para que actualices contenido sin depender de nadie.",
+        "icon": "lucide:layout-template"
+      }
+    ]
+  },
+  "reviewsSection": {
+    "eyebrow": "Testimonios",
+    "title": "La voz de nuestros clientes",
+    "description": "Negocios que hoy venden más y atienden mejor con procesos digitales claros y eficientes."
+  },
+  "faqSection": {
+    "eyebrow": "Dudas",
+    "title": "Preguntas Frecuentes",
+    "description": "Respuestas claras a las preguntas más comunes antes de empezar un proyecto de desarrollo, automatización o soporte."
   },
   "services": [
     {
@@ -27,7 +106,8 @@
       "guarantee": "Ajustes incluidos tras el primer ciclo de feedback.",
       "top_banner": "Mas solicitado",
       "order": 1,
-      "featured": true
+      "featured": true,
+      "icon": "lucide:target"
     },
     {
       "slug": "web-reservas-pagos",
@@ -42,7 +122,8 @@
       "ctaType": "whatsapp",
       "guarantee": "Incluye capacitacion breve del panel.",
       "order": 2,
-      "featured": false
+      "featured": false,
+      "icon": "lucide:calendar-check"
     },
     {
       "slug": "automatizacion-whatsapp-crm",
@@ -57,7 +138,8 @@
       "ctaType": "whatsapp",
       "guarantee": "Iteracion incluida durante el primer mes.",
       "order": 3,
-      "featured": false
+      "featured": false,
+      "icon": "lucide:bot"
     },
     {
       "slug": "mantencion-ti-monitoreo",
@@ -72,7 +154,8 @@
       "ctaType": "whatsapp",
       "guarantee": "Mesa de ayuda con respuesta en 24h habiles.",
       "order": 4,
-      "featured": false
+      "featured": false,
+      "icon": "lucide:shield-check"
     }
   ],
   "cases": [

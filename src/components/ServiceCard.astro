@@ -10,111 +10,115 @@ interface Props {
 
 const { service, whatsappNumber } = Astro.props;
 const title = (service.title ?? "").trim();
-const forWho = (service.for_who ?? "").trim();
-const whatItSolves = (service.what_it_solves ?? "").trim();
-const whatsappUrl = buildWhatsAppLink(
-  whatsappNumber,
-  `Hola! Me interesa el servicio ${title || "servicio"}.`
-);
-const benefits = service.benefits ?? [];
-const deliverables = service.deliverables ?? [];
+const whatItSolves = service.what_it_solves ?? "";
+const whatsappUrl = buildWhatsAppLink(whatsappNumber, `Hola! Me interesa el servicio ${title}.`);
+const benefits = service.benefits?.slice(0, 3) ?? []; // Show max 3 benefits
 const isFeatured = Boolean(service.featured);
 const topBanner = (service.top_banner ?? "").trim();
-const bannerLabel = topBanner || (isFeatured ? "Mas vendido" : "");
-const priceLabel = (service.price ?? "").trim();
-const deliveryTime = service.delivery_time?.trim();
-const guarantee = service.guarantee?.trim();
-const hasPricing = Boolean(priceLabel || deliveryTime || guarantee);
-const ctaType = (service.ctaType ?? "").trim().toLowerCase();
-const isAgendaCta = ["agenda", "agendar"].includes(ctaType);
-const ctaLabel = isAgendaCta ? "Agendar por WhatsApp" : "Cotizar por WhatsApp";
-const ctaHref = whatsappUrl;
-const isAnchor = false;
-const isWhatsApp = true;
+const bannerLabel = topBanner || (isFeatured ? "Más popular" : "");
+const iconName = service.icon || "lucide:gem"; // Default icon
 ---
-
-<article
-  class={`relative flex h-full flex-col gap-5 rounded-[24px] border bg-card p-6 shadow-soft transition duration-300 hover:-translate-y-1 hover:shadow-xl ${
-    isFeatured ? "border-primary/40" : "border-border/70"
-  }`}
+<a
+  href={whatsappUrl}
+  target="_blank"
+  rel="noreferrer"
+  class="card-shine group relative flex h-full flex-col rounded-3xl border p-6 backdrop-blur-xl transition-all duration-300 lg:p-8
+  border-slate-900/10 bg-white/40 hover:border-slate-900/20 hover:!bg-white/60
+  dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20 dark:hover:!bg-white/[0.07]"
 >
   {bannerLabel && (
-    <span class="absolute right-5 top-5 inline-flex items-center rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-[11px] font-semibold text-primary">
+    <span class="absolute right-6 top-6 inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ring-1 ring-inset
+    bg-sky-500/10 text-sky-600 ring-sky-500/20
+    dark:bg-sky-400/10 dark:text-sky-300 dark:ring-sky-400/20"
+    >
       {bannerLabel}
     </span>
   )}
 
-  <div class="space-y-2">
-    <h3 class={`text-2xl font-semibold text-content ${bannerLabel ? "pr-16" : ""}`}>{title}</h3>
-    {forWho && <p class="text-xs text-highlight">{forWho}</p>}
+  <div class="relative mb-6 flex h-12 w-12 items-center justify-center rounded-2xl border
+  bg-sky-500/10 text-sky-600 border-sky-500/20
+  dark:bg-sky-400/10 dark:text-sky-300 dark:border-sky-400/20"
+  >
+    <Icon name={iconName} class="h-6 w-6" />
   </div>
 
-  {whatItSolves && <p class="text-sm leading-relaxed text-muted">{whatItSolves}</p>}
+  <h3 class="text-2xl font-semibold leading-snug tracking-tight text-slate-900 dark:text-white">{title}</h3>
+
+  {whatItSolves && <p class="mt-2 text-slate-600 dark:text-white/60">{whatItSolves}</p>}
 
   {benefits.length > 0 && (
-    <div class="space-y-3 border-t border-border/70 pt-4">
-      <ul class="space-y-2 text-sm text-muted">
-        {benefits.map((benefit) => (
-          <li class="flex items-start gap-3">
-            <span class="mt-1.5 h-2 w-2 rounded-full bg-accent"></span>
-            <span>{benefit}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <ul class="mt-6 space-y-3 text-slate-700 dark:text-white/80">
+      {benefits.map((benefit) => (
+        <li class="flex items-start gap-3">
+          <Icon name="lucide:check-circle" class="mt-1 h-4 w-4 flex-shrink-0 text-sky-500 dark:text-sky-300" />
+          <span>{benefit}</span>
+        </li>
+      ))}
+    </ul>
   )}
 
-  {deliverables.length > 0 && (
-    <div class="space-y-3 border-t border-border/70 pt-4">
-      <p class="text-xs font-semibold text-muted/80">Entregables:</p>
-      <ul class="space-y-2 text-sm text-muted">
-        {deliverables.map((item) => (
-          <li class="flex items-start gap-3">
-            <span class="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 text-primary">
-              <svg viewBox="0 0 20 20" fill="none" class="h-4 w-4" aria-hidden="true">
-                <path
-                  d="M4 10.5l3.5 3.5L16 6"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </span>
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )}
-
-  <div class="mt-auto space-y-4">
-    {hasPricing && (
-      <div class="space-y-1 border-t border-border/70 pt-4">
-        {priceLabel && <p class="text-xs font-semibold text-muted/80">Desde</p>}
-        <div class="flex flex-wrap items-baseline gap-2 text-content">
-          {priceLabel && <p class="text-2xl font-semibold">{priceLabel}</p>}
-          {deliveryTime && (
-            <span class="text-xs font-semibold text-muted/80">
-              {priceLabel ? "|" : ""}
-              {deliveryTime}
-            </span>
-          )}
-        </div>
-        {guarantee && <p class="text-[11px] text-muted/80">* {guarantee}</p>}
-      </div>
-    )}
-
-    <a
-      href={ctaHref}
-      target={isAnchor ? undefined : "_blank"}
-      rel={isAnchor ? undefined : "noreferrer"}
-      class={`inline-flex w-full items-center justify-center gap-2 rounded-full px-4 py-3 text-sm font-semibold shadow-soft transition hover:shadow-lg ${
-        isWhatsApp ? "bg-[#25D366] text-white" : "bg-gradient-to-r from-primary to-accent text-contrast"
-      }`}
+  <div class="mt-auto pt-8">
+    <div class="inline-flex items-center gap-2 text-sm font-medium transition-colors
+    text-sky-600 group-hover:text-sky-500
+    dark:text-sky-300 dark:group-hover:text-sky-200"
     >
-      {isWhatsApp && <Icon name="simple-icons:whatsapp" class="h-4 w-4 text-white" aria-hidden="true" />}
-      {ctaLabel}
-    </a>
+      Cotizar servicio <Icon name="lucide:arrow-right" class="h-4 w-4 transition-transform group-hover:translate-x-1" />
+    </div>
   </div>
-</article>
+</a>
+
+<style>
+  :root {
+    --shine-color: rgba(100, 116, 139, 0.1); /* slate-500 */
+  }
+  .dark {
+    --shine-color: rgba(125, 211, 252, 0.1); /* sky-300 */
+  }
+  .card-shine {
+    overflow: hidden;
+  }
+  .card-shine::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+      400px circle at var(--mouse-x, -9999px) var(--mouse-y, -9999px),
+      var(--shine-color),
+      transparent 40%
+    );
+    border-radius: inherit;
+    z-index: 0;
+    transition: opacity 0.3s;
+  }
+</style>
+
+<script is:inline>
+  // This script can be run once, maybe in a global script,
+  // but it's safe to run multiple times.
+  function setupCardShine() {
+    document.querySelectorAll('.card-shine').forEach(card => {
+      // Check if the listener is already attached
+      if (card.dataset.shineListener === 'true') return;
+
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+      
+      card.dataset.shineListener = 'true';
+    });
+  }
+  
+  // Initial setup
+  setupCardShine();
+
+  // In Astro, view transitions can cause scripts to re-run.
+  // This also helps if cards are loaded dynamically.
+  document.addEventListener('astro:after-swap', setupCardShine);
+</script>

@@ -1,37 +1,90 @@
 ---
-import type { SiteSettings } from "../data/mock";
+import { Icon } from "astro-icon/components";
+import type { SiteSettings, NavLink, LegalPage } from "../lib/api/types";
 
 interface Props {
   siteSettings: SiteSettings;
+  navLinks: NavLink[];
+  legalPages: {
+    privacidad: LegalPage;
+    terminos: LegalPage;
+  }
 }
 
-const { siteSettings } = Astro.props;
+const { siteSettings, navLinks, legalPages } = Astro.props;
+const legalLinks = Object.values(legalPages);
 ---
+<footer class="bg-slate-900 text-white">
+  <div class="container mx-auto px-4 pt-16 pb-12">
+    <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
+      <!-- Column 1: Logo and Info -->
+      <div class="md:col-span-2 lg:col-span-1">
+        <a href="#inicio" class="flex items-center gap-3 font-bold text-xl tracking-tight">
+          <div class="bg-white/90 rounded-lg p-1">
+            <img
+              src="/logo.png"
+              alt=`Logo de ${siteSettings.siteName}`
+              class="h-10 w-10 object-contain"
+              loading="lazy"
+            />
+          </div>
+          <span class="text-white">{siteSettings.siteName}</span>
+        </a>
+        <p class="mt-4 text-sm text-slate-400">
+          {siteSettings.footerText}
+        </p>
+      </div>
 
-<footer class="border-t border-border bg-surface mt-10">
-  <div class="section-shell py-10 grid md:grid-cols-3 gap-8 text-sm text-muted">
-    <div class="space-y-2">
-      <p class="text-lg font-semibold text-content">{siteSettings.siteName}</p>
-      <p class="text-muted/80">{siteSettings.footerText}</p>
-    </div>
-    <div>
-      <p class="text-content font-semibold mb-3">Sitio</p>
-      <ul class="space-y-2">
-        <li><a class="hover:text-content" href="#servicios">Servicios</a></li>
-        <li><a class="hover:text-content" href="#casos">Casos</a></li>
-        <li><a class="hover:text-content" href="#faq">FAQ</a></li>
-      </ul>
-    </div>
-    <div>
-      <p class="text-content font-semibold mb-3">Legal y redes</p>
-      <ul class="space-y-2">
-        <li><a class="hover:text-content" href="/privacidad">Privacidad</a></li>
-        <li><a class="hover:text-content" href="/terminos">Terminos</a></li>
-        {siteSettings.socialLinks?.map((link) => (
-          <li><a class="hover:text-content" href={link.url} target="_blank" rel="noreferrer">{link.label}</a></li>
-        ))}
-      </ul>
+      <!-- Column 2: Navigation -->
+      <div>
+        <h3 class="text-sm font-semibold tracking-wider uppercase text-slate-300">Navegación</h3>
+        <ul class="mt-4 space-y-3">
+          {navLinks.map(link => (
+            <li>
+              <a href={link.href} class="text-slate-400 transition-colors hover:text-white">{link.label}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Column 3: Legal -->
+      <div>
+        <h3 class="text-sm font-semibold tracking-wider uppercase text-slate-300">Legal</h3>
+        <ul class="mt-4 space-y-3">
+          {legalLinks.map(link => (
+            <li>
+              <a href={`/${link.slug}`} class="text-slate-400 transition-colors hover:text-white">{link.title}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Column 4: Social -->
+      <div>
+        <h3 class="text-sm font-semibold tracking-wider uppercase text-slate-300">Redes</h3>
+        <div class="mt-4 flex gap-4">
+          {siteSettings.socialLinks.map(link => (
+            <a 
+              href={link.url}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`Visita nuestro perfil de ${link.name}`}
+              class="text-slate-400 transition-colors hover:text-white"
+            >
+              <Icon name={link.icon} class="h-6 w-6" />
+            </a>
+          ))}
+        </div>
+      </div>
     </div>
   </div>
-  <div class="section-shell pb-8 text-xs text-muted/80">(c) {new Date().getFullYear()} {siteSettings.siteName}. Todos los derechos reservados.</div>
+
+  <!-- Bottom Bar -->
+  <div class="border-t border-slate-800">
+    <div class="container mx-auto px-4 py-6">
+      <p class="text-center text-sm text-slate-500">
+        &copy; {new Date().getFullYear()} {siteSettings.siteName}. Todos los derechos reservados.
+      </p>
+    </div>
+  </div>
 </footer>

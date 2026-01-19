@@ -7,37 +7,47 @@ import HostingSection from "../components/HostingSection.astro";
 import CasesSection from "../components/CasesSection.astro";
 import ReviewsSection from "../components/ReviewsSection.astro";
 import FAQSection from "../components/FAQSection.astro";
+import ContactSection from "../components/ContactSection.astro";
 import Footer from "../components/Footer.astro";
 import WhatsAppFloatingButton from "../components/WhatsAppFloatingButton.astro";
-import {
-  fetchCases,
-  fetchFaqs,
-  fetchFeaturedServices,
-  fetchTestimonials,
-  fetchSiteSettings
-} from "../lib/api/services";
 
-const [siteSettings, featuredServices, cases, testimonials, faqs] = await Promise.all([
-  fetchSiteSettings(),
-  fetchFeaturedServices(),
-  fetchCases(),
-  fetchTestimonials(),
-  fetchFaqs()
-]);
+// Import the new Content type for full type safety
+import type { Content } from '../lib/api/types';
+// Import the JSON data
+import contentJson from '../data/content.json';
+
+// Cast the imported JSON to our new Content type
+const content = contentJson as Content;
+
+const { 
+  siteSettings, 
+  navLinks,
+  services,
+  useCasesSection,
+  cases, 
+  reviews,
+  reviewsSection,
+  faqs,
+  faqSection,
+  contactSection,
+  legalPages
+} = content;
 
 const recentCases = cases.slice(0, 3);
 ---
 
 <Layout title={siteSettings.siteName} description={siteSettings.tagline} siteSettings={siteSettings}>
-  <Navbar siteSettings={siteSettings} />
+  <Navbar siteSettings={siteSettings} navLinks={navLinks} />
   <main class="space-y-8">
     <Hero siteSettings={siteSettings} />
-    <ServicesSection services={featuredServices} whatsappNumber={siteSettings.whatsappNumber} />
-    <HostingSection siteSettings={siteSettings} />
+    {/* Pass all services to the section, not just featured ones */}
+    <ServicesSection services={services} whatsappNumber={siteSettings.whatsappNumber} />
+    <HostingSection content={useCasesSection} />
     <CasesSection cases={recentCases} />
-    <ReviewsSection reviews={testimonials} />
-    <FAQSection faqs={faqs} />
+    <ReviewsSection content={reviewsSection} reviews={reviews} />
+    <FAQSection content={faqSection} faqs={faqs} />
+    <ContactSection content={contactSection} whatsappNumber={siteSettings.whatsappNumber} />
   </main>
-  <Footer siteSettings={siteSettings} />
+  <Footer siteSettings={siteSettings} navLinks={navLinks} legalPages={legalPages} />
   <WhatsAppFloatingButton whatsappNumber={siteSettings.whatsappNumber} message="Hola! Quiero cotizar mi web con ustedes." />
 </Layout>
