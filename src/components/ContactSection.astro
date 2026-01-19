@@ -15,7 +15,7 @@ const formEndpoint = "/api/contact";
 <section id="contacto" class="py-20" data-animate="reveal">
   <div class="section-shell grid lg:grid-cols-2 gap-10 items-start">
     <div class="space-y-4">
-      <p class="pill inline-flex items-center gap-2 w-fit border border-border/70 bg-card/80 text-content shadow-soft backdrop-blur-sm">
+      <p class="pill inline-flex items-center gap-2 w-fit border border-border/70 bg-card text-content shadow-soft">
         <Icon name="lucide:message-circle" class="h-4 w-4 text-highlight" />
         Contacto
       </p>
@@ -42,7 +42,7 @@ const formEndpoint = "/api/contact";
         </p>
       </div>
     </div>
-    <form class="card bg-card/90 border-border space-y-4" method="post" action={formEndpoint} data-endpoint={formEndpoint}>
+    <form class="card bg-card border-border space-y-4" method="post" action={formEndpoint} data-endpoint={formEndpoint}>
       <div>
         <label for="name" class="block text-sm font-medium text-content mb-1">Nombre</label>
         <input

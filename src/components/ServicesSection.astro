@@ -23,7 +23,7 @@ const buildCta = (service: Service) => {
 
 <section id="servicios" class="py-20 space-y-8" data-animate="reveal">
   <div class="section-shell flex flex-col gap-4">
-    <p class="pill inline-flex items-center gap-2 w-fit border border-border/70 bg-card/80 text-content shadow-soft backdrop-blur-sm">
+    <p class="pill inline-flex items-center gap-2 w-fit border border-border/70 bg-card text-content shadow-soft">
       <Icon name="lucide:rocket" class="h-4 w-4 text-highlight" />
       Soluciones listas para activar
     </p>
@@ -35,7 +35,7 @@ const buildCta = (service: Service) => {
     </div>
   </div>
   <div class="section-shell">
-    <div class="rounded-3xl border border-border/70 bg-card/90 shadow-soft backdrop-blur-sm">
+    <div class="rounded-3xl border border-border/70 bg-card shadow-soft">
       <div class="divide-y divide-border/70">
         {sortedServices.map((service) => {
           const title = (service.title ?? "Servicio").trim();

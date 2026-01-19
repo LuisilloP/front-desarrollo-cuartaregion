@@ -8,7 +8,7 @@ interface Props {
 const { question, answer, defaultOpen = false } = Astro.props;
 ---
 
-<details class="faq-item rounded-2xl border border-border bg-card/70 p-4" open={defaultOpen} data-faq>
+<details class="faq-item rounded-2xl border border-border bg-card p-4" open={defaultOpen} data-faq>
   <summary
     class="flex items-start gap-3 cursor-pointer text-content font-semibold text-base leading-snug text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-highlight rounded"
     data-faq-summary

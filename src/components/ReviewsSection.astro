@@ -25,7 +25,7 @@ const stars = Array.from({ length: 5 });
 
 <section id="resenas" class="py-20 space-y-8" data-animate="reveal">
   <div class="section-shell flex flex-col gap-3 max-w-3xl">
-    <p class="pill inline-flex items-center gap-2 w-fit border border-border/70 bg-card/80 text-content shadow-soft backdrop-blur-sm">
+    <p class="pill inline-flex items-center gap-2 w-fit border border-border/70 bg-card text-content shadow-soft">
       <Icon name="lucide:star" class="h-4 w-4 text-highlight" />
       Testimonios reales
     </p>
@@ -44,9 +44,7 @@ const stars = Array.from({ length: 5 });
         const rating = Math.max(0, Math.min(5, Math.round(ratingValue)));
 
         return (
-          <article class="group relative flex h-full flex-col gap-4 overflow-hidden rounded-3xl border border-border/70 bg-card/80 p-6 shadow-soft transition duration-300 hover:-translate-y-1 hover:border-primary/40">
-            <div class="pointer-events-none absolute -right-16 -top-16 h-32 w-32 rounded-full bg-primary/20 blur-3xl" />
-            <div class="pointer-events-none absolute -left-10 -bottom-12 h-28 w-28 rounded-full bg-accent/15 blur-3xl" />
+          <article class="group relative flex h-full flex-col gap-4 overflow-hidden rounded-3xl border border-border/70 bg-card p-6 shadow-soft transition duration-300 hover:-translate-y-1 hover:border-primary/40">
             <div class="relative flex items-center justify-between gap-3">
               <div class="flex items-center gap-3">
                 <div class="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-primary/70 to-accent/70 text-secondary text-sm font-semibold">
