@@ -44,8 +44,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Manrope"', "ui-sans-serif", "system-ui", "Segoe UI", "sans-serif"],
-        display: ['"Space Grotesk"', '"Manrope"', "ui-sans-serif", "system-ui", "Segoe UI", "sans-serif"]
+        sans: ['"Inter"', "ui-sans-serif", "system-ui", "Segoe UI", "sans-serif"],
+        display: ['"Inter"', "ui-sans-serif", "system-ui", "Segoe UI", "sans-serif"]
       },
       colors: {
         surface: withOpacity("--color-surface"),
