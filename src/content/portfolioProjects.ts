@@ -23,45 +23,25 @@ export const projects: Project[] = [
   {
     id: "clinica-montblanc",
     title: "Clínica Montblanc",
-    image: "/images/webs/account-setup.png",
+    image: "/images/webs/montblanc-web.webp",
     href: "https://www.clinicamontblanc.cl",
   },
   {
-    id: "saas-placeholder-1",
-    title: "Proyecto SaaS",
-    image: "/images/webs/account-setup.png", // Placeholder image
+    id: "doctor-harold-ziller",
+    title: "Dr. Harold Ziller",
+    image: "/images/webs/dr-harald-ziller.webp",
+    href: "https://drharaldziller.cl/", 
   },
   {
-    id: "ecommerce-placeholder-1",
-    title: "Tienda Online",
-    image: "/images/webs/account-setup.png", // Placeholder image
+    id: "estampados-rya",
+    title: "Estampados R&A",
+    image: "/images/webs/estampados-rya.webp", // Placeholder image
+    href: "https://rya-estampados.vercel.app/",  // Placeholder image
   },
   {
     id: "landing-placeholder-1",
     title: "Landing Page Evento",
-    image: "/images/webs/account-setup.png", // Placeholder image
+    image: "/images/webs/montblanc-web.webp", // Placeholder image
     href: "#",
-  },
-  {
-    id: "sitio-placeholder-1",
-    title: "Sitio Corporativo",
-    image: "/images/webs/account-setup.png", // Using existing image as placeholder
-    href: "#",
-  },
-   {
-    id: "saas-placeholder-2",
-    title: "Plataforma Educativa",
-    image: "/images/webs/account-setup.png", // Placeholder image
-  },
-  {
-    id: "ecommerce-placeholder-2",
-    title: "Ecommerce de Ropa",
-    image: "/images/webs/account-setup.png", // Placeholder image
-    href: "#",
-  },
-  {
-    id: "landing-placeholder-2",
-    title: "Página de Captura",
-    image: "/images/webs/account-setup.png", // Placeholder image
   },
 ];

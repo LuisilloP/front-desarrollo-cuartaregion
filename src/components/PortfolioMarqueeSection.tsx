@@ -17,11 +17,11 @@ const ProjectCard = ({ project }: { project: Project }) => {
   const cardContent = (
     <figure className="flex flex-col gap-3">
       {/* Phone-like container for the image */}
-      <div className="aspect-[9/16] w-full overflow-hidden rounded-[1.75rem] bg-gray-100 dark:bg-gray-800 shadow-md ring-4 ring-gray-900/5 dark:ring-white/10 transition-shadow duration-300 group-hover:shadow-xl">
+      <div className="aspect-auto w-full overflow-hidden rounded-[1.75rem] bg-gray-100 dark:bg-gray-800 shadow-md ring-4 ring-gray-900/5 dark:ring-white/10 transition-shadow duration-300 group-hover:shadow-xl">
         <img
           src={project.image}
           alt={`Screenshot of the ${project.title} project`}
-          className="h-full w-full object-cover"
+          className="h-full w-full object-fill"
           loading="lazy"
           width={220}
           height={391} // 9:16 aspect ratio
