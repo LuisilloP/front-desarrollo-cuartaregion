@@ -17,29 +17,35 @@ const ProjectCard = ({ project }: { project: Project }) => {
   const cardContent = (
     <figure className="flex flex-col gap-3">
       {/* Phone-like container for the image */}
-      <div className="aspect-[8/16] w-full overflow-hidden rounded-[1.75rem] bg-gray-100 dark:bg-gray-800 shadow-md ring-4 ring-gray-900/5 dark:ring-white/10 transition-shadow duration-300 group-hover:shadow-xl">
+      <div className="aspect-[9/16] w-full overflow-hidden rounded-[1.75rem] bg-surface-strong/70 shadow-soft ring-1 ring-border/60 transition-shadow duration-300 group-hover:shadow-xl">
         <img
           src={project.image}
           alt={`Screenshot of the ${project.title} project`}
           className="h-full w-full object-cover"
           loading="lazy"
-          width={220}
-          height={391} // 9:16 aspect ratio
+          width={240}
+          height={427} // 9:16 aspect ratio
         />
       </div>
-      <figcaption className="truncate px-2 text-center text-sm font-medium text-gray-800 dark:text-gray-300">
+      <figcaption className="truncate px-2 text-center text-sm font-semibold text-content">
         {project.title}
       </figcaption>
     </figure>
   );
 
   const liClasses =
-    "group w-[220px] flex-shrink-0 cursor-pointer rounded-[2rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-4";
+    "group w-[240px] flex-shrink-0 cursor-pointer rounded-[2rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight focus-visible:ring-offset-4";
 
   if (project.href) {
     return (
       <li className={liClasses}>
-        <a href={project.href} target="_blank" rel="noopener noreferrer" aria-label={project.title} className="transition-transform duration-300 ease-in-out block hover:-translate-y-1.5">
+        <a
+          href={project.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={project.title}
+          className="block transition-transform duration-300 ease-in-out hover:-translate-y-1.5"
+        >
           {cardContent}
         </a>
       </li>
@@ -48,9 +54,9 @@ const ProjectCard = ({ project }: { project: Project }) => {
 
   return (
     <li className={liClasses} tabIndex={0}>
-       <div className="transition-transform duration-300 ease-in-out block hover:-translate-y-1.5">
+      <div className="block transition-transform duration-300 ease-in-out hover:-translate-y-1.5">
         {cardContent}
-       </div>
+      </div>
     </li>
   );
 };
@@ -73,11 +79,14 @@ const PortfolioMarqueeSection: React.FC<PortfolioMarqueeSectionProps> = ({
   const [isAnimating, setIsAnimating] = useState(false);
 
   // 1. All projects are now visible, no filtering needed.
-  const visibleProjects = projects;
+  const visibleProjects = projects ?? [];
 
   // 2. ALWAYS duplicate projects for a seamless loop structure.
   const marqueeProjects = useMemo(
-    () => [...visibleProjects, ...visibleProjects],
+    () =>
+      visibleProjects.length > 0
+        ? [...visibleProjects, ...visibleProjects, ...visibleProjects, ...visibleProjects]
+        : [],
     [visibleProjects]
   );
 
@@ -240,34 +249,37 @@ const PortfolioMarqueeSection: React.FC<PortfolioMarqueeSectionProps> = ({
   } as React.CSSProperties;
 
   return (
-    <section className="py-16 sm:py-24 overflow-hidden">
-      <div className="container mx-auto px-6 sm:px-8">
+    <section className="relative overflow-hidden py-16 sm:py-24">
+      <div className="pointer-events-none absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-highlight/15 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-32 right-[-80px] h-72 w-72 rounded-full bg-accent/15 blur-3xl" />
+      <div className="section-shell">
         {/* Section Header */}
-        <div className="mx-auto max-w-3xl text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium bg-sky-500/10 text-sky-600 dark:bg-sky-400/10 dark:text-sky-300">
+        <div className="mx-auto max-w-3xl text-center space-y-4">
+          <div className="pill inline-flex items-center justify-center gap-2 text-highlight">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
               <path d="M6 3h12l4 6-10 13L2 9l4-6Z"/>
               <path d="M12 22 4 9l8-6 8 6-8 13Z"/>
               <path d="M2 9h20"/>
             </svg>
-            Nuestro Portafolio
+            Nuestro portafolio
           </div>
-          <h2 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
-            Algunos de nuestros proyectos
+          <h2 className="text-3xl font-bold tracking-tight text-content sm:text-4xl lg:text-5xl">
+            Proyectos que demuestran lo que podemos construir juntos
           </h2>
-          <p className="mt-4 text-lg text-slate-600 dark:text-white/60">
-            Hemos colaborado con clientes de diversas industrias para crear soluciones web y móviles de alto impacto. Aquí puedes ver algunos ejemplos de nuestro trabajo.
+          <p className="text-base text-muted sm:text-lg">
+            Hemos colaborado con clientes de diversas industrias para crear soluciones web y moviles de alto impacto.
+            Aqui puedes ver algunos ejemplos de nuestro trabajo.
           </p>
         </div>
       </div>
       <div
         ref={marqueeContainerRef}
-        className="marquee mt-16"
+        className="marquee mt-12 sm:mt-16"
         style={marqueeStyle}
       >
         <ul
           ref={marqueeTrackRef}
-          className="p-4 marquee__track"
+          className={`marquee__track px-6 py-4 sm:px-8 sm:py-6 ${isAnimating ? "animate" : ""}`}
         >
           {marqueeProjects.map((project, index) => (
             <ProjectCard key={`${project.id}-${index}`} project={project} />
@@ -279,3 +291,4 @@ const PortfolioMarqueeSection: React.FC<PortfolioMarqueeSectionProps> = ({
 };
 
 export default PortfolioMarqueeSection;
+
