@@ -1,203 +1,173 @@
 ---
-import type { SiteSettings } from "../data/mock";
-import { buildWhatsAppLink } from "../lib/utils";
 import { Icon } from "astro-icon/components";
+import type { SiteSettings, NavLink } from "../lib/api/types";
+import { buildWhatsAppLink } from "../lib/utils";
 
 interface Props {
   siteSettings: SiteSettings;
+  navLinks: NavLink[];
 }
 
-const { siteSettings } = Astro.props;
+const { siteSettings, navLinks } = Astro.props;
 const pathname = Astro.url?.pathname ?? "/";
 const isHome = pathname === "/" || pathname === "";
 const withHome = (href: string) => (href.startsWith("#") && !isHome ? `/${href}` : href);
-const navLinks = [
-  { href: withHome("#inicio"), label: "Inicio" },
-  { href: withHome("#servicios"), label: "Servicios" },
-  { href: withHome("#casos"), label: "Casos" },
-  { href: withHome("#resenas"), label: "Reseñas" },
-  { href: withHome("#contacto"), label: "Contacto" },
-  { href: withHome("#faq"), label: "FAQ" }
-];
-const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero cotizar mi web o automatizacion.");
 
-const headerClass = isHome
-  ? "fixed inset-x-0 top-0 z-50"
-  : "sticky top-0 z-50 bg-surface/90 backdrop-blur border-b border-border/70";
-const shellClass = isHome ? "section-shell pt-6 pb-3" : "section-shell py-3";
-const panelClass = isHome
-  ? "flex items-center justify-between gap-3 rounded-3xl bg-secondary/75 text-contrast shadow-[0_18px_80px_rgba(0,0,0,0.45)] backdrop-blur-xl px-4 sm:px-6 py-3"
-  : "flex items-center justify-between gap-3 rounded-3xl border border-border/80 bg-surface/90 text-content shadow-soft backdrop-blur px-4 sm:px-6 py-3";
-const logoBgClass = isHome ? "border border-transparent bg-white/10" : "border border-border bg-card";
-const titleClass = isHome ? "text-lg font-semibold text-contrast leading-tight" : "text-lg font-semibold text-content leading-tight";
-const navLinkClass = isHome
-  ? "text-contrast/80 hover:text-contrast transition-colors"
-  : "text-muted hover:text-content transition-colors";
-const iconBtnClass = isHome
-  ? "items-center justify-center h-10 w-10 rounded-full border border-transparent text-contrast bg-white/10 hover:bg-white/15"
-  : "items-center justify-center h-10 w-10 rounded-full border border-border text-content bg-card hover:border-primary/60";
-const mobileNavClass = `fixed z-50 inset-x-0 top-24 mx-auto w-[90%] max-w-sm flex flex-col gap-3 rounded-3xl p-5 shadow-2xl opacity-0 -translate-y-4 scale-95 pointer-events-none transition-all duration-200 hidden ${
-  isHome
-    ? "border border-white/15 bg-secondary/95 text-contrast backdrop-blur-xl shadow-[0_22px_90px_rgba(0,0,0,0.55)]"
-    : "border border-border bg-card text-content"
-}`;
-const mobileLinkClass = isHome
-  ? "px-4 py-3 rounded-2xl bg-white/5 text-left font-semibold text-contrast shadow-sm border border-white/10 hover:border-white/20 hover:bg-white/10"
-  : "px-4 py-3 rounded-2xl bg-card text-left font-semibold text-content shadow-sm border border-border/80 hover:border-primary/40 hover:bg-surface-strong/20";
-const mobileCtaClass = isHome
-  ? "mt-4 inline-flex items-center gap-2 px-4 py-3 rounded-full bg-white text-secondary font-semibold shadow-[0_15px_60px_rgba(0,0,0,0.4)] hover:-translate-y-0.5 transition justify-center"
-  : "mt-4 inline-flex items-center gap-2 px-4 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-secondary font-semibold shadow-soft hover:shadow-lg transition justify-center";
+const processedNavLinks = navLinks.map(link => ({...link, href: withHome(link.href)}));
+const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero cotizar mi web o automatizacion.");
 ---
 
-<header class={headerClass}>
-  <div class={shellClass}>
-    <div class={panelClass}>
-      <a href={withHome("#inicio")} class="flex items-center gap-3">
+<header 
+  id="main-header"
+  class="group fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-in-out"
+>
+  <nav class="container mx-auto flex items-center justify-between px-4 py-3">
+    <!-- Logo -->
+    <a href={withHome("#inicio")} class="flex items-center gap-3 font-bold text-xl tracking-tight text-white group-[.scrolled]:text-slate-900 dark:group-[.scrolled]:text-white">
+      <div class="bg-white/90 backdrop-blur-sm rounded-lg p-1">
         <img
           src="/logo.png"
-          alt={siteSettings.siteName}
-          class={`h-14 w-auto rounded-2xl object-contain p-1.5 ${logoBgClass}`}
-          loading="lazy"
+          alt=`Logo de ${siteSettings.siteName}`
+          class="h-10 w-10 object-contain"
+          loading="eager"
         />
-        <p class={titleClass}>{siteSettings.siteName}</p>
-      </a>
-
-      <nav class="hidden lg:flex items-center gap-6 text-sm">
-        {navLinks.map((link) => (
-          <a class={navLinkClass} href={link.href}>{link.label}</a>
-        ))}
-      </nav>
-
-      <div class="flex items-center gap-2">
-        <button
-          id="theme-toggle"
-          class={`hidden sm:inline-flex ${iconBtnClass}`}
-          type="button"
-          aria-label="Cambiar tema"
-        >
-          <Icon
-            name="lucide:sun-medium"
-            class="h-5 w-5"
-            aria-hidden="true"
-            data-theme-icon="light"
-          />
-          <Icon
-            name="lucide:moon-star"
-            class="h-5 w-5 hidden"
-            aria-hidden="true"
-            data-theme-icon="dark"
-          />
-        </button>
-        <button
-          id="menu-toggle"
-          class={`lg:hidden inline-flex ${iconBtnClass}`}
-          type="button"
-          aria-label="Abrir menu"
-          aria-controls="mobile-nav"
-          aria-expanded="false"
-        >
-          <Icon name="lucide:menu" class="h-4 w-4" aria-hidden="true" />
-        </button>
       </div>
+      <span class="hidden sm:inline">{siteSettings.siteName}</span>
+    </a>
 
-      <nav
-        id="mobile-nav"
-        class={mobileNavClass}
-      >
-        <div class="flex flex-col gap-2">
-          {navLinks.map((link) => (
-            <a
-              class={mobileLinkClass}
-              href={link.href}
-            >
-              {link.label}
-            </a>
-          ))}
-        </div>
-        <a
-          class={mobileCtaClass}
-          href={whatsappUrl}
-          target="_blank"
-          rel="noreferrer"
-        >
-          WhatsApp
-          <span aria-hidden="true">-></span>
+    <!-- Desktop Navigation -->
+    <div class="hidden lg:flex items-center gap-x-8 text-white group-[.scrolled]:text-slate-700 dark:group-[.scrolled]:text-white">
+      {processedNavLinks.map(link => (
+        <a href={link.href} class="text-sm font-medium transition-colors duration-200 hover:text-sky-300 dark:hover:text-sky-300 group-[.scrolled]:hover:text-sky-500 dark:group-[.scrolled]:hover:text-sky-300">
+          {link.label}
         </a>
-      </nav>
+      ))}
     </div>
-  </div>
+
+    <!-- Action Buttons -->
+    <div class="flex items-center gap-x-2 text-white group-[.scrolled]:text-slate-700 dark:group-[.scrolled]:text-white">
+      <button
+        id="theme-toggle"
+        class="h-10 w-10 rounded-full flex items-center justify-center transition-colors hover:bg-black/10"
+        type="button"
+        aria-label="Cambiar tema"
+      >
+        <Icon name="lucide:sun-medium" class="h-5 w-5" data-theme-icon="light" />
+        <Icon name="lucide:moon-star" class="h-5 w-5 hidden" data-theme-icon="dark" />
+      </button>
+
+      <!-- Mobile Menu Button -->
+      <button id="mobile-menu-toggle" class="lg:hidden flex flex-col justify-center items-center w-10 h-10 rounded-full transition-colors hover:bg-black/10" aria-label="Abrir menú" aria-expanded="false">
+        <span class="w-5 h-0.5 rounded-full transition-transform duration-300 ease-in-out bg-white group-[.scrolled]:bg-slate-900 dark:group-[.scrolled]:bg-white" aria-hidden="true"></span>
+        <span class="w-5 h-0.5 rounded-full my-1.5 transition-opacity duration-300 ease-in-out bg-white group-[.scrolled]:bg-slate-900 dark:group-[.scrolled]:bg-white" aria-hidden="true"></span>
+        <span class="w-5 h-0.5 rounded-full transition-transform duration-300 ease-in-out bg-white group-[.scrolled]:bg-slate-900 dark:group-[.scrolled]:bg-white" aria-hidden="true"></span>
+      </button>
+
+      <a href={whatsappUrl} target="_blank" rel="noreferrer" class="hidden lg:flex items-center gap-2 px-4 py-2 rounded-full bg-[#25D366] text-white font-semibold text-sm hover:scale-105 transition-transform">
+        <Icon name="simple-icons:whatsapp" class="h-4 w-4" />
+        <span>Contactar</span>
+      </a>
+    </div>
+  </nav>
 </header>
 
+<!-- Mobile Menu Panel -->
+<div 
+  id="mobile-menu-panel"
+  class="fixed top-0 right-0 h-full w-72 backdrop-blur-lg shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out z-40 lg:hidden
+  bg-white/90 text-slate-900
+  dark:bg-slate-900/95 dark:text-white"
+>
+  <div class="flex flex-col p-8 pt-24 gap-y-6">
+    {processedNavLinks.map(link => (
+      <a href={link.href} class="text-lg font-semibold transition-colors mobile-nav-link
+      hover:text-sky-600
+      dark:hover:text-sky-300">
+        {link.label}
+      </a>
+    ))}
+    <a href={whatsappUrl} target="_blank" rel="noreferrer" class="mt-4 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full bg-[#25D366] text-white font-semibold shadow-soft hover:shadow-lg hover:-translate-y-0.5 transition">
+      <Icon name="simple-icons:whatsapp" class="h-5 w-5" />
+      <span>Cotizar por WhatsApp</span>
+    </a>
+  </div>
+</div>
+<!-- Backdrop -->
+<div id="mobile-menu-backdrop" class="fixed inset-0 bg-black/40 z-30 hidden lg:hidden"></div>
+
 <script is:inline>
-  const root = document.documentElement;
-  const btn = document.getElementById("theme-toggle");
-  const menuBtn = document.getElementById("menu-toggle");
-  const mobileNav = document.getElementById("mobile-nav");
-  const THEME_KEY = "theme";
+  document.addEventListener("DOMContentLoaded", () => {
+    // --- Theme Toggler ---
+    const themeToggleBtn = document.getElementById("theme-toggle");
+    const THEME_KEY = "theme";
 
-  const setThemeIcon = (theme) => {
-    btn?.querySelectorAll("[data-theme-icon]").forEach((icon) => {
-      const target = icon.getAttribute("data-theme-icon");
-      icon.classList.toggle("hidden", target !== theme);
-    });
-  };
-
-  const applyTheme = (theme) => {
-    if (theme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
-    localStorage.setItem(THEME_KEY, theme);
-    setThemeIcon(theme);
-  };
-
-  const stored = localStorage.getItem(THEME_KEY);
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  applyTheme(stored || (prefersDark ? "dark" : "light"));
-
-  btn?.addEventListener("click", () => {
-    const next = root.classList.contains("dark") ? "light" : "dark";
-    applyTheme(next);
-  });
-
-  const showMenu = () => {
-    if (!mobileNav || !menuBtn) return;
-    mobileNav.classList.remove("hidden");
-    requestAnimationFrame(() => {
-      mobileNav.classList.remove("opacity-0", "-translate-y-4", "scale-95", "pointer-events-none");
-    });
-    menuBtn.setAttribute("aria-expanded", "true");
-  };
-
-  const hideMenu = () => {
-    if (!mobileNav || !menuBtn) return;
-    mobileNav.classList.add("opacity-0", "-translate-y-4", "scale-95", "pointer-events-none");
-    const handleTransitionEnd = () => {
-      mobileNav.classList.add("hidden");
-      menuBtn.setAttribute("aria-expanded", "false");
+    const setThemeIcon = (theme) => {
+      themeToggleBtn?.querySelectorAll("[data-theme-icon]").forEach((icon) => {
+        icon.classList.toggle("hidden", icon.getAttribute("data-theme-icon") !== theme);
+      });
     };
-    mobileNav.addEventListener("transitionend", handleTransitionEnd, { once: true });
-  };
 
-  const toggleMenu = () => {
-    if (mobileNav?.classList.contains("hidden")) {
-      showMenu();
-    } else {
-      hideMenu();
-    }
-  };
+    const applyTheme = (theme) => {
+      document.documentElement.classList.toggle("dark", theme === "dark");
+      localStorage.setItem(THEME_KEY, theme);
+      setThemeIcon(theme);
+    };
 
-  menuBtn?.addEventListener("click", toggleMenu);
-  document.addEventListener("click", (event) => {
-    if (!mobileNav || !menuBtn) return;
-    if (mobileNav.classList.contains("hidden")) return;
-    const target = event.target;
-    if (!(target instanceof Node)) return;
-    if (mobileNav.contains(target) || menuBtn.contains(target)) return;
-    hideMenu();
-  });
-  mobileNav?.querySelectorAll("a").forEach((anchor) => {
-    anchor.addEventListener("click", hideMenu);
+    const storedTheme = localStorage.getItem(THEME_KEY);
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    applyTheme(storedTheme || (prefersDark ? "dark" : "light"));
+
+    themeToggleBtn?.addEventListener("click", () => {
+      const nextTheme = document.documentElement.classList.contains("dark") ? "light" : "dark";
+      applyTheme(nextTheme);
+    });
+
+    // --- Header Scroll Effect ---
+    const header = document.getElementById("main-header");
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        header.classList.add("scrolled", "shadow-lg");
+        header.classList.add("bg-white/80", "dark:bg-slate-900/80", "backdrop-blur-lg");
+      } else {
+        header.classList.remove("scrolled", "shadow-lg");
+        header.classList.remove("bg-white/80", "dark:bg-slate-900/80", "backdrop-blur-lg");
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Initial check
+
+    // --- Mobile Menu ---
+    const menuToggle = document.getElementById("mobile-menu-toggle");
+    const menuPanel = document.getElementById("mobile-menu-panel");
+    const menuBackdrop = document.getElementById("mobile-menu-backdrop");
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+    const hamburgerSpans = menuToggle?.querySelectorAll('span');
+
+    const openMenu = () => {
+      menuPanel.classList.remove('translate-x-full');
+      menuBackdrop.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      menuToggle.setAttribute('aria-expanded', 'true');
+      hamburgerSpans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+      hamburgerSpans[1].style.opacity = '0';
+      hamburgerSpans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+    };
+
+    const closeMenu = () => {
+      menuPanel.classList.add('translate-x-full');
+      menuBackdrop.classList.add('hidden');
+      document.body.style.overflow = '';
+      menuToggle.setAttribute('aria-expanded', 'false');
+      hamburgerSpans.forEach(span => span.style.transform = '');
+      hamburgerSpans[1].style.opacity = '1';
+    };
+
+    menuToggle.addEventListener('click', () => {
+      const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+      isExpanded ? closeMenu() : openMenu();
+    });
+
+    menuBackdrop.addEventListener('click', closeMenu);
+    mobileNavLinks.forEach(link => link.addEventListener('click', closeMenu));
   });
 </script>

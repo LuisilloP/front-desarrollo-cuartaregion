@@ -3,10 +3,9 @@
 @tailwind utilities;
 
 body {
-  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  background: radial-gradient(circle at 15% 20%, rgb(var(--color-highlight) / 0.14), transparent 30%),
-    radial-gradient(circle at 85% 10%, rgb(var(--color-accent) / 0.14), transparent 32%),
-    rgb(var(--color-surface));
+  font-family: "Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
+  background-color: rgb(var(--color-surface));
+  background-image: linear-gradient(180deg, rgb(var(--color-surface-strong) / 0.35), transparent 55%);
   color: rgb(var(--color-content));
   transition: background-color 200ms ease, color 200ms ease;
 }
@@ -65,4 +64,83 @@ a {
 [data-animate="reveal"].animate-visible {
   opacity: 1;
   transform: translateY(0) scale(1);
+}
+
+.prose {
+  color: rgb(var(--color-content));
+}
+
+.prose :where(p, li, blockquote):not(:where([class~="not-prose"] *)) {
+  color: rgb(var(--color-muted));
+}
+
+.prose :where(h1, h2, h3, h4, h5, h6):not(:where([class~="not-prose"] *)) {
+  color: rgb(var(--color-content));
+}
+
+.prose :where(a):not(:where([class~="not-prose"] *)) {
+  color: rgb(var(--color-highlight));
+  text-decoration: underline;
+  text-decoration-color: rgb(var(--color-highlight) / 0.4);
+  text-underline-offset: 3px;
+}
+
+.prose :where(code):not(:where([class~="not-prose"] *)) {
+  color: inherit;
+  background: rgb(var(--color-surface-strong) / 0.55);
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.35rem;
+}
+
+.prose :where(blockquote):not(:where([class~="not-prose"] *)) {
+  border-left: 3px solid rgb(var(--color-border));
+  background: rgb(var(--color-surface-strong) / 0.6);
+  padding-inline: 1rem;
+  padding-block: 0.8rem;
+}
+
+.prose :where(ul, ol):not(:where([class~="not-prose"] *)) {
+  padding-left: 1.25rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+/* ♠️ --- Marquee Styles --- */
+.marquee {
+  --marquee-duration: 40s;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: visible;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+}
+
+.marquee__track {
+  display: flex;
+  gap: 1.5rem; /* 24px */
+  will-change: transform;
+}
+
+/* The animation is now controlled by a class added via JS */
+.marquee__track.animate {
+  animation: marquee-left var(--marquee-duration) linear infinite;
+}
+
+.marquee:hover .marquee__track.animate {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track.animate {
+    animation: none;
+  }
 }

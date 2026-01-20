@@ -1,102 +1,99 @@
----
-import type { SiteSettings } from "../data/mock";
-import { buildWhatsAppLink } from "../lib/utils";
+--- 
 import { Icon } from "astro-icon/components";
-import HeroBackgroundSlideshow from "./hero/HeroBackgroundSlideshow";
+import type { SiteSettings, HeroSectionContent } from "../lib/api/types";
+import { buildWhatsAppLink } from "../lib/utils";
+import HeroBackgroundSlideshow from "./hero/HeroBackgroundSlideshow.tsx";
 
 interface Props {
   siteSettings: SiteSettings;
+  content: HeroSectionContent;
 }
 
-const { siteSettings } = Astro.props;
-const region = siteSettings.region || "Region Metropolitana";
+const { siteSettings, content } = Astro.props;
 const whatsappUrl = buildWhatsAppLink(
   siteSettings.whatsappNumber,
-  "Hola! Quiero una web y automatizacion para mi negocio."
+  "Hola! Quiero potenciar mi web y automatizar ventas."
 );
 
 const heroImages = [
-  {
-    src: "/images/hero/coquimbo.jpg",
-    alt: "Bahia y puerto de Coquimbo",
-    position: "center",
-  },
-  {
-    src: "/images/hero/serena.png",
-    alt: "Atardecer en La Serena",
-    position: "center",
-  },
-  {
-    src: "/images/hero/astro.png",
-    alt: "Cielo estrellado en Valle del Elqui",
-    position: "center",
-  },
+  { src: "/images/hero/coquimbo.jpg", alt: "Bahia y puerto de Coquimbo" },
+  { src: "/images/hero/serena.png", alt: "Atardecer en La Serena" },
+  { src: "/images/hero/astro.png", alt: "Cielo estrellado en Valle del Elqui" },
 ];
-
-const heroBg = heroImages[0];
-const slides = heroImages.length ? heroImages : [heroBg];
 ---
 
-<section
-  class="relative isolate min-h-screen overflow-hidden text-contrast"
-  data-animate="reveal"
->
-  <p id="inicio"></p>
-  <HeroBackgroundSlideshow
-    client:load
-    slides={slides}
-    intervalMs={8000}
-    transitionMs={2000}
-  />
+<section id="inicio" class="relative h-screen min-h-[700px] w-full overflow-hidden">
+  <!-- Background Slideshow -->
+  <div class="absolute inset-0 z-0">
+    <HeroBackgroundSlideshow client:load slides={heroImages} intervalMs={7000} transitionMs={1200} />
+  </div>
 
-  <div
-    class="section-shell relative z-10 flex min-h-screen items-center py-24 sm:py-28 lg:py-32"
-  >
-    <div class="max-w-3xl space-y-8 mt-32">
-      <div
-        class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm backdrop-blur"
-      >
-        <span
-          class="h-2 w-2 rounded-full bg-highlight shadow-[0_0_0_6px_rgba(255,255,255,0.08)]"
-        ></span>
-        Agencia local - {region}
+  <!-- Dark Overlay -->
+  <div class="absolute inset-0 z-10 bg-gradient-to-t from-black/70 via-black/50 to-transparent"></div>
+
+  <!-- Content -->
+  <div class="relative z-20 flex h-full flex-col items-center justify-center text-center text-white p-4">
+    <div class="flex max-w-4xl flex-col items-center gap-y-6">
+      <div class="animate-fade-in-up inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm backdrop-blur-sm">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-300 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-sky-400"></span>
+        </span>
+        {content.eyebrow}
       </div>
+
       <h1
-        class="text-4xl sm:text-5xl lg:text-6xl font-display font-semibold leading-[1.05] tracking-tight"
+        class="text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl"
+        style="animation: fade-in-in-up 0.8s 0.2s both cubic-bezier(0.25, 0.46, 0.45, 0.94);"
       >
-        Desarrollamos la web o sistema que tu negocio necesita
+        {content.title}
       </h1>
-      <p class="text-lg sm:text-xl text-contrast/85 max-w-2xl leading-relaxed">
-        Landing pages, sitios administrables y sistemas de gestion.
-        Automatizamos procesos con WhatsApp para que vendas mas.
+
+      <p
+        class="max-w-2xl text-lg text-white/80 md:text-xl"
+        style="animation: fade-in-up 0.8s 0.4s both cubic-bezier(0.25, 0.46, 0.45, 0.94);"
+      >
+        {content.description}
       </p>
-      <div class="flex flex-wrap gap-4">
+
+      <div
+        class="flex flex-col gap-4 sm:flex-row"
+        style="animation: fade-in-up 0.8s 0.6s both cubic-bezier(0.25, 0.46, 0.45, 0.94);"
+      >
         <a
-          class="inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-white text-secondary font-semibold shadow-[0_18px_40px_rgba(0,0,0,0.35)] transition hover:-translate-y-0.5 hover:shadow-[0_25px_60px_rgba(0,0,0,0.35)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           href={whatsappUrl}
           target="_blank"
           rel="noreferrer"
+          class="inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-3.5 text-base font-semibold text-white shadow-lg transition-transform duration-200 hover:scale-105"
         >
-          {siteSettings.primaryCTA || "Agenda una llamada"}
-          <span aria-hidden="true" class="text-lg leading-none">-&gt;</span>
+          <Icon name="simple-icons:whatsapp" class="h-5 w-5" />
+          <span>{siteSettings.primaryCTA || "Cotizar por WhatsApp"}</span>
         </a>
         <a
-          class="inline-flex items-center gap-3 px-7 py-3.5 rounded-full border border-white/35 bg-white/5 text-contrast/90 transition hover:bg-white/12 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70"
           href="#servicios"
+          class="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3.5 text-base font-semibold text-white backdrop-blur-md transition-colors duration-200 hover:bg-white/20"
         >
-          {siteSettings.secondaryCTA || "Ver servicios"}
+          <span>{siteSettings.secondaryCTA || "Ver soluciones"}</span>
+          <Icon name="lucide:arrow-right" class="h-4 w-4" />
         </a>
-      </div>
-      <div class="flex flex-wrap gap-6 text-sm text-contrast/70">
-        <div class="flex items-center gap-2">
-          <span class="h-2 w-2 rounded-full bg-white/60"></span>
-          Integraciones con WhatsApp, CRM y pagos
-        </div>
-        <div class="flex items-center gap-2">
-          <span class="h-2 w-2 rounded-full bg-white/60"></span>
-          Lanzamientos en semanas, no meses
-        </div>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.8s both cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+</style>

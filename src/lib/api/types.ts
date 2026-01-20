@@ -26,6 +26,17 @@ export type StrapiCasePoint = { text?: string | null; tone?: string | null };
 export type StrapiImpactTag = { text?: string | null; variant?: string | null };
 export type StrapiBlocks = Array<{ type?: string; children?: Array<{ text?: string | null }> }>;
 
+export type NavLink = {
+  href: string;
+  label: string;
+};
+
+export type SocialLink = {
+  name: string;
+  url: string;
+  icon: string;
+};
+
 export type SiteSettings = {
   siteName: string;
   tagline: string;
@@ -33,7 +44,7 @@ export type SiteSettings = {
   whatsappNumber: string;
   primaryCTA: string;
   secondaryCTA: string;
-  socialLinks: { label: string; url: string }[];
+  socialLinks: SocialLink[];
   footerText: string;
 };
 
@@ -54,6 +65,7 @@ export type Service = {
   top_banner?: string;
   order?: number;
   featured?: boolean;
+  icon?: string;
 };
 
 export type CaseStudy = {
@@ -130,3 +142,60 @@ export type Post = {
   category?: Category | null;
   tags?: Tag[];
 };
+
+export interface ContactSectionContent {
+  eyebrow: string;
+  title: string;
+  description: string;
+  socialLinks: SocialLink[];
+}
+
+export interface UseCase {
+  title: string;
+  description: string;
+  icon: string;
+}
+
+export interface UseCasesSectionContent {
+  eyebrow: string;
+  title: string;
+  description: string;
+  cases: UseCase[];
+}
+
+export interface ReviewsSectionContent {
+  eyebrow: string;
+  title: string;
+  description: string;
+}
+
+export interface FaqSectionContent {
+  eyebrow: string;
+  title: string;
+  description: string;
+}
+
+export interface HeroSectionContent {
+  eyebrow: string;
+  title: string;
+  description: string;
+}
+
+export interface Content {
+  siteSettings: SiteSettings;
+  navLinks: NavLink[];
+  heroSection: HeroSectionContent;
+  contactSection: ContactSectionContent;
+  useCasesSection: UseCasesSectionContent;
+  reviewsSection: ReviewsSectionContent;
+  faqSection: FaqSectionContent;
+  services: Service[];
+  cases: CaseStudy[];
+  reviews: Testimonial[];
+  faqs: Faq[];
+  legalPages: {
+    privacidad: LegalPage;
+    terminos: LegalPage;
+  };
+  posts: Post[];
+}

@@ -1,114 +1,120 @@
 ---
-import type { SiteSettings } from "../data/mock";
-import { buildWhatsAppLink } from "../lib/utils";
 import { Icon } from "astro-icon/components";
+import { buildWhatsAppLink } from "../lib/utils";
 
-interface Props {
-  siteSettings: SiteSettings;
+// Define a type for a single social link for clarity
+interface SocialLink {
+  name: string;
+  url: string;
+  icon: string;
 }
 
-const { siteSettings } = Astro.props;
-const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola, quiero cotizar mi sitio o automatizacion.");
-const formEndpoint = "/api/contact";
+// Define the shape of the content prop
+interface Content {
+  eyebrow: string;
+  title: string;
+  description: string;
+  socialLinks: SocialLink[];
+}
+
+interface Props {
+  content: Content;
+  whatsappNumber: string;
+}
+
+const { content, whatsappNumber } = Astro.props;
+const whatsappUrl = buildWhatsAppLink(whatsappNumber, "Hola! Quiero cotizar un proyecto.");
 ---
 
-<section id="contacto" class="py-20" data-animate="reveal">
-  <div class="section-shell grid lg:grid-cols-2 gap-10 items-start">
-    <div class="space-y-4">
-      
-      <h2 class="text-3xl sm:text-4xl font-bold text-content">Conversemos y arma tu plan</h2>
-      <p class="text-muted">
-        Cuentanos si necesitas una landing de alto rendimiento, automatizar WhatsApp o soporte TI continuo. Respondemos en horario
-        laboral Chile en menos de 24h. Si prefieres, escribe directo a WhatsApp.
-      </p>
-      <div class="flex flex-col items-start gap-4">
-      <p class="pill block items-center gap-2 bg-primary/10 border-primary/40 text-highlight">
-        <Icon name="lucide:message-circle" class="h-4 w-4 text-highlight/80" />
-        Contacto inmediato
-      </p>
-      <a
-        href={whatsappUrl}
-        target="_blank"
-        rel="noreferrer"
-        class="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-secondary font-semibold shadow-soft hover:shadow-lg transition"
-      >
-        Abrir WhatsApp
-        <span aria-hidden="true">-></span>
-      </a>
+<section id="contacto" class="relative py-20 lg:py-32">
+  <!-- Background Gradient -->
+  <div class="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-slate-100 to-transparent dark:from-slate-900/80"></div>
+  
+  <div id="contact-content" class="container mx-auto px-4 relative z-10">
+    <div class="mx-auto max-w-3xl text-center">
+      <!-- Eyebrow -->
+      <div class="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium
+      bg-sky-500/10 text-sky-600
+      dark:bg-sky-400/10 dark:text-sky-300">
+        <Icon name="lucide:message-circle" class="h-4 w-4" />
+        {content.eyebrow}
       </div>
-      <div class="card text-sm text-muted">
-        <p class="font-semibold text-content mb-2">Como gestionamos tu solicitud?</p>
-        <p>
-          Enviamos este formulario a <code class="text-highlight">{formEndpoint}</code>. Puedes cambiar la ruta para conectarla con
-          tu CRM o backend. Mantenemos los campos <strong>name</strong>, <strong>contact</strong> y <strong>message</strong>.
+
+      <!-- Title -->
+      <h2 class="text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
+        {content.title}
+      </h2>
+
+      <!-- Description -->
+      <p class="mt-4 text-lg text-slate-600 dark:text-white/60">
+        {content.description}
+      </p>
+
+      <!-- Primary CTA -->
+      <div class="mt-8">
+        <a
+          href={whatsappUrl}
+          target="_blank"
+          rel="noreferrer"
+          class="inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-8 py-4 text-base font-semibold text-white shadow-lg transition-transform duration-200 hover:scale-105"
+        >
+          <Icon name="simple-icons:whatsapp" class="h-5 w-5" />
+          <span>Cotizar por WhatsApp</span>
+        </a>
+      </div>
+
+      <!-- Social Links -->
+      <div class="mt-12">
+        <p class="text-sm font-semibold text-slate-500 dark:text-white/40">
+          Encuéntranos en nuestras redes
         </p>
+        <div class="mt-4 flex justify-center gap-6">
+          {content.socialLinks.map(link => (
+            <a
+              href={link.url}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`Visitar nuestro perfil de ${link.name}`}
+              class="text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+            >
+              <Icon name={link.icon} class="h-6 w-6" />
+            </a>
+          ))}
+        </div>
       </div>
     </div>
-    <form class="card bg-card/90 border-border space-y-4" method="post" action={formEndpoint} data-endpoint={formEndpoint}>
-      <div>
-        <label for="name" class="block text-sm font-medium text-content mb-1">Nombre</label>
-        <input
-          id="name"
-          name="name"
-          required
-          class="w-full rounded-xl bg-card border border-border text-content px-4 py-3 focus:outline-none focus:ring-2 focus:ring-highlight placeholder:text-muted/80"
-          placeholder="Tu nombre o negocio"
-        />
-      </div>
-      <div>
-        <label for="contact" class="block text-sm font-medium text-content mb-1">Correo o telefono</label>
-        <input
-          id="contact"
-          name="contact"
-          type="text"
-          required
-          class="w-full rounded-xl bg-card border border-border text-content px-4 py-3 focus:outline-none focus:ring-2 focus:ring-highlight placeholder:text-muted/80"
-          placeholder="tucorreo@empresa.cl / +569..."
-        />
-      </div>
-      <div>
-        <label for="message" class="block text-sm font-medium text-content mb-1">Mensaje</label>
-        <textarea
-          id="message"
-          name="message"
-          rows="4"
-          required
-          class="w-full rounded-xl bg-card border border-border text-content px-4 py-3 focus:outline-none focus:ring-2 focus:ring-highlight placeholder:text-muted/80"
-          placeholder="Cuentanos que necesitas"
-        ></textarea>
-      </div>
-      <button
-        type="submit"
-        class="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-secondary font-semibold shadow-soft hover:shadow-lg transition"
-      >
-        Enviar consulta
-      </button>
-      <p class="text-xs text-muted/80">
-        Al enviar aceptas nuestra <a class="underline" href="/privacidad">politica de privacidad</a>.
-      </p>
-    </form>
   </div>
-  <script is:inline>
-    const form = document.currentScript?.previousElementSibling as HTMLFormElement | null; 
-    if (form) {
-      form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        const endpoint = form.dataset.endpoint ?? form.action;
-        const formData = new FormData(form);
-        const payload = Object.fromEntries(formData.entries());
-        try {
-          await fetch(endpoint, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-          });
-          alert("Consulta enviada. Te contactaremos pronto.");
-          form.reset();
-        } catch (err) {
-          alert("No se pudo enviar. Intentalo de nuevo o escribe por WhatsApp.");
-          console.error(err);
+</section>
+
+<style>
+  #contact-content {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  #contact-content.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const contactSection = document.getElementById('contact-content');
+    if (!contactSection) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          contactSection.classList.add('is-visible');
+          observer.unobserve(contactSection);
         }
       });
-    }
-  </script>
-</section>
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    observer.observe(contactSection);
+  });
+</script>
