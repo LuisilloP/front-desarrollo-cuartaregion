@@ -2,7 +2,6 @@
 import { Icon } from "astro-icon/components";
 import type { SiteSettings, NavLink, Content } from "../lib/api/types";
 import contentJson from "../data/content.json";
-import { buildWhatsAppLink } from "../lib/utils";
 
 interface Props {
   siteSettings: SiteSettings;
@@ -17,7 +16,6 @@ const isHome = pathname === "/" || pathname === "";
 const withHome = (href: string) => (href.startsWith("#") && !isHome ? `/${href}` : href);
 
 const processedNavLinks = navLinks.map(link => ({...link, href: withHome(link.href)}));
-const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero cotizar mi web o automatizacion.");
 ---
 
 <header 
@@ -66,10 +64,6 @@ const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero
         <span class="w-5 h-0.5 rounded-full transition-transform duration-300 ease-in-out bg-white group-[.scrolled]:bg-slate-900 dark:group-[.scrolled]:bg-white" aria-hidden="true"></span>
       </button>
 
-      <a href={whatsappUrl} target="_blank" rel="noreferrer" class="hidden lg:flex items-center gap-2 px-4 py-2 rounded-full bg-[#25D366] text-white font-semibold text-sm hover:scale-105 transition-transform">
-        <Icon name="simple-icons:whatsapp" class="h-4 w-4" />
-        <span>Contactar</span>
-      </a>
     </div>
   </nav>
 </header>
@@ -114,10 +108,6 @@ const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, "Hola! Quiero
     </div>
 
     <div class="mt-auto pt-2">
-      <a href={whatsappUrl} target="_blank" rel="noreferrer" class="inline-flex w-full items-center justify-center gap-2 px-4 py-3 rounded-full bg-[#25D366] text-white font-semibold shadow-soft hover:shadow-lg hover:-translate-y-0.5 transition">
-        <Icon name="simple-icons:whatsapp" class="h-5 w-5" />
-        <span>Cotizar por WhatsApp</span>
-      </a>
       <p class="mt-3 text-xs text-slate-500 dark:text-white/60">
         Respondemos rapido de lunes a viernes.
       </p>
