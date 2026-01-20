@@ -104,3 +104,42 @@ a {
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
 }
+
+/* ♠️ --- Marquee Styles --- */
+.marquee {
+  --marquee-duration: 40s;
+  position: relative;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+}
+
+.marquee__track {
+  display: flex;
+  gap: 1.5rem; /* 24px */
+  will-change: transform;
+}
+
+/* The animation is now controlled by a class added via JS */
+.marquee__track.animate {
+  animation: marquee-left var(--marquee-duration) linear infinite;
+}
+
+.marquee:hover .marquee__track.animate {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track.animate {
+    animation: none;
+  }
+}

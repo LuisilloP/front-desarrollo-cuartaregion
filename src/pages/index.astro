@@ -23,11 +23,22 @@ import type { Content } from '../lib/api/types';
 // Import the JSON data
 import contentJson from '../data/content.json';
 
+// Import the marquee component and its data
+import PortfolioMarqueeSection from "../components/PortfolioMarqueeSection.tsx";
+import { projects as portfolioProjects } from "../content/portfolioProjects";
+
 // Cast the imported JSON to our new Content type
 const staticContent = contentJson as Content;
 
+const navLinks = [
+  { label: "Inicio", href: "#inicio" },
+  { label: "Soluciones", href: "#servicios" },
+  { label: "Casos de Éxito", href: "#casos" },
+  { label: "Reseñas", href: "#reviews" },
+  { label: "FAQ", href: "#faq" },
+];
+
 const {
-  navLinks,
   heroSection,
   useCasesSection,
   reviewsSection,
@@ -55,6 +66,10 @@ const recentCases = cases.slice(0, 3);
     <ServicesSection services={services} whatsappNumber={siteSettings.whatsappNumber} />
     <HostingSection content={useCasesSection} />
     <CasesSection cases={recentCases} />
+    
+    <!-- Portfolio Marquee Section Added Here -->
+    <PortfolioMarqueeSection client:visible projects={portfolioProjects} />
+
     <ReviewsSection content={reviewsSection} reviews={reviews} />
     <FAQSection content={faqSection} faqs={faqs} />
     <ContactSection content={contactSection} whatsappNumber={siteSettings.whatsappNumber} />
