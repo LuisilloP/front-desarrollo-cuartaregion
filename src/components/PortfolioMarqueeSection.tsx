@@ -64,6 +64,12 @@ const PortfolioMarqueeSection: React.FC<PortfolioMarqueeSectionProps> = ({
 }) => {
   const marqueeContainerRef = useRef<HTMLDivElement>(null);
   const marqueeTrackRef = useRef<HTMLUListElement>(null);
+  const isAdjustingScrollRef = useRef(false);
+  const singleWidthRef = useRef(0);
+  const isUserInteractingRef = useRef(false);
+  const interactionTimeoutRef = useRef<number | null>(null);
+  const rafRef = useRef<number | null>(null);
+  const lastFrameTimeRef = useRef<number | null>(null);
   const [isAnimating, setIsAnimating] = useState(false);
 
   // 1. All projects are now visible, no filtering needed.
@@ -98,6 +104,137 @@ const PortfolioMarqueeSection: React.FC<PortfolioMarqueeSectionProps> = ({
     }
   }, [visibleProjects]); // Re-run this logic if the projects prop ever changes.
 
+  useEffect(() => {
+    const container = marqueeContainerRef.current;
+    const track = marqueeTrackRef.current;
+
+    if (!container || !track) return;
+
+    const markUserInteracting = () => {
+      isUserInteractingRef.current = true;
+      if (interactionTimeoutRef.current !== null) {
+        window.clearTimeout(interactionTimeoutRef.current);
+      }
+      interactionTimeoutRef.current = window.setTimeout(() => {
+        isUserInteractingRef.current = false;
+      }, 1200);
+    };
+
+    const updateMeasurements = () => {
+      singleWidthRef.current = track.scrollWidth / 2;
+    };
+
+    const onScroll = () => {
+      if (
+        isAdjustingScrollRef.current ||
+        !isUserInteractingRef.current ||
+        singleWidthRef.current === 0
+      ) {
+        return;
+      }
+
+      const buffer = 2;
+
+      if (container.scrollLeft <= buffer) {
+        isAdjustingScrollRef.current = true;
+        container.scrollLeft += singleWidthRef.current;
+        requestAnimationFrame(() => {
+          isAdjustingScrollRef.current = false;
+        });
+        return;
+      }
+
+      if (container.scrollLeft >= singleWidthRef.current + buffer) {
+        isAdjustingScrollRef.current = true;
+        container.scrollLeft -= singleWidthRef.current;
+        requestAnimationFrame(() => {
+          isAdjustingScrollRef.current = false;
+        });
+      }
+    };
+
+    const onWheel = (event: WheelEvent) => {
+      if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+      if (event.deltaY === 0) return;
+      if (container.scrollWidth <= container.clientWidth) return;
+      if (singleWidthRef.current === 0) return;
+
+      event.preventDefault();
+      markUserInteracting();
+
+      let nextScrollLeft = container.scrollLeft + event.deltaY;
+
+      if (nextScrollLeft <= 0) {
+        nextScrollLeft += singleWidthRef.current;
+      } else if (nextScrollLeft >= singleWidthRef.current) {
+        nextScrollLeft -= singleWidthRef.current;
+      }
+
+      container.scrollLeft = nextScrollLeft;
+    };
+
+    const onMouseEnter = () => {
+      isUserInteractingRef.current = true;
+    };
+
+    const onMouseLeave = () => {
+      isUserInteractingRef.current = false;
+    };
+
+    const onTouchStart = () => {
+      markUserInteracting();
+    };
+
+    const autoScroll = (time: number) => {
+      if (!lastFrameTimeRef.current) {
+        lastFrameTimeRef.current = time;
+      }
+      const deltaSeconds = (time - lastFrameTimeRef.current) / 1000;
+      lastFrameTimeRef.current = time;
+
+      if (
+        isAnimating &&
+        !isUserInteractingRef.current &&
+        singleWidthRef.current > 0
+      ) {
+        const speed = singleWidthRef.current / durationSeconds;
+        let nextScrollLeft = container.scrollLeft + speed * deltaSeconds;
+
+        if (nextScrollLeft >= singleWidthRef.current) {
+          nextScrollLeft -= singleWidthRef.current;
+        }
+
+        container.scrollLeft = nextScrollLeft;
+      }
+
+      rafRef.current = requestAnimationFrame(autoScroll);
+    };
+
+    updateMeasurements();
+    container.addEventListener("scroll", onScroll, { passive: true });
+    container.addEventListener("wheel", onWheel, { passive: false });
+    container.addEventListener("mouseenter", onMouseEnter);
+    container.addEventListener("mouseleave", onMouseLeave);
+    container.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("resize", updateMeasurements);
+    rafRef.current = requestAnimationFrame(autoScroll);
+
+    return () => {
+      container.removeEventListener("scroll", onScroll);
+      container.removeEventListener("wheel", onWheel);
+      container.removeEventListener("mouseenter", onMouseEnter);
+      container.removeEventListener("mouseleave", onMouseLeave);
+      container.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("resize", updateMeasurements);
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+      }
+      if (interactionTimeoutRef.current !== null) {
+        window.clearTimeout(interactionTimeoutRef.current);
+      }
+    };
+  }, [visibleProjects, isAnimating, durationSeconds]);
+
   const marqueeStyle = {
     "--marquee-duration": `${durationSeconds}s`,
   } as React.CSSProperties;
@@ -130,7 +267,7 @@ const PortfolioMarqueeSection: React.FC<PortfolioMarqueeSectionProps> = ({
       >
         <ul
           ref={marqueeTrackRef}
-          className={`p-4 marquee__track ${isAnimating ? "animate" : ""}`}
+          className="p-4 marquee__track"
         >
           {marqueeProjects.map((project, index) => (
             <ProjectCard key={`${project.id}-${index}`} project={project} />

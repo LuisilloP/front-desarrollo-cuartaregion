@@ -1,18 +1,22 @@
 ---
 import { Icon } from "astro-icon/components";
-import type { SiteSettings, NavLink, LegalPage } from "../lib/api/types";
+import type { SiteSettings, NavLink, LegalPage, Content } from "../lib/api/types";
+import contentJson from "../data/content.json";
 
 interface Props {
   siteSettings: SiteSettings;
-  navLinks: NavLink[];
-  legalPages: {
+  navLinks?: NavLink[];
+  legalPages?: {
     privacidad: LegalPage;
     terminos: LegalPage;
-  }
+  };
 }
 
-const { siteSettings, navLinks, legalPages } = Astro.props;
-const legalLinks = Object.values(legalPages);
+const content = contentJson as Content;
+const fallbackNavLinks = content.navLinks ?? [];
+const fallbackLegalPages = content.legalPages ?? {};
+const { siteSettings, navLinks = fallbackNavLinks, legalPages = fallbackLegalPages } = Astro.props;
+const legalLinks = Object.values(legalPages ?? {});
 ---
 <footer class="bg-slate-900 text-white">
   <div class="container mx-auto px-4 pt-16 pb-12">
