@@ -241,7 +241,7 @@ const PortfolioMarqueeSection: React.FC<PortfolioMarqueeSectionProps> = ({
 
   return (
     <section className="py-16 sm:py-24 overflow-hidden">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-6 sm:px-8">
         {/* Section Header */}
         <div className="mx-auto max-w-3xl text-center">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium bg-sky-500/10 text-sky-600 dark:bg-sky-400/10 dark:text-sky-300">

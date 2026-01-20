@@ -19,7 +19,7 @@ const { siteSettings, navLinks = fallbackNavLinks, legalPages = fallbackLegalPag
 const legalLinks = Object.values(legalPages ?? {});
 ---
 <footer class="bg-slate-900 text-white">
-  <div class="container mx-auto px-4 pt-16 pb-12">
+  <div class="container mx-auto px-6 sm:px-8 pt-16 pb-12">
     <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
       <!-- Column 1: Logo and Info -->
       <div class="md:col-span-2 lg:col-span-1">
@@ -85,7 +85,7 @@ const legalLinks = Object.values(legalPages ?? {});
 
   <!-- Bottom Bar -->
   <div class="border-t border-slate-800">
-    <div class="container mx-auto px-4 py-6">
+    <div class="container mx-auto px-6 sm:px-8 py-6">
       <p class="text-center text-sm text-slate-500">
         &copy; {new Date().getFullYear()} {siteSettings.siteName}. Todos los derechos reservados.
       </p>
