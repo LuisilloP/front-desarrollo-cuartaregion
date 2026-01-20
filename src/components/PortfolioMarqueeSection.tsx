@@ -130,7 +130,7 @@ const PortfolioMarqueeSection: React.FC<PortfolioMarqueeSectionProps> = ({
       >
         <ul
           ref={marqueeTrackRef}
-          className={`marquee__track ${isAnimating ? "animate" : ""}`}
+          className={`p-4 marquee__track ${isAnimating ? "animate" : ""}`}
         >
           {marqueeProjects.map((project, index) => (
             <ProjectCard key={`${project.id}-${index}`} project={project} />
