@@ -39,9 +39,9 @@ export const projects: Project[] = [
     href: "https://rya-estampados.vercel.app/",  // Placeholder image
   },
   {
-    id: "landing-placeholder-1",
-    title: "Landing Page Evento",
-    image: "/images/webs/montblanc-web.webp", // Placeholder image
-    href: "#",
+    id: "eco-grow",
+    title: "Sistema Eco Grow",
+    image: "/images/webs/eco-grow.webp", // Placeholder image
+    href: "https://landig-eco-grow.vercel.app/",
   },
 ];
