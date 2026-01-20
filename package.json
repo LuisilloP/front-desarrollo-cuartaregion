@@ -17,6 +17,7 @@
     "@astrojs/tailwind": "^6.0.2",
     "@iconify-json/lucide": "^1.2.82",
     "@iconify-json/simple-icons": "^1.2.63",
+    "@iconify/react": "^4.1.1",
     "astro": "^5.16.5",
     "astro-icon": "^1.1.5",
     "framer-motion": "^12.23.26"
