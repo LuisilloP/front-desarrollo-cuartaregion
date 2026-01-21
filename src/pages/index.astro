@@ -9,6 +9,7 @@ import ReviewsSection from "../components/ReviewsSection.astro";
 import FAQSection from "../components/FAQSection.astro";
 import ContactSection from "../components/ContactSection.astro";
 import Footer from "../components/Footer.astro";
+import AboutUs from "../components/AboutUs.astro";
 import WhatsAppFloatingButton from "../components/WhatsAppFloatingButton.astro";
 import FeaturesGrid from "../components/FeaturesGrid";
 import {
@@ -20,9 +21,9 @@ import {
 } from "../lib/api/services";
 
 // Import the new Content type for full type safety
-import type { Content } from '../lib/api/types';
+import type { Content } from "../lib/api/types";
 // Import the JSON data
-import contentJson from '../data/content.json';
+import contentJson from "../data/content.json";
 
 // Import the marquee component and its data
 import PortfolioMarqueeSection from "../components/PortfolioMarqueeSection.tsx";
@@ -45,9 +46,8 @@ const {
   reviewsSection,
   faqSection,
   contactSection,
-  legalPages
+  legalPages,
 } = staticContent;
-
 
 const siteSettings = await fetchSiteSettings();
 const services = await fetchServices();
@@ -55,27 +55,44 @@ const cases = await fetchCases();
 const reviews = await fetchReviews();
 const faqs = await fetchFaqs();
 
-
 const recentCases = cases.slice(0, 3);
 ---
 
-<Layout title={siteSettings.siteName} description={siteSettings.tagline} siteSettings={siteSettings}>
+<Layout
+  title={siteSettings.siteName}
+  description={siteSettings.tagline}
+  siteSettings={siteSettings}
+>
   <Navbar siteSettings={siteSettings} navLinks={navLinks} />
   <main class="space-y-8">
     <Hero siteSettings={siteSettings} content={heroSection} />
     {/* Pass all services to the section, not just featured ones */}
-    <ServicesSection services={services} whatsappNumber={siteSettings.whatsappNumber} />
+    <ServicesSection
+      services={services}
+      whatsappNumber={siteSettings.whatsappNumber}
+    />
+    <AboutUs />
     <FeaturesGrid client:visible />
     <HostingSection content={useCasesSection} />
     <CasesSection cases={recentCases} />
-    
+
     <!-- Portfolio Marquee Section Added Here -->
     <PortfolioMarqueeSection client:visible projects={portfolioProjects} />
 
     <ReviewsSection content={reviewsSection} reviews={reviews} />
     <FAQSection content={faqSection} faqs={faqs} />
-    <ContactSection content={contactSection} whatsappNumber={siteSettings.whatsappNumber} />
+    <ContactSection
+      content={contactSection}
+      whatsappNumber={siteSettings.whatsappNumber}
+    />
   </main>
-  <Footer siteSettings={siteSettings} navLinks={navLinks} legalPages={legalPages} />
-  <WhatsAppFloatingButton whatsappNumber={siteSettings.whatsappNumber} message="Hola! Quiero cotizar mi web con ustedes." />
+  <Footer
+    siteSettings={siteSettings}
+    navLinks={navLinks}
+    legalPages={legalPages}
+  />
+  <WhatsAppFloatingButton
+    whatsappNumber={siteSettings.whatsappNumber}
+    message="Hola! Quiero cotizar mi web con ustedes."
+  />
 </Layout>

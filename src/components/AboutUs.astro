@@ -1,0 +1,118 @@
+---
+// src/components/AboutUs.astro
+
+const headline = "Tecnología hecha en la Cuarta Región, para negocios reales.";
+
+const story = `Somos un grupo de 3 jóvenes ingenieros informáticos de la Cuarta Región.
+Al terminar de estudiar, nos surgió la idea de crear nuestra pyme y empezar a trabajar para crecer.
+Nuestros primeros clientes fueron restaurantes, donde desarrollamos sistemas; luego, páginas web para profesionales del área de la salud
+(médicos y odontólogos) y también para servicios técnicos.`;
+---
+
+<section id="nosotros" class="relative overflow-hidden py-16 lg:py-20">
+    <!-- Parallax Background -->
+    <div class="parallax-bg absolute inset-0 -z-10">
+        <!-- Background Image -->
+        <div
+            class="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style="background-image: url('/aboutus-bg.png');"
+        >
+        </div>
+
+        <!-- Dark Overlay for text contrast -->
+        <div class="absolute inset-0 bg-slate-900/75 dark:bg-slate-950/80">
+        </div>
+
+        <!-- Animated shapes (subtle) -->
+        <div
+            class="absolute -top-24 left-1/4 h-96 w-96 rounded-full bg-sky-500/5 blur-3xl"
+        >
+        </div>
+        <div
+            class="absolute -bottom-24 right-1/4 h-96 w-96 rounded-full bg-blue-500/5 blur-3xl"
+        >
+        </div>
+    </div>
+
+    <div class="container mx-auto px-6 sm:px-8">
+        <div class="mx-auto max-w-4xl text-center">
+            <!-- Badge -->
+            <div
+                class="mb-4 inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-2 text-sm font-medium text-white"
+            >
+                <svg
+                    class="h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                    ></path>
+                </svg>
+                Nosotros
+            </div>
+
+            <!-- Headline -->
+            <h2
+                class="mb-4 text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl"
+            >
+                {headline}
+            </h2>
+
+            <!-- Story -->
+            <p
+                class="mx-auto max-w-3xl whitespace-pre-line text-base leading-relaxed text-white/90 sm:text-lg"
+            >
+                {story}
+            </p>
+        </div>
+    </div>
+</section>
+
+<style>
+    #nosotros .parallax-bg > div:first-child {
+        will-change: transform;
+    }
+</style>
+
+<script>
+    // Parallax scroll effect
+    const setupParallax = () => {
+        const section = document.getElementById("nosotros");
+        const bgImage = section?.querySelector(
+            ".parallax-bg > div:first-child",
+        );
+
+        if (!section || !bgImage) return;
+
+        const handleScroll = () => {
+            const rect = section.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+
+            // Calculate how much of the section is in view
+            if (rect.top < windowHeight && rect.bottom > 0) {
+                // Parallax effect: move background slower than scroll
+                const scrolled = windowHeight - rect.top;
+                const parallaxSpeed = 0.2; // Adjust this value (0.3-0.7 works well)
+                const yPos = -(scrolled * parallaxSpeed);
+
+                (bgImage as HTMLElement).style.transform =
+                    `translateY(${yPos}px)`;
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        handleScroll(); // Initial call
+    };
+
+    // Initialize on load
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", setupParallax);
+    } else {
+        setupParallax();
+    }
+</script>
