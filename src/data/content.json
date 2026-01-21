@@ -8,19 +8,19 @@
     "secondaryCTA": "Ver soluciones",
     "socialLinks": [
       {
-        "name": "LinkedIn",
-        "url": "https://www.linkedin.com/company/nortech-digital",
-        "icon": "simple-icons:linkedin"
-      },
-      {
         "name": "GitHub",
-        "url": "https://github.com/nortech-digital",
+        "url": "https://github.com/Aliadodigital-cl",
         "icon": "simple-icons:github"
       },
       {
         "name": "Instagram",
-        "url": "https://www.instagram.com/nortechdigital",
+        "url": "https://www.instagram.com/aliadodigital.cl/",
         "icon": "simple-icons:instagram"
+      },
+      {
+        "name": "Facebook",
+        "url": "https://www.facebook.com/profile.php?id=61586815475713",
+        "icon": "simple-icons:facebook"
       }
     ],
     "footerText": "Estrategia, diseño y tecnología para negocios que buscan crecer con datos."
@@ -43,19 +43,19 @@
     "description": "Cuéntanos tu visión. Agenda una conversación sin compromiso y descubre cómo podemos potenciar tu negocio como tu aliado tecnológico.",
     "socialLinks": [
       {
-        "name": "LinkedIn",
-        "url": "https://www.linkedin.com/company/nortech-digital",
-        "icon": "simple-icons:linkedin"
-      },
-      {
         "name": "GitHub",
-        "url": "https://github.com/nortech-digital",
+        "url": "https://github.com/Aliadodigital-cl",
         "icon": "simple-icons:github"
       },
       {
         "name": "Instagram",
-        "url": "https://www.instagram.com/nortechdigital",
+        "url": "https://www.instagram.com/aliadodigital.cl/",
         "icon": "simple-icons:instagram"
+      },
+      {
+        "name": "Facebook",
+        "url": "https://www.facebook.com/profile.php?id=61586815475713",
+        "icon": "simple-icons:facebook"
       }
     ]
   },
