@@ -1,4 +1,4 @@
---- 
+---
 import { Icon } from "astro-icon/components";
 import type { SiteSettings, HeroSectionContent } from "../lib/api/types";
 import { buildWhatsAppLink } from "../lib/utils";
@@ -12,7 +12,7 @@ interface Props {
 const { siteSettings, content } = Astro.props;
 const whatsappUrl = buildWhatsAppLink(
   siteSettings.whatsappNumber,
-  "Hola! Quiero potenciar mi web y automatizar ventas."
+  "Hola! Quiero potenciar mi web y automatizar ventas.",
 );
 
 const heroImages = [
@@ -22,38 +22,60 @@ const heroImages = [
 ];
 ---
 
-<section id="inicio" class="relative h-screen min-h-[700px] w-full overflow-hidden">
+<section
+  id="inicio"
+  class="relative h-screen min-h-[700px] w-full overflow-hidden"
+>
   <!-- Background Slideshow -->
   <div class="absolute inset-0 z-0">
-    <HeroBackgroundSlideshow client:load slides={heroImages} intervalMs={7000} transitionMs={1200} />
+    <HeroBackgroundSlideshow
+      client:load
+      slides={heroImages}
+      intervalMs={7000}
+      transitionMs={1200}
+    />
   </div>
 
   <!-- Dark Overlay -->
-  <div class="absolute inset-0 z-10 bg-gradient-to-t from-black/70 via-black/50 to-transparent"></div>
+  <div
+    class="absolute inset-0 z-10 bg-gradient-to-t from-black/70 via-black/50 to-transparent"
+  >
+  </div>
 
   <!-- Content -->
-  <div class="relative z-20 flex h-full flex-col items-center justify-center text-center text-white p-4">
+  <div
+    class="relative z-20 flex h-full flex-col items-center justify-center text-center text-white p-4"
+  >
     <div class="flex max-w-4xl flex-col items-center gap-y-6">
-      <div class="animate-fade-in-up inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm backdrop-blur-sm">
+      <div
+        class="animate-fade-in-up inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm backdrop-blur-sm"
+      >
         <span class="relative flex h-2 w-2">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-300 opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-2 w-2 bg-sky-400"></span>
+          <span
+            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-300 opacity-75"
+          ></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-sky-400"
+          ></span>
         </span>
-        {content.eyebrow}
+        Tu aliado informático en la Región de Coquimbo
       </div>
 
       <h1
         class="text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl"
         style="animation: fade-in-in-up 0.8s 0.2s both cubic-bezier(0.25, 0.46, 0.45, 0.94);"
+        aria-label="Te acompañamos a dar el salto digital"
       >
-        {content.title}
+        Te acompañamos a <span id="hero-typewriter"></span><span
+          class="typewriter-cursor">|</span
+        >
       </h1>
 
       <p
         class="max-w-2xl text-lg text-white/80 md:text-xl"
         style="animation: fade-in-up 0.8s 0.4s both cubic-bezier(0.25, 0.46, 0.45, 0.94);"
       >
-        {content.description}
+        Creamos páginas web y sistemas a medida, modernizamos sitios antiguos y
+        automatizamos tareas para que tu negocio crezca sin complicarte.
       </p>
 
       <div
@@ -67,19 +89,53 @@ const heroImages = [
           class="inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-3.5 text-base font-semibold text-white shadow-lg transition-transform duration-200 hover:scale-105"
         >
           <Icon name="simple-icons:whatsapp" class="h-5 w-5" />
-          <span>{siteSettings.primaryCTA || "Cotizar por WhatsApp"}</span>
+          <span>Cotizar por WhatsApp</span>
         </a>
         <a
           href="#servicios"
           class="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3.5 text-base font-semibold text-white backdrop-blur-md transition-colors duration-200 hover:bg-white/20"
         >
-          <span>{siteSettings.secondaryCTA || "Ver soluciones"}</span>
+          <span>Ver soluciones</span>
           <Icon name="lucide:arrow-right" class="h-4 w-4" />
         </a>
       </div>
     </div>
   </div>
 </section>
+
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", () => {
+    const text = "dar el salto digital";
+    const typewriter = document.getElementById("hero-typewriter");
+    const cursor = document.querySelector(".typewriter-cursor");
+
+    // Safety check
+    if (!typewriter) return;
+
+    // Prefers reduced motion check
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mediaQuery.matches) {
+      typewriter.textContent = text;
+      // Hide cursor if no animation
+      if (cursor) cursor.style.display = "none";
+      return;
+    }
+
+    let index = 0;
+    const speed = 50; // ms per char
+
+    function type() {
+      if (index < text.length) {
+        typewriter.textContent += text.charAt(index);
+        index++;
+        setTimeout(type, speed);
+      }
+    }
+
+    // Start typing after a short delay (e.g. after fade-in starts)
+    setTimeout(type, 500);
+  });
+</script>
 
 <style>
   @keyframes fade-in-up {
@@ -95,5 +151,25 @@ const heroImages = [
 
   .animate-fade-in-up {
     animation: fade-in-up 0.8s both cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  /* Typewriter Cursor */
+  .typewriter-cursor {
+    display: inline-block;
+    font-weight: 100; /* Thinner */
+    color: inherit;
+    margin-left: 2px;
+    animation: blink 1s step-end infinite;
+    opacity: 1;
+  }
+
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
   }
 </style>
