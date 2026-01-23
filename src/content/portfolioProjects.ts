@@ -44,4 +44,10 @@ export const projects: Project[] = [
     image: "/images/webs/eco-grow.webp", // Placeholder image
     href: "https://landig-eco-grow.vercel.app/",
   },
+    {
+    id: "muebleria-el-florentino",
+    title: "Muebleria El Florentino",
+    image: "/images/webs/muebleria-el-florentino.webp", // Placeholder image
+    href: "https://elfiorentino.vercel.app/",
+  },
 ];
