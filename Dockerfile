@@ -1,12 +1,5 @@
-FROM node:24-bookworm
-WORKDIR /opt/app
+FROM nginx:alpine
 
-COPY package*.json ./
-RUN npm ci
+COPY dist /usr/share/nginx/html
 
-COPY . .
-
-ENV NODE_ENV=production
-
-EXPOSE 4321
-CMD ["node", "./scripts/run-frontend.mjs"]
+EXPOSE 80
