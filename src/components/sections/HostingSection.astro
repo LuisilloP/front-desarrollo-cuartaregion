@@ -14,12 +14,6 @@ const { content } = Astro.props;
   <div class="container mx-auto px-6 sm:px-8">
     <!-- Section Header -->
     <div class="mx-auto mb-16 max-w-3xl text-center">
-      <div class="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium
-      bg-amber-500/10 text-amber-600
-      dark:bg-amber-400/10 dark:text-amber-300">
-        <Icon name="lucide:layout-grid" class="h-4 w-4" />
-        {content.eyebrow}
-      </div>
       <h2 class="text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
         {content.title}
       </h2>
@@ -28,77 +22,76 @@ const { content } = Astro.props;
       </p>
     </div>
 
-    <!-- Reasons Grid -->
-    <div id="use-cases-grid" class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+    <!-- Use Cases Grid -->
+    <div
+      id="use-cases-grid"
+      class="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-3"
+    >
       {content.cases.map((useCase, index) => {
-        const accentClass = index === 0
-          ? "accent-blue"
-          : index === 1
-            ? "accent-amber"
-            : "accent-purple";
+        const accentClasses = ["accent-blue", "accent-amber", "accent-purple"];
+        const accentClass = accentClasses[index] ?? "accent-purple";
+
         const cardStyle = useCase.cardColor
           ? `--accent-color: ${useCase.cardColor};`
           : undefined;
-        const backgroundImage = useCase.backgroundImage || "/images/sections/why-us-bg.png";
+
+        const backgroundImage =
+          useCase.backgroundImage || "/images/sections/why-us-bg.png";
+
         return (
-        <div class="use-case-card-wrapper h-full">
-          <div
-            class={`card-shine ${accentClass} group relative flex h-full flex-col rounded-3xl border p-8 backdrop-blur-xl transition-all duration-300 overflow-hidden
-          border-slate-900/40 bg-slate-950/85 hover:border-slate-400/40 hover:!bg-slate-950/90
-          dark:border-white/10 dark:bg-slate-950/80 dark:hover:border-white/20 dark:hover:!bg-slate-950/85`}
-            style={cardStyle}
-          >
-            
-            {/* Background image for this card */}
-            <div 
-              class="absolute inset-0 bg-cover bg-center opacity-15 scale-105 -z-10"
-              style={`background-image: url('${backgroundImage}')`}
-              aria-hidden="true"
-            ></div>
+          <div class="use-case-card-wrapper h-full">
+            <div
+              class={`card-shine ${accentClass} group relative flex h-full flex-col rounded-3xl border p-8 backdrop-blur-xl transition-all duration-300 overflow-hidden
+              border-slate-600/80 bg-slate-50/90 hover:border-slate-800 hover:bg-white
+              dark:border-white/10 dark:bg-slate-950/80 dark:hover:border-white/20 dark:hover:bg-slate-950/85`}
+              style={cardStyle}
+            >
+              <!-- Background image -->
+              <div
+                class="absolute inset-0 bg-cover bg-center opacity-15 scale-105 -z-10"
+                style={`background-image: url('${backgroundImage}')`}
+                aria-hidden="true"
+              ></div>
 
-            {/* Overlay for readability - lighter in light mode, darker in dark mode */}
-            <div class="use-case-tint absolute inset-0 -z-10"></div>
+              <!-- Gradient tint -->
+              <div class="use-case-tint absolute inset-0 -z-10"></div>
 
-            {/* Content */}
-            <div class="relative z-10">
-              <!-- Large Number -->
-              <div class="mb-6 text-6xl font-bold text-white/10 select-none font-mono">
-                0{index + 1}
+              <!-- Content -->
+              <div class="relative z-10 flex h-full flex-col">
+                <div>
+                  <!-- Large Number -->
+                  <div class="mb-6 text-6xl font-bold select-none font-mono text-slate-900/80 dark:text-white/10">
+                    0{index + 1}
+                  </div>
+
+                  <h3 class="text-xl font-bold leading-snug tracking-tight text-slate-900 mb-3 dark:text-white">
+                    {useCase.title}
+                  </h3>
+
+                  <p class="text-slate-900 line-clamp-3 mb-6 dark:text-white/70">
+                    {useCase.description}
+                  </p>
+                </div>
+
+                {useCase.bullets && useCase.bullets.length > 0 && (
+                  <ul class="mt-auto space-y-3 border-t border-slate-600/70 pt-6 dark:border-white/10">
+                    {useCase.bullets.map((bullet) => (
+                      <li class="flex items-start gap-3 text-sm text-slate-900 dark:text-white/70">
+                        <Icon
+                          name="lucide:check"
+                          class="use-case-check mt-0.5 h-4 w-4 shrink-0"
+                        />
+                        <span>{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
-
-              <h3 class="text-xl font-bold leading-snug tracking-tight text-white mb-3">
-                {useCase.title}
-              </h3>
-              
-              <p class="text-white/70 line-clamp-3 mb-6">
-                {useCase.description}
-              </p>
-
-              {useCase.bullets && useCase.bullets.length > 0 && (
-                <ul class="mt-auto space-y-3 border-t border-white/10 pt-6">
-                  {useCase.bullets.map((bullet) => (
-                    <li class="flex items-start gap-3 text-sm text-white/70">
-                      <Icon name="lucide:check" class="use-case-check mt-0.5 h-4 w-4 shrink-0" />
-                      <span>{bullet}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
             </div>
           </div>
-        </div>
         );
       })}
     </div>
-
-    <!-- Closing Text -->
-    {content.closingText && (
-      <div class="mt-16 text-center">
-        <p class="mx-auto max-w-2xl text-lg font-medium text-slate-500 dark:text-white/40">
-          {content.closingText}
-        </p>
-      </div>
-    )}
   </div>
 </section>
 
@@ -150,13 +143,26 @@ const { content } = Astro.props;
     --shine-color: rgba(168, 85, 247, 0.14);
   }
   .use-case-tint {
-    background: linear-gradient(135deg, rgba(2, 6, 23, 0.11), rgba(2, 6, 23, 0.3), rgba(2, 6, 23, 0.09));
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--accent-color) 18%, transparent),
+      rgba(15, 23, 42, 0.14),
+      color-mix(in srgb, var(--accent-color) 10%, transparent)
+    );
   }
   .dark .use-case-tint {
-    background: linear-gradient(135deg, rgba(2, 6, 23, 0.11), rgba(2, 6, 23, 0.3), rgba(2, 6, 23, 0.09));
+    background: linear-gradient(
+      135deg,
+      rgba(2, 6, 23, 0.4),
+      rgba(2, 6, 23, 0.09),
+      rgba(2, 6, 23, 0.3)
+    );
   }
   .use-case-check {
-    color: var(--accent-color, rgba(100, 116, 139, 0.9));
+    color: var(--accent-color, rgba(100, 116, 139, 0.3));
+  }
+  .dark .use-case-check {
+    color: var(--accent-color, rgba(100, 116, 139, 0.4));
   }
 
   @supports (color: color-mix(in srgb, white, black)) {

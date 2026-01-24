@@ -7,6 +7,7 @@ import { fetchCases, fetchSiteSettings } from "../../lib/api/services";
 import type { CaseStudy } from "../../lib/api/types";
 import { buildWhatsAppLink } from "../../lib/utils";
 import { Icon } from "astro-icon/components";
+import { env } from "../../lib/env";
 
 export async function getStaticPaths() {
   const cases = await fetchCases();
@@ -30,6 +31,32 @@ const industry =
 const city = typeof caseStudy.city === "string" ? caseStudy.city.trim() : "";
 const coverImage = caseStudy.coverImage;
 const coverAlt = caseStudy.coverImageAlt || `Caso ${pageTitle}`;
+const siteUrl = env.siteUrl ?? (Astro.site ? Astro.site.toString() : undefined);
+const canonical = Astro.url
+  ? Astro.url.toString()
+  : siteUrl
+    ? new URL(`/casos/${caseStudy.slug}`, siteUrl).toString()
+    : undefined;
+const ogImageAbsolute = coverImage && siteUrl ? new URL(coverImage, siteUrl).toString() : coverImage;
+const logoUrl = siteUrl ? new URL("/favicon.svg", siteUrl).toString() : undefined;
+const publisher = {
+  "@type": "Organization",
+  name: siteSettings.siteName,
+  ...(logoUrl ? { logo: { "@type": "ImageObject", url: logoUrl } } : {})
+};
+const aboutItems = [industry, caseStudy.clientName].filter(Boolean);
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "CaseStudy",
+  name: pageTitle,
+  description: summary || pageTitle,
+  ...(canonical ? { url: canonical } : {}),
+  ...(ogImageAbsolute ? { image: ogImageAbsolute } : {}),
+  ...(aboutItems.length > 0 ? { about: aboutItems } : {}),
+  ...(city ? { location: { "@type": "Place", name: city } } : {}),
+  author: publisher,
+  publisher
+};
 
 const toList = (value: string | string[] | undefined) =>
   Array.isArray(value) ? value : value ? [value] : [];
@@ -108,9 +135,9 @@ const normalizeUrl = (value?: string | null) => {
   return `https://${trimmed}`;
 };
 
-const siteUrl = normalizeUrl(caseStudy.siteUrl ?? undefined);
+const siteUrlExternal = normalizeUrl(caseStudy.siteUrl ?? undefined);
 const isExternalSite = Boolean(
-  siteUrl && !siteUrl.startsWith("#") && !siteUrl.startsWith("/"),
+  siteUrlExternal && !siteUrlExternal.startsWith("#") && !siteUrlExternal.startsWith("/"),
 );
 const whatsappMessage = `Hola! Me interesa el caso ${pageTitle}.`;
 const whatsappUrl = buildWhatsAppLink(
@@ -134,7 +161,7 @@ const ctaLabelFinal =
 let ctaHref = ctaUrlOverride;
 if (!ctaHref) {
   if (isFormCta || isContactCta) ctaHref = whatsappUrl;
-  else if (siteUrl) ctaHref = siteUrl;
+  else if (siteUrlExternal) ctaHref = siteUrlExternal;
 }
 
 const isExternalCta = Boolean(
@@ -143,13 +170,16 @@ const isExternalCta = Boolean(
 const ctaClass = isContactCta
   ? "bg-[#25D366] text-white hover:brightness-95"
   : "bg-gradient-to-r from-primary to-accent text-contrast hover:brightness-105";
-const showSiteButton = Boolean(siteUrl && siteUrl !== ctaHref);
+const showSiteButton = Boolean(siteUrlExternal && siteUrlExternal !== ctaHref);
 ---
 
 <Layout
   title={pageTitle}
   description={summary || pageTitle}
+  image={coverImage}
+  imageAlt={coverAlt}
   siteSettings={siteSettings}
+  structuredData={structuredData}
 >
   <Navbar siteSettings={siteSettings} />
   <main class="pb-20">
@@ -256,7 +286,7 @@ const showSiteButton = Boolean(siteUrl && siteUrl !== ctaHref);
               showSiteButton && (
                 <a
                   class="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card px-5 py-3 text-sm font-semibold text-content transition hover:border-primary/40 hover:text-primary"
-                  href={siteUrl}
+                  href={siteUrlExternal}
                   target={isExternalSite ? "_blank" : undefined}
                   rel={isExternalSite ? "noreferrer" : undefined}
                 >
@@ -438,7 +468,7 @@ const showSiteButton = Boolean(siteUrl && siteUrl !== ctaHref);
             <div class="flex items-center justify-between gap-3">
               <dt class="text-muted">Sitio</dt>
               <dd class="font-semibold text-content">
-                {siteUrl ? "Disponible" : "No publicado"}
+                {siteUrlExternal ? "Disponible" : "No publicado"}
               </dd>
             </div>
           </dl>

@@ -1,12 +1,13 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import Navbar from "../../components/Navbar.astro";
-import Footer from "../../components/Footer.astro";
-import WhatsAppFloatingButton from "../../components/WhatsAppFloatingButton.astro";
+import Navbar from "../../components/layout/Navbar.astro";
+import Footer from "../../components/layout/Footer.astro";
+import WhatsAppFloatingButton from "../../components/layout/WhatsAppFloatingButton.astro";
 import { buildWhatsAppLink } from "../../lib/utils";
 import { fetchServices, fetchSiteSettings } from "../../lib/api/services";
 import type { Service } from "../../lib/api/types";
 import { Icon } from "astro-icon/components";
+import { env } from "../../lib/env";
 
 export async function getStaticPaths() {
   const services = await fetchServices();
@@ -30,9 +31,38 @@ const price = (service.price ?? "").trim();
 const deliveryTime = service.delivery_time?.trim();
 const guarantee = service.guarantee?.trim();
 const hasPricing = Boolean(price || deliveryTime || guarantee);
+const siteUrl = env.siteUrl ?? (Astro.site ? Astro.site.toString() : undefined);
+const canonical = Astro.url
+  ? Astro.url.toString()
+  : siteUrl
+    ? new URL(`/servicios/${service.slug}`, siteUrl).toString()
+    : undefined;
+const logoUrl = siteUrl ? new URL("/favicon.svg", siteUrl).toString() : undefined;
+const provider = {
+  "@type": "Organization",
+  name: siteSettings.siteName,
+  ...(logoUrl ? { logo: { "@type": "ImageObject", url: logoUrl } } : {})
+};
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: pageTitle,
+  description: pageDescription,
+  ...(canonical ? { url: canonical } : {}),
+  ...(service.type ? { serviceType: service.type } : {}),
+  ...(siteSettings.region
+    ? { areaServed: { "@type": "Place", name: siteSettings.region } }
+    : {}),
+  provider
+};
 ---
 
-<Layout title={pageTitle} description={pageDescription} siteSettings={siteSettings}>
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  siteSettings={siteSettings}
+  structuredData={structuredData}
+>
   <Navbar siteSettings={siteSettings} />
   <main class="section-shell py-16 space-y-10">
     <div class="space-y-3 max-w-3xl">

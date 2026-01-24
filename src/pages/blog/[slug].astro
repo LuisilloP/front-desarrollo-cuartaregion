@@ -1,9 +1,10 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import Navbar from "../../components/Navbar.astro";
-import Footer from "../../components/Footer.astro";
+import Navbar from "../../components/layout/Navbar.astro";
+import Footer from "../../components/layout/Footer.astro";
 import { fetchAllPosts, fetchSiteSettings } from "../../lib/api/services";
 import type { Post } from "../../lib/api/types";
+import { env } from "../../lib/env";
 
 export async function getStaticPaths() {
   const posts = await fetchAllPosts({ pageSize: 100 });
@@ -19,9 +20,51 @@ const siteSettings = await fetchSiteSettings();
 const pageTitle = post.title || "Blog";
 const publishedDate = post.publishedAt ? new Date(post.publishedAt).toLocaleDateString("es-CL") : "";
 const contentParagraphs = post.content ? post.content.split("\n").filter(Boolean) : [];
+const siteUrl = env.siteUrl ?? (Astro.site ? Astro.site.toString() : undefined);
+const canonical = Astro.url
+  ? Astro.url.toString()
+  : siteUrl
+    ? new URL(`/blog/${post.slug}`, siteUrl).toString()
+    : undefined;
+const ogImage = post.cover?.url;
+const ogImageAlt = post.cover?.alternativeText ?? post.title ?? pageTitle;
+const publishedTime = post.publishedAt || post.createdAt;
+const modifiedTime = post.updatedAt || post.publishedAt || post.createdAt;
+const articleTags = post.tags?.map((tag) => tag.name).filter(Boolean) ?? [];
+const articleSection = post.category?.name;
+const logoUrl = siteUrl ? new URL("/favicon.svg", siteUrl).toString() : undefined;
+const ogImageAbsolute = ogImage && siteUrl ? new URL(ogImage, siteUrl).toString() : ogImage;
+const publisher = {
+  "@type": "Organization",
+  name: siteSettings.siteName,
+  ...(logoUrl ? { logo: { "@type": "ImageObject", url: logoUrl } } : {})
+};
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: pageTitle,
+  description: post.excerpt,
+  ...(canonical ? { mainEntityOfPage: { "@type": "WebPage", "@id": canonical } } : {}),
+  ...(ogImageAbsolute ? { image: ogImageAbsolute } : {}),
+  ...(publishedTime ? { datePublished: publishedTime } : {}),
+  ...(modifiedTime ? { dateModified: modifiedTime } : {}),
+  ...(articleSection ? { articleSection } : {}),
+  ...(articleTags.length > 0 ? { keywords: articleTags.join(", ") } : {}),
+  author: { "@type": "Organization", name: siteSettings.siteName },
+  publisher
+};
 ---
 
-<Layout title={pageTitle} description={post.excerpt} siteSettings={siteSettings}>
+<Layout
+  title={pageTitle}
+  description={post.excerpt}
+  siteSettings={siteSettings}
+  image={ogImage}
+  imageAlt={ogImageAlt}
+  ogType="article"
+  article={{ publishedTime, modifiedTime, section: articleSection, tags: articleTags }}
+  structuredData={structuredData}
+>
   <Navbar siteSettings={siteSettings} />
   <main class="section-shell py-16 space-y-8">
     <header class="space-y-2 max-w-3xl">

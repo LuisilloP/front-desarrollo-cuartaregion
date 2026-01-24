@@ -83,7 +83,7 @@
         "title": "Claro y a tu medida",
         "description": "Entendemos tu objetivo y te recomendamos lo esencial para avanzar con orden, sin gastar de más.",
         "icon": "lucide:target",
-        "cardColor": "#38bdf8",
+        "cardColor": "#fb923c",
         "backgroundImage": "/images/sections/diana.webp",
         "bullets": [
           "Recomendación según tu presupuesto",
@@ -94,7 +94,7 @@
         "title": "Transparencia desde el primer día",
         "description": "Te hablamos con honestidad y sin letra chica. Si algo no te conviene, lo decimos y buscamos una mejor alternativa.",
         "icon": "lucide:shield-check",
-        "cardColor": "#fb923c",
+        "cardColor": "#38bdf8",
         "backgroundImage": "/images/sections/why-us-bg.png",
         "bullets": [
           "Alcance por escrito",

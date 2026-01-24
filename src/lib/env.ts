@@ -6,6 +6,7 @@ const metaEnvMap: EnvMap = {
   PUBLIC_STRAPI_GRAPHQL_URL: metaEnv.PUBLIC_STRAPI_GRAPHQL_URL,
   STRAPI_TOKEN: metaEnv.STRAPI_TOKEN,
   PUBLIC_SITE_URL: metaEnv.PUBLIC_SITE_URL,
+  SITE: metaEnv.SITE,
   PUBLIC_ENV: metaEnv.PUBLIC_ENV,
   STRAPI_USE_MOCK: metaEnv.STRAPI_USE_MOCK,
   USE_MOCK_DATA: metaEnv.USE_MOCK_DATA,
@@ -84,7 +85,7 @@ export const env = {
   strapiPublicUrl: getPublicStrapiUrl(),
   strapiGraphqlUrl,
   strapiToken,
-  siteUrl: getEnvValue("PUBLIC_SITE_URL") ?? getEnvValue("SITE_URL"),
+  siteUrl: getEnvValue("PUBLIC_SITE_URL") ?? getEnvValue("SITE_URL") ?? getEnvValue("SITE"),
   useMock: useMockData
 };
 

@@ -14,7 +14,7 @@ interface PortfolioMarqueeSectionProps {
 const CompanyCard = ({ company }: { company: Company }) => {
   const cardContent = (
     <figure className="flex flex-col gap-3">
-      <div className="flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-[1.75rem] bg-white/80 p-6 shadow-soft ring-1 ring-border/60 transition-shadow duration-300 group-hover:shadow-xl dark:bg-white/[0.06]">
+      <div className="flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-[1.75rem] bg-white/80 p-6 shadow-lg ring-1 ring-border/60 transition-shadow duration-300 group-hover:shadow-2xl dark:bg-white/[0.06]">
         <img
           src={company.logo}
           alt={`Logo de ${company.name}`}
@@ -159,15 +159,16 @@ const PortfolioMarqueeSection: React.FC<PortfolioMarqueeSectionProps> = ({
     };
 
     const onWheel = (event: WheelEvent) => {
-      if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
-      if (event.deltaY === 0) return;
+      if (!event.shiftKey) return;
+      const delta = event.deltaY !== 0 ? event.deltaY : event.deltaX;
+      if (delta === 0) return;
       if (container.scrollWidth <= container.clientWidth) return;
       if (singleWidthRef.current === 0) return;
 
       event.preventDefault();
       markUserInteracting();
 
-      let nextScrollLeft = container.scrollLeft + event.deltaY;
+      let nextScrollLeft = container.scrollLeft + delta;
 
       if (nextScrollLeft <= 0) {
         nextScrollLeft += singleWidthRef.current;
@@ -246,8 +247,6 @@ const PortfolioMarqueeSection: React.FC<PortfolioMarqueeSectionProps> = ({
 
   return (
     <section className="relative overflow-visible py-16 sm:py-24">
-      <div className="pointer-events-none absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-highlight/15 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-32 right-[-80px] h-72 w-72 rounded-full bg-accent/15 blur-3xl" />
       <div className="section-shell">
         <div className="mx-auto max-w-3xl text-center space-y-4">
           <h2 className="text-3xl font-bold tracking-tight text-content sm:text-4xl lg:text-5xl">
