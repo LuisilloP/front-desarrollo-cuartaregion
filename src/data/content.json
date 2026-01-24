@@ -431,25 +431,5 @@
       "title": "Términos y Condiciones",
       "content": "Las propuestas se cotizan en CLP. Se paga 50% al inicio y 50% contra entrega. Hosting administrado se factura mes a mes. Ajustes fuera de alcance se cotizan aparte."
     }
-  },
-  "posts": [
-    {
-      "slug": "performance-landing",
-      "title": "Lista de verificación para lanzar una página que convierta",
-      "excerpt": "Pasos clave para salir a producción con performance y medición desde el día uno.",
-      "content": "Define una oferta clara, valida el copy con clientes, implementa analytics y mapas de calor, y prepara variantes para test A/B.",
-      "createdAt": "2025-01-10T00:00:00.000Z",
-      "updatedAt": "2025-01-10T00:00:00.000Z",
-      "publishedAt": "2025-01-10T00:00:00.000Z"
-    },
-    {
-      "slug": "automatizar-whatsapp",
-      "title": "Cómo automatizar WhatsApp sin perder el tono humano",
-      "excerpt": "Flujos que responden rápido y saben cuándo escalar a un agente.",
-      "content": "Define mensajes de bienvenida, FAQs y derivaciones. Usa horarios para respuestas diferidas y mide el tiempo a primer contacto humano.",
-      "createdAt": "2025-01-12T00:00:00.000Z",
-      "updatedAt": "2025-01-12T00:00:00.000Z",
-      "publishedAt": "2025-01-12T00:00:00.000Z"
-    }
-  ]
+  }
 }
