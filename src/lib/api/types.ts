@@ -155,12 +155,14 @@ export interface UseCase {
   title: string;
   description: string;
   icon: string;
+  bullets?: string[];
 }
 
 export interface UseCasesSectionContent {
   eyebrow: string;
   title: string;
   description: string;
+  closingText?: string;
   cases: UseCase[];
 }
 

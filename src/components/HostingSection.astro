@@ -28,26 +28,62 @@ const { content } = Astro.props;
       </p>
     </div>
 
-    <!-- Use Cases Grid -->
-    <div id="use-cases-grid" class="grid grid-cols-1 gap-8 md:grid-cols-2">
-      {content.cases.map((useCase) => (
+    <!-- Reasons Grid -->
+    <div id="use-cases-grid" class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+      {content.cases.map((useCase, index) => (
         <div class="use-case-card-wrapper h-full">
-          <div class="card-shine group relative flex h-full flex-col rounded-3xl border p-8 backdrop-blur-xl transition-all duration-300
+          <div class="card-shine group relative flex h-full flex-col rounded-3xl border p-8 backdrop-blur-xl transition-all duration-300 overflow-hidden
           border-slate-900/10 bg-white/40 hover:border-slate-900/20 hover:!bg-white/60
           dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20 dark:hover:!bg-white/[0.07]">
             
-            <div class="relative mb-6 flex h-12 w-12 items-center justify-center rounded-2xl border
-            bg-amber-500/10 text-amber-600 border-amber-500/20
-            dark:bg-amber-400/10 dark:text-amber-300 dark:border-amber-400/20">
-              <Icon name={useCase.icon} class="h-6 w-6" />
-            </div>
+            {/* Background image for this card */}
+            <div 
+              class="absolute inset-0 bg-[url('/images/sections/why-us-bg.png')] bg-cover bg-center opacity-15 scale-105 -z-10"
+              aria-hidden="true"
+            ></div>
 
-            <h3 class="text-xl font-semibold leading-snug tracking-tight text-slate-900 dark:text-white">{useCase.title}</h3>
-            <p class="mt-2 text-slate-600 dark:text-white/60">{useCase.description}</p>
+            {/* Overlay for readability - lighter in light mode, darker in dark mode */}
+            <div class="absolute inset-0 bg-gradient-to-br from-white/50 via-white/40 to-white/60 dark:from-slate-950/30 dark:via-slate-950/20 dark:to-slate-950/40 -z-10"></div>
+
+            {/* Content */}
+            <div class="relative z-10">
+              <!-- Large Number -->
+              <div class="mb-6 text-6xl font-bold text-slate-900/5 dark:text-white/5 select-none font-mono">
+                0{index + 1}
+              </div>
+
+              <h3 class="text-xl font-bold leading-snug tracking-tight text-slate-900 dark:text-white mb-3">
+                {useCase.title}
+              </h3>
+              
+              <p class="text-slate-600 dark:text-white/60 line-clamp-3 mb-6">
+                {useCase.description}
+              </p>
+
+              {useCase.bullets && useCase.bullets.length > 0 && (
+                <ul class="mt-auto space-y-3 border-t border-slate-200/50 pt-6 dark:border-white/5">
+                  {useCase.bullets.map((bullet) => (
+                    <li class="flex items-start gap-3 text-sm text-slate-600 dark:text-white/70">
+                      <Icon name="lucide:check" class="mt-0.5 h-4 w-4 shrink-0 text-amber-500/80" />
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </div>
         </div>
       ))}
     </div>
+
+    <!-- Closing Text -->
+    {content.closingText && (
+      <div class="mt-16 text-center">
+        <p class="mx-auto max-w-2xl text-lg font-medium text-slate-500 dark:text-white/40">
+          {content.closingText}
+        </p>
+      </div>
+    )}
   </div>
 </section>
 
@@ -109,15 +145,18 @@ const { content } = Astro.props;
     // Card Shine Effect
     function setupCardShine() {
       document.querySelectorAll('#use-cases-grid .card-shine').forEach(card => {
-        if (card.dataset.shineListener === 'true') return;
-        card.addEventListener('mousemove', (e) => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          (card as HTMLElement).style.setProperty('--mouse-x', `${x}px`);
-          (card as HTMLElement).style.setProperty('--mouse-y', `${y}px`);
+        const htmlCard = card as HTMLElement;
+        if (htmlCard.dataset.shineListener === 'true') return;
+        
+        htmlCard.addEventListener('mousemove', (e) => {
+          const mouseEvent = e as MouseEvent;
+          const rect = htmlCard.getBoundingClientRect();
+          const x = mouseEvent.clientX - rect.left;
+          const y = mouseEvent.clientY - rect.top;
+          htmlCard.style.setProperty('--mouse-x', `${x}px`);
+          htmlCard.style.setProperty('--mouse-y', `${y}px`);
         });
-        (card as HTMLElement).dataset.shineListener = 'true';
+        htmlCard.dataset.shineListener = 'true';
       });
     }
     setupCardShine();

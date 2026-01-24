@@ -75,29 +75,37 @@
     ]
   },
   "useCasesSection": {
-    "eyebrow": "Casos Frecuentes",
-    "title": "¿Enfrentas uno de estos desafíos? Te ayudamos",
-    "description": "Estos son algunos de los problemas más comunes que solucionamos, adaptando cada solución a las necesidades específicas de tu negocio.",
+    "eyebrow": "Lo que nos diferencia",
+    "title": "3 razones para trabajar con Aliado Digital",
+    "description": "Directos, honestos y al día con la tecnología. Nos adaptamos a lo que realmente necesitas, vamos al grano y te acompañamos incluso después del lanzamiento.",
+    "closingText": "No te dejamos solo: podemos seguir mejorando y modernizando tu servicio cuando lo necesites.",
     "cases": [
       {
-        "title": "Necesito una agenda online",
-        "description": "Implementamos sistemas de reserva con confirmaciones y recordatorios automáticos por WhatsApp.",
-        "icon": "lucide:calendar-check"
+        "title": "Vamos al grano (y a tu medida)",
+        "description": "Entendemos tu objetivo y te proponemos lo mínimo necesario para avanzar rápido, sin complicarte.",
+        "icon": "lucide:target",
+        "bullets": [
+          "Recomendación según tu realidad y presupuesto",
+          "Prioridades claras desde el inicio"
+        ]
       },
       {
-        "title": "Quiero vender, pero sin sitio complejo",
-        "description": "Creamos 'Landing Pages' de alta conversión que capturan leads y los envían directo a tu WhatsApp o CRM.",
-        "icon": "lucide:target"
+        "title": "Transparencia total",
+        "description": "Si algo no te conviene, te lo decimos. Buscamos la mejor alternativa para ti, no la más cara.",
+        "icon": "lucide:shield-check",
+        "bullets": [
+          "Alcance y entregables por escrito",
+          "Sin letra chica ni sorpresas"
+        ]
       },
       {
-        "title": "Mi inventario es un caos",
-        "description": "Desarrollamos sistemas de gestión de stock con alertas y reportes para que siempre sepas qué tienes.",
-        "icon": "lucide:package-check"
-      },
-      {
-        "title": "Quiero que mi web sea editable",
-        "description": "Entregamos sitios con un panel de administración intuitivo para que actualices contenido sin depender de nadie.",
-        "icon": "lucide:layout-template"
+        "title": "Tecnología actual + acompañamiento",
+        "description": "Trabajamos con herramientas modernas y, si lo necesitas, seguimos mejorando tu web o sistema con mantención y actualizaciones.",
+        "icon": "lucide:zap",
+        "bullets": [
+          "Optimización, seguridad y rendimiento",
+          "Modernizaciones y mejoras continuas"
+        ]
       }
     ]
   },

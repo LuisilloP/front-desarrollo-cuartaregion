@@ -18,31 +18,31 @@ interface FeaturesGridProps {
 
 const defaultFeatures: Feature[] = [
   {
-    step: "Paso 01",
-    title: "Conocemos tu negocio",
+    step: "PASO 01",
+    title: "Nos cuentas tu idea y tu realidad",
     description:
-      "Nos sentamos contigo para entender como trabajas hoy y detectar que cosas te estan quitando tiempo o dinero.",
+      "Conversamos contigo para entender tu negocio, tus objetivos y qué te está quitando tiempo hoy.",
     icon: <Icon icon="lucide:users" className="h-5 w-5" />
   },
   {
-    step: "Paso 02",
-    title: "Plan de Mejora",
+    step: "PASO 02",
+    title: "Te entregamos un plan claro",
     description:
-      "Te entregamos un plan claro y sencillo con los pasos que recomendamos seguir para modernizar tus procesos.",
+      "Te mostramos opciones simples (y prioridades) para que sepas qué hacer primero y por qué.",
     icon: <Icon icon="lucide:clipboard-check" className="h-5 w-5" />
   },
   {
-    step: "Paso 03",
-    title: "Revision en Equipo",
+    step: "PASO 03",
+    title: "Lo revisamos juntos",
     description:
-      "Conversamos el plan contigo. Tu conoces tu negocio mejor que nadie, asi que ajustamos todo a tu realidad.",
+      "Afinamos el plan contigo, resolvemos dudas y dejamos todo alineado a tu presupuesto y tiempos.",
     icon: <Icon icon="lucide:messages-square" className="h-5 w-5" />
   },
   {
-    step: "Paso 04",
-    title: "Manos a la obra",
+    step: "PASO 04",
+    title: "Manos a la obra (con soporte real)",
     description:
-      "Instalamos las soluciones y te acompanamos en el proceso para que todo funcione bien desde el primer dia.",
+      "Implementamos la solución, la dejamos funcionando y te acompañamos para que le saques provecho.",
     icon: <Icon icon="lucide:rocket" className="h-5 w-5" />
   }
 ];
@@ -50,8 +50,8 @@ const defaultFeatures: Feature[] = [
 const FeaturesGrid: React.FC<FeaturesGridProps> = ({
   features = defaultFeatures,
   eyebrow = "Nuestro proceso",
-  heading = "Asi construimos soluciones contigo",
-  subheading = "Cuatro pasos claros para entender tu realidad, definir mejoras y ponerlas en marcha sin friccion."
+  heading = "Así trabajamos contigo, paso a paso",
+  subheading = "Un proceso simple: te escuchamos, te proponemos mejoras claras y las implementamos contigo para que todo funcione desde el primer día."
 }) => {
   const reducedMotion = useReducedMotion();
 
