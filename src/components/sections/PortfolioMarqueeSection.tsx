@@ -1,6 +1,6 @@
 ﻿// src/components/PortfolioMarqueeSection.tsx
 import React, { useState, useMemo, useRef, useEffect } from "react";
-import type { Company } from "../content/portfolioProjects";
+import type { Company } from "../../content/portfolioProjects";
 
 // --- Props and Types ---
 
@@ -80,11 +80,11 @@ const PortfolioMarqueeSection: React.FC<PortfolioMarqueeSectionProps> = ({
     () =>
       visibleCompanies.length > 0
         ? [
-            ...visibleCompanies,
-            ...visibleCompanies,
-            ...visibleCompanies,
-            ...visibleCompanies,
-          ]
+          ...visibleCompanies,
+          ...visibleCompanies,
+          ...visibleCompanies,
+          ...visibleCompanies,
+        ]
         : [],
     [visibleCompanies]
   );
@@ -285,9 +285,8 @@ const PortfolioMarqueeSection: React.FC<PortfolioMarqueeSectionProps> = ({
       >
         <ul
           ref={marqueeTrackRef}
-          className={`marquee__track px-6 py-4 sm:px-8 sm:py-6 ${
-            isAnimating ? "animate" : ""
-          }`}
+          className={`marquee__track px-6 py-4 sm:px-8 sm:py-6 ${isAnimating ? "animate" : ""
+            }`}
         >
           {marqueeCompanies.map((company, index) => (
             <CompanyCard key={`${company.id}-${index}`} company={company} />
