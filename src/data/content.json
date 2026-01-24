@@ -76,41 +76,37 @@
   },
   "useCasesSection": {
     "eyebrow": "Lo que nos diferencia",
-    "title": "3 razones para trabajar con Aliado Digital",
-    "description": "Directos, honestos y al día con la tecnología. Nos adaptamos a lo que realmente necesitas, vamos al grano y te acompañamos incluso después del lanzamiento.",
-    "closingText": "No te dejamos solo: podemos seguir mejorando y modernizando tu servicio cuando lo necesites.",
+    "title": "Así trabajamos contigo",
+    "description": "Trabajamos de forma cercana y transparente. Escuchamos lo que necesitas, definimos prioridades y te proponemos un plan claro para avanzar rápido, sin complicaciones. Y después del lanzamiento, seguimos disponibles para ayudarte a mejorar.",
     "cases": [
       {
-        "title": "Vamos al grano (y a tu medida)",
-        "description": "Entendemos tu objetivo y te proponemos lo mínimo necesario para avanzar rápido, sin complicarte.",
+        "title": "Claro y a tu medida",
+        "description": "Entendemos tu objetivo y te recomendamos lo esencial para avanzar con orden, sin gastar de más.",
         "icon": "lucide:target",
         "cardColor": "#38bdf8",
         "backgroundImage": "/images/sections/diana.webp",
         "bullets": [
-          "Recomendación según tu realidad y presupuesto",
+          "Recomendación según tu presupuesto",
           "Prioridades claras desde el inicio"
         ]
       },
       {
-        "title": "Transparencia total",
-        "description": "Si algo no te conviene, te lo decimos. Buscamos la mejor alternativa para ti, no la más cara.",
+        "title": "Transparencia desde el primer día",
+        "description": "Te hablamos con honestidad y sin letra chica. Si algo no te conviene, lo decimos y buscamos una mejor alternativa.",
         "icon": "lucide:shield-check",
         "cardColor": "#fb923c",
         "backgroundImage": "/images/sections/why-us-bg.png",
-        "bullets": [
-          "Alcance y entregables por escrito",
-          "Sin letra chica ni sorpresas"
-        ]
+        "bullets": ["Alcance por escrito", "Sin sorpresas ni costos ocultos"]
       },
       {
-        "title": "Tecnología actual + acompañamiento",
-        "description": "Trabajamos con herramientas modernas y, si lo necesitas, seguimos mejorando tu web o sistema con mantención y actualizaciones.",
+        "title": "Tecnología moderna y soporte real",
+        "description": "Usamos herramientas actuales y dejamos todo bien implementado para que tu web funcione bien y pueda crecer.",
         "icon": "lucide:zap",
         "cardColor": "#a855f7",
         "backgroundImage": "/images/sections/manos.webp",
         "bullets": [
-          "Optimización, seguridad y rendimiento",
-          "Modernizaciones y mejoras continuas"
+          "Seguridad y rendimiento",
+          "Mejoras y actualizaciones continuas"
         ]
       }
     ]
@@ -162,10 +158,7 @@
         "Pagos en línea (Webpay, MercadoPago o Stripe según tu caso)",
         "Panel simple para administrar horarios y servicios"
       ],
-      "deliverables": [
-        "Panel para editar contenido",
-        "Guía rápida de uso"
-      ],
+      "deliverables": ["Panel para editar contenido", "Guía rápida de uso"],
       "delivery_time": "10 días hábiles",
       "modality": "Proyecto",
       "price": "$380.000 CLP",
