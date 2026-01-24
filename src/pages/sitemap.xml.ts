@@ -1,17 +1,88 @@
 import { env } from "../lib/env";
+import { fetchAllPosts, fetchCases, fetchPostsPage, fetchServices } from "../lib/api/services";
 
 const SITE_URL = env.siteUrl || "https://example.com";
-const routes = ["/", "/privacidad", "/terminos"];
 
-export function GET() {
-  const urls = routes
-    .map(
-      (path) => `<url>
-  <loc>${SITE_URL}${path}</loc>
-  <changefreq>weekly</changefreq>
-  <priority>${path === "/" ? "1.0" : "0.6"}</priority>
-</url>`
-    )
+type SitemapEntry = {
+  path: string;
+  changefreq: "daily" | "weekly" | "monthly" | "yearly";
+  priority: string;
+  lastmod?: string;
+};
+
+const toIsoDate = (value?: string): string | undefined => {
+  if (!value) return undefined;
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return undefined;
+  return date.toISOString();
+};
+
+const buildUrl = (entry: SitemapEntry) => {
+  const lastmodTag = entry.lastmod ? `\n  <lastmod>${entry.lastmod}</lastmod>` : "";
+  return `<url>
+  <loc>${SITE_URL}${entry.path}</loc>${lastmodTag}
+  <changefreq>${entry.changefreq}</changefreq>
+  <priority>${entry.priority}</priority>
+</url>`;
+};
+
+export async function GET() {
+  const staticRoutes: SitemapEntry[] = [
+    { path: "/", changefreq: "weekly", priority: "1.0" },
+    { path: "/blog", changefreq: "weekly", priority: "0.7" },
+    { path: "/privacidad", changefreq: "yearly", priority: "0.3" },
+    { path: "/terminos", changefreq: "yearly", priority: "0.3" }
+  ];
+
+  const [services, cases, postsPage, posts] = await Promise.all([
+    fetchServices(),
+    fetchCases(),
+    fetchPostsPage({ page: 1, pageSize: 6 }),
+    fetchAllPosts({ pageSize: 100 })
+  ]);
+
+  const serviceRoutes: SitemapEntry[] = services
+    .filter((service) => Boolean(service.slug))
+    .map((service) => ({
+      path: `/servicios/${service.slug}`,
+      changefreq: "monthly",
+      priority: "0.8"
+    }));
+
+  const caseRoutes: SitemapEntry[] = cases
+    .filter((caseItem) => Boolean(caseItem.slug))
+    .map((caseItem) => ({
+      path: `/casos/${caseItem.slug}`,
+      changefreq: "monthly",
+      priority: "0.8"
+    }));
+
+  const postRoutes: SitemapEntry[] = posts
+    .filter((post) => Boolean(post.slug))
+    .map((post) => ({
+      path: `/blog/${post.slug}`,
+      changefreq: "weekly",
+      priority: "0.7",
+      lastmod: toIsoDate(post.updatedAt || post.publishedAt || post.createdAt)
+    }));
+
+  const pageCount = Math.max(1, postsPage.pagination.pageCount ?? 1);
+  const blogPaginationRoutes: SitemapEntry[] = Array.from({ length: pageCount }, (_, index) => index + 1)
+    .filter((pageNumber) => pageNumber > 1)
+    .map((pageNumber) => ({
+      path: `/blog/${pageNumber}`,
+      changefreq: "weekly",
+      priority: "0.5"
+    }));
+
+  const urls = [
+    ...staticRoutes,
+    ...serviceRoutes,
+    ...caseRoutes,
+    ...postRoutes,
+    ...blogPaginationRoutes
+  ]
+    .map(buildUrl)
     .join("");
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>

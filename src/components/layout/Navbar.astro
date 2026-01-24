@@ -109,13 +109,13 @@ const processedNavLinks = navLinks.map((link) => ({
       <!-- Mobile Menu Button -->
       <button
         id="mobile-menu-toggle"
-        class="lg:hidden flex flex-col justify-center items-center w-10 h-10 rounded-full transition-colors hover:bg-black/10"
+        class="lg:hidden flex flex-col justify-center items-center gap-y-1.5 w-10 h-10 rounded-full transition-colors hover:bg-black/10"
         aria-label="Abrir menú"
         aria-expanded="false"
       >
         <span
           class:list={[
-            "w-5 h-0.5 rounded-full transition-transform duration-300 ease-in-out",
+            "w-5 h-0.5 rounded-full transition-transform duration-300 ease-in-out origin-center",
             isHome
               ? "bg-white group-[.scrolled]:bg-slate-900 dark:group-[.scrolled]:bg-white"
               : "bg-slate-900 dark:bg-white",
@@ -123,15 +123,7 @@ const processedNavLinks = navLinks.map((link) => ({
           aria-hidden="true"></span>
         <span
           class:list={[
-            "w-5 h-0.5 rounded-full my-1.5 transition-opacity duration-300 ease-in-out",
-            isHome
-              ? "bg-white group-[.scrolled]:bg-slate-900 dark:group-[.scrolled]:bg-white"
-              : "bg-slate-900 dark:bg-white",
-          ]}
-          aria-hidden="true"></span>
-        <span
-          class:list={[
-            "w-5 h-0.5 rounded-full transition-transform duration-300 ease-in-out",
+            "w-5 h-0.5 rounded-full transition-transform duration-300 ease-in-out origin-center",
             isHome
               ? "bg-white group-[.scrolled]:bg-slate-900 dark:group-[.scrolled]:bg-white"
               : "bg-slate-900 dark:bg-white",
@@ -150,29 +142,6 @@ const processedNavLinks = navLinks.map((link) => ({
   dark:bg-slate-900/90 dark:text-white dark:border-white/10"
 >
   <div class="flex flex-col h-full p-8 pt-20 gap-y-6">
-    <div class="flex items-center gap-3">
-      <div
-        class="bg-white/90 dark:bg-white/10 backdrop-blur rounded-xl p-2 ring-1 ring-white/60 dark:ring-white/10"
-      >
-        <img
-          src="/logo.png"
-          alt=`Logo de ${siteSettings.siteName}`
-          class="h-8 w-8 object-contain"
-          loading="lazy"
-        />
-      </div>
-      <div>
-        <p
-          class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-white/60"
-        >
-          Menu
-        </p>
-        <p class="text-lg font-semibold">{siteSettings.siteName}</p>
-      </div>
-    </div>
-
-    <div class="h-px w-full bg-slate-200/70 dark:bg-white/10"></div>
-
     <div class="flex flex-col gap-y-2">
       <p
         class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-white/60"
@@ -193,9 +162,9 @@ const processedNavLinks = navLinks.map((link) => ({
       }
     </div>
 
-    <div class="mt-auto pt-2">
+    <div class="mt-auto pt-2 pb-20 pr-16">
       <p class="mt-3 text-xs text-slate-500 dark:text-white/60">
-        Respondemos rapido de lunes a viernes.
+        Atendemos de lunes a viernes y respondemos en horario hábil.
       </p>
     </div>
   </div>
@@ -276,22 +245,20 @@ const processedNavLinks = navLinks.map((link) => ({
     const openMenu = () => {
       menuPanel.classList.remove("translate-x-full");
       menuBackdrop.classList.remove("hidden");
-      floatingWhatsappButton?.classList.add("hidden");
+      floatingWhatsappButton?.classList.add("is-expanded");
       document.body.style.overflow = "hidden";
       menuToggle.setAttribute("aria-expanded", "true");
-      hamburgerSpans[0].style.transform = "rotate(45deg) translate(5px, 5px)";
-      hamburgerSpans[1].style.opacity = "0";
-      hamburgerSpans[2].style.transform = "rotate(-45deg) translate(5px, -5px)";
+      hamburgerSpans[0].style.transform = "translateY(4px) rotate(45deg)";
+      hamburgerSpans[1].style.transform = "translateY(-4px) rotate(-45deg)";
     };
 
     const closeMenu = () => {
       menuPanel.classList.add("translate-x-full");
       menuBackdrop.classList.add("hidden");
-      floatingWhatsappButton?.classList.remove("hidden");
+      floatingWhatsappButton?.classList.remove("is-expanded");
       document.body.style.overflow = "";
       menuToggle.setAttribute("aria-expanded", "false");
       hamburgerSpans.forEach((span) => (span.style.transform = ""));
-      hamburgerSpans[1].style.opacity = "1";
     };
 
     menuToggle.addEventListener("click", () => {

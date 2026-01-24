@@ -1,0 +1,21 @@
+---
+interface Props {
+  size?: "sm" | "md";
+  tone?: "neutral" | "accent";
+}
+
+const { size = "sm", tone = "neutral" } = Astro.props;
+const paddingClass = size === "md" ? "py-10 sm:py-12" : "py-6 sm:py-8";
+const glowClass = tone === "accent" ? "bg-highlight/25" : "bg-accent/15";
+const dotClass = tone === "accent" ? "bg-highlight/80" : "bg-accent/60";
+---
+
+<div class={`relative ${paddingClass}`} aria-hidden="true">
+  <div class="absolute inset-x-0 top-1/2 -translate-y-1/2 h-px bg-gradient-to-r from-transparent via-border/80 to-transparent"></div>
+  <div
+    class={`pointer-events-none absolute left-1/2 top-1/2 h-24 w-24 -translate-x-1/2 -translate-y-1/2 rounded-full blur-2xl ${glowClass}`}
+  ></div>
+  <div class="relative mx-auto flex w-full max-w-6xl items-center justify-center">
+    <span class={`inline-flex h-2.5 w-2.5 rounded-full ${dotClass} ring-1 ring-border/70`}></span>
+  </div>
+</div>

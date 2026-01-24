@@ -83,7 +83,7 @@
         "title": "Claro y a tu medida",
         "description": "Entendemos tu objetivo y te recomendamos lo esencial para avanzar con orden, sin gastar de más.",
         "icon": "lucide:target",
-        "cardColor": "#38bdf8",
+        "cardColor": "#fb923c",
         "backgroundImage": "/images/sections/diana.webp",
         "bullets": [
           "Recomendación según tu presupuesto",
@@ -94,7 +94,7 @@
         "title": "Transparencia desde el primer día",
         "description": "Te hablamos con honestidad y sin letra chica. Si algo no te conviene, lo decimos y buscamos una mejor alternativa.",
         "icon": "lucide:shield-check",
-        "cardColor": "#fb923c",
+        "cardColor": "#38bdf8",
         "backgroundImage": "/images/sections/why-us-bg.png",
         "bullets": [
           "Alcance por escrito",
@@ -130,6 +130,7 @@
       "type": "web",
       "title": "Página de captación de clientes",
       "for_who": "Negocios y emprendedores que necesitan generar contactos rápido.",
+      "whatsapp_desc": "Hola, vi la página de captación de clientes y me gustaría confirmar qué incluye.",
       "what_it_solves": "Una página clara y enfocada en convertir visitas en consultas: mensaje directo, prueba social y medición para mejorar semana a semana.",
       "benefits": [
         "Estructura pensada para generar consultas",
@@ -155,6 +156,7 @@
       "type": "web",
       "title": "Sitio web con reservas y pagos en línea",
       "for_who": "Clínicas, centros deportivos, turismo y servicios profesionales.",
+      "whatsapp_desc": "Hola, vi el sitio web con reservas y pagos en línea y quisiera conocer más detalles.",
       "what_it_solves": "Un sitio completo con agenda, confirmaciones automáticas y pago en línea para que tus reservas se gestionen sin llamadas ni vueltas.",
       "benefits": [
         "Agenda con recordatorios automáticos",
@@ -179,6 +181,7 @@
       "type": "digital",
       "title": "Atención automática por WhatsApp + gestor de clientes",
       "for_who": "Equipos comerciales que quieren responder rápido y ordenar sus contactos.",
+      "whatsapp_desc": "Hola, vi la atención automática por WhatsApp con gestor de clientes y me gustaría entender cómo funciona.",
       "what_it_solves": "Respuestas automáticas para preguntas frecuentes, captura de datos y traspaso a un agente cuando corresponde, sincronizado con tu gestor de clientes (CRM).",
       "benefits": [
         "Respuestas automáticas con tono humano",
@@ -203,6 +206,7 @@
       "type": "maintenance",
       "title": "Mantención TI y monitoreo proactivo",
       "for_who": "Pymes con equipos críticos que no pueden detenerse.",
+      "whatsapp_desc": "Hola, vi el servicio de mantención TI y monitoreo proactivo y quisiera confirmar el alcance.",
       "what_it_solves": "Plan mensual para mantener tu web y sistemas al día: parches, respaldos y monitoreo para evitar caídas.",
       "benefits": [
         "Parches, actualizaciones y cambios menores",
@@ -221,6 +225,27 @@
       "order": 4,
       "featured": false,
       "icon": "lucide:shield-check"
+    },
+    {
+      "slug": "orientacion-digital",
+      "type": "digital",
+      "title": "Orientación para empezar con tecnología",
+      "for_who": "Personas y negocios que no saben por dónde empezar y quieren una guía clara, sin tecnicismos.",
+      "whatsapp_desc": "Hola, vi la orientación para empezar con tecnología y me gustaría saber por dónde comenzar.",
+      "what_it_solves": "Te ayudamos a ordenar ideas, priorizar y definir el primer paso. Un espacio seguro para salir de dudas.",
+      "benefits": [
+        "Diagnóstico simple de tu situación actual",
+        "Priorización de lo más importante para avanzar",
+        "Recomendaciones claras y accionables"
+      ],
+      "deliverables": [
+        "Hoja de ruta inicial con próximos pasos",
+        "Resumen con opciones y rangos de alcance"
+      ],
+      "ctaType": "whatsapp",
+      "order": 5,
+      "featured": false,
+      "icon": "lucide:message-circle"
     }
   ],
   "cases": [
