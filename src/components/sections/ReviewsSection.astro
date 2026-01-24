@@ -1,58 +1,50 @@
 ---
-import type { Service } from "../data/mock";
-import ServiceCard from "./ServiceCard.astro";
+import type { Testimonial, ReviewsSectionContent } from "../../lib/api/types";
 import { Icon } from "astro-icon/components";
+import ReviewCard from "../ui/ReviewCard.astro";
 
 interface Props {
-  services: Service[];
-  whatsappNumber: string;
+  content: ReviewsSectionContent;
+  reviews: Testimonial[];
 }
 
-const { services, whatsappNumber } = Astro.props;
-const sortedServices = [...services].sort(
+const { content, reviews } = Astro.props;
+const sortedReviews = [...reviews].sort(
   (a, b) => (a.order ?? 99) - (b.order ?? 99),
 );
 ---
 
-<section id="servicios" class="py-20 lg:py-32">
+<section id="reviews" class="py-20 lg:py-32">
   <div class="container mx-auto px-6 sm:px-8">
     <!-- Section Header -->
     <div class="mx-auto mb-16 max-w-3xl text-center">
       <div
         class="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium
-      bg-sky-500/10 text-sky-600
-      dark:bg-sky-400/10 dark:text-sky-300"
+      bg-green-500/10 text-green-600
+      dark:bg-green-400/10 dark:text-green-300"
       >
-        <Icon name="lucide:rocket" class="h-4 w-4" />
-        Planes a tu medida
+        <Icon name="lucide:star" class="h-4 w-4" />
+        {content.eyebrow}
       </div>
       <h2
         class="text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl"
       >
-        Planes
+        {content.title}
       </h2>
       <p class="mt-4 text-lg text-slate-600 dark:text-white/60">
-        Cada servicio está diseñado para entregar resultados tangibles. Explora
-        nuestras soluciones y contáctanos para una cotización en menos de 24
-        horas hábiles.
-      </p>
-      <p
-        class="pill inline-flex items-center gap-2 w-fit bg-primary/10 border-primary/40 text-highlight"
-      >
-        <Icon name="lucide:rocket" class="h-4 w-4 text-highlight/80" />
-        Planes listos para lanzar
+        {content.description}
       </p>
     </div>
 
-    <!-- Services Grid -->
+    <!-- Reviews Grid -->
     <div
-      id="services-grid"
+      id="reviews-grid"
       class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
     >
       {
-        sortedServices.map((service) => (
-          <div class="service-card-wrapper">
-            <ServiceCard service={service} whatsappNumber={whatsappNumber} />
+        sortedReviews.map((review) => (
+          <div class="review-card-wrapper">
+            <ReviewCard review={review} />
           </div>
         ))
       }
@@ -61,7 +53,7 @@ const sortedServices = [...services].sort(
 </section>
 
 <style>
-  .service-card-wrapper {
+  .review-card-wrapper {
     opacity: 0;
     transform: translateY(30px);
     transition:
@@ -69,7 +61,7 @@ const sortedServices = [...services].sort(
       transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     transition-delay: var(--delay, 0s);
   }
-  .service-card-wrapper.is-visible {
+  .review-card-wrapper.is-visible {
     opacity: 1;
     transform: translateY(0);
   }
@@ -77,10 +69,10 @@ const sortedServices = [...services].sort(
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const grid = document.getElementById("services-grid");
+    const grid = document.getElementById("reviews-grid");
     if (!grid) return;
 
-    const cards = grid.querySelectorAll(".service-card-wrapper");
+    const cards = grid.querySelectorAll(".review-card-wrapper");
 
     const observer = new IntersectionObserver(
       (entries, obs) => {
@@ -91,13 +83,13 @@ const sortedServices = [...services].sort(
               cardElement.style.setProperty("--delay", `${index * 100}ms`);
               cardElement.classList.add("is-visible");
             });
-            obs.unobserve(grid); // Stop observing after animation is triggered
+            obs.unobserve(grid);
           }
         });
       },
       {
-        threshold: 0.1, // Trigger when 10% of the grid is visible
-        rootMargin: "0px 0px -50px 0px", // Trigger a bit before it's fully in view
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
       },
     );
 

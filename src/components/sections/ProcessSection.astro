@@ -1,0 +1,176 @@
+---
+// Nuestro Proceso - Sección con diseño escalera y animaciones scroll
+const steps = [
+  {
+    num: "01",
+    title: "Conocemos tu negocio",
+    desc: "Conversamos contigo para entender tus objetivos, audiencia y desafíos únicos.",
+    result: "Estrategia personalizada",
+    img: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&h=600&fit=crop"
+  },
+  {
+    num: "02",
+    title: "Diseñamos la solución",
+    desc: "Creamos un plan visual y técnico que refleja tu identidad y cumple tus metas.",
+    result: "Propuesta visual clara",
+    img: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=600&fit=crop"
+  },
+  {
+    num: "03",
+    title: "Desarrollamos tu proyecto",
+    desc: "Transformamos el diseño en código limpio, rápido y optimizado para todos los dispositivos.",
+    result: "Sitio web funcional",
+    img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&fit=crop"
+  },
+  {
+    num: "04",
+    title: "Testeamos cada detalle",
+    desc: "Revisamos rendimiento, accesibilidad y compatibilidad antes de lanzar.",
+    result: "Calidad garantizada",
+    img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=600&fit=crop"
+  },
+  {
+    num: "05",
+    title: "Lanzamos tu sitio",
+    desc: "Publicamos tu proyecto y lo conectamos con todas las herramientas que necesitas.",
+    result: "Online y operativo",
+    img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop"
+  },
+  {
+    num: "06",
+    title: "Te acompañamos siempre",
+    desc: "Seguimos a tu lado con soporte, actualizaciones y mejoras continuas.",
+    result: "Tranquilidad total",
+    img: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&h=600&fit=crop"
+  }
+];
+---
+
+<section class="relative py-20 md:py-28 overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950">
+  <!-- Decoración de fondo -->
+  <div class="absolute inset-0 opacity-30 dark:opacity-20">
+    <div class="absolute top-1/4 left-0 w-96 h-96 bg-blue-200 dark:bg-blue-900 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-1/4 right-0 w-96 h-96 bg-purple-200 dark:bg-purple-900 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="container mx-auto px-4 md:px-6 relative z-10">
+    <!-- Header -->
+    <div class="text-center mb-12 md:mb-16">
+      <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+        Nuestro proceso
+      </h2>
+      <p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+        Un camino claro y probado que te lleva desde la idea hasta el resultado
+      </p>
+    </div>
+
+    <!-- Steps - Diseño Brickwork Compacto -->
+    <div class="relative max-w-6xl mx-auto">
+      {steps.map((step, index) => {
+        const isEven = index % 2 === 0;
+        const delay = (index + 1) * 180;
+        
+        return (
+          <div 
+            class="process-step opacity-0 mb-6 md:mb-8"
+            data-step={index}
+            style={`--d: ${delay}ms`}
+          >
+            <!-- Desktop: Layout compacto escalonado -->
+            <div class={`grid grid-cols-1 lg:grid-cols-2 gap-6 items-center ${isEven ? '' : 'lg:grid-flow-dense'}`}>
+              
+              <!-- Imagen -->
+              <div class={`${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
+                <div class="relative group">
+                  <div class="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl blur-lg opacity-25 group-hover:opacity-40 transition duration-500"></div>
+                  <div class="relative aspect-[4/3] rounded-2xl overflow-hidden bg-gray-200 dark:bg-gray-800">
+                    <img 
+                      src={step.img} 
+                      alt={step.title}
+                      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Contenido de texto -->
+              <div class={`${isEven ? 'lg:order-2' : 'lg:order-1'}`}>
+                <div class="relative backdrop-blur-xl bg-white/80 dark:bg-gray-900/80 border border-gray-200/50 dark:border-gray-700/50 rounded-2xl p-6 shadow-xl">
+                  <!-- Número badge -->
+                  <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 text-white font-bold text-xl mb-4 shadow-lg">
+                    {step.num}
+                  </div>
+
+                  <!-- Título -->
+                  <h3 class="text-xl md:text-2xl font-bold mb-2 text-gray-900 dark:text-white">
+                    {step.title}
+                  </h3>
+
+                  <!-- Descripción -->
+                  <p class="text-gray-600 dark:text-gray-300 mb-3 text-sm md:text-base leading-relaxed">
+                    {step.desc}
+                  </p>
+
+                  <!-- Mini resultado -->
+                  <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950/30 dark:to-purple-950/30 border border-blue-200/50 dark:border-blue-800/50 rounded-full">
+                    <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span class="text-xs md:text-sm font-semibold text-blue-700 dark:text-blue-300">
+                      {step.result}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<!-- Estilos para animaciones -->
+<style>
+  .process-step {
+    transition: 
+      opacity 0.8s ease-out,
+      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+      filter 0.8s ease-out;
+    transition-delay: var(--d, 0ms);
+    transform: translateY(30px);
+    filter: blur(8px);
+  }
+
+  .process-step.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+</style>
+
+<!-- Script IntersectionObserver -->
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const steps = document.querySelectorAll('.process-step');
+    
+    const observerOptions = {
+      root: null,
+      threshold: 0.15,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          // Opcional: dejar de observar después de animar
+          // observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    steps.forEach(step => observer.observe(step));
+  });
+</script>

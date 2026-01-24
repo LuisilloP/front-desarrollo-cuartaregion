@@ -1,0 +1,75 @@
+---
+import type { CaseStudy } from "../../lib/api/types";
+
+interface Props {
+  caseItem: CaseStudy;
+}
+
+const { caseItem } = Astro.props;
+
+const title = caseItem.title || caseItem.clientName;
+const coverAlt =
+  caseItem.coverImageAlt || `Caso de éxito de ${caseItem.clientName || title}`;
+const href = `/casos/${caseItem.slug}`;
+---
+
+<a
+  href={href}
+  class="group relative block h-full w-full overflow-hidden rounded-3xl text-white shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1"
+>
+  <!-- Background Image -->
+  <div class="absolute inset-0 h-full w-full">
+    {
+      caseItem.coverImage ? (
+        <img
+          src={caseItem.coverImage}
+          alt={coverAlt}
+          loading="lazy"
+          class="h-full w-full object-cover object-center transition-transform duration-300 ease-in-out group-hover:scale-105"
+        />
+      ) : (
+        <div class="h-full w-full bg-gradient-to-br from-sky-500 via-slate-700 to-amber-500" />
+      )
+    }
+  </div>
+
+  <!-- Gradient Overlay -->
+  <div
+    class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"
+  >
+  </div>
+
+  <!-- Content -->
+  <div class="relative flex h-full flex-col justify-end p-6 lg:p-8">
+    <div
+      class="transition-transform duration-300 ease-in-out group-hover:-translate-y-2"
+    >
+      {
+        caseItem.clientName && (
+          <p class="text-sm font-semibold text-white/80">
+            {caseItem.clientName}
+          </p>
+        )
+      }
+      <h3 class="mt-1 text-2xl font-bold leading-snug tracking-tight">
+        {title}
+      </h3>
+    </div>
+    <div
+      class="mt-4 flex items-center justify-between opacity-0 transition-all duration-300 ease-in-out group-hover:opacity-100"
+    >
+      <span class="text-sm font-medium text-sky-300">Ver caso de estudio</span>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+        class="h-5 w-5 -rotate-45 text-sky-300 transition-transform duration-300 ease-in-out group-hover:rotate-0"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z"
+          clip-rule="evenodd"></path>
+      </svg>
+    </div>
+  </div>
+</a>

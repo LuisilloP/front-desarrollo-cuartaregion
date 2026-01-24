@@ -1,0 +1,272 @@
+---
+import { Icon } from "astro-icon/components";
+import type { SiteSettings, NavLink, Content } from "../../lib/api/types";
+import contentJson from "../../data/content.json";
+
+interface Props {
+  siteSettings: SiteSettings;
+  navLinks?: NavLink[];
+}
+
+const content = contentJson as Content;
+const fallbackNavLinks = content.navLinks ?? [];
+const { siteSettings, navLinks = fallbackNavLinks } = Astro.props;
+const pathname = Astro.url?.pathname ?? "/";
+const isHome = pathname === "/" || pathname === "";
+const withHome = (href: string) =>
+  href.startsWith("#") && !isHome ? `/${href}` : href;
+
+const processedNavLinks = navLinks.map((link) => ({
+  ...link,
+  href: withHome(link.href),
+}));
+---
+
+<header
+  id="main-header"
+  class="group fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-in-out"
+>
+  <nav
+    class="container mx-auto flex items-center justify-between px-6 py-3 sm:px-8"
+  >
+    <!-- Logo -->
+    <a
+      href={withHome("#inicio")}
+      class="flex items-center gap-3 font-bold text-xl tracking-tight text-white group-[.scrolled]:text-slate-900 dark:group-[.scrolled]:text-white"
+    >
+      <div
+        class="relative rounded-lg p-[1px] bg-gradient-to-br from-white/40 via-white/20 to-white/40 backdrop-blur-sm"
+      >
+        <div class="rounded-lg">
+          <img
+            src="/logo.png"
+            alt={`Logo de ${siteSettings.siteName}`}
+            class="h-10 w-10 object-contain rounded-lg"
+            loading="eager"
+          />
+        </div>
+      </div>
+
+      <span class="hidden sm:inline">{siteSettings.siteName}</span>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <div
+      class="hidden lg:flex items-center gap-x-8 text-white group-[.scrolled]:text-slate-700 dark:group-[.scrolled]:text-white"
+    >
+      {
+        processedNavLinks.map((link) => (
+          <a
+            href={link.href}
+            class="text-sm font-medium transition-colors duration-200 hover:text-sky-300 dark:hover:text-sky-300 group-[.scrolled]:hover:text-sky-500 dark:group-[.scrolled]:hover:text-sky-300"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </div>
+
+    <!-- Action Buttons -->
+    <div
+      class="flex items-center gap-x-2 text-white group-[.scrolled]:text-slate-700 dark:group-[.scrolled]:text-white"
+    >
+      <button
+        id="theme-toggle"
+        class="h-10 w-10 rounded-full flex items-center justify-center transition-colors hover:bg-black/10"
+        type="button"
+        aria-label="Cambiar tema"
+      >
+        <Icon
+          name="lucide:sun-medium"
+          class="h-5 w-5"
+          data-theme-icon="light"
+        />
+        <Icon
+          name="lucide:moon-star"
+          class="h-5 w-5 hidden"
+          data-theme-icon="dark"
+        />
+      </button>
+
+      <!-- Mobile Menu Button -->
+      <button
+        id="mobile-menu-toggle"
+        class="lg:hidden flex flex-col justify-center items-center w-10 h-10 rounded-full transition-colors hover:bg-black/10"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+      >
+        <span
+          class="w-5 h-0.5 rounded-full transition-transform duration-300 ease-in-out bg-white group-[.scrolled]:bg-slate-900 dark:group-[.scrolled]:bg-white"
+          aria-hidden="true"></span>
+        <span
+          class="w-5 h-0.5 rounded-full my-1.5 transition-opacity duration-300 ease-in-out bg-white group-[.scrolled]:bg-slate-900 dark:group-[.scrolled]:bg-white"
+          aria-hidden="true"></span>
+        <span
+          class="w-5 h-0.5 rounded-full transition-transform duration-300 ease-in-out bg-white group-[.scrolled]:bg-slate-900 dark:group-[.scrolled]:bg-white"
+          aria-hidden="true"></span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<!-- Mobile Menu Panel -->
+<div
+  id="mobile-menu-panel"
+  class="fixed top-0 right-0 h-full w-80 max-w-[88vw] backdrop-blur-xl shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out z-40 lg:hidden
+  bg-white/85 text-slate-900 border-l border-white/40
+  dark:bg-slate-900/90 dark:text-white dark:border-white/10"
+>
+  <div class="flex flex-col h-full p-8 pt-20 gap-y-6">
+    <div class="flex items-center gap-3">
+      <div
+        class="bg-white/90 dark:bg-white/10 backdrop-blur rounded-xl p-2 ring-1 ring-white/60 dark:ring-white/10"
+      >
+        <img
+          src="/logo.png"
+          alt=`Logo de ${siteSettings.siteName}`
+          class="h-8 w-8 object-contain"
+          loading="lazy"
+        />
+      </div>
+      <div>
+        <p
+          class="text-sm uppercase tracking-[0.2em] text-slate-500 dark:text-white/60"
+        >
+          Menu
+        </p>
+        <p class="text-lg font-semibold">{siteSettings.siteName}</p>
+      </div>
+    </div>
+
+    <div class="h-px w-full bg-slate-200/70 dark:bg-white/10"></div>
+
+    <div class="flex flex-col gap-y-2">
+      <p
+        class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-white/60"
+      >
+        Navegacion
+      </p>
+      {
+        processedNavLinks.map((link) => (
+          <a
+            href={link.href}
+            class="text-base font-semibold transition-all mobile-nav-link rounded-2xl px-4 py-3
+          hover:bg-slate-900/5 hover:text-slate-900
+          dark:hover:bg-white/10 dark:hover:text-white"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="mt-auto pt-2">
+      <p class="mt-3 text-xs text-slate-500 dark:text-white/60">
+        Respondemos rapido de lunes a viernes.
+      </p>
+    </div>
+  </div>
+</div>
+<!-- Backdrop -->
+<div
+  id="mobile-menu-backdrop"
+  class="fixed inset-0 bg-black/40 z-30 hidden lg:hidden"
+>
+</div>
+
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", () => {
+    // --- Theme Toggler ---
+    const themeToggleBtn = document.getElementById("theme-toggle");
+    const THEME_KEY = "theme";
+
+    const setThemeIcon = (theme) => {
+      themeToggleBtn?.querySelectorAll("[data-theme-icon]").forEach((icon) => {
+        icon.classList.toggle(
+          "hidden",
+          icon.getAttribute("data-theme-icon") !== theme,
+        );
+      });
+    };
+
+    const applyTheme = (theme) => {
+      document.documentElement.classList.toggle("dark", theme === "dark");
+      localStorage.setItem(THEME_KEY, theme);
+      setThemeIcon(theme);
+    };
+
+    const storedTheme = localStorage.getItem(THEME_KEY);
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)",
+    ).matches;
+    applyTheme(storedTheme || (prefersDark ? "dark" : "light"));
+
+    themeToggleBtn?.addEventListener("click", () => {
+      const nextTheme = document.documentElement.classList.contains("dark")
+        ? "light"
+        : "dark";
+      applyTheme(nextTheme);
+    });
+
+    // --- Header Scroll Effect ---
+    const header = document.getElementById("main-header");
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        header.classList.add("scrolled", "shadow-lg");
+        header.classList.add(
+          "bg-white/80",
+          "dark:bg-slate-900/80",
+          "backdrop-blur-lg",
+        );
+      } else {
+        header.classList.remove("scrolled", "shadow-lg");
+        header.classList.remove(
+          "bg-white/80",
+          "dark:bg-slate-900/80",
+          "backdrop-blur-lg",
+        );
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Initial check
+
+    // --- Mobile Menu ---
+    const menuToggle = document.getElementById("mobile-menu-toggle");
+    const menuPanel = document.getElementById("mobile-menu-panel");
+    const menuBackdrop = document.getElementById("mobile-menu-backdrop");
+    const floatingWhatsappButton = document.getElementById(
+      "whatsapp-floating-button",
+    );
+    const mobileNavLinks = document.querySelectorAll(".mobile-nav-link");
+    const hamburgerSpans = menuToggle?.querySelectorAll("span");
+
+    const openMenu = () => {
+      menuPanel.classList.remove("translate-x-full");
+      menuBackdrop.classList.remove("hidden");
+      floatingWhatsappButton?.classList.add("hidden");
+      document.body.style.overflow = "hidden";
+      menuToggle.setAttribute("aria-expanded", "true");
+      hamburgerSpans[0].style.transform = "rotate(45deg) translate(5px, 5px)";
+      hamburgerSpans[1].style.opacity = "0";
+      hamburgerSpans[2].style.transform = "rotate(-45deg) translate(5px, -5px)";
+    };
+
+    const closeMenu = () => {
+      menuPanel.classList.add("translate-x-full");
+      menuBackdrop.classList.add("hidden");
+      floatingWhatsappButton?.classList.remove("hidden");
+      document.body.style.overflow = "";
+      menuToggle.setAttribute("aria-expanded", "false");
+      hamburgerSpans.forEach((span) => (span.style.transform = ""));
+      hamburgerSpans[1].style.opacity = "1";
+    };
+
+    menuToggle.addEventListener("click", () => {
+      const isExpanded = menuToggle.getAttribute("aria-expanded") === "true";
+      isExpanded ? closeMenu() : openMenu();
+    });
+
+    menuBackdrop.addEventListener("click", closeMenu);
+    mobileNavLinks.forEach((link) => link.addEventListener("click", closeMenu));
+  });
+</script>

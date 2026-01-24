@@ -1,17 +1,18 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Navbar from "../components/Navbar.astro";
-import Hero from "../components/Hero.astro";
-import ServicesSection from "../components/ServicesSection.astro";
-import HostingSection from "../components/HostingSection.astro";
-import CasesSection from "../components/CasesSection.astro";
-import ReviewsSection from "../components/ReviewsSection.astro";
-import FAQSection from "../components/FAQSection.astro";
-import ContactSection from "../components/ContactSection.astro";
-import Footer from "../components/Footer.astro";
-import AboutUs from "../components/AboutUs.astro";
-import WhatsAppFloatingButton from "../components/WhatsAppFloatingButton.astro";
-import FeaturesGrid from "../components/FeaturesGrid";
+import Navbar from "../components/layout/Navbar.astro";
+import Hero from "../components/sections/Hero.astro";
+import ServicesSection from "../components/sections/ServicesSection.astro";
+import HostingSection from "../components/sections/HostingSection.astro";
+import ProcessSection from "../components/sections/ProcessSection.astro";
+import CasesSection from "../components/sections/CasesSection.astro";
+import ReviewsSection from "../components/sections/ReviewsSection.astro";
+import FAQSection from "../components/sections/FAQSection.astro";
+import ContactSection from "../components/sections/ContactSection.astro";
+import Footer from "../components/layout/Footer.astro";
+import AboutUs from "../components/sections/AboutUs.astro";
+import WhatsAppFloatingButton from "../components/layout/WhatsAppFloatingButton.astro";
+import FeaturesGrid from "../components/sections/FeaturesGrid";
 import {
   fetchSiteSettings,
   fetchServices,
@@ -26,7 +27,7 @@ import type { Content } from "../lib/api/types";
 import contentJson from "../data/content.json";
 
 // Import the marquee component and its data
-import PortfolioMarqueeSection from "../components/PortfolioMarqueeSection.tsx";
+import PortfolioMarqueeSection from "../components/sections/PortfolioMarqueeSection.tsx";
 import { projects as portfolioProjects } from "../content/portfolioProjects";
 
 // Cast the imported JSON to our new Content type
@@ -73,6 +74,7 @@ const recentCases = cases.slice(0, 3);
     />
     <AboutUs />
     <FeaturesGrid client:visible />
+    <ProcessSection />
     <HostingSection content={useCasesSection} />
     <CasesSection cases={recentCases} />
 

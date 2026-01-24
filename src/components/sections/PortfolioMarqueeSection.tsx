@@ -1,7 +1,7 @@
 // src/components/PortfolioMarqueeSection.tsx
 import React, { useState, useMemo, useRef, useEffect } from "react";
 // The `Tab` type is no longer needed.
-import type { Project } from "../content/portfolioProjects";
+import type { Project } from "../../content/portfolioProjects";
 
 // --- Props and Types ---
 
@@ -257,9 +257,9 @@ const PortfolioMarqueeSection: React.FC<PortfolioMarqueeSectionProps> = ({
         <div className="mx-auto max-w-3xl text-center space-y-4">
           <div className="pill inline-flex items-center justify-center gap-2 text-highlight">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
-              <path d="M6 3h12l4 6-10 13L2 9l4-6Z"/>
-              <path d="M12 22 4 9l8-6 8 6-8 13Z"/>
-              <path d="M2 9h20"/>
+              <path d="M6 3h12l4 6-10 13L2 9l4-6Z" />
+              <path d="M12 22 4 9l8-6 8 6-8 13Z" />
+              <path d="M2 9h20" />
             </svg>
             Nuestro portafolio
           </div>

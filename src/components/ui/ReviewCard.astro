@@ -1,0 +1,60 @@
+---
+import type { Testimonial } from "../../lib/api/types";
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  review: Testimonial;
+}
+
+const { review } = Astro.props;
+const rating = Math.max(0, Math.min(5, Math.round(review.rating || 0)));
+---
+
+<div
+  class="relative flex h-full flex-col justify-between rounded-3xl border p-8 backdrop-blur-xl
+border-slate-900/10 bg-white/40
+dark:border-white/10 dark:bg-white/5"
+>
+  <Icon
+    name="lucide:quote"
+    class="absolute top-6 right-6 h-16 w-16 -rotate-12 text-slate-200/80 dark:text-white/10"
+  />
+
+  <div class="relative">
+    <div class="flex items-center gap-0.5">
+      {
+        Array.from({ length: 5 }).map((_, i) => (
+          <Icon
+            name="lucide:star"
+            class:list={[
+              "h-5 w-5",
+              i < rating
+                ? "text-amber-400"
+                : "text-slate-300 dark:text-white/20",
+            ]}
+          />
+        ))
+      }
+    </div>
+
+    <blockquote
+      class="mt-4 text-lg font-medium text-slate-700 dark:text-white/80"
+    >
+      &ldquo;{review.quote}&rdquo;
+    </blockquote>
+  </div>
+
+  <footer class="relative mt-6 flex items-center gap-4">
+    <div
+      class="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-sky-500 to-purple-500 text-white font-bold"
+    >
+      <Icon name="lucide:user" class="h-6 w-6" />
+    </div>
+    <div>
+      <p class="font-semibold text-slate-900 dark:text-white">
+        {review.clientName}
+      </p>
+      <p class="text-sm text-slate-600 dark:text-white/60">{review.business}</p>
+    </div>
+  </footer>
+</div>
