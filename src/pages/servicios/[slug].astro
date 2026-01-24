@@ -1,8 +1,8 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import Navbar from "../../components/Navbar.astro";
-import Footer from "../../components/Footer.astro";
-import WhatsAppFloatingButton from "../../components/WhatsAppFloatingButton.astro";
+import Navbar from "../../components/layout/Navbar.astro";
+import Footer from "../../components/layout/Footer.astro";
+import WhatsAppFloatingButton from "../../components/layout/WhatsAppFloatingButton.astro";
 import { buildWhatsAppLink } from "../../lib/utils";
 import { fetchServices, fetchSiteSettings } from "../../lib/api/services";
 import type { Service } from "../../lib/api/types";
@@ -21,7 +21,7 @@ if (!service) throw new Error("Service not found");
 const siteSettings = await fetchSiteSettings();
 const whatsappUrl = buildWhatsAppLink(
   siteSettings.whatsappNumber,
-  `Hola! Quiero cotizar el servicio ${service.title || "servicio"}.`
+  `Hola! Quiero cotizar el servicio ${service.title || "servicio"}.`,
 );
 const pageTitle = service.title || "Servicio";
 const pageDescription = service.what_it_solves ?? "";
@@ -32,37 +32,59 @@ const guarantee = service.guarantee?.trim();
 const hasPricing = Boolean(price || deliveryTime || guarantee);
 ---
 
-<Layout title={pageTitle} description={pageDescription} siteSettings={siteSettings}>
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  siteSettings={siteSettings}
+>
   <Navbar siteSettings={siteSettings} />
   <main class="section-shell py-16 space-y-10">
     <div class="space-y-3 max-w-3xl">
-      <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">Servicio</p>
-      <h1 class="text-3xl sm:text-4xl font-bold text-content">{service.title}</h1>
-      {service.what_it_solves && <p class="text-muted">{service.what_it_solves}</p>}
-      {service.for_who && <p class="text-sm text-muted/80">Ideal para: {service.for_who}</p>}
+      <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">
+        Servicio
+      </p>
+      <h1 class="text-3xl sm:text-4xl font-bold text-content">
+        {service.title}
+      </h1>
+      {
+        service.what_it_solves && (
+          <p class="text-muted">{service.what_it_solves}</p>
+        )
+      }
+      {
+        service.for_who && (
+          <p class="text-sm text-muted/80">Ideal para: {service.for_who}</p>
+        )
+      }
     </div>
 
-    {includes.length > 0 && (
-      <section class="card space-y-3">
-        <h2 class="text-xl font-semibold text-content">Incluye</h2>
-        <ul class="grid sm:grid-cols-2 gap-2 text-sm text-muted">
-          {includes.map((feature) => (
-            <li class="flex items-start gap-2">
-              <span class="text-accent">+</span>
-              <span>{feature}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
-    )}
+    {
+      includes.length > 0 && (
+        <section class="card space-y-3">
+          <h2 class="text-xl font-semibold text-content">Incluye</h2>
+          <ul class="grid sm:grid-cols-2 gap-2 text-sm text-muted">
+            {includes.map((feature) => (
+              <li class="flex items-start gap-2">
+                <span class="text-accent">+</span>
+                <span>{feature}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
 
-    {hasPricing && (
-      <div class="card space-y-1 text-content">
-        {price && <p class="text-lg font-semibold">Precio desde {price}</p>}
-        {deliveryTime && <p class="text-sm text-muted/80">Entrega: {deliveryTime}</p>}
-        {guarantee && <p class="text-xs text-muted/80">* {guarantee}</p>}
-      </div>
-    )}
+    {
+      hasPricing && (
+        <div class="card space-y-1 text-content">
+          {price && <p class="text-lg font-semibold">Precio desde {price}</p>}
+          {deliveryTime && (
+            <p class="text-sm text-muted/80">Entrega: {deliveryTime}</p>
+          )}
+          {guarantee && <p class="text-xs text-muted/80">* {guarantee}</p>}
+        </div>
+      )
+    }
 
     <div class="flex flex-wrap gap-3">
       <a
@@ -71,7 +93,11 @@ const hasPricing = Boolean(price || deliveryTime || guarantee);
         target="_blank"
         rel="noreferrer"
       >
-        <Icon name="simple-icons:whatsapp" class="h-4 w-4 text-white" aria-hidden="true" />
+        <Icon
+          name="simple-icons:whatsapp"
+          class="h-4 w-4 text-white"
+          aria-hidden="true"
+        />
         Cotizar por WhatsApp
       </a>
       <a
@@ -83,5 +109,8 @@ const hasPricing = Boolean(price || deliveryTime || guarantee);
     </div>
   </main>
   <Footer siteSettings={siteSettings} />
-  <WhatsAppFloatingButton whatsappNumber={siteSettings.whatsappNumber} message="Hola! Quiero cotizar un servicio." />
+  <WhatsAppFloatingButton
+    whatsappNumber={siteSettings.whatsappNumber}
+    message="Hola! Quiero cotizar un servicio."
+  />
 </Layout>
