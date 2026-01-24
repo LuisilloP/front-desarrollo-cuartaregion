@@ -96,7 +96,10 @@
         "icon": "lucide:shield-check",
         "cardColor": "#fb923c",
         "backgroundImage": "/images/sections/why-us-bg.png",
-        "bullets": ["Alcance por escrito", "Sin sorpresas ni costos ocultos"]
+        "bullets": [
+          "Alcance por escrito",
+          "Sin sorpresas ni costos ocultos"
+        ]
       },
       {
         "title": "Tecnología moderna y soporte real",
@@ -158,7 +161,10 @@
         "Pagos en línea (Webpay, MercadoPago o Stripe según tu caso)",
         "Panel simple para administrar horarios y servicios"
       ],
-      "deliverables": ["Panel para editar contenido", "Guía rápida de uso"],
+      "deliverables": [
+        "Panel para editar contenido",
+        "Guía rápida de uso"
+      ],
       "delivery_time": "10 días hábiles",
       "modality": "Proyecto",
       "price": "$380.000 CLP",
@@ -379,34 +385,39 @@
   ],
   "faqs": [
     {
-      "question": "¿Cuánto tarda cada tipo de proyecto?",
-      "answer": "Páginas de conversión salen en 5-7 días hábiles. Sitios con reservas o pasarela en 2-3 semanas. Automatizaciones en 10-14 días. Mantención TI se activa la misma semana.",
+      "question": "¿Solo trabajan en la Cuarta Región?",
+      "answer": "No. Aunque estamos en la Región de Coquimbo, trabajamos con clientes en todo Chile y el mundo. La mayoría de nuestros proyectos son 100% remotos. Nos reunimos por videollamada, compartimos avances en tiempo real y coordinamos todo online. Si estás en la región, podemos reunirnos presencialmente cuando necesites.",
       "order": 1
     },
     {
-      "question": "¿Cómo aseguramos que convierta?",
-      "answer": "Partimos con la oferta y los mensajes clave, sumamos pruebas sociales, formularios claros y medición desde el día uno. Incluimos una ronda de ajustes con datos reales.",
+      "question": "¿Cuánto cuesta un sitio web?",
+      "answer": "Depende de lo que necesites. Una página de captación simple desde $220.000. Sitios con reservas y pagos desde $380.000. Automatizaciones WhatsApp + CRM desde $260.000. Mantención TI $160.000/mes. Te enviamos una cotización clara después de entender tu proyecto.",
       "order": 2
     },
     {
-      "question": "¿Se integra con mi gestor de clientes (CRM), agenda o pagos?",
-      "answer": "Sí. Podemos conectar con HubSpot, Pipedrive, Notion, Google Calendar u otras agendas. Para pagos usamos Webpay, MercadoPago o Stripe según tu rubro.",
+      "question": "¿Cuánto tiempo toma tener mi sitio listo?",
+      "answer": "Páginas de conversión: 7-10 días hábiles. Sitios con reservas o pagos: 2-3 semanas. Automatizaciones: 10-14 días. Mantención TI se activa en menos de una semana. El plazo puede variar si necesitas integraciones complejas o contenido específico.",
       "order": 3
     },
     {
-      "question": "¿Qué pasa con hosting, dominio y seguridad?",
-      "answer": "Podemos administrarlos a tu nombre. Configuramos SSL, backups y monitoreo básico. En mantención TI sumamos parches, antivirus gestionado y reportes mensuales.",
+      "question": "¿Incluyen hosting y dominio o lo tengo que contratar aparte?",
+      "answer": "Podemos administrar hosting y dominio a tu nombre, configurando todo desde cero (SSL, backups, monitoreo). O si prefieres, trabajamos con tu proveedor actual. En el plan de mantención TI incluimos gestión completa con reportes mensuales.",
       "order": 4
     },
     {
-      "question": "¿Puedo editar y medir sin soporte?",
-      "answer": "Sí. Dejamos panel para textos, precios, FAQ y casos sin tocar código. Entregamos dashboard con visitas, conversiones y orígenes para que marketing decida rápido.",
+      "question": "¿Puedo actualizar el contenido yo mismo sin saber programar?",
+      "answer": "Sí. Dejamos un panel simple para que puedas editar textos, precios, imágenes, FAQ y casos sin tocar código. También te damos una guía rápida de uso. Si necesitas cambios más complejos, nos avisas y lo hacemos nosotros.",
       "order": 5
     },
     {
-      "question": "¿Cómo es el soporte y el SLA?",
-      "answer": "Atendemos por WhatsApp y correo en horario laboral Chile (09:00 a 19:00) con SLA de 24 h hábiles. Para urgencias TI ofrecemos soporte on-site y remoto según plan.",
+      "question": "¿Qué pasa después del lanzamiento? ¿Dan soporte?",
+      "answer": "Sí. Incluimos una ronda de ajustes post-lanzamiento en todos los proyectos. Después quedas con soporte por WhatsApp y correo (respuesta en 24h hábiles). Si necesitas mantención continua, parches de seguridad y monitoreo, tenemos un plan mensual desde $160.000.",
       "order": 6
+    },
+    {
+      "question": "¿El sitio se verá bien en celulares y tablets?",
+      "answer": "Siempre. Todos nuestros sitios son responsive, es decir, se adaptan automáticamente a cualquier tamaño de pantalla (móvil, tablet, desktop). Hoy más del 60% del tráfico web viene de celulares, así que es fundamental.",
+      "order": 7
     }
   ],
   "legalPages": {
