@@ -227,45 +227,45 @@
     {
       "slug": "clinica-dental-mont-blanc",
       "clientName": "Clínica Dental Mont Blanc",
-      "title": "Sitio web y agenda por WhatsApp para clínica dental",
+      "title": "Landing premium para fortalecer su presencia online",
       "industry": "Salud",
       "city": "Ovalle",
-      "summary": "Sitio web para clínica dental en Ovalle, con información de tratamientos, equipo médico y agenda directa por WhatsApp.",
+      "summary": "Landing page profesional y personalizada para una clínica dental en Ovalle, creada para reforzar su presencia digital con una imagen premium, clara y confiable.",
       "coverImage": "/images/cases/clinica-montblanc.png",
       "beforeTitle": "Antes",
       "afterTitle": "Después",
       "beforePoints": [
         {
-          "text": "Contacto y agenda sin canal digital directo",
+          "text": "Presencia online débil y poco alineada con la calidad del servicio",
           "tone": "warning"
         },
         {
-          "text": "Información de servicios y equipo dispersa",
+          "text": "Imagen digital sin una página profesional que genere confianza",
           "tone": "danger"
         }
       ],
       "afterPoints": [
         {
-          "text": "Agenda por WhatsApp con respuesta rápida",
+          "text": "Landing premium, clara y fácil de navegar desde celular",
           "tone": "success"
         },
         {
-          "text": "Servicios, doctores, casos y reseñas en un solo sitio",
+          "text": "Contenido y diseño trabajados con feedback hasta lograr un resultado a medida",
           "tone": "success"
         }
       ],
       "impactTags": [
         {
-          "text": "Respuesta en minutos",
+          "text": "Imagen más profesional",
           "variant": "green"
         },
         {
-          "text": "Atención cercana y personalizada",
+          "text": "Marca más confiable online",
           "variant": "blue"
         }
       ],
       "ctaPrimaryType": "contact",
-      "ctaPrimaryLabel": "Agendar por WhatsApp",
+      "ctaPrimaryLabel": "Quiero una landing premium",
       "siteUrl": "https://clinicamontblanc.cl",
       "order": 1,
       "featured": true
