@@ -4,23 +4,25 @@
 const headline = "Tecnología hecha en la Cuarta Región, para negocios reales.";
 
 const story = `Somos un grupo de 3 jóvenes ingenieros informáticos de la Cuarta Región.
-Al terminar de estudiar, nos surgió la idea de crear nuestra pyme y empezar a trabajar para crecer.
-Nuestros primeros clientes fueron restaurantes, donde desarrollamos sistemas; luego, páginas web para profesionales del área de la salud
-(médicos y odontólogos) y también para servicios técnicos.`;
+Al terminar de estudiar, nos surgió la idea de hacer crecer y actualizar la presencia de la región en Internet y motivar a la cuarta región a sumarse al avance tecnológico.
+Nuestros primeros clientes fueron restaurantes, tiendas y pymes que necesitaba actualizar o imponer su marca en la Internet para que las personas empezaran a conocer y aumentaran la confianza en las tiendas y empresas locales que tiene la cuarta región.`;
 ---
 
 <section id="nosotros" class="relative overflow-hidden py-16 lg:py-20">
-    <!-- Parallax Background -->
-    <div class="parallax-bg absolute inset-0 -z-10">
-        <!-- Background Image -->
+    <!-- Parallax Background Container -->
+    <div class="absolute inset-0 overflow-hidden -z-10">
+        <!-- Background Image Layer (will parallax) -->
         <div
-            class="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style="background-image: url('/aboutus-bg.png');"
+            data-parallax-bg
+            class="absolute inset-0 bg-cover bg-center bg-no-repeat scale-110"
+            style="background-image: url('/aboutus-bg.png'); will-change: transform;"
         >
         </div>
 
         <!-- Dark Overlay for text contrast -->
-        <div class="absolute inset-0 bg-slate-900/75 dark:bg-slate-950/80">
+        <div
+            class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70"
+        >
         </div>
 
         <!-- Animated shapes (subtle) -->
@@ -34,7 +36,7 @@ Nuestros primeros clientes fueron restaurantes, donde desarrollamos sistemas; lu
         </div>
     </div>
 
-    <div class="container mx-auto px-6 sm:px-8">
+    <div class="container mx-auto px-6 sm:px-8 relative z-10">
         <div class="mx-auto max-w-4xl text-center">
             <!-- Badge -->
             <div
@@ -58,14 +60,14 @@ Nuestros primeros clientes fueron restaurantes, donde desarrollamos sistemas; lu
 
             <!-- Headline -->
             <h2
-                class="mb-4 text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl"
+                class="mb-6 text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl"
             >
                 {headline}
             </h2>
 
             <!-- Story -->
             <p
-                class="mx-auto max-w-3xl whitespace-pre-line text-base leading-relaxed text-white/90 sm:text-lg"
+                class="mx-auto max-w-3xl whitespace-pre-line text-base leading-relaxed text-white/90 sm:text-lg sm:leading-loose"
             >
                 {story}
             </p>
@@ -73,43 +75,116 @@ Nuestros primeros clientes fueron restaurantes, donde desarrollamos sistemas; lu
     </div>
 </section>
 
-<style>
-    #nosotros .parallax-bg > div:first-child {
-        will-change: transform;
-    }
-</style>
-
 <script>
-    // Parallax scroll effect
+    // Smooth parallax with RAF, lerp, and IntersectionObserver
     const setupParallax = () => {
         const section = document.getElementById("nosotros");
         const bgImage = section?.querySelector(
-            ".parallax-bg > div:first-child",
-        );
+            "[data-parallax-bg]",
+        ) as HTMLElement;
 
         if (!section || !bgImage) return;
 
-        const handleScroll = () => {
+        // Check for reduced motion preference
+        const prefersReducedMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+        ).matches;
+        if (prefersReducedMotion) {
+            bgImage.style.transform = "scale(1.08)"; // Just scale, no parallax
+            return;
+        }
+
+        // Parallax state
+        let currentY = 0;
+        let targetY = 0;
+        let rafId: number | null = null;
+        let isNearViewport = false;
+
+        const INTENSITY = 300; // Parallax intensity in pixels (higher = more movement)
+        const LERP_FACTOR = 0.08; // Smoothing factor (lower = smoother but slower)
+
+        // Calculate target position based on scroll
+        const calculateTargetPosition = () => {
             const rect = section.getBoundingClientRect();
-            const windowHeight = window.innerHeight;
+            const viewH = window.innerHeight;
 
-            // Calculate how much of the section is in view
-            if (rect.top < windowHeight && rect.bottom > 0) {
-                // Parallax effect: move background slower than scroll
-                const scrolled = windowHeight - rect.top;
-                const parallaxSpeed = 0.2; // Adjust this value (0.3-0.7 works well)
-                const yPos = -(scrolled * parallaxSpeed);
+            // Only calculate if section is near viewport
+            if (rect.top > viewH + 200 || rect.bottom < -200) {
+                return;
+            }
 
-                (bgImage as HTMLElement).style.transform =
-                    `translateY(${yPos}px)`;
+            // Progress from 0 (top of section entering bottom of viewport) to 1 (bottom of section leaving top of viewport)
+            const progress = Math.max(
+                0,
+                Math.min(1, (viewH - rect.top) / (viewH + rect.height)),
+            );
+
+            // Convert to centered offset (-1 to 1, where 0 is middle)
+            targetY = (progress - 0.5) * INTENSITY * 2;
+        };
+
+        // Animation loop with lerp
+        const animate = () => {
+            if (!isNearViewport) {
+                rafId = null;
+                return;
+            }
+
+            // Smooth transition using lerp
+            currentY += (targetY - currentY) * LERP_FACTOR;
+
+            // Apply transform
+            bgImage.style.transform = `translate3d(0, ${currentY}px, 0) scale(1.08)`;
+
+            // Continue loop
+            rafId = requestAnimationFrame(animate);
+        };
+
+        // Scroll handler (passive, only recalculates target)
+        const handleScroll = () => {
+            calculateTargetPosition();
+
+            // Start RAF loop if not running
+            if (isNearViewport && rafId === null) {
+                rafId = requestAnimationFrame(animate);
             }
         };
 
+        // Intersection Observer to pause when not near viewport
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    isNearViewport = entry.isIntersecting;
+
+                    if (isNearViewport) {
+                        calculateTargetPosition();
+                        if (rafId === null) {
+                            rafId = requestAnimationFrame(animate);
+                        }
+                    } else {
+                        if (rafId !== null) {
+                            cancelAnimationFrame(rafId);
+                            rafId = null;
+                        }
+                    }
+                });
+            },
+            {
+                rootMargin: "200px 0px", // Start 200px before entering viewport
+                threshold: 0,
+            },
+        );
+
+        observer.observe(section);
+
+        // Scroll listener (passive)
         window.addEventListener("scroll", handleScroll, { passive: true });
-        handleScroll(); // Initial call
+
+        // Initial calculation
+        handleScroll();
     };
 
-    // Initialize on load
+    // Initialize
     if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", setupParallax);
     } else {
