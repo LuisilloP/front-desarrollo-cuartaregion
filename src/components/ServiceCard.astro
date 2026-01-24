@@ -11,9 +11,10 @@ interface Props {
 const { service, whatsappNumber } = Astro.props;
 const title = (service.title ?? "").trim();
 const whatItSolves = service.what_it_solves ?? "";
+const whatsappDesc = (service.whatsapp_desc ?? "").trim();
 const whatsappUrl = buildWhatsAppLink(
   whatsappNumber,
-  `Hola! Me interesa el servicio ${title}.`,
+  whatsappDesc || `Hola! Quiero cotizar el servicio ${title || "servicio"}.`,
 );
 const benefits = service.benefits?.slice(0, 3) ?? []; // Show max 3 benefits
 const isFeatured = Boolean(service.featured);
