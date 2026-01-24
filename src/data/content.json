@@ -27,23 +27,23 @@
   },
   "navLinks": [
     {
-      "href": "#inicio",
+      "href": "/#inicio",
       "label": "Inicio"
     },
     {
-      "href": "#servicios",
+      "href": "/#servicios",
       "label": "Planes"
     },
     {
-      "href": "#casos",
+      "href": "/#casos",
       "label": "Casos de Éxito"
     },
     {
-      "href": "#reseñas",
+      "href": "/#reseñas",
       "label": "Testimonios"
     },
     {
-      "href": "#faq",
+      "href": "/#faq",
       "label": "FAQ"
     }
   ],

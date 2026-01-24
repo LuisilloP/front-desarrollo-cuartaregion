@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Footer from "../components/Footer.astro";
-import Navbar from "../components/Navbar.astro";
+import Footer from "../components/layout/Footer.astro";
+import Navbar from "../components/layout/Navbar.astro";
 import { fetchLegalPage, fetchSiteSettings } from "../lib/api/services";
 import { useMocks } from "../lib/env";
 
@@ -9,8 +9,12 @@ const siteSettings = await fetchSiteSettings();
 const legal = await fetchLegalPage("privacidad");
 const forceFallback = useMocks();
 const legalContent = legal?.content?.trim();
-const hasLegalContent = Boolean(!forceFallback && legalContent && legalContent.length > 0);
-const pageTitle = hasLegalContent ? legal?.title ?? "Privacidad" : "Politica de privacidad";
+const hasLegalContent = Boolean(
+  !forceFallback && legalContent && legalContent.length > 0,
+);
+const pageTitle = hasLegalContent
+  ? (legal?.title ?? "Privacidad")
+  : "Politica de privacidad";
 
 const fallbackPolicy = {
   title: "Politica de privacidad",
@@ -22,8 +26,8 @@ const fallbackPolicy = {
       list: [
         "Datos de contacto que envias en formularios: nombre, correo, telefono, empresa y mensaje.",
         "Datos tecnicos de navegacion (IP, dispositivo, navegador, paginas visitadas) mediante cookies y analitica.",
-        "Comunicaciones posteriores (correo, WhatsApp o llamadas) para dar seguimiento a tus solicitudes."
-      ]
+        "Comunicaciones posteriores (correo, WhatsApp o llamadas) para dar seguimiento a tus solicitudes.",
+      ],
     },
     {
       title: "Para que usamos los datos",
@@ -31,81 +35,89 @@ const fallbackPolicy = {
         "Responder tus solicitudes y preparar propuestas o contratos.",
         "Enviar informacion comercial solo con tu consentimiento (puedes retirarlo en cualquier momento).",
         "Medir el uso del sitio para mejorar contenido y rendimiento.",
-        "Prevenir fraude o uso indebido de nuestros servicios."
-      ]
+        "Prevenir fraude o uso indebido de nuestros servicios.",
+      ],
     },
     {
       title: "Base legal",
       list: [
         "Consentimiento para comunicaciones comerciales y uso de cookies no esenciales.",
         "Interes legitimo para analitica agregada y seguridad del sitio.",
-        "Cumplimiento de obligaciones legales cuando corresponda (facturacion, retencion minima)."
-      ]
+        "Cumplimiento de obligaciones legales cuando corresponda (facturacion, retencion minima).",
+      ],
     },
     {
       title: "Conservacion",
-      body:
-        "Guardamos los datos de contacto mientras gestionamos tu solicitud y, si eres cliente, por el tiempo necesario para la relacion contractual y obligaciones legales. Los datos de analitica se conservan en forma agregada por periodos acotados."
+      body: "Guardamos los datos de contacto mientras gestionamos tu solicitud y, si eres cliente, por el tiempo necesario para la relacion contractual y obligaciones legales. Los datos de analitica se conservan en forma agregada por periodos acotados.",
     },
     {
       title: "Con quien los compartimos",
       list: [
         "No vendemos tus datos.",
         "Proveedores que nos ayudan con infraestructura, analitica o soporte (bajo acuerdos de confidencialidad y proteccion de datos).",
-        "Autoridades u obligaciones legales si fuera requerido."
-      ]
+        "Autoridades u obligaciones legales si fuera requerido.",
+      ],
     },
     {
       title: "Transferencias internacionales",
-      body:
-        "Si un proveedor procesa datos fuera de tu pais, aplicamos clausulas contractuales estandar o mecanismos equivalentes para protegerlos."
+      body: "Si un proveedor procesa datos fuera de tu pais, aplicamos clausulas contractuales estandar o mecanismos equivalentes para protegerlos.",
     },
     {
       title: "Tus derechos",
       list: [
         "Acceso, rectificacion, supresion, oposicion, limitacion y portabilidad de tus datos.",
         "Retirar el consentimiento en cualquier momento para comunicaciones comerciales.",
-        "Ejercer estos derechos escribiendo a contacto@novatechdigital.com."
-      ]
+        "Ejercer estos derechos escribiendo a contacto@novatechdigital.com.",
+      ],
     },
     {
       title: "Cookies",
-      body:
-        "Usamos cookies tecnicas y de analitica agregada. Puedes gestionarlas desde tu navegador; desactivarlas puede afectar algunas funcionalidades."
+      body: "Usamos cookies tecnicas y de analitica agregada. Puedes gestionarlas desde tu navegador; desactivarlas puede afectar algunas funcionalidades.",
     },
     {
       title: "Contacto",
-      body: "Escribenos a contacto@novatechdigital.com para cualquier consulta sobre privacidad."
-    }
-  ]
+      body: "Escribenos a contacto@novatechdigital.com para cualquier consulta sobre privacidad.",
+    },
+  ],
 };
 ---
 
-<Layout title={pageTitle} description={siteSettings.tagline} siteSettings={siteSettings}>
+<Layout
+  title={pageTitle}
+  description={siteSettings.tagline}
+  siteSettings={siteSettings}
+>
   <Navbar siteSettings={siteSettings} />
   <main class="section-shell py-16 space-y-6">
-    <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">Legal</p>
+    <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">
+      Legal
+    </p>
     <h1 class="text-3xl sm:text-4xl font-bold text-content">{pageTitle}</h1>
-    {hasLegalContent ? (
-      <article class="prose max-w-3xl text-content prose-headings:text-content prose-p:text-muted prose-a:text-highlight" set:html={legalContent} />
-    ) : (
-      <article class="prose max-w-3xl text-content prose-headings:text-content prose-p:text-muted prose-a:text-highlight space-y-5">
-        <p>{fallbackPolicy.intro}</p>
-        {fallbackPolicy.sections.map((section) => (
-          <section class="space-y-2">
-            <h2>{section.title}</h2>
-            {section.body && <p>{section.body}</p>}
-            {section.list && (
-              <ul>
-                {section.list.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            )}
-          </section>
-        ))}
-      </article>
-    )}
+    {
+      hasLegalContent ? (
+        <article
+          class="prose max-w-3xl text-content prose-headings:text-content prose-p:text-muted prose-a:text-highlight"
+          set:html={legalContent}
+        />
+      ) : (
+        <article class="prose max-w-3xl text-content prose-headings:text-content prose-p:text-muted prose-a:text-highlight space-y-5">
+          <p>{fallbackPolicy.intro}</p>
+          {fallbackPolicy.sections.map((section) => (
+            <section class="space-y-2">
+              <h2>{section.title}</h2>
+              {section.body && <p>{section.body}</p>}
+              {section.list && (
+                <ul>
+                  {section.list.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          ))}
+        </article>
+      )
+    }
   </main>
   <Footer siteSettings={siteSettings} />
 </Layout>
