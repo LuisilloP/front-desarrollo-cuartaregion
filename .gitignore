@@ -20,3 +20,5 @@ pnpm-debug.log*
 .idea/
 .vercel/
 .netlify/
+
+dist/
