@@ -24,7 +24,10 @@ const processedNavLinks = navLinks.map((link) => ({
 
 <header
   id="main-header"
-  class="group fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-in-out"
+  class:list={[
+    "group fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-in-out",
+    !isHome && "bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg shadow-lg",
+  ]}
 >
   <nav
     class="container mx-auto flex items-center justify-between px-6 py-3 sm:px-8"
@@ -32,7 +35,12 @@ const processedNavLinks = navLinks.map((link) => ({
     <!-- Logo -->
     <a
       href={withHome("#inicio")}
-      class="flex items-center gap-3 font-bold text-xl tracking-tight text-white group-[.scrolled]:text-slate-900 dark:group-[.scrolled]:text-white"
+      class:list={[
+        "flex items-center gap-2 sm:gap-3 font-bold text-lg sm:text-xl tracking-tight transition-colors",
+        isHome
+          ? "text-white group-[.scrolled]:text-slate-900 dark:group-[.scrolled]:text-white"
+          : "text-slate-900 dark:text-white",
+      ]}
     >
       <div
         class="relative rounded-lg p-[1px] bg-gradient-to-br from-white/40 via-white/20 to-white/40 backdrop-blur-sm"
@@ -41,18 +49,23 @@ const processedNavLinks = navLinks.map((link) => ({
           <img
             src="/logo.png"
             alt={`Logo de ${siteSettings.siteName}`}
-            class="h-10 w-10 object-contain rounded-lg"
+            class="h-8 w-8 sm:h-10 sm:w-10 object-contain rounded-lg"
             loading="eager"
           />
         </div>
       </div>
 
-      <span class="hidden sm:inline">{siteSettings.siteName}</span>
+      <span>{siteSettings.siteName}</span>
     </a>
 
     <!-- Desktop Navigation -->
     <div
-      class="hidden lg:flex items-center gap-x-8 text-white group-[.scrolled]:text-slate-700 dark:group-[.scrolled]:text-white"
+      class:list={[
+        "hidden lg:flex items-center gap-x-8",
+        isHome
+          ? "text-white group-[.scrolled]:text-slate-700 dark:group-[.scrolled]:text-white"
+          : "text-slate-700 dark:text-white",
+      ]}
     >
       {
         processedNavLinks.map((link) => (
@@ -68,7 +81,12 @@ const processedNavLinks = navLinks.map((link) => ({
 
     <!-- Action Buttons -->
     <div
-      class="flex items-center gap-x-2 text-white group-[.scrolled]:text-slate-700 dark:group-[.scrolled]:text-white"
+      class:list={[
+        "flex items-center gap-x-2",
+        isHome
+          ? "text-white group-[.scrolled]:text-slate-700 dark:group-[.scrolled]:text-white"
+          : "text-slate-700 dark:text-white",
+      ]}
     >
       <button
         id="theme-toggle"
@@ -96,13 +114,28 @@ const processedNavLinks = navLinks.map((link) => ({
         aria-expanded="false"
       >
         <span
-          class="w-5 h-0.5 rounded-full transition-transform duration-300 ease-in-out bg-white group-[.scrolled]:bg-slate-900 dark:group-[.scrolled]:bg-white"
+          class:list={[
+            "w-5 h-0.5 rounded-full transition-transform duration-300 ease-in-out",
+            isHome
+              ? "bg-white group-[.scrolled]:bg-slate-900 dark:group-[.scrolled]:bg-white"
+              : "bg-slate-900 dark:bg-white",
+          ]}
           aria-hidden="true"></span>
         <span
-          class="w-5 h-0.5 rounded-full my-1.5 transition-opacity duration-300 ease-in-out bg-white group-[.scrolled]:bg-slate-900 dark:group-[.scrolled]:bg-white"
+          class:list={[
+            "w-5 h-0.5 rounded-full my-1.5 transition-opacity duration-300 ease-in-out",
+            isHome
+              ? "bg-white group-[.scrolled]:bg-slate-900 dark:group-[.scrolled]:bg-white"
+              : "bg-slate-900 dark:bg-white",
+          ]}
           aria-hidden="true"></span>
         <span
-          class="w-5 h-0.5 rounded-full transition-transform duration-300 ease-in-out bg-white group-[.scrolled]:bg-slate-900 dark:group-[.scrolled]:bg-white"
+          class:list={[
+            "w-5 h-0.5 rounded-full transition-transform duration-300 ease-in-out",
+            isHome
+              ? "bg-white group-[.scrolled]:bg-slate-900 dark:group-[.scrolled]:bg-white"
+              : "bg-slate-900 dark:bg-white",
+          ]}
           aria-hidden="true"></span>
       </button>
     </div>
