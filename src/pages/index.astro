@@ -1,4 +1,4 @@
-﻿---
+---
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/Navbar.astro";
 import Hero from "../components/Hero.astro";
@@ -27,7 +27,7 @@ import contentJson from "../data/content.json";
 
 // Import the marquee component and its data
 import PortfolioMarqueeSection from "../components/PortfolioMarqueeSection.tsx";
-import { companies } from "../content/portfolioProjects";
+import { projects as portfolioProjects } from "../content/portfolioProjects";
 
 // Cast the imported JSON to our new Content type
 const staticContent = contentJson as Content;
@@ -35,8 +35,8 @@ const staticContent = contentJson as Content;
 const navLinks = [
   { label: "Inicio", href: "#inicio" },
   { label: "Planes", href: "#servicios" },
-  { label: "Casos de Ã‰xito", href: "#casos" },
-  { label: "ReseÃ±as", href: "#reviews" },
+  { label: "Casos de Éxito", href: "#casos" },
+  { label: "Reseñas", href: "#reviews" },
   { label: "FAQ", href: "#faq" },
 ];
 
@@ -77,7 +77,7 @@ const recentCases = cases.slice(0, 3);
     <CasesSection cases={recentCases} />
 
     <!-- Portfolio Marquee Section Added Here -->
-    <PortfolioMarqueeSection client:visible companies={companies} />
+    <PortfolioMarqueeSection client:visible projects={portfolioProjects} />
 
     <ReviewsSection content={reviewsSection} reviews={reviews} />
     <FAQSection content={faqSection} faqs={faqs} />
