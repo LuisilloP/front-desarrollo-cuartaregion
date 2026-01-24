@@ -66,6 +66,7 @@ export type Service = {
   order?: number;
   featured?: boolean;
   icon?: string;
+  modality?: string;
 };
 
 export type CaseStudy = {

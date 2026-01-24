@@ -26,11 +26,26 @@
     "footerText": "Estrategia, diseño y tecnología para negocios que buscan crecer con datos."
   },
   "navLinks": [
-    { "href": "#inicio", "label": "Inicio" },
-    { "href": "#servicios", "label": "Servicios" },
-    { "href": "#casos", "label": "Casos de Éxito" },
-    { "href": "#resenas", "label": "Testimonios" },
-    { "href": "#faq", "label": "FAQ" }
+    {
+      "href": "#inicio",
+      "label": "Inicio"
+    },
+    {
+      "href": "#servicios",
+      "label": "Planes"
+    },
+    {
+      "href": "#casos",
+      "label": "Casos de Éxito"
+    },
+    {
+      "href": "#resenas",
+      "label": "Testimonios"
+    },
+    {
+      "href": "#faq",
+      "label": "FAQ"
+    }
   ],
   "heroSection": {
     "eyebrow": "Tu Aliado Digital en la Región de Coquimbo",
@@ -100,32 +115,48 @@
     {
       "slug": "landing-conversion",
       "type": "web",
-      "title": "Landing de conversion inmediata",
-      "for_who": "Equipos de marketing y founders que necesitan leads rapido.",
-      "what_it_solves": "Pagina enfocada en captar oportunidades con narrativa clara, prueba social y medicion desde el dia uno.",
-      "benefits": ["Copy orientado a decision", "Integracion con CRM o WhatsApp"],
-      "deliverables": ["SEO on-page", "Dashboard de rendimiento"],
-      "delivery_time": "5-7 dias habiles",
+      "title": "Landing de conversión inmediata",
+      "for_who": "Equipos de marketing y founders que necesitan leads rápido.",
+      "what_it_solves": "Landing enfocada en generar contactos desde el día 1, con copy claro, prueba social y medición para optimizar resultados.",
+      "benefits": [
+        "Copy y estructura orientados a conversión",
+        "Integración con WhatsApp y/o CRM",
+        "Medición con eventos (Analytics / Pixel)"
+      ],
+      "deliverables": [
+        "SEO on-page",
+        "Dashboard de rendimiento"
+      ],
+      "delivery_time": "10 días hábiles",
+      "modality": "Proyecto",
       "price": "$220.000 CLP",
       "ctaType": "form",
       "guarantee": "Ajustes incluidos tras el primer ciclo de feedback.",
-      "top_banner": "Mas solicitado",
+      "top_banner": "Más solicitado",
       "order": 1,
       "featured": true,
-      "icon": "lucide:target"
+      "icon": "lucide:rocket"
     },
     {
       "slug": "web-reservas-pagos",
       "type": "web",
       "title": "Web con reservas y pagos online",
-      "for_who": "Clinicas, gimnasios, turismo y servicios profesionales.",
-      "what_it_solves": "Sitio multipagina con agenda, recordatorios, pagos y panel simple para tu equipo.",
-      "benefits": ["Agenda con recordatorios", "Pagos y confirmaciones automaticas"],
-      "deliverables": ["Panel para editar contenido", "Soporte prioritario"],
-      "delivery_time": "2-3 semanas",
+      "for_who": "Clínicas, gimnasios, turismo y servicios profesionales.",
+      "what_it_solves": "Sitio multipágina con agenda, confirmaciones y pagos online para que tus reservas se gestionen sin fricción.",
+      "benefits": [
+        "Agenda con recordatorios automáticos",
+        "Pagos online y confirmaciones",
+        "Panel simple para tu equipo"
+      ],
+      "deliverables": [
+        "Panel para editar contenido",
+        "Soporte prioritario"
+      ],
+      "delivery_time": "10 días hábiles",
+      "modality": "Proyecto",
       "price": "$380.000 CLP",
       "ctaType": "whatsapp",
-      "guarantee": "Incluye capacitacion breve del panel.",
+      "guarantee": "Incluye capacitación breve del panel.",
       "order": 2,
       "featured": false,
       "icon": "lucide:calendar-check"
@@ -133,15 +164,23 @@
     {
       "slug": "automatizacion-whatsapp-crm",
       "type": "digital",
-      "title": "Automatizacion WhatsApp + CRM",
+      "title": "Automatización WhatsApp + CRM",
       "for_who": "Equipos comerciales que necesitan respuesta 24/7 y pipeline ordenado.",
-      "what_it_solves": "Bots con preguntas frecuentes, derivacion a agentes y sincronizacion con tu CRM.",
-      "benefits": ["Flujos sin codigo", "Alertas y reportes por canal"],
-      "deliverables": ["Playbook de mensajes", "Dashboard de conversion"],
-      "delivery_time": "10-14 dias",
+      "what_it_solves": "Automatiza respuestas frecuentes, captura datos y deriva a un humano cuando corresponde, sincronizado con tu CRM.",
+      "benefits": [
+        "Flujos sin código (automatizaciones)",
+        "Derivación a agentes y seguimiento de leads",
+        "Alertas y reportes por canal"
+      ],
+      "deliverables": [
+        "Playbook de mensajes",
+        "Dashboard de conversión"
+      ],
+      "delivery_time": "10 días hábiles",
+      "modality": "Proyecto",
       "price": "$260.000 CLP",
       "ctaType": "whatsapp",
-      "guarantee": "Iteracion incluida durante el primer mes.",
+      "guarantee": "Iteración incluida durante el primer mes.",
       "order": 3,
       "featured": false,
       "icon": "lucide:bot"
@@ -149,56 +188,75 @@
     {
       "slug": "mantencion-ti-monitoreo",
       "type": "maintenance",
-      "title": "Mantencion TI y monitoreo proactivo",
-      "for_who": "Pymes con equipos criticos que no pueden detenerse.",
-      "what_it_solves": "Plan mensual con limpieza, parches, respaldos y monitoreo preventivo.",
-      "benefits": ["Soporte local con SLA", "Checklist de seguridad y parches"],
-      "deliverables": ["Inventario y reportes mensuales", "Backups verificados"],
-      "delivery_time": "Plan mensual",
-      "price": "$160.000 CLP",
+      "title": "Mantención TI y monitoreo proactivo",
+      "for_who": "Pymes con equipos críticos que no pueden detenerse.",
+      "what_it_solves": "Plan mensual para mantener tu web y sistemas al día: parches, respaldos y monitoreo para evitar caídas.",
+      "benefits": [
+        "Parches, actualizaciones y cambios menores",
+        "Respaldos + checklist de seguridad",
+        "Monitoreo y alertas proactivas"
+      ],
+      "deliverables": [
+        "Inventario y reportes mensuales",
+        "Backups verificados"
+      ],
+      "delivery_time": "10 días hábiles",
+      "modality": "Mensual",
+      "price": "$160.000 CLP / mes",
       "ctaType": "whatsapp",
-      "guarantee": "Mesa de ayuda con respuesta en 24h habiles.",
+      "guarantee": "Mesa de ayuda con respuesta en 24h hábiles.",
       "order": 4,
       "featured": false,
       "icon": "lucide:shield-check"
     }
   ],
   "cases": [
-{
-  "slug": "clinica-dental-mont-blanc",
-  "clientName": "Clinica Dental Mont Blanc",
-  "title": "Sitio web y agenda por WhatsApp para clinica dental",
-  "industry": "Salud",
-  "city": "Ovalle",
-  "summary": "Sitio web para clinica dental en Ovalle, con informacion de tratamientos, equipo medico y agenda directa por WhatsApp.",
-  "coverImage": "/images/cases/clinica-montblanc.png",
-  "beforeTitle": "Antes",
-  "afterTitle": "Despues",
-  "beforePoints": [
     {
-      "text": "Contacto y agenda sin canal digital directo",
-      "tone": "warning"
+      "slug": "clinica-dental-mont-blanc",
+      "clientName": "Clinica Dental Mont Blanc",
+      "title": "Sitio web y agenda por WhatsApp para clinica dental",
+      "industry": "Salud",
+      "city": "Ovalle",
+      "summary": "Sitio web para clinica dental en Ovalle, con informacion de tratamientos, equipo medico y agenda directa por WhatsApp.",
+      "coverImage": "/images/cases/clinica-montblanc.png",
+      "beforeTitle": "Antes",
+      "afterTitle": "Despues",
+      "beforePoints": [
+        {
+          "text": "Contacto y agenda sin canal digital directo",
+          "tone": "warning"
+        },
+        {
+          "text": "Informacion de servicios y equipo dispersa",
+          "tone": "danger"
+        }
+      ],
+      "afterPoints": [
+        {
+          "text": "Agenda por WhatsApp con respuesta rapida",
+          "tone": "success"
+        },
+        {
+          "text": "Servicios, doctores, casos y resenas en un solo sitio",
+          "tone": "success"
+        }
+      ],
+      "impactTags": [
+        {
+          "text": "Respuesta en minutos",
+          "variant": "green"
+        },
+        {
+          "text": "Atencion cercana y personalizada",
+          "variant": "blue"
+        }
+      ],
+      "ctaPrimaryType": "contact",
+      "ctaPrimaryLabel": "Agendar por WhatsApp",
+      "siteUrl": "https://clinicamontblanc.cl",
+      "order": 1,
+      "featured": true
     },
-    { "text": "Informacion de servicios y equipo dispersa", "tone": "danger" }
-  ],
-  "afterPoints": [
-    { "text": "Agenda por WhatsApp con respuesta rapida", "tone": "success" },
-    {
-      "text": "Servicios, doctores, casos y resenas en un solo sitio",
-      "tone": "success"
-    }
-  ],
-  "impactTags": [
-    { "text": "Respuesta en minutos", "variant": "green" },
-    { "text": "Atencion cercana y personalizada", "variant": "blue" }
-  ],
-  "ctaPrimaryType": "contact",
-  "ctaPrimaryLabel": "Agendar por WhatsApp",
-  "siteUrl": "https://clinicamontblanc.cl",
-  "order": 1,
-  "featured": true
-},
-
     {
       "slug": "b2b-inventario",
       "clientName": "Andes Supply",
@@ -210,16 +268,34 @@
       "beforeTitle": "Antes",
       "afterTitle": "Despues",
       "beforePoints": [
-        { "text": "Pedidos por correo sin seguimiento", "tone": "danger" },
-        { "text": "Stock desalineado con ventas", "tone": "warning" }
+        {
+          "text": "Pedidos por correo sin seguimiento",
+          "tone": "danger"
+        },
+        {
+          "text": "Stock desalineado con ventas",
+          "tone": "warning"
+        }
       ],
       "afterPoints": [
-        { "text": "Stock en tiempo real para clientes B2B", "tone": "success" },
-        { "text": "Alertas y tracking unificados", "tone": "success" }
+        {
+          "text": "Stock en tiempo real para clientes B2B",
+          "tone": "success"
+        },
+        {
+          "text": "Alertas y tracking unificados",
+          "tone": "success"
+        }
       ],
       "impactTags": [
-        { "text": "Reclamos -40%", "variant": "green" },
-        { "text": "Pedidos 2x mas rapidos", "variant": "blue" }
+        {
+          "text": "Reclamos -40%",
+          "variant": "green"
+        },
+        {
+          "text": "Pedidos 2x mas rapidos",
+          "variant": "blue"
+        }
       ],
       "ctaPrimaryType": "contact",
       "ctaPrimaryLabel": "Necesito un portal B2B",
@@ -236,16 +312,34 @@
       "beforeTitle": "Antes",
       "afterTitle": "Despues",
       "beforePoints": [
-        { "text": "Consultas repetidas en temporada alta", "tone": "danger" },
-        { "text": "Confirmaciones manuales", "tone": "warning" }
+        {
+          "text": "Consultas repetidas en temporada alta",
+          "tone": "danger"
+        },
+        {
+          "text": "Confirmaciones manuales",
+          "tone": "warning"
+        }
       ],
       "afterPoints": [
-        { "text": "Bots con FAQs y derivacion a agente", "tone": "success" },
-        { "text": "Reservas confirmadas con pago anticipado", "tone": "success" }
+        {
+          "text": "Bots con FAQs y derivacion a agente",
+          "tone": "success"
+        },
+        {
+          "text": "Reservas confirmadas con pago anticipado",
+          "tone": "success"
+        }
       ],
       "impactTags": [
-        { "text": "Menos tiempo en inbox", "variant": "blue" },
-        { "text": "Up-sell en checkout", "variant": "green" }
+        {
+          "text": "Menos tiempo en inbox",
+          "variant": "blue"
+        },
+        {
+          "text": "Up-sell en checkout",
+          "variant": "green"
+        }
       ],
       "ctaPrimaryType": "contact",
       "ctaPrimaryLabel": "Quiero automatizar reservas",

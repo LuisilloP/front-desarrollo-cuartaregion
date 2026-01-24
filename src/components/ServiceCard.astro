@@ -11,70 +11,124 @@ interface Props {
 const { service, whatsappNumber } = Astro.props;
 const title = (service.title ?? "").trim();
 const whatItSolves = service.what_it_solves ?? "";
-const whatsappUrl = buildWhatsAppLink(whatsappNumber, `Hola! Me interesa el servicio ${title}.`);
+const whatsappUrl = buildWhatsAppLink(
+  whatsappNumber,
+  `Hola! Me interesa el servicio ${title}.`,
+);
 const benefits = service.benefits?.slice(0, 3) ?? []; // Show max 3 benefits
 const isFeatured = Boolean(service.featured);
 const topBanner = (service.top_banner ?? "").trim();
 const bannerLabel = topBanner || (isFeatured ? "Más popular" : "");
 const iconName = service.icon || "lucide:gem"; // Default icon
 const price = (service.price ?? "").trim();
+const deliveryTime = (service.delivery_time ?? "").trim();
+const modality = (service.modality ?? "").trim();
+// For maintenance, text is "Activación: ...", otherwise "Entrega: ..."
+const deliveryLabel =
+  service.slug === "mantencion-ti-monitoreo" ? "Activación" : "Entrega";
 ---
+
 <a
   href={whatsappUrl}
   target="_blank"
   rel="noreferrer"
-  class="card-shine group relative flex h-full flex-col rounded-3xl border p-6 backdrop-blur-xl transition-all duration-300 lg:p-8
+  class="card-shine group relative flex h-full flex-col rounded-3xl border p-6 backdrop-blur-xl transition-all duration-300 lg:p-8 hover:scale-[1.02]
   border-slate-900/10 bg-white/40 hover:border-slate-900/20 hover:!bg-white/60
   dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20 dark:hover:!bg-white/[0.07]"
 >
-  {bannerLabel && (
-    <span class="absolute right-6 top-6 z-10 inline-flex shrink-0 items-center rounded-full px-3 py-1 text-xs font-medium ring-1 ring-inset
+  {
+    bannerLabel && (
+      <span
+        class="absolute right-6 top-6 z-10 inline-flex shrink-0 items-center rounded-full px-3 py-1 text-xs font-medium ring-1 ring-inset
     bg-sky-500/10 text-sky-600 ring-sky-500/20
     dark:bg-sky-400/10 dark:text-sky-300 dark:ring-sky-400/20"
-    >
-      {bannerLabel}
-    </span>
-  )}
+      >
+        {bannerLabel}
+      </span>
+    )
+  }
 
-  <div class="relative mb-6 flex h-12 w-12 items-center justify-center rounded-2xl border
+  <div
+    class="relative mb-6 flex h-12 w-12 items-center justify-center rounded-2xl border
   bg-sky-500/10 text-sky-600 border-sky-500/20
   dark:bg-sky-400/10 dark:text-sky-300 dark:border-sky-400/20"
   >
     <Icon name={iconName} class="h-6 w-6" />
   </div>
 
-  <h3 class="text-2xl font-semibold leading-snug tracking-tight text-slate-900 dark:text-white">{title}</h3>
+  <h3
+    class="text-2xl font-semibold leading-snug tracking-tight text-slate-900 dark:text-white"
+  >
+    {title}
+  </h3>
 
-  {whatItSolves && <p class="mt-2 text-slate-600 dark:text-white/60">{whatItSolves}</p>}
+  {
+    whatItSolves && (
+      <p class="mt-2 text-slate-600 dark:text-white/60 line-clamp-2">
+        {whatItSolves}
+      </p>
+    )
+  }
 
-  {benefits.length > 0 && (
-    <ul class="mt-6 space-y-3 text-slate-700 dark:text-white/80">
-      {benefits.map((benefit) => (
-        <li class="flex items-start gap-3">
-          <Icon name="lucide:check-circle" class="mt-1 h-4 w-4 flex-shrink-0 text-sky-500 dark:text-sky-300" />
-          <span>{benefit}</span>
-        </li>
-      ))}
-    </ul>
-  )}
+  {/* Chips for Delivery & Modality */}
+  <div class="mt-4 flex flex-wrap gap-2">
+    {
+      deliveryTime && (
+        <span class="inline-flex items-center rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-600 ring-1 ring-inset ring-slate-500/10 dark:bg-slate-400/10 dark:text-slate-400 dark:ring-slate-400/20">
+          {deliveryLabel}: {deliveryTime}
+        </span>
+      )
+    }
+    {
+      modality && (
+        <span class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 dark:bg-blue-400/10 dark:text-blue-400 dark:ring-blue-400/30">
+          Modalidad: {modality}
+        </span>
+      )
+    }
+  </div>
+
+  {
+    benefits.length > 0 && (
+      <ul class="mt-6 space-y-3 text-slate-700 dark:text-white/80">
+        {benefits.map((benefit) => (
+          <li class="flex items-start gap-3">
+            <Icon
+              name="lucide:check-circle"
+              class="mt-1 h-4 w-4 flex-shrink-0 text-sky-500 dark:text-sky-300"
+            />
+            <span>{benefit}</span>
+          </li>
+        ))}
+      </ul>
+    )
+  }
 
   <div class="mt-auto flex items-end justify-between gap-4 pt-8">
-    {price && (
-      <div class="shrink-0"
-      >
-        <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-500/80 dark:text-white/60">
-          Desde
-        </span>
-        <span class="mt-1 block text-lg font-semibold text-slate-900 dark:text-white">
-          {price}
-        </span>
-      </div>
-    )}
-    <div class="text-lg inline-flex items-center gap-2 font-medium transition-colors
+    {
+      price && (
+        <div class="shrink-0">
+          <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-500/80 dark:text-white/60">
+            Desde
+          </span>
+          <span class="mt-1 block text-lg font-semibold text-slate-900 dark:text-white">
+            {price}
+          </span>
+          <span class="block text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 font-medium">
+            Incluye IVA
+          </span>
+        </div>
+      )
+    }
+    <div
+      class="text-lg inline-flex items-center gap-2 font-medium transition-colors
     text-sky-600 group-hover:text-sky-500
     dark:text-sky-300 dark:group-hover:text-sky-200"
     >
-      Cotizar servicio <Icon name="lucide:arrow-right" class="h-4 w-4 transition-transform group-hover:translate-x-1" />
+      Cotizar este plan <Icon
+        name="lucide:arrow-right"
+        class="h-4 w-4 transition-transform group-hover:translate-x-1"
+      />
     </div>
   </div>
 </a>
@@ -90,7 +144,7 @@ const price = (service.price ?? "").trim();
     overflow: hidden;
   }
   .card-shine::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -111,26 +165,26 @@ const price = (service.price ?? "").trim();
   // This script can be run once, maybe in a global script,
   // but it's safe to run multiple times.
   function setupCardShine() {
-    document.querySelectorAll('.card-shine').forEach(card => {
+    document.querySelectorAll(".card-shine").forEach((card) => {
       // Check if the listener is already attached
-      if (card.dataset.shineListener === 'true') return;
+      if (card.dataset.shineListener === "true") return;
 
-      card.addEventListener('mousemove', (e) => {
+      card.addEventListener("mousemove", (e) => {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        card.style.setProperty('--mouse-x', `${x}px`);
-        card.style.setProperty('--mouse-y', `${y}px`);
+        card.style.setProperty("--mouse-x", `${x}px`);
+        card.style.setProperty("--mouse-y", `${y}px`);
       });
-      
-      card.dataset.shineListener = 'true';
+
+      card.dataset.shineListener = "true";
     });
   }
-  
+
   // Initial setup
   setupCardShine();
 
   // In Astro, view transitions can cause scripts to re-run.
   // This also helps if cards are loaded dynamically.
-  document.addEventListener('astro:after-swap', setupCardShine);
+  document.addEventListener("astro:after-swap", setupCardShine);
 </script>
