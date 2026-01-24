@@ -30,41 +30,55 @@ const { content } = Astro.props;
 
     <!-- Reasons Grid -->
     <div id="use-cases-grid" class="grid grid-cols-1 gap-8 lg:grid-cols-3">
-      {content.cases.map((useCase, index) => (
+      {content.cases.map((useCase, index) => {
+        const accentClass = index === 0
+          ? "accent-blue"
+          : index === 1
+            ? "accent-amber"
+            : "accent-purple";
+        const cardStyle = useCase.cardColor
+          ? `--accent-color: ${useCase.cardColor};`
+          : undefined;
+        const backgroundImage = useCase.backgroundImage || "/images/sections/why-us-bg.png";
+        return (
         <div class="use-case-card-wrapper h-full">
-          <div class="card-shine group relative flex h-full flex-col rounded-3xl border p-8 backdrop-blur-xl transition-all duration-300 overflow-hidden
-          border-slate-900/10 bg-white/40 hover:border-slate-900/20 hover:!bg-white/60
-          dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20 dark:hover:!bg-white/[0.07]">
+          <div
+            class={`card-shine ${accentClass} group relative flex h-full flex-col rounded-3xl border p-8 backdrop-blur-xl transition-all duration-300 overflow-hidden
+          border-slate-900/40 bg-slate-950/85 hover:border-slate-400/40 hover:!bg-slate-950/90
+          dark:border-white/10 dark:bg-slate-950/80 dark:hover:border-white/20 dark:hover:!bg-slate-950/85`}
+            style={cardStyle}
+          >
             
             {/* Background image for this card */}
             <div 
-              class="absolute inset-0 bg-[url('/images/sections/why-us-bg.png')] bg-cover bg-center opacity-15 scale-105 -z-10"
+              class="absolute inset-0 bg-cover bg-center opacity-15 scale-105 -z-10"
+              style={`background-image: url('${backgroundImage}')`}
               aria-hidden="true"
             ></div>
 
             {/* Overlay for readability - lighter in light mode, darker in dark mode */}
-            <div class="absolute inset-0 bg-gradient-to-br from-white/50 via-white/40 to-white/60 dark:from-slate-950/30 dark:via-slate-950/20 dark:to-slate-950/40 -z-10"></div>
+            <div class="use-case-tint absolute inset-0 -z-10"></div>
 
             {/* Content */}
             <div class="relative z-10">
               <!-- Large Number -->
-              <div class="mb-6 text-6xl font-bold text-slate-900/5 dark:text-white/5 select-none font-mono">
+              <div class="mb-6 text-6xl font-bold text-white/10 select-none font-mono">
                 0{index + 1}
               </div>
 
-              <h3 class="text-xl font-bold leading-snug tracking-tight text-slate-900 dark:text-white mb-3">
+              <h3 class="text-xl font-bold leading-snug tracking-tight text-white mb-3">
                 {useCase.title}
               </h3>
               
-              <p class="text-slate-600 dark:text-white/60 line-clamp-3 mb-6">
+              <p class="text-white/70 line-clamp-3 mb-6">
                 {useCase.description}
               </p>
 
               {useCase.bullets && useCase.bullets.length > 0 && (
-                <ul class="mt-auto space-y-3 border-t border-slate-200/50 pt-6 dark:border-white/5">
+                <ul class="mt-auto space-y-3 border-t border-white/10 pt-6">
                   {useCase.bullets.map((bullet) => (
-                    <li class="flex items-start gap-3 text-sm text-slate-600 dark:text-white/70">
-                      <Icon name="lucide:check" class="mt-0.5 h-4 w-4 shrink-0 text-amber-500/80" />
+                    <li class="flex items-start gap-3 text-sm text-white/70">
+                      <Icon name="lucide:check" class="use-case-check mt-0.5 h-4 w-4 shrink-0" />
                       <span>{bullet}</span>
                     </li>
                   ))}
@@ -73,7 +87,8 @@ const { content } = Astro.props;
             </div>
           </div>
         </div>
-      ))}
+        );
+      })}
     </div>
 
     <!-- Closing Text -->
@@ -102,6 +117,7 @@ const { content } = Astro.props;
   /* Card shine effect (re-scoped here to avoid conflicts if scripts get bundled) */
   .card-shine {
     overflow: hidden;
+    --accent-color: rgb(100 116 139); /* slate-500 fallback */
   }
   .card-shine::before {
     content: '';
@@ -118,6 +134,54 @@ const { content } = Astro.props;
     border-radius: inherit;
     z-index: 0;
     transition: opacity 0.3s;
+  }
+
+  /* Accent variants: 01 blue, 02 orange, 03 purple */
+  .accent-blue {
+    --accent-color: rgb(56 189 248);
+    --shine-color: rgba(56, 189, 248, 0.12);
+  }
+  .accent-amber {
+    --accent-color: rgb(251 146 60);
+    --shine-color: rgba(251, 146, 60, 0.14);
+  }
+  .accent-purple {
+    --accent-color: rgb(168 85 247);
+    --shine-color: rgba(168, 85, 247, 0.14);
+  }
+  .use-case-tint {
+    background: linear-gradient(135deg, rgba(2, 6, 23, 0.11), rgba(2, 6, 23, 0.3), rgba(2, 6, 23, 0.09));
+  }
+  .dark .use-case-tint {
+    background: linear-gradient(135deg, rgba(2, 6, 23, 0.11), rgba(2, 6, 23, 0.3), rgba(2, 6, 23, 0.09));
+  }
+  .use-case-check {
+    color: var(--accent-color, rgba(100, 116, 139, 0.9));
+  }
+
+  @supports (color: color-mix(in srgb, white, black)) {
+    .card-shine {
+      --shine-color: color-mix(in srgb, var(--accent-color) 20%, transparent);
+    }
+    .use-case-tint {
+      background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--accent-color) 18%, transparent),
+        rgba(2, 6, 23, 0.3),
+        color-mix(in srgb, var(--accent-color) 10%, transparent)
+      );
+    }
+    .dark .use-case-tint {
+      background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--accent-color) 18%, transparent),
+        rgba(2, 6, 23, 0.3),
+        color-mix(in srgb, var(--accent-color) 10%, transparent)
+      );
+    }
+    .use-case-check {
+      color: color-mix(in srgb, var(--accent-color) 90%, transparent);
+    }
   }
 </style>
 

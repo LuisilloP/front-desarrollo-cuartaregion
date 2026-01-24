@@ -1,11 +1,11 @@
 {
   "siteSettings": {
     "siteName": "Aliado Digital",
-    "tagline": "Tu aliado tecnológico para crecer con soluciones a medida.",
-    "region": "Region de Coquimbo",
+    "tagline": "Tu aliado tecnológico para crecer con tecnología a tu medida.",
+    "region": "Región de Coquimbo",
     "whatsappNumber": "+56987654321",
     "primaryCTA": "Cotizar por WhatsApp",
-    "secondaryCTA": "Ver soluciones",
+    "secondaryCTA": "Ver servicios",
     "socialLinks": [
       {
         "name": "GitHub",
@@ -39,7 +39,7 @@
       "label": "Casos de Éxito"
     },
     {
-      "href": "#resenas",
+      "href": "#reseñas",
       "label": "Testimonios"
     },
     {
@@ -48,9 +48,9 @@
     }
   ],
   "heroSection": {
-    "eyebrow": "Tu Aliado Digital en la Región de Coquimbo",
-    "title": "Soluciones Digitales que Impulsan tu Negocio",
-    "description": "Creamos sitios web, aplicaciones y automatizaciones a medida que convierten visitantes en clientes. Hagamos crecer tu negocio juntos."
+    "eyebrow": "Tu aliado tecnológico en la Región de Coquimbo",
+    "title": "Tecnología que impulsa tu negocio",
+    "description": "Diseñamos sitios web, sistemas y automatizaciones simples que te ahorran tiempo y te ayudan a vender más. Te acompañamos a modernizar tu negocio paso a paso."
   },
   "contactSection": {
     "eyebrow": "Hablemos",
@@ -84,6 +84,8 @@
         "title": "Vamos al grano (y a tu medida)",
         "description": "Entendemos tu objetivo y te proponemos lo mínimo necesario para avanzar rápido, sin complicarte.",
         "icon": "lucide:target",
+        "cardColor": "#38bdf8",
+        "backgroundImage": "/images/sections/diana.webp",
         "bullets": [
           "Recomendación según tu realidad y presupuesto",
           "Prioridades claras desde el inicio"
@@ -93,6 +95,8 @@
         "title": "Transparencia total",
         "description": "Si algo no te conviene, te lo decimos. Buscamos la mejor alternativa para ti, no la más cara.",
         "icon": "lucide:shield-check",
+        "cardColor": "#fb923c",
+        "backgroundImage": "/images/sections/why-us-bg.png",
         "bullets": [
           "Alcance y entregables por escrito",
           "Sin letra chica ni sorpresas"
@@ -102,6 +106,8 @@
         "title": "Tecnología actual + acompañamiento",
         "description": "Trabajamos con herramientas modernas y, si lo necesitas, seguimos mejorando tu web o sistema con mantención y actualizaciones.",
         "icon": "lucide:zap",
+        "cardColor": "#a855f7",
+        "backgroundImage": "/images/sections/manos.webp",
         "bullets": [
           "Optimización, seguridad y rendimiento",
           "Modernizaciones y mejoras continuas"
@@ -123,23 +129,23 @@
     {
       "slug": "landing-conversion",
       "type": "web",
-      "title": "Landing de conversión inmediata",
-      "for_who": "Equipos de marketing y founders que necesitan leads rápido.",
-      "what_it_solves": "Landing enfocada en generar contactos desde el día 1, con copy claro, prueba social y medición para optimizar resultados.",
+      "title": "Página de captación de clientes",
+      "for_who": "Negocios y emprendedores que necesitan generar contactos rápido.",
+      "what_it_solves": "Una página clara y enfocada en convertir visitas en consultas: mensaje directo, prueba social y medición para mejorar semana a semana.",
       "benefits": [
-        "Copy y estructura orientados a conversión",
-        "Integración con WhatsApp y/o CRM",
-        "Medición con eventos (Analytics / Pixel)"
+        "Estructura pensada para generar consultas",
+        "Botón y formularios conectados a WhatsApp y/o tu gestor de clientes (CRM)",
+        "Medición básica para saber qué funciona y qué mejorar"
       ],
       "deliverables": [
-        "SEO on-page",
-        "Dashboard de rendimiento"
+        "Optimización SEO en la página",
+        "Panel simple de métricas"
       ],
       "delivery_time": "10 días hábiles",
       "modality": "Proyecto",
       "price": "$220.000 CLP",
       "ctaType": "form",
-      "guarantee": "Ajustes incluidos tras el primer ciclo de feedback.",
+      "guarantee": "Incluye una ronda de ajustes luego del primer feedback.",
       "top_banner": "Más solicitado",
       "order": 1,
       "featured": true,
@@ -148,23 +154,23 @@
     {
       "slug": "web-reservas-pagos",
       "type": "web",
-      "title": "Web con reservas y pagos online",
-      "for_who": "Clínicas, gimnasios, turismo y servicios profesionales.",
-      "what_it_solves": "Sitio multipágina con agenda, confirmaciones y pagos online para que tus reservas se gestionen sin fricción.",
+      "title": "Sitio web con reservas y pagos en línea",
+      "for_who": "Clínicas, centros deportivos, turismo y servicios profesionales.",
+      "what_it_solves": "Un sitio completo con agenda, confirmaciones automáticas y pago en línea para que tus reservas se gestionen sin llamadas ni vueltas.",
       "benefits": [
         "Agenda con recordatorios automáticos",
-        "Pagos online y confirmaciones",
-        "Panel simple para tu equipo"
+        "Pagos en línea (Webpay, MercadoPago o Stripe según tu caso)",
+        "Panel simple para administrar horarios y servicios"
       ],
       "deliverables": [
         "Panel para editar contenido",
-        "Soporte prioritario"
+        "Guía rápida de uso"
       ],
       "delivery_time": "10 días hábiles",
       "modality": "Proyecto",
       "price": "$380.000 CLP",
       "ctaType": "whatsapp",
-      "guarantee": "Incluye capacitación breve del panel.",
+      "guarantee": "Incluye capacitación breve para usar el panel.",
       "order": 2,
       "featured": false,
       "icon": "lucide:calendar-check"
@@ -172,23 +178,23 @@
     {
       "slug": "automatizacion-whatsapp-crm",
       "type": "digital",
-      "title": "Automatización WhatsApp + CRM",
-      "for_who": "Equipos comerciales que necesitan respuesta 24/7 y pipeline ordenado.",
-      "what_it_solves": "Automatiza respuestas frecuentes, captura datos y deriva a un humano cuando corresponde, sincronizado con tu CRM.",
+      "title": "Atención automática por WhatsApp + gestor de clientes",
+      "for_who": "Equipos comerciales que quieren responder rápido y ordenar sus contactos.",
+      "what_it_solves": "Respuestas automáticas para preguntas frecuentes, captura de datos y traspaso a un agente cuando corresponde, sincronizado con tu gestor de clientes (CRM).",
       "benefits": [
-        "Flujos sin código (automatizaciones)",
-        "Derivación a agentes y seguimiento de leads",
-        "Alertas y reportes por canal"
+        "Respuestas automáticas con tono humano",
+        "Traspaso a una persona cuando hace falta",
+        "Registro y seguimiento de contactos en un solo lugar"
       ],
       "deliverables": [
-        "Playbook de mensajes",
-        "Dashboard de conversión"
+        "Guía de mensajes y respuestas",
+        "Tablero de seguimiento básico"
       ],
       "delivery_time": "10 días hábiles",
       "modality": "Proyecto",
       "price": "$260.000 CLP",
       "ctaType": "whatsapp",
-      "guarantee": "Iteración incluida durante el primer mes.",
+      "guarantee": "Incluye mejoras y ajustes durante el primer mes.",
       "order": 3,
       "featured": false,
       "icon": "lucide:bot"
@@ -212,7 +218,7 @@
       "modality": "Mensual",
       "price": "$160.000 CLP / mes",
       "ctaType": "whatsapp",
-      "guarantee": "Mesa de ayuda con respuesta en 24h hábiles.",
+      "guarantee": "Mesa de ayuda con respuesta en 24 h hábiles.",
       "order": 4,
       "featured": false,
       "icon": "lucide:shield-check"
@@ -221,31 +227,31 @@
   "cases": [
     {
       "slug": "clinica-dental-mont-blanc",
-      "clientName": "Clinica Dental Mont Blanc",
-      "title": "Sitio web y agenda por WhatsApp para clinica dental",
+      "clientName": "Clínica Dental Mont Blanc",
+      "title": "Sitio web y agenda por WhatsApp para clínica dental",
       "industry": "Salud",
       "city": "Ovalle",
-      "summary": "Sitio web para clinica dental en Ovalle, con informacion de tratamientos, equipo medico y agenda directa por WhatsApp.",
+      "summary": "Sitio web para clínica dental en Ovalle, con información de tratamientos, equipo médico y agenda directa por WhatsApp.",
       "coverImage": "/images/cases/clinica-montblanc.png",
       "beforeTitle": "Antes",
-      "afterTitle": "Despues",
+      "afterTitle": "Después",
       "beforePoints": [
         {
           "text": "Contacto y agenda sin canal digital directo",
           "tone": "warning"
         },
         {
-          "text": "Informacion de servicios y equipo dispersa",
+          "text": "Información de servicios y equipo dispersa",
           "tone": "danger"
         }
       ],
       "afterPoints": [
         {
-          "text": "Agenda por WhatsApp con respuesta rapida",
+          "text": "Agenda por WhatsApp con respuesta rápida",
           "tone": "success"
         },
         {
-          "text": "Servicios, doctores, casos y resenas en un solo sitio",
+          "text": "Servicios, doctores, casos y reseñas en un solo sitio",
           "tone": "success"
         }
       ],
@@ -255,7 +261,7 @@
           "variant": "green"
         },
         {
-          "text": "Atencion cercana y personalizada",
+          "text": "Atención cercana y personalizada",
           "variant": "blue"
         }
       ],
@@ -269,12 +275,12 @@
       "slug": "b2b-inventario",
       "clientName": "Andes Supply",
       "title": "Portal B2B con inventario en tiempo real",
-      "industry": "Logistica",
+      "industry": "Logística",
       "city": "Coquimbo",
-      "summary": "Catalogo privado con stock online y avisos automaticos de despacho.",
+      "summary": "Catálogo privado con stock online y avisos automáticos de despacho.",
       "coverImage": "/images/case-inventario.jpg",
       "beforeTitle": "Antes",
-      "afterTitle": "Despues",
+      "afterTitle": "Después",
       "beforePoints": [
         {
           "text": "Pedidos por correo sin seguimiento",
@@ -301,7 +307,7 @@
           "variant": "green"
         },
         {
-          "text": "Pedidos 2x mas rapidos",
+          "text": "Pedidos 2x más rápidos",
           "variant": "blue"
         }
       ],
@@ -314,11 +320,11 @@
       "slug": "turismo-experiencias",
       "clientName": "Ruta del Valle",
       "industry": "Turismo",
-      "city": "Vicuna",
+      "city": "Vicuña",
       "summary": "Reservas con pago anticipado y bots que responden 24/7.",
       "coverImage": "/images/case-turismo.jpg",
       "beforeTitle": "Antes",
-      "afterTitle": "Despues",
+      "afterTitle": "Después",
       "beforePoints": [
         {
           "text": "Consultas repetidas en temporada alta",
@@ -331,7 +337,7 @@
       ],
       "afterPoints": [
         {
-          "text": "Bots con FAQs y derivacion a agente",
+          "text": "Asistentes automáticos con respuestas frecuentes y derivación a agente",
           "tone": "success"
         },
         {
@@ -357,76 +363,76 @@
   ],
   "reviews": [
     {
-      "clientName": "Paula Martinez",
-      "business": "Cafeteria Litoral",
+      "clientName": "Paula Martínez",
+      "business": "Cafetería Litoral",
       "rating": 5,
       "quote": "El sitio y las automatizaciones bajaron el tiempo de respuesta y subieron las reservas en el primer mes.",
       "order": 1
     },
     {
       "clientName": "Rodrigo Pino",
-      "business": "Clinica Andes",
+      "business": "Clínica Andes",
       "rating": 5,
       "quote": "Hoy no perdemos pacientes en horarios peak y el equipo tiene visibilidad del pipeline.",
       "order": 2
     },
     {
-      "clientName": "Maria Jose Vega",
+      "clientName": "María José Vega",
       "business": "Ruta del Valle",
       "rating": 4,
-      "quote": "Podemos editar ofertas sin soporte y los bots responden mientras el equipo guia tours.",
+      "quote": "Podemos editar ofertas sin soporte y los bots responden mientras el equipo guía tours.",
       "order": 3
     }
   ],
   "faqs": [
     {
-      "question": "Cuanto tarda cada tipo de proyecto?",
-      "answer": "Landings de conversion salen en 5-7 dias habiles. Sitios con reservas o pasarela en 2-3 semanas. Automatizaciones en 10-14 dias. Mantencion TI se activa la misma semana.",
+      "question": "¿Cuánto tarda cada tipo de proyecto?",
+      "answer": "Páginas de conversión salen en 5-7 días hábiles. Sitios con reservas o pasarela en 2-3 semanas. Automatizaciones en 10-14 días. Mantención TI se activa la misma semana.",
       "order": 1
     },
     {
-      "question": "Como aseguramos que convierta?",
-      "answer": "Partimos con la oferta y los mensajes clave, sumamos pruebas sociales, formularios claros y medicion desde el dia uno. Incluimos una ronda de ajustes con datos reales.",
+      "question": "¿Cómo aseguramos que convierta?",
+      "answer": "Partimos con la oferta y los mensajes clave, sumamos pruebas sociales, formularios claros y medición desde el día uno. Incluimos una ronda de ajustes con datos reales.",
       "order": 2
     },
     {
-      "question": "Se integra con mi CRM, agenda o pasarela?",
-      "answer": "Si. Conectamos con HubSpot, Pipedrive, Notion, Google Calendar o agendas medicas. Para pagos usamos Webpay, MercadoPago o Stripe segun tu rubro.",
+      "question": "¿Se integra con mi gestor de clientes (CRM), agenda o pagos?",
+      "answer": "Sí. Podemos conectar con HubSpot, Pipedrive, Notion, Google Calendar u otras agendas. Para pagos usamos Webpay, MercadoPago o Stripe según tu rubro.",
       "order": 3
     },
     {
-      "question": "Que pasa con hosting, dominio y seguridad?",
-      "answer": "Podemos administrarlos a tu nombre. Configuramos SSL, backups y monitoreo basico. En mantencion TI sumamos parches, antivirus gestionado y reportes mensuales.",
+      "question": "¿Qué pasa con hosting, dominio y seguridad?",
+      "answer": "Podemos administrarlos a tu nombre. Configuramos SSL, backups y monitoreo básico. En mantención TI sumamos parches, antivirus gestionado y reportes mensuales.",
       "order": 4
     },
     {
-      "question": "Puedo editar y medir sin soporte?",
-      "answer": "Si. Dejamos panel para textos, precios, FAQ y casos sin tocar codigo. Entregamos dashboard con visitas, conversiones y origenes para que marketing decida rapido.",
+      "question": "¿Puedo editar y medir sin soporte?",
+      "answer": "Sí. Dejamos panel para textos, precios, FAQ y casos sin tocar código. Entregamos dashboard con visitas, conversiones y orígenes para que marketing decida rápido.",
       "order": 5
     },
     {
-      "question": "Como es el soporte y el SLA?",
-      "answer": "Atendemos por WhatsApp y correo en horario laboral Chile (09:00 a 19:00) con SLA de 24h habiles. Para urgencias TI ofrecemos soporte on-site y remoto segun plan.",
+      "question": "¿Cómo es el soporte y el SLA?",
+      "answer": "Atendemos por WhatsApp y correo en horario laboral Chile (09:00 a 19:00) con SLA de 24 h hábiles. Para urgencias TI ofrecemos soporte on-site y remoto según plan.",
       "order": 6
     }
   ],
   "legalPages": {
     "privacidad": {
       "slug": "privacidad",
-      "title": "Politica de Privacidad",
-      "content": "Usamos tu informacion para responder solicitudes y prestar el servicio. No vendemos datos. Puedes pedir eliminacion escribiendo a contacto@nortechdigital.cl."
+      "title": "Política de Privacidad",
+      "content": "Usamos tu información para responder solicitudes y prestar el servicio. No vendemos datos. Puedes pedir eliminación escribiendo a contacto@nortechdigital.cl."
     },
     "terminos": {
       "slug": "terminos",
-      "title": "Terminos y Condiciones",
+      "title": "Términos y Condiciones",
       "content": "Las propuestas se cotizan en CLP. Se paga 50% al inicio y 50% contra entrega. Hosting administrado se factura mes a mes. Ajustes fuera de alcance se cotizan aparte."
     }
   },
   "posts": [
     {
       "slug": "performance-landing",
-      "title": "Checklist para lanzar una landing que convierta",
-      "excerpt": "Pasos clave para salir a produccion con performance y medicion desde el dia uno.",
+      "title": "Lista de verificación para lanzar una página que convierta",
+      "excerpt": "Pasos clave para salir a producción con performance y medición desde el día uno.",
       "content": "Define una oferta clara, valida el copy con clientes, implementa analytics y mapas de calor, y prepara variantes para test A/B.",
       "createdAt": "2025-01-10T00:00:00.000Z",
       "updatedAt": "2025-01-10T00:00:00.000Z",
@@ -434,8 +440,8 @@
     },
     {
       "slug": "automatizar-whatsapp",
-      "title": "Como automatizar WhatsApp sin perder el tono humano",
-      "excerpt": "Flujos que responden rapido y saben cuando escalar a un agente.",
+      "title": "Cómo automatizar WhatsApp sin perder el tono humano",
+      "excerpt": "Flujos que responden rápido y saben cuándo escalar a un agente.",
       "content": "Define mensajes de bienvenida, FAQs y derivaciones. Usa horarios para respuestas diferidas y mide el tiempo a primer contacto humano.",
       "createdAt": "2025-01-12T00:00:00.000Z",
       "updatedAt": "2025-01-12T00:00:00.000Z",

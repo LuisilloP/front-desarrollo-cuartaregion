@@ -51,7 +51,7 @@ const FeaturesGrid: React.FC<FeaturesGridProps> = ({
   features = defaultFeatures,
   eyebrow = "Nuestro proceso",
   heading = "Así trabajamos contigo, paso a paso",
-  subheading = "Un proceso simple: te escuchamos, te proponemos mejoras claras y las implementamos contigo para que todo funcione desde el primer día."
+  subheading = "Cuatro pasos claros para entender tu realidad, definir mejoras y ponerlas en marcha sin fricción."
 }) => {
   const reducedMotion = useReducedMotion();
 
