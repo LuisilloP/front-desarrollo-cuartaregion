@@ -66,23 +66,32 @@ const recentCases = cases.slice(0, 3);
   <Navbar siteSettings={siteSettings} navLinks={navLinks} />
   <main class="space-y-8">
     <Hero siteSettings={siteSettings} content={heroSection} />
+
     {/* Pass all services to the section, not just featured ones */}
     <ServicesSection
       services={services}
       whatsappNumber={siteSettings.whatsappNumber}
     />
-    <AboutUs />
-    <ProcessSection />
-    <HostingSection content={useCasesSection} />
+
+    {/* Social proof early - Cases show we deliver results */}
     <CasesSection cases={recentCases} />
 
-    <!-- Portfolio Marquee Section Added Here -->
+    {/* How we work - Premium process section */}
+    <ProcessSection />
+
+    {/* More social proof - Portfolio companies */}
     <PortfolioMarqueeSection client:visible companies={portfolioCompanies} />
 
-    <!-- ReviewsSection temporarily hidden - no reviews yet -->
-    {/* <ReviewsSection content={reviewsSection} reviews={reviews} /> */}
+    {/* About Us after user is already interested */}
+    <AboutUs />
 
+    {/* Why choose us - Reinforcement */}
+    <HostingSection content={useCasesSection} />
+
+    {/* FAQ - Handle objections */}
     <FAQSection content={faqSection} faqs={faqs} />
+
+    {/* Final CTA */}
     <ContactSection
       content={contactSection}
       whatsappNumber={siteSettings.whatsappNumber}
