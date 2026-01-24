@@ -55,7 +55,7 @@ const orgSchema = {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="icon" href="/favicon.svg" />
@@ -68,7 +68,9 @@ const orgSchema = {
       (() => {
         if (typeof window === "undefined") return;
         const stored = localStorage.getItem("theme");
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
         const theme = stored || (prefersDark ? "dark" : "light");
         if (theme === "dark") {
           document.documentElement.classList.add("dark");
@@ -80,22 +82,85 @@ const orgSchema = {
   </head>
   <body class="min-h-screen transition-colors overflow-x-hidden">
     <slot />
-    <script is:inline>
-      if (typeof window !== "undefined") {
-        const revealElements = document.querySelectorAll('[data-animate="reveal"]');
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("animate-visible");
-                observer.unobserve(entry.target);
-              }
-            });
-          },
-          { threshold: 0.15, rootMargin: "0px 0px -50px 0px" }
-        );
-        revealElements.forEach((el) => observer.observe(el));
-      }
+
+    <!-- Global Motion System -->
+    <script>
+      import "../scripts/motion.ts";
     </script>
+
+    <style is:global>
+      /* Motion System Base Styles */
+      [data-reveal] {
+        opacity: 0;
+        transition-property: opacity, transform;
+        transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+        will-change: opacity, transform;
+      }
+
+      /* Duration variants */
+      [data-reveal][data-duration="400"] {
+        transition-duration: 400ms;
+      }
+      [data-reveal][data-duration="600"] {
+        transition-duration: 600ms;
+      }
+      [data-reveal][data-duration="800"] {
+        transition-duration: 800ms;
+      }
+      [data-reveal]:not([data-duration]) {
+        transition-duration: 600ms;
+      }
+
+      /* Fade Up (default) */
+      [data-reveal="fade-up"] {
+        transform: translateY(1rem);
+      }
+
+      /* Fade */
+      [data-reveal="fade"] {
+        transform: none;
+      }
+
+      /* Zoom */
+      [data-reveal="zoom"] {
+        transform: scale(0.95);
+      }
+
+      /* Slide Left */
+      [data-reveal="slide-left"] {
+        transform: translateX(2rem);
+      }
+
+      /* Slide Right */
+      [data-reveal="slide-right"] {
+        transform: translateX(-2rem);
+      }
+
+      /* Visible State */
+      [data-reveal].is-in {
+        opacity: 1;
+        transform: none;
+      }
+
+      /* Respect reduced motion */
+      @media (prefers-reduced-motion: reduce) {
+        [data-reveal] {
+          opacity: 1 !important;
+          transform: none !important;
+          transition: none !important;
+        }
+      }
+
+      /* Micro-interactions */
+      .hover-lift {
+        transition:
+          transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+          box-shadow 200ms cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .hover-lift:hover {
+        transform: translateY(-2px);
+      }
+    </style>
   </body>
 </html>

@@ -44,8 +44,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Inter"', "ui-sans-serif", "system-ui", "Segoe UI", "sans-serif"],
-        display: ['"Inter"', "ui-sans-serif", "system-ui", "Segoe UI", "sans-serif"]
+        sans: ['"Sora"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['"Sora"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sora: ['"Sora"', 'ui-sans-serif', 'system-ui', 'sans-serif']
       },
       colors: {
         surface: withOpacity("--color-surface"),
