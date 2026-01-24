@@ -1,5 +1,6 @@
 ---
 import type { SiteSettings } from "../data/mock";
+import { env } from "../lib/env";
 import "../styles/global.css";
 
 interface Props {
@@ -15,7 +16,20 @@ const tagline = siteSettings?.tagline ?? "Webs y automatizaciones que venden";
 const pageTitle = title ? `${title} | ${siteName}` : siteName;
 const pageDescription = description ?? tagline;
 const canonical = Astro.url ? Astro.url.toString() : undefined;
+const siteUrl = env.siteUrl ?? (Astro.site ? Astro.site.toString() : undefined);
 const ogImage = image ?? "/og-default.svg";
+const resolvedOgImage = ogImage && siteUrl ? new URL(ogImage, siteUrl).toString() : ogImage;
+const resolvedCanonical = canonical ?? siteUrl;
+const socialLinks = siteSettings?.socialLinks?.map((link) => link.url).filter(Boolean) ?? [];
+const orgSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: siteName,
+  url: siteUrl,
+  slogan: tagline,
+  logo: siteUrl ? new URL("/favicon.svg", siteUrl).toString() : undefined,
+  sameAs: socialLinks.length > 0 ? socialLinks : undefined
+};
 ---
 
 <!doctype html>
@@ -25,22 +39,31 @@ const ogImage = image ?? "/og-default.svg";
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
+    <meta name="robots" content="index, follow" />
     <meta name="generator" content="Astro" />
+    {resolvedCanonical && <meta property="og:url" content={resolvedCanonical} />}
     <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDescription} />
-    {ogImage && <meta property="og:image" content={ogImage} />}
+    {siteName && <meta property="og:site_name" content={siteName} />}
+    {resolvedOgImage && <meta property="og:image" content={resolvedOgImage} />}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={pageDescription} />
+    {resolvedOgImage && <meta name="twitter:image" content={resolvedOgImage} />}
     {canonical && <link rel="canonical" href={canonical} />}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="icon" href="/favicon.svg" />
+    {siteUrl && (
+      <script type="application/ld+json">
+        {JSON.stringify(orgSchema)}
+      </script>
+    )}
     <script is:inline>
       (() => {
         if (typeof window === "undefined") return;
