@@ -1,8 +1,8 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import Navbar from "../../components/Navbar.astro";
-import Footer from "../../components/Footer.astro";
-import WhatsAppFloatingButton from "../../components/WhatsAppFloatingButton.astro";
+import Navbar from "../../components/layout/Navbar.astro";
+import Footer from "../../components/layout/Footer.astro";
+import WhatsAppFloatingButton from "../../components/layout/WhatsAppFloatingButton.astro";
 import { fetchCases, fetchSiteSettings } from "../../lib/api/services";
 import type { CaseStudy } from "../../lib/api/types";
 import { buildWhatsAppLink } from "../../lib/utils";
@@ -12,7 +12,10 @@ export async function getStaticPaths() {
   const cases = await fetchCases();
   return cases
     .filter((item) => Boolean(item.slug))
-    .map((item) => ({ params: { slug: item.slug }, props: { caseStudy: item } }));
+    .map((item) => ({
+      params: { slug: item.slug },
+      props: { caseStudy: item },
+    }));
 }
 
 const { caseStudy } = Astro.props as { caseStudy: CaseStudy };
@@ -20,17 +23,20 @@ if (!caseStudy) throw new Error("Case study not found");
 
 const siteSettings = await fetchSiteSettings();
 const pageTitle = caseStudy.title || caseStudy.clientName || "Caso";
-const summary = typeof caseStudy.summary === "string" ? caseStudy.summary.trim() : "";
-const industry = typeof caseStudy.industry === "string" ? caseStudy.industry.trim() : "";
+const summary =
+  typeof caseStudy.summary === "string" ? caseStudy.summary.trim() : "";
+const industry =
+  typeof caseStudy.industry === "string" ? caseStudy.industry.trim() : "";
 const city = typeof caseStudy.city === "string" ? caseStudy.city.trim() : "";
 const coverImage = caseStudy.coverImage;
 const coverAlt = caseStudy.coverImageAlt || `Caso ${pageTitle}`;
 
-const toList = (value: string | string[] | undefined) => (Array.isArray(value) ? value : value ? [value] : []);
+const toList = (value: string | string[] | undefined) =>
+  Array.isArray(value) ? value : value ? [value] : [];
 const normalizePoints = (
   items: CaseStudy["beforePoints"] | undefined,
   fallback: string | string[] | undefined,
-  defaultTone: string
+  defaultTone: string,
 ) => {
   if (Array.isArray(items) && items.length > 0) {
     return items
@@ -47,12 +53,20 @@ const normalizePoints = (
 
 const beforeTitle = (caseStudy.beforeTitle ?? "Antes").trim() || "Antes";
 const afterTitle = (caseStudy.afterTitle ?? "Despues").trim() || "Despues";
-const beforePoints = normalizePoints(caseStudy.beforePoints, caseStudy.problem, "danger");
-const afterPoints = normalizePoints(caseStudy.afterPoints, caseStudy.results, "success");
+const beforePoints = normalizePoints(
+  caseStudy.beforePoints,
+  caseStudy.problem,
+  "danger",
+);
+const afterPoints = normalizePoints(
+  caseStudy.afterPoints,
+  caseStudy.results,
+  "success",
+);
 const hasComparison = beforePoints.length > 0 || afterPoints.length > 0;
 
 const impactTags = (caseStudy.impactTags ?? []).filter(
-  (tag) => typeof tag?.text === "string" && tag.text.trim().length > 0
+  (tag) => typeof tag?.text === "string" && tag.text.trim().length > 0,
 );
 const heroTags = impactTags.slice(0, 3);
 
@@ -61,7 +75,7 @@ const toneDots: Record<string, string> = {
   warning: "bg-content/40",
   success: "bg-content/40",
   info: "bg-content/40",
-  neutral: "bg-content/20"
+  neutral: "bg-content/20",
 };
 
 const getDotClass = (tone?: string, fallback?: string) => {
@@ -76,7 +90,7 @@ const tagStyles: Record<string, string> = {
   yellow: "border-border/70 bg-surface-strong/40 text-content",
   orange: "border-border/70 bg-surface-strong/40 text-content",
   purple: "border-border/70 bg-surface-strong/40 text-content",
-  slate: "border-border/70 bg-surface-strong/40 text-content"
+  slate: "border-border/70 bg-surface-strong/40 text-content",
 };
 
 const getTagClass = (variant?: string) => {
@@ -89,22 +103,33 @@ const normalizeUrl = (value?: string | null) => {
   const trimmed = value.trim();
   if (!trimmed) return undefined;
   if (trimmed.startsWith("#") || trimmed.startsWith("/")) return trimmed;
-  if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) return trimmed;
+  if (trimmed.startsWith("http://") || trimmed.startsWith("https://"))
+    return trimmed;
   return `https://${trimmed}`;
 };
 
 const siteUrl = normalizeUrl(caseStudy.siteUrl ?? undefined);
-const isExternalSite = Boolean(siteUrl && !siteUrl.startsWith("#") && !siteUrl.startsWith("/"));
+const isExternalSite = Boolean(
+  siteUrl && !siteUrl.startsWith("#") && !siteUrl.startsWith("/"),
+);
 const whatsappMessage = `Hola! Me interesa el caso ${pageTitle}.`;
-const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, whatsappMessage);
+const whatsappUrl = buildWhatsAppLink(
+  siteSettings.whatsappNumber,
+  whatsappMessage,
+);
 const ctaType = (caseStudy.ctaPrimaryType ?? "").trim().toLowerCase();
-const ctaLabel = (caseStudy.ctaPrimaryLabel ?? "").trim() || "Quiero algo similar";
+const ctaLabel =
+  (caseStudy.ctaPrimaryLabel ?? "").trim() || "Quiero algo similar";
 const ctaUrlOverride = normalizeUrl(caseStudy.ctaPrimaryUrl ?? undefined);
 const isFormCta = ["form", "formulario"].includes(ctaType);
-const isContactCta = ["contact", "contacto", "whatsapp", "wpp"].includes(ctaType);
+const isContactCta = ["contact", "contacto", "whatsapp", "wpp"].includes(
+  ctaType,
+);
 const labelIncludesWhatsApp = ctaLabel.toLowerCase().includes("whatsapp");
 const ctaLabelFinal =
-  (isFormCta || isContactCta) && !labelIncludesWhatsApp ? `${ctaLabel} por WhatsApp` : ctaLabel;
+  (isFormCta || isContactCta) && !labelIncludesWhatsApp
+    ? `${ctaLabel} por WhatsApp`
+    : ctaLabel;
 
 let ctaHref = ctaUrlOverride;
 if (!ctaHref) {
@@ -112,106 +137,165 @@ if (!ctaHref) {
   else if (siteUrl) ctaHref = siteUrl;
 }
 
-const isExternalCta = Boolean(ctaHref && !ctaHref.startsWith("#") && !ctaHref.startsWith("/"));
+const isExternalCta = Boolean(
+  ctaHref && !ctaHref.startsWith("#") && !ctaHref.startsWith("/"),
+);
 const ctaClass = isContactCta
   ? "bg-[#25D366] text-white hover:brightness-95"
   : "bg-gradient-to-r from-primary to-accent text-contrast hover:brightness-105";
 const showSiteButton = Boolean(siteUrl && siteUrl !== ctaHref);
 ---
 
-<Layout title={pageTitle} description={summary || pageTitle} siteSettings={siteSettings}>
+<Layout
+  title={pageTitle}
+  description={summary || pageTitle}
+  siteSettings={siteSettings}
+>
   <Navbar siteSettings={siteSettings} />
   <main class="pb-20">
     <section class="py-16">
-      <div class="section-shell grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+      <div
+        class="section-shell grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center"
+      >
         <div class="space-y-6">
           <div class="space-y-3">
-            <p class="pill w-fit border border-border/70 bg-card text-muted">Caso</p>
-            {caseStudy.clientName && <p class="text-sm font-semibold text-muted">{caseStudy.clientName}</p>}
-            <h1 class="text-3xl sm:text-4xl font-bold text-content">{pageTitle}</h1>
+            <p class="pill w-fit border border-border/70 bg-card text-muted">
+              Caso
+            </p>
+            {
+              caseStudy.clientName && (
+                <p class="text-sm font-semibold text-muted">
+                  {caseStudy.clientName}
+                </p>
+              )
+            }
+            <h1 class="text-3xl sm:text-4xl font-bold text-content">
+              {pageTitle}
+            </h1>
             {summary && <p class="text-muted">{summary}</p>}
           </div>
 
-          {(industry || city || heroTags.length > 0) && (
-            <div class="flex flex-wrap items-center gap-2 text-xs font-semibold text-muted">
-              {industry && (
-                <span class="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card px-3 py-1">
-                  <svg viewBox="0 0 24 24" fill="none" class="h-4 w-4" aria-hidden="true">
-                    <path
-                      d="M4 20V4h10v16M14 20V8h6v12M3 20h18"
-                      stroke="currentColor"
-                      stroke-width="1.6"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                  {industry}
-                </span>
-              )}
-              {city && (
-                <span class="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card px-3 py-1">
-                  <svg viewBox="0 0 24 24" fill="none" class="h-4 w-4" aria-hidden="true">
-                    <path
-                      d="M12 21s6-6.4 6-11a6 6 0 1 0-12 0c0 4.6 6 11 6 11z"
-                      stroke="currentColor"
-                      stroke-width="1.6"
-                    />
-                    <circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="1.6" />
-                  </svg>
-                  {city}
-                </span>
-              )}
-              {heroTags.map((tag) => (
-                <span class={`inline-flex items-center rounded-full border px-3 py-1 ${getTagClass(tag.variant)}`}>
-                  {tag.text}
-                </span>
-              ))}
-            </div>
-          )}
+          {
+            (industry || city || heroTags.length > 0) && (
+              <div class="flex flex-wrap items-center gap-2 text-xs font-semibold text-muted">
+                {industry && (
+                  <span class="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card px-3 py-1">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      class="h-4 w-4"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M4 20V4h10v16M14 20V8h6v12M3 20h18"
+                        stroke="currentColor"
+                        stroke-width="1.6"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    {industry}
+                  </span>
+                )}
+                {city && (
+                  <span class="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card px-3 py-1">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      class="h-4 w-4"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M12 21s6-6.4 6-11a6 6 0 1 0-12 0c0 4.6 6 11 6 11z"
+                        stroke="currentColor"
+                        stroke-width="1.6"
+                      />
+                      <circle
+                        cx="12"
+                        cy="10"
+                        r="2.5"
+                        stroke="currentColor"
+                        stroke-width="1.6"
+                      />
+                    </svg>
+                    {city}
+                  </span>
+                )}
+                {heroTags.map((tag) => (
+                  <span
+                    class={`inline-flex items-center rounded-full border px-3 py-1 ${getTagClass(tag.variant)}`}
+                  >
+                    {tag.text}
+                  </span>
+                ))}
+              </div>
+            )
+          }
 
           <div class="flex flex-wrap items-center gap-3">
-            {ctaHref && (
-              <a
-                href={ctaHref}
-                target={isExternalCta ? "_blank" : undefined}
-                rel={isExternalCta ? "noreferrer" : undefined}
-                class={`inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold shadow-soft transition ${ctaClass}`}
-              >
-                {isContactCta && (
-                  <Icon name="simple-icons:whatsapp" class="h-4 w-4 text-white" aria-hidden="true" />
-                )}
-                {ctaLabelFinal}
-              </a>
-            )}
-            {showSiteButton && (
-              <a
-                class="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card px-5 py-3 text-sm font-semibold text-content transition hover:border-primary/40 hover:text-primary"
-                href={siteUrl}
-                target={isExternalSite ? "_blank" : undefined}
-                rel={isExternalSite ? "noreferrer" : undefined}
-              >
-                Ver sitio
-                <Icon name="lucide:arrow-up-right" class="h-4 w-4" aria-hidden="true" />
-              </a>
-            )}
+            {
+              ctaHref && (
+                <a
+                  href={ctaHref}
+                  target={isExternalCta ? "_blank" : undefined}
+                  rel={isExternalCta ? "noreferrer" : undefined}
+                  class={`inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold shadow-soft transition ${ctaClass}`}
+                >
+                  {isContactCta && (
+                    <Icon
+                      name="simple-icons:whatsapp"
+                      class="h-4 w-4 text-white"
+                      aria-hidden="true"
+                    />
+                  )}
+                  {ctaLabelFinal}
+                </a>
+              )
+            }
+            {
+              showSiteButton && (
+                <a
+                  class="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card px-5 py-3 text-sm font-semibold text-content transition hover:border-primary/40 hover:text-primary"
+                  href={siteUrl}
+                  target={isExternalSite ? "_blank" : undefined}
+                  rel={isExternalSite ? "noreferrer" : undefined}
+                >
+                  Ver sitio
+                  <Icon
+                    name="lucide:arrow-up-right"
+                    class="h-4 w-4"
+                    aria-hidden="true"
+                  />
+                </a>
+              )
+            }
           </div>
         </div>
 
         <div class="relative">
-          <div class="overflow-hidden rounded-3xl border border-border/70 bg-card shadow-soft">
-            <div class="relative aspect-[4/3] w-full bg-surface-strong/40">
-              {coverImage ? (
-                <img
-                  src={coverImage}
-                  alt={coverAlt}
-                  class="h-full w-full object-cover object-center"
-                  loading="lazy"
-                />
-              ) : (
-                <div class="h-full w-full bg-gradient-to-br from-primary/20 via-surface-strong/50 to-accent/20"></div>
-              )}
-              <div class="absolute inset-0 bg-gradient-to-t from-secondary/60 via-secondary/10 to-transparent"></div>
-              <div class="absolute bottom-4 left-4 right-4 text-sm font-semibold text-contrast/90">
+          <div
+            class="overflow-hidden rounded-3xl border border-border/70 bg-card shadow-soft"
+          >
+            <div class="relative aspect-video w-full bg-surface-strong/40">
+              {
+                coverImage ? (
+                  <img
+                    src={coverImage}
+                    alt={coverAlt}
+                    class="h-full w-full object-cover object-left-top"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div class="h-full w-full bg-gradient-to-br from-primary/20 via-surface-strong/50 to-accent/20" />
+                )
+              }
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-secondary/60 via-secondary/10 to-transparent"
+              >
+              </div>
+              <div
+                class="absolute bottom-4 left-4 right-4 text-sm font-semibold text-contrast/90"
+              >
                 {caseStudy.clientName ? caseStudy.clientName : pageTitle}
               </div>
             </div>
@@ -222,96 +306,140 @@ const showSiteButton = Boolean(siteUrl && siteUrl !== ctaHref);
 
     <section class="section-shell grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
       <article class="card space-y-6">
-        <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div
+          class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
+        >
           <div>
-            <p class="text-xs uppercase tracking-wide text-muted/80">Comparativo</p>
-            <h2 class="text-2xl font-semibold text-content">Antes vs despues</h2>
+            <p class="text-xs uppercase tracking-wide text-muted/80">
+              Comparativo
+            </p>
+            <h2 class="text-2xl font-semibold text-content">
+              Antes vs despues
+            </h2>
           </div>
-          {hasComparison && (
-            <p class="text-sm text-muted">Problema, respuesta y resultado en contexto real.</p>
-          )}
+          {
+            hasComparison && (
+              <p class="text-sm text-muted">
+                Problema, respuesta y resultado en contexto real.
+              </p>
+            )
+          }
         </div>
 
-        {hasComparison ? (
-          <div class={`grid gap-4 ${beforePoints.length > 0 && afterPoints.length > 0 ? "md:grid-cols-2" : ""}`}>
-            {beforePoints.length > 0 && (
-              <div class="overflow-hidden rounded-3xl border border-border/70 bg-card">
-                <div class="bg-surface-strong/70 px-4 py-2 text-sm font-semibold text-content">{beforeTitle}</div>
-                <ul class="space-y-3 p-4 text-sm text-muted">
-                  {beforePoints.map((point) => (
-                    <li class="flex items-start gap-3">
-                      <span class={`mt-2 h-1.5 w-1.5 rounded-full ${getDotClass(point.tone, "danger")}`}></span>
-                      <span>{point.text}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            {afterPoints.length > 0 && (
-              <div class="overflow-hidden rounded-3xl border border-border/70 bg-card">
-                <div class="bg-surface-strong/70 px-4 py-2 text-sm font-semibold text-content">{afterTitle}</div>
-                <ul class="space-y-3 p-4 text-sm text-muted">
-                  {afterPoints.map((point) => (
-                    <li class="flex items-start gap-3">
-                      <span class={`mt-2 h-1.5 w-1.5 rounded-full ${getDotClass(point.tone, "success")}`}></span>
-                      <span>{point.text}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        ) : (
-          <p class="text-sm text-muted">
-            Aun no hay puntos comparativos registrados para este caso.
-          </p>
-        )}
+        {
+          hasComparison ? (
+            <div
+              class={`grid gap-4 ${beforePoints.length > 0 && afterPoints.length > 0 ? "md:grid-cols-2" : ""}`}
+            >
+              {beforePoints.length > 0 && (
+                <div class="overflow-hidden rounded-3xl border border-border/70 bg-card">
+                  <div class="bg-surface-strong/70 px-4 py-2 text-sm font-semibold text-content">
+                    {beforeTitle}
+                  </div>
+                  <ul class="space-y-3 p-4 text-sm text-muted">
+                    {beforePoints.map((point) => (
+                      <li class="flex items-start gap-3">
+                        <span
+                          class={`mt-2 h-1.5 w-1.5 rounded-full ${getDotClass(point.tone, "danger")}`}
+                        />
+                        <span>{point.text}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {afterPoints.length > 0 && (
+                <div class="overflow-hidden rounded-3xl border border-border/70 bg-card">
+                  <div class="bg-surface-strong/70 px-4 py-2 text-sm font-semibold text-content">
+                    {afterTitle}
+                  </div>
+                  <ul class="space-y-3 p-4 text-sm text-muted">
+                    {afterPoints.map((point) => (
+                      <li class="flex items-start gap-3">
+                        <span
+                          class={`mt-2 h-1.5 w-1.5 rounded-full ${getDotClass(point.tone, "success")}`}
+                        />
+                        <span>{point.text}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          ) : (
+            <p class="text-sm text-muted">
+              Aun no hay puntos comparativos registrados para este caso.
+            </p>
+          )
+        }
       </article>
 
       <aside class="space-y-4 lg:sticky lg:top-24">
         <div class="card space-y-3">
           <div class="flex items-center justify-between">
             <h3 class="text-lg font-semibold text-content">Impacto</h3>
-            <Icon name="lucide:activity" class="h-4 w-4 text-muted" aria-hidden="true" />
+            <Icon
+              name="lucide:activity"
+              class="h-4 w-4 text-muted"
+              aria-hidden="true"
+            />
           </div>
-          {impactTags.length > 0 ? (
-            <div class="flex flex-wrap gap-2">
-              {impactTags.map((tag) => (
-                <span
-                  class={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold ${getTagClass(
-                    tag.variant
-                  )}`}
-                >
-                  {tag.text}
-                </span>
-              ))}
-            </div>
-          ) : (
-            <p class="text-sm text-muted">Metricas de impacto en preparacion.</p>
-          )}
+          {
+            impactTags.length > 0 ? (
+              <div class="flex flex-wrap gap-2">
+                {impactTags.map((tag) => (
+                  <span
+                    class={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold ${getTagClass(
+                      tag.variant,
+                    )}`}
+                  >
+                    {tag.text}
+                  </span>
+                ))}
+              </div>
+            ) : (
+              <p class="text-sm text-muted">
+                Metricas de impacto en preparacion.
+              </p>
+            )
+          }
         </div>
 
         <div class="card space-y-4">
           <div class="flex items-center justify-between">
-            <h3 class="text-lg font-semibold text-content">Ficha del proyecto</h3>
-            <Icon name="lucide:clipboard-list" class="h-4 w-4 text-muted" aria-hidden="true" />
+            <h3 class="text-lg font-semibold text-content">
+              Ficha del proyecto
+            </h3>
+            <Icon
+              name="lucide:clipboard-list"
+              class="h-4 w-4 text-muted"
+              aria-hidden="true"
+            />
           </div>
           <dl class="space-y-3 text-sm">
             <div class="flex items-center justify-between gap-3">
               <dt class="text-muted">Cliente</dt>
-              <dd class="font-semibold text-content">{caseStudy.clientName || "Sin definir"}</dd>
+              <dd class="font-semibold text-content">
+                {caseStudy.clientName || "Sin definir"}
+              </dd>
             </div>
             <div class="flex items-center justify-between gap-3">
               <dt class="text-muted">Industria</dt>
-              <dd class="font-semibold text-content">{industry || "Sin definir"}</dd>
+              <dd class="font-semibold text-content">
+                {industry || "Sin definir"}
+              </dd>
             </div>
             <div class="flex items-center justify-between gap-3">
               <dt class="text-muted">Ciudad</dt>
-              <dd class="font-semibold text-content">{city || "Sin definir"}</dd>
+              <dd class="font-semibold text-content">
+                {city || "Sin definir"}
+              </dd>
             </div>
             <div class="flex items-center justify-between gap-3">
               <dt class="text-muted">Sitio</dt>
-              <dd class="font-semibold text-content">{siteUrl ? "Disponible" : "No publicado"}</dd>
+              <dd class="font-semibold text-content">
+                {siteUrl ? "Disponible" : "No publicado"}
+              </dd>
             </div>
           </dl>
         </div>
@@ -319,10 +447,16 @@ const showSiteButton = Boolean(siteUrl && siteUrl !== ctaHref);
     </section>
 
     <div class="section-shell mt-10">
-      <a class="text-sm font-semibold text-content hover:text-primary" href="/#casos">Ver mas casos</a>
+      <a
+        class="text-sm font-semibold text-content hover:text-primary"
+        href="/#casos">Ver mas casos</a
+      >
     </div>
   </main>
 
   <Footer siteSettings={siteSettings} />
-  <WhatsAppFloatingButton whatsappNumber={siteSettings.whatsappNumber} message="Hola! Me interesa este caso." />
+  <WhatsAppFloatingButton
+    whatsappNumber={siteSettings.whatsappNumber}
+    message="Hola! Me interesa este caso."
+  />
 </Layout>

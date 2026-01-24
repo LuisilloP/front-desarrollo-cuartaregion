@@ -1,8 +1,9 @@
 ---
 import { Icon } from "astro-icon/components";
-import type { SiteSettings, HeroSectionContent } from "../lib/api/types";
-import { buildWhatsAppLink } from "../lib/utils";
-import HeroBackgroundSlideshow from "./hero/HeroBackgroundSlideshow.tsx";
+import HeroSlideshow from "./HeroSlideshow.astro";
+import type { SiteSettings, HeroSectionContent } from "../../lib/api/types";
+import { buildWhatsAppLink } from "../../lib/utils";
+import HeroBackgroundSlideshow from "../hero/HeroBackgroundSlideshow.tsx";
 
 interface Props {
   siteSettings: SiteSettings;

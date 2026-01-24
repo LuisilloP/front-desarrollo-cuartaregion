@@ -156,6 +156,8 @@ export interface UseCase {
   title: string;
   description: string;
   icon: string;
+  cardColor?: string;
+  backgroundImage?: string;
   bullets?: string[];
 }
 

@@ -76,35 +76,40 @@
   },
   "useCasesSection": {
     "eyebrow": "Lo que nos diferencia",
-    "title": "3 razones para trabajar con Aliado Digital",
-    "description": "Directos, honestos y al día con la tecnología. Nos adaptamos a lo que realmente necesitas, vamos al grano y te acompañamos incluso después del lanzamiento.",
-    "closingText": "No te dejamos solo: podemos seguir mejorando y modernizando tu servicio cuando lo necesites.",
+    "title": "Así trabajamos contigo",
+    "description": "Trabajamos de forma cercana y transparente. Escuchamos lo que necesitas, definimos prioridades y te proponemos un plan claro para avanzar rápido, sin complicaciones. Y después del lanzamiento, seguimos disponibles para ayudarte a mejorar.",
     "cases": [
       {
-        "title": "Vamos al grano (y a tu medida)",
-        "description": "Entendemos tu objetivo y te proponemos lo mínimo necesario para avanzar rápido, sin complicarte.",
+        "title": "Claro y a tu medida",
+        "description": "Entendemos tu objetivo y te recomendamos lo esencial para avanzar con orden, sin gastar de más.",
         "icon": "lucide:target",
+        "cardColor": "#38bdf8",
+        "backgroundImage": "/images/sections/diana.webp",
         "bullets": [
-          "Recomendación según tu realidad y presupuesto",
+          "Recomendación según tu presupuesto",
           "Prioridades claras desde el inicio"
         ]
       },
       {
-        "title": "Transparencia total",
-        "description": "Si algo no te conviene, te lo decimos. Buscamos la mejor alternativa para ti, no la más cara.",
+        "title": "Transparencia desde el primer día",
+        "description": "Te hablamos con honestidad y sin letra chica. Si algo no te conviene, lo decimos y buscamos una mejor alternativa.",
         "icon": "lucide:shield-check",
+        "cardColor": "#fb923c",
+        "backgroundImage": "/images/sections/why-us-bg.png",
         "bullets": [
-          "Alcance y entregables por escrito",
-          "Sin letra chica ni sorpresas"
+          "Alcance por escrito",
+          "Sin sorpresas ni costos ocultos"
         ]
       },
       {
-        "title": "Tecnología actual + acompañamiento",
-        "description": "Trabajamos con herramientas modernas y, si lo necesitas, seguimos mejorando tu web o sistema con mantención y actualizaciones.",
+        "title": "Tecnología moderna y soporte real",
+        "description": "Usamos herramientas actuales y dejamos todo bien implementado para que tu web funcione bien y pueda crecer.",
         "icon": "lucide:zap",
+        "cardColor": "#a855f7",
+        "backgroundImage": "/images/sections/manos.webp",
         "bullets": [
-          "Optimización, seguridad y rendimiento",
-          "Modernizaciones y mejoras continuas"
+          "Seguridad y rendimiento",
+          "Mejoras y actualizaciones continuas"
         ]
       }
     ]
@@ -247,45 +252,45 @@
     {
       "slug": "clinica-dental-mont-blanc",
       "clientName": "Clínica Dental Mont Blanc",
-      "title": "Sitio web y agenda por WhatsApp para clínica dental",
+      "title": "Landing premium para fortalecer su presencia online",
       "industry": "Salud",
       "city": "Ovalle",
-      "summary": "Sitio web para clínica dental en Ovalle, con información de tratamientos, equipo médico y agenda directa por WhatsApp.",
+      "summary": "Landing page profesional y personalizada para una clínica dental en Ovalle, creada para reforzar su presencia digital con una imagen premium, clara y confiable.",
       "coverImage": "/images/cases/clinica-montblanc.png",
       "beforeTitle": "Antes",
       "afterTitle": "Después",
       "beforePoints": [
         {
-          "text": "Contacto y agenda sin canal digital directo",
+          "text": "Presencia online débil y poco alineada con la calidad del servicio",
           "tone": "warning"
         },
         {
-          "text": "Información de servicios y equipo dispersa",
+          "text": "Imagen digital sin una página profesional que genere confianza",
           "tone": "danger"
         }
       ],
       "afterPoints": [
         {
-          "text": "Agenda por WhatsApp con respuesta rápida",
+          "text": "Landing premium, clara y fácil de navegar desde celular",
           "tone": "success"
         },
         {
-          "text": "Servicios, doctores, casos y reseñas en un solo sitio",
+          "text": "Contenido y diseño trabajados con feedback hasta lograr un resultado a medida",
           "tone": "success"
         }
       ],
       "impactTags": [
         {
-          "text": "Respuesta en minutos",
+          "text": "Imagen más profesional",
           "variant": "green"
         },
         {
-          "text": "Atención cercana y personalizada",
+          "text": "Marca más confiable online",
           "variant": "blue"
         }
       ],
       "ctaPrimaryType": "contact",
-      "ctaPrimaryLabel": "Agendar por WhatsApp",
+      "ctaPrimaryLabel": "Quiero una landing premium",
       "siteUrl": "https://clinicamontblanc.cl",
       "order": 1,
       "featured": true
@@ -405,34 +410,39 @@
   ],
   "faqs": [
     {
-      "question": "¿Cuánto tarda cada tipo de proyecto?",
-      "answer": "Páginas de conversión salen en 5-7 días hábiles. Sitios con reservas o pasarela en 2-3 semanas. Automatizaciones en 10-14 días. Mantención TI se activa la misma semana.",
+      "question": "¿Solo trabajan en la Cuarta Región?",
+      "answer": "No. Aunque estamos en la Región de Coquimbo, trabajamos con clientes en todo Chile y el mundo. La mayoría de nuestros proyectos son 100% remotos. Nos reunimos por videollamada, compartimos avances en tiempo real y coordinamos todo online. Si estás en la región, podemos reunirnos presencialmente cuando necesites.",
       "order": 1
     },
     {
-      "question": "¿Cómo aseguramos que convierta?",
-      "answer": "Partimos con la oferta y los mensajes clave, sumamos pruebas sociales, formularios claros y medición desde el día uno. Incluimos una ronda de ajustes con datos reales.",
+      "question": "¿Cuánto cuesta un sitio web?",
+      "answer": "Depende de lo que necesites. Una página de captación simple desde $220.000. Sitios con reservas y pagos desde $380.000. Automatizaciones WhatsApp + CRM desde $260.000. Mantención TI $160.000/mes. Te enviamos una cotización clara después de entender tu proyecto.",
       "order": 2
     },
     {
-      "question": "¿Se integra con mi gestor de clientes (CRM), agenda o pagos?",
-      "answer": "Sí. Podemos conectar con HubSpot, Pipedrive, Notion, Google Calendar u otras agendas. Para pagos usamos Webpay, MercadoPago o Stripe según tu rubro.",
+      "question": "¿Cuánto tiempo toma tener mi sitio listo?",
+      "answer": "Páginas de conversión: 7-10 días hábiles. Sitios con reservas o pagos: 2-3 semanas. Automatizaciones: 10-14 días. Mantención TI se activa en menos de una semana. El plazo puede variar si necesitas integraciones complejas o contenido específico.",
       "order": 3
     },
     {
-      "question": "¿Qué pasa con hosting, dominio y seguridad?",
-      "answer": "Podemos administrarlos a tu nombre. Configuramos SSL, backups y monitoreo básico. En mantención TI sumamos parches, antivirus gestionado y reportes mensuales.",
+      "question": "¿Incluyen hosting y dominio o lo tengo que contratar aparte?",
+      "answer": "Podemos administrar hosting y dominio a tu nombre, configurando todo desde cero (SSL, backups, monitoreo). O si prefieres, trabajamos con tu proveedor actual. En el plan de mantención TI incluimos gestión completa con reportes mensuales.",
       "order": 4
     },
     {
-      "question": "¿Puedo editar y medir sin soporte?",
-      "answer": "Sí. Dejamos panel para textos, precios, FAQ y casos sin tocar código. Entregamos dashboard con visitas, conversiones y orígenes para que marketing decida rápido.",
+      "question": "¿Puedo actualizar el contenido yo mismo sin saber programar?",
+      "answer": "Sí. Dejamos un panel simple para que puedas editar textos, precios, imágenes, FAQ y casos sin tocar código. También te damos una guía rápida de uso. Si necesitas cambios más complejos, nos avisas y lo hacemos nosotros.",
       "order": 5
     },
     {
-      "question": "¿Cómo es el soporte y el SLA?",
-      "answer": "Atendemos por WhatsApp y correo en horario laboral Chile (09:00 a 19:00) con SLA de 24 h hábiles. Para urgencias TI ofrecemos soporte on-site y remoto según plan.",
+      "question": "¿Qué pasa después del lanzamiento? ¿Dan soporte?",
+      "answer": "Sí. Incluimos una ronda de ajustes post-lanzamiento en todos los proyectos. Después quedas con soporte por WhatsApp y correo (respuesta en 24h hábiles). Si necesitas mantención continua, parches de seguridad y monitoreo, tenemos un plan mensual desde $160.000.",
       "order": 6
+    },
+    {
+      "question": "¿El sitio se verá bien en celulares y tablets?",
+      "answer": "Siempre. Todos nuestros sitios son responsive, es decir, se adaptan automáticamente a cualquier tamaño de pantalla (móvil, tablet, desktop). Hoy más del 60% del tráfico web viene de celulares, así que es fundamental.",
+      "order": 7
     }
   ],
   "legalPages": {

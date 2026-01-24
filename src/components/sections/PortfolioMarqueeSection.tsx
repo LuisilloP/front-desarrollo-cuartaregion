@@ -1,6 +1,6 @@
 ﻿// src/components/PortfolioMarqueeSection.tsx
 import React, { useState, useMemo, useRef, useEffect } from "react";
-import type { Company } from "../content/portfolioProjects";
+import type { Company } from "../../content/portfolioProjects";
 
 // --- Props and Types ---
 
@@ -80,11 +80,11 @@ const PortfolioMarqueeSection: React.FC<PortfolioMarqueeSectionProps> = ({
     () =>
       visibleCompanies.length > 0
         ? [
-            ...visibleCompanies,
-            ...visibleCompanies,
-            ...visibleCompanies,
-            ...visibleCompanies,
-          ]
+          ...visibleCompanies,
+          ...visibleCompanies,
+          ...visibleCompanies,
+          ...visibleCompanies,
+        ]
         : [],
     [visibleCompanies]
   );
@@ -245,36 +245,18 @@ const PortfolioMarqueeSection: React.FC<PortfolioMarqueeSectionProps> = ({
   } as React.CSSProperties;
 
   return (
-    <section className="relative overflow-hidden py-16 sm:py-24">
+    <section className="relative overflow-visible py-16 sm:py-24">
       <div className="pointer-events-none absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-highlight/15 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-32 right-[-80px] h-72 w-72 rounded-full bg-accent/15 blur-3xl" />
       <div className="section-shell">
         <div className="mx-auto max-w-3xl text-center space-y-4">
-          <div className="pill inline-flex items-center justify-center gap-2 text-highlight">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="h-4 w-4"
-            >
-              <path d="M6 3h12l4 6-10 13L2 9l4-6Z" />
-              <path d="M12 22 4 9l8-6 8 6-8 13Z" />
-              <path d="M2 9h20" />
-            </svg>
-            Empresas aliadas
-          </div>
           <h2 className="text-3xl font-bold tracking-tight text-content sm:text-4xl lg:text-5xl">
-            Empresas con las que hemos trabajado
+            Marcas que han confiado en Aliado Digital
           </h2>
           <p className="text-base text-muted sm:text-lg">
-            Colaboramos con equipos locales para construir experiencias digitales
-            solidas. Estas son algunas de las marcas que confiaron en nosotros.
+            Nos gusta trabajar con personas reales y proyectos con objetivos
+            claros. Estas son algunas marcas que confiaron en nosotros para
+            mejorar su presencia online y sus procesos.
           </p>
         </div>
       </div>
