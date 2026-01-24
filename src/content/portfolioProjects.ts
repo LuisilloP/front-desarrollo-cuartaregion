@@ -1,52 +1,53 @@
-﻿// src/content/portfolioProjects.ts
+// src/content/portfolioProjects.ts
 
 /**
- * Defines the type for a single company.
- * - id: Unique ID for React keys.
- * - name: Display name for the company.
- * - logo: Path to the logo image (under /public).
- * - href: Optional URL for the company.
+ * Defines the type for a single project.
+ * - id: A unique ID for the project.
+ * - title: The name of the project.
+ * - image: Path to the project image (ideally under /public).
+ * - href: Optional URL for the project. If provided, the card will be a clickable link.
  */
-export interface Company {
-  id: string;
-  name: string;
-  logo: string;
+export interface Project {
+  id: string; // Unique ID for React keys
+  title: string;
+  image: string;
   href?: string;
 }
 
 /**
- * The master list of companies we have worked with.
- * Use transparent logos whenever possible for better visual balance.
+ * The master list of all portfolio projects.
+ * To add a new project, create a new object in this array.
+ * For best results, use images with a 9:16 aspect ratio (like a phone screen).
  */
-export const companies: Company[] = [
+export const projects: Project[] = [
   {
     id: "clinica-montblanc",
-    name: "Clinica Montblanc",
-    logo: "/images/companies/logo_montblanc.png",
+    title: "Clínica Montblanc",
+    image: "/images/webs/montblanc-web.webp",
     href: "https://www.clinicamontblanc.cl",
   },
   {
     id: "doctor-harold-ziller",
-    name: "Dr. Harold Ziller",
-    logo: "/images/companies/logo_drharaldziller.png",
-    href: "https://drharaldziller.cl/",
+    title: "Dr. Harold Ziller",
+    image: "/images/webs/dr-harald-ziller.webp",
+    href: "https://drharaldziller.cl/", 
   },
   {
     id: "estampados-rya",
-    name: "Estampados R&A",
-    logo: "/images/companies/logo_rya_estampados.jpg",
-    href: "https://rya-estampados.vercel.app/",
+    title: "Estampados R&A",
+    image: "/images/webs/estampados-rya.webp", // Placeholder image
+    href: "https://rya-estampados.vercel.app/",  // Placeholder image
   },
   {
     id: "eco-grow",
-    name: "Sistema Eco Grow",
-    logo: "/images/companies/logo_ecogrow.png",
+    title: "Sistema Eco Grow",
+    image: "/images/webs/eco-grow.webp", // Placeholder image
     href: "https://landig-eco-grow.vercel.app/",
   },
-  {
+    {
     id: "muebleria-el-florentino",
-    name: "Muebleria El Florentino",
-    logo: "/images/companies/logo_muebleria_florentino.png",
+    title: "Muebleria El Florentino",
+    image: "/images/webs/muebleria-el-florentino.webp", // Placeholder image
     href: "https://elfiorentino.vercel.app/",
   },
 ];
