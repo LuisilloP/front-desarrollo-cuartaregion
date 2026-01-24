@@ -1,193 +1,237 @@
 ---
 // src/components/AboutUs.astro
-
-const headline = "Tecnología hecha en la Cuarta Región, para negocios reales.";
-
-const story = `Somos un grupo de 3 jóvenes ingenieros informáticos de la Cuarta Región.
-Al terminar de estudiar, nos surgió la idea de hacer crecer y actualizar la presencia de la región en Internet y motivar a la cuarta región a sumarse al avance tecnológico.
-Nuestros primeros clientes fueron restaurantes, tiendas y pymes que necesitaba actualizar o imponer su marca en la Internet para que las personas empezaran a conocer y aumentaran la confianza en las tiendas y empresas locales que tiene la cuarta región.`;
+// Modern About Us section with dark mode support
 ---
 
-<section id="nosotros" class="relative overflow-hidden py-16 lg:py-20">
-    <!-- Parallax Background Container -->
-    <div class="absolute inset-0 overflow-hidden -z-10">
-        <!-- Background Image Layer (will parallax) -->
+<section id="nosotros" class="relative py-20 lg:py-32 overflow-hidden">
+    <!-- Background with gradient glow -->
+    <div class="absolute inset-0 -z-10">
+        <!-- Gradient glow effects -->
         <div
-            data-parallax-bg
-            class="absolute inset-0 bg-cover bg-center bg-no-repeat scale-110"
-            style="background-image: url('/aboutus-bg.png'); will-change: transform;"
+            class="absolute top-0 left-1/4 w-96 h-96 bg-sky-500/10 dark:bg-sky-400/5 rounded-full blur-3xl"
+        >
+        </div>
+        <div
+            class="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 dark:bg-blue-400/5 rounded-full blur-3xl"
         >
         </div>
 
-        <!-- Dark Overlay for text contrast -->
+        <!-- Subtle pattern overlay -->
         <div
-            class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70"
-        >
-        </div>
-
-        <!-- Animated shapes (subtle) -->
-        <div
-            class="absolute -top-24 left-1/4 h-96 w-96 rounded-full bg-sky-500/5 blur-3xl"
-        >
-        </div>
-        <div
-            class="absolute -bottom-24 right-1/4 h-96 w-96 rounded-full bg-blue-500/5 blur-3xl"
+            class="absolute inset-0 opacity-[0.015] dark:opacity-[0.02]"
+            style="background-image: radial-gradient(circle at 1px 1px, rgb(0 0 0) 1px, transparent 0); background-size: 40px 40px;"
         >
         </div>
     </div>
 
-    <div class="container mx-auto px-6 sm:px-8 relative z-10">
-        <div class="mx-auto max-w-4xl text-center">
-            <!-- Badge -->
-            <div
-                class="mb-4 inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-2 text-sm font-medium text-white"
-            >
-                <svg
-                    class="h-4 w-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+    <div class="container mx-auto px-6 sm:px-8">
+        <!-- Two-column layout on desktop -->
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 mb-16 lg:mb-20">
+            <!-- Left: Text content -->
+            <div class="space-y-6" data-reveal="fade-up">
+                <!-- Badge -->
+                <div
+                    class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-600 bg-zinc-100 dark:bg-zinc-800/60 text-zinc-700 dark:text-zinc-300 border border-zinc-200/60 dark:border-white/10"
                 >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                    ></path>
-                </svg>
-                Nosotros
+                    <svg
+                        class="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                        ></path>
+                    </svg>
+                    Nosotros
+                </div>
+
+                <!-- Headline -->
+                <h2
+                    id="about-title"
+                    class="text-4xl lg:text-5xl font-700 tracking-tight leading-tight text-zinc-900 dark:text-zinc-100"
+                    data-reveal="fade-up"
+                    data-delay="80"
+                >
+                    Somos 3 jóvenes ingenieros informáticos de la Cuarta Región
+                </h2>
+
+                <!-- Paragraph -->
+                <p
+                    class="text-lg font-400 leading-relaxed text-zinc-600 dark:text-zinc-300"
+                    data-reveal="fade-up"
+                    data-delay="160"
+                >
+                    Al terminar de estudiar, decidimos crear una pyme para
+                    ayudar a negocios locales a crecer en Internet con una
+                    presencia moderna, rápida y confiable. Partimos trabajando
+                    con restaurantes, tiendas y pymes que necesitaban actualizar
+                    su imagen, fortalecer su marca y aumentar la confianza de
+                    sus clientes.
+                </p>
+
+                <!-- Optional tagline -->
+                <p
+                    class="text-sm font-500 text-zinc-500 dark:text-zinc-400"
+                    data-reveal="fade-up"
+                    data-delay="240"
+                >
+                    Equipo local • Enfoque práctico • Resultados medibles
+                </p>
             </div>
 
-            <!-- Headline -->
-            <h2
-                class="mb-6 text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl"
-            >
-                {headline}
-            </h2>
+            <!-- Right: Visual element (decorative graphic) -->
+            <div class="relative" data-reveal="fade-up" data-delay="200">
+                <div
+                    class="relative aspect-square lg:aspect-auto lg:h-full rounded-3xl overflow-hidden bg-gradient-to-br from-sky-500/10 via-blue-500/5 to-indigo-500/10 dark:from-sky-400/5 dark:via-blue-400/3 dark:to-indigo-400/5 border border-zinc-200/60 dark:border-white/10 p-8 lg:p-12 flex items-center justify-center"
+                >
+                    <!-- Abstract shapes representing team/technology -->
+                    <div class="relative w-full h-full">
+                        <div
+                            class="absolute top-1/4 left-1/4 w-24 h-24 bg-sky-500/20 dark:bg-sky-400/10 rounded-full blur-xl"
+                        >
+                        </div>
+                        <div
+                            class="absolute bottom-1/3 right-1/3 w-32 h-32 bg-blue-500/20 dark:bg-blue-400/10 rounded-full blur-xl"
+                        >
+                        </div>
+                        <div
+                            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 border-2 border-zinc-300/40 dark:border-white/10 rounded-full"
+                        >
+                        </div>
+                        <div
+                            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-28 border-2 border-zinc-400/30 dark:border-white/5 rounded-full"
+                        >
+                        </div>
 
-            <!-- Story -->
-            <p
-                class="mx-auto max-w-3xl whitespace-pre-line text-base leading-relaxed text-white/90 sm:text-lg sm:leading-loose"
+                        <!-- Icon/symbol in center -->
+                        <div
+                            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-zinc-400 dark:text-zinc-600"
+                        >
+                            <svg
+                                class="w-16 h-16"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.5"
+                                    d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                                ></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Three pillars grid -->
+        <div class="grid md:grid-cols-3 gap-6 lg:gap-8" data-stagger="children">
+            <!-- Pillar 1 -->
+            <div
+                data-reveal="fade-up"
+                class="group relative p-6 lg:p-8 rounded-2xl bg-white/70 dark:bg-zinc-900/60 backdrop-blur-sm border border-zinc-200/60 dark:border-white/10 hover:-translate-y-1 transition-all duration-200 hover:shadow-lg hover:shadow-zinc-900/5 dark:hover:shadow-black/20"
             >
-                {story}
-            </p>
+                <div
+                    class="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-sky-500/10 dark:bg-sky-400/10 text-sky-600 dark:text-sky-400"
+                >
+                    <svg
+                        class="w-6 h-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"
+                        ></path>
+                    </svg>
+                </div>
+                <h3
+                    class="text-xl font-600 text-zinc-900 dark:text-zinc-100 mb-2"
+                >
+                    Cercanía real
+                </h3>
+                <p
+                    class="text-base font-400 leading-relaxed text-zinc-600 dark:text-zinc-300"
+                >
+                    Hablamos simple, te acompañamos y resolvemos rápido.
+                </p>
+            </div>
+
+            <!-- Pillar 2 -->
+            <div
+                data-reveal="fade-up"
+                class="group relative p-6 lg:p-8 rounded-2xl bg-white/70 dark:bg-zinc-900/60 backdrop-blur-sm border border-zinc-200/60 dark:border-white/10 hover:-translate-y-1 transition-all duration-200 hover:shadow-lg hover:shadow-zinc-900/5 dark:hover:shadow-black/20"
+            >
+                <div
+                    class="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-blue-500/10 dark:bg-blue-400/10 text-blue-600 dark:text-blue-400"
+                >
+                    <svg
+                        class="w-6 h-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                </div>
+                <h3
+                    class="text-xl font-600 text-zinc-900 dark:text-zinc-100 mb-2"
+                >
+                    Diseño + performance
+                </h3>
+                <p
+                    class="text-base font-400 leading-relaxed text-zinc-600 dark:text-zinc-300"
+                >
+                    Sitios rápidos, claros y pensados para convertir.
+                </p>
+            </div>
+
+            <!-- Pillar 3 -->
+            <div
+                data-reveal="fade-up"
+                class="group relative p-6 lg:p-8 rounded-2xl bg-white/70 dark:bg-zinc-900/60 backdrop-blur-sm border border-zinc-200/60 dark:border-white/10 hover:-translate-y-1 transition-all duration-200 hover:shadow-lg hover:shadow-zinc-900/5 dark:hover:shadow-black/20"
+            >
+                <div
+                    class="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-indigo-500/10 dark:bg-indigo-400/10 text-indigo-600 dark:text-indigo-400"
+                >
+                    <svg
+                        class="w-6 h-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        ></path>
+                    </svg>
+                </div>
+                <h3
+                    class="text-xl font-600 text-zinc-900 dark:text-zinc-100 mb-2"
+                >
+                    Orden y entrega
+                </h3>
+                <p
+                    class="text-base font-400 leading-relaxed text-zinc-600 dark:text-zinc-300"
+                >
+                    Plan de trabajo, avances visibles y entregas a tiempo.
+                </p>
+            </div>
         </div>
     </div>
 </section>
-
-<script>
-    // Smooth parallax with RAF, lerp, and IntersectionObserver
-    const setupParallax = () => {
-        const section = document.getElementById("nosotros");
-        const bgImage = section?.querySelector(
-            "[data-parallax-bg]",
-        ) as HTMLElement;
-
-        if (!section || !bgImage) return;
-
-        // Check for reduced motion preference
-        const prefersReducedMotion = window.matchMedia(
-            "(prefers-reduced-motion: reduce)",
-        ).matches;
-        if (prefersReducedMotion) {
-            bgImage.style.transform = "scale(1.08)"; // Just scale, no parallax
-            return;
-        }
-
-        // Parallax state
-        let currentY = 0;
-        let targetY = 0;
-        let rafId: number | null = null;
-        let isNearViewport = false;
-
-        const INTENSITY = 300; // Parallax intensity in pixels (higher = more movement)
-        const LERP_FACTOR = 0.08; // Smoothing factor (lower = smoother but slower)
-
-        // Calculate target position based on scroll
-        const calculateTargetPosition = () => {
-            const rect = section.getBoundingClientRect();
-            const viewH = window.innerHeight;
-
-            // Only calculate if section is near viewport
-            if (rect.top > viewH + 200 || rect.bottom < -200) {
-                return;
-            }
-
-            // Progress from 0 (top of section entering bottom of viewport) to 1 (bottom of section leaving top of viewport)
-            const progress = Math.max(
-                0,
-                Math.min(1, (viewH - rect.top) / (viewH + rect.height)),
-            );
-
-            // Convert to centered offset (-1 to 1, where 0 is middle)
-            targetY = (progress - 0.5) * INTENSITY * 2;
-        };
-
-        // Animation loop with lerp
-        const animate = () => {
-            if (!isNearViewport) {
-                rafId = null;
-                return;
-            }
-
-            // Smooth transition using lerp
-            currentY += (targetY - currentY) * LERP_FACTOR;
-
-            // Apply transform
-            bgImage.style.transform = `translate3d(0, ${currentY}px, 0) scale(1.08)`;
-
-            // Continue loop
-            rafId = requestAnimationFrame(animate);
-        };
-
-        // Scroll handler (passive, only recalculates target)
-        const handleScroll = () => {
-            calculateTargetPosition();
-
-            // Start RAF loop if not running
-            if (isNearViewport && rafId === null) {
-                rafId = requestAnimationFrame(animate);
-            }
-        };
-
-        // Intersection Observer to pause when not near viewport
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    isNearViewport = entry.isIntersecting;
-
-                    if (isNearViewport) {
-                        calculateTargetPosition();
-                        if (rafId === null) {
-                            rafId = requestAnimationFrame(animate);
-                        }
-                    } else {
-                        if (rafId !== null) {
-                            cancelAnimationFrame(rafId);
-                            rafId = null;
-                        }
-                    }
-                });
-            },
-            {
-                rootMargin: "200px 0px", // Start 200px before entering viewport
-                threshold: 0,
-            },
-        );
-
-        observer.observe(section);
-
-        // Scroll listener (passive)
-        window.addEventListener("scroll", handleScroll, { passive: true });
-
-        // Initial calculation
-        handleScroll();
-    };
-
-    // Initialize
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", setupParallax);
-    } else {
-        setupParallax();
-    }
-</script>
