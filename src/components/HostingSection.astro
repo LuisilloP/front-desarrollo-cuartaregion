@@ -36,22 +36,28 @@ const { content } = Astro.props;
           : index === 1
             ? "accent-amber"
             : "accent-purple";
+        const cardStyle = useCase.cardColor
+          ? `--accent-color: ${useCase.cardColor};`
+          : undefined;
+        const backgroundImage = useCase.backgroundImage || "/images/sections/why-us-bg.png";
         return (
         <div class="use-case-card-wrapper h-full">
           <div
             class={`card-shine ${accentClass} group relative flex h-full flex-col rounded-3xl border p-8 backdrop-blur-xl transition-all duration-300 overflow-hidden
           border-slate-900/40 bg-slate-950/85 hover:border-slate-400/40 hover:!bg-slate-950/90
           dark:border-white/10 dark:bg-slate-950/80 dark:hover:border-white/20 dark:hover:!bg-slate-950/85`}
+            style={cardStyle}
           >
             
             {/* Background image for this card */}
             <div 
-              class="absolute inset-0 bg-[url('/images/sections/why-us-bg.png')] bg-cover bg-center opacity-15 scale-105 -z-10"
+              class="absolute inset-0 bg-cover bg-center opacity-15 scale-105 -z-10"
+              style={`background-image: url('${backgroundImage}')`}
               aria-hidden="true"
             ></div>
 
             {/* Overlay for readability - lighter in light mode, darker in dark mode */}
-            <div class={`use-case-tint absolute inset-0 ${accentClass} -z-10`}></div>
+            <div class="use-case-tint absolute inset-0 -z-10"></div>
 
             {/* Content */}
             <div class="relative z-10">
@@ -111,6 +117,7 @@ const { content } = Astro.props;
   /* Card shine effect (re-scoped here to avoid conflicts if scripts get bundled) */
   .card-shine {
     overflow: hidden;
+    --accent-color: rgb(100 116 139); /* slate-500 fallback */
   }
   .card-shine::before {
     content: '';
@@ -131,12 +138,15 @@ const { content } = Astro.props;
 
   /* Accent variants: 01 blue, 02 orange, 03 purple */
   .accent-blue {
+    --accent-color: rgb(56 189 248);
     --shine-color: rgba(56, 189, 248, 0.12);
   }
   .accent-amber {
+    --accent-color: rgb(251 146 60);
     --shine-color: rgba(251, 146, 60, 0.14);
   }
   .accent-purple {
+    --accent-color: rgb(168 85 247);
     --shine-color: rgba(168, 85, 247, 0.14);
   }
   .use-case-tint {
@@ -145,32 +155,33 @@ const { content } = Astro.props;
   .dark .use-case-tint {
     background: linear-gradient(135deg, rgba(2, 6, 23, 0.11), rgba(2, 6, 23, 0.3), rgba(2, 6, 23, 0.09));
   }
-  .accent-blue.use-case-tint {
-    background: linear-gradient(135deg, rgba(14, 165, 233, 0.11), rgba(2, 6, 23, 0.3), rgba(56, 189, 248, 0.09));
+  .use-case-check {
+    color: var(--accent-color, rgba(100, 116, 139, 0.9));
   }
-  .dark .accent-blue.use-case-tint {
-    background: linear-gradient(135deg, rgba(14, 165, 233, 0.11), rgba(2, 6, 23, 0.3), rgba(56, 189, 248, 0.09));
-  }
-  .accent-amber.use-case-tint {
-    background: linear-gradient(135deg, rgba(251, 146, 60, 0.11), rgba(2, 6, 23, 0.3), rgba(245, 158, 11, 0.09));
-  }
-  .dark .accent-amber.use-case-tint {
-    background: linear-gradient(135deg, rgba(251, 146, 60, 0.11), rgba(2, 6, 23, 0.3), rgba(245, 158, 11, 0.09));
-  }
-  .accent-purple.use-case-tint {
-    background: linear-gradient(135deg, rgba(168, 85, 247, 0.11), rgba(2, 6, 23, 0.3), rgba(139, 92, 246, 0.09));
-  }
-  .dark .accent-purple.use-case-tint {
-    background: linear-gradient(135deg, rgba(168, 85, 247, 0.11), rgba(2, 6, 23, 0.3), rgba(139, 92, 246, 0.09));
-  }
-  .accent-blue .use-case-check {
-    color: rgba(56, 189, 248, 0.9); /* sky-400 */
-  }
-  .accent-amber .use-case-check {
-    color: rgba(251, 146, 60, 0.9); /* orange-400 */
-  }
-  .accent-purple .use-case-check {
-    color: rgba(168, 85, 247, 0.9); /* purple-500 */
+
+  @supports (color: color-mix(in srgb, white, black)) {
+    .card-shine {
+      --shine-color: color-mix(in srgb, var(--accent-color) 20%, transparent);
+    }
+    .use-case-tint {
+      background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--accent-color) 18%, transparent),
+        rgba(2, 6, 23, 0.3),
+        color-mix(in srgb, var(--accent-color) 10%, transparent)
+      );
+    }
+    .dark .use-case-tint {
+      background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--accent-color) 18%, transparent),
+        rgba(2, 6, 23, 0.3),
+        color-mix(in srgb, var(--accent-color) 10%, transparent)
+      );
+    }
+    .use-case-check {
+      color: color-mix(in srgb, var(--accent-color) 90%, transparent);
+    }
   }
 </style>
 

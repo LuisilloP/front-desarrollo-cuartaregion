@@ -245,7 +245,7 @@ const PortfolioMarqueeSection: React.FC<PortfolioMarqueeSectionProps> = ({
   } as React.CSSProperties;
 
   return (
-    <section className="relative overflow-hidden py-16 sm:py-24">
+    <section className="relative overflow-visible py-16 sm:py-24">
       <div className="pointer-events-none absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-highlight/15 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-32 right-[-80px] h-72 w-72 rounded-full bg-accent/15 blur-3xl" />
       <div className="section-shell">

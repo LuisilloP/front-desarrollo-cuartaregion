@@ -84,6 +84,8 @@
         "title": "Vamos al grano (y a tu medida)",
         "description": "Entendemos tu objetivo y te proponemos lo mínimo necesario para avanzar rápido, sin complicarte.",
         "icon": "lucide:target",
+        "cardColor": "#38bdf8",
+        "backgroundImage": "/images/sections/diana.webp",
         "bullets": [
           "Recomendación según tu realidad y presupuesto",
           "Prioridades claras desde el inicio"
@@ -93,6 +95,8 @@
         "title": "Transparencia total",
         "description": "Si algo no te conviene, te lo decimos. Buscamos la mejor alternativa para ti, no la más cara.",
         "icon": "lucide:shield-check",
+        "cardColor": "#fb923c",
+        "backgroundImage": "/images/sections/why-us-bg.png",
         "bullets": [
           "Alcance y entregables por escrito",
           "Sin letra chica ni sorpresas"
@@ -102,6 +106,8 @@
         "title": "Tecnología actual + acompañamiento",
         "description": "Trabajamos con herramientas modernas y, si lo necesitas, seguimos mejorando tu web o sistema con mantención y actualizaciones.",
         "icon": "lucide:zap",
+        "cardColor": "#a855f7",
+        "backgroundImage": "/images/sections/manos.webp",
         "bullets": [
           "Optimización, seguridad y rendimiento",
           "Modernizaciones y mejoras continuas"
