@@ -33,14 +33,6 @@ import { companies as portfolioCompanies } from "../content/portfolioProjects";
 // Cast the imported JSON to our new Content type
 const staticContent = contentJson as Content;
 
-const navLinks = [
-  { label: "Inicio", href: "#inicio" },
-  { label: "Planes", href: "#servicios" },
-  { label: "Casos de éxito", href: "#casos" },
-  { label: "Reseñas", href: "#reviews" },
-  { label: "FAQ", href: "#faq" },
-];
-
 const {
   heroSection,
   useCasesSection,
@@ -48,6 +40,7 @@ const {
   faqSection,
   contactSection,
   legalPages,
+  navLinks,
 } = staticContent;
 
 const siteSettings = await fetchSiteSettings();

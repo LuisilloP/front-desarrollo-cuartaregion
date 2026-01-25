@@ -31,20 +31,28 @@
       "label": "Inicio"
     },
     {
+      "href": "/#nosotros",
+      "label": "Nosotros"
+    },
+    {
       "href": "/#servicios",
-      "label": "Planes"
+      "label": "Servicios"
     },
     {
-      "href": "/#casos",
-      "label": "Casos de Éxito"
+      "href": "/#proceso",
+      "label": "Proceso"
     },
     {
-      "href": "/#reseñas",
+      "href": "/#casos-de-exito",
+      "label": "Casos de éxito"
+    },
+    {
+      "href": "/#testimonios",
       "label": "Testimonios"
     },
     {
-      "href": "/#faq",
-      "label": "FAQ"
+      "href": "/#contacto",
+      "label": "Contacto"
     }
   ],
   "heroSection": {
