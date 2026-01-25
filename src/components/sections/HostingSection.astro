@@ -42,7 +42,7 @@ const { content } = Astro.props;
           <div class="use-case-card-wrapper h-full">
             <div
               class={`card-shine ${accentClass} group relative flex h-full flex-col rounded-3xl border p-8 backdrop-blur-xl transition-all duration-300 overflow-hidden
-              border-slate-600/80 bg-slate-50/90 hover:border-slate-800 hover:bg-white
+              border-slate-200/90 bg-white/95 shadow-md shadow-slate-900/5 hover:border-slate-300 hover:shadow-lg
               dark:border-white/10 dark:bg-slate-950/80 dark:hover:border-white/20 dark:hover:bg-slate-950/85`}
               style={cardStyle}
             >
@@ -60,7 +60,7 @@ const { content } = Astro.props;
               <div class="relative z-10 flex h-full flex-col">
                 <div>
                   <!-- Large Number -->
-                  <div class="mb-6 text-6xl font-bold select-none font-mono text-slate-900/80 dark:text-white/10">
+                  <div class="mb-6 text-6xl font-bold select-none font-mono text-slate-900/15 dark:text-white/10">
                     0{index + 1}
                   </div>
 
@@ -68,7 +68,7 @@ const { content } = Astro.props;
                     {useCase.title}
                   </h3>
 
-                  <p class="text-slate-900 line-clamp-3 mb-6 dark:text-white/70">
+                  <p class="text-slate-600 line-clamp-3 mb-6 dark:text-white/70">
                     {useCase.description}
                   </p>
                 </div>
@@ -76,7 +76,7 @@ const { content } = Astro.props;
                 {useCase.bullets && useCase.bullets.length > 0 && (
                   <ul class="mt-auto space-y-3 border-t border-slate-600/70 pt-6 dark:border-white/10">
                     {useCase.bullets.map((bullet) => (
-                      <li class="flex items-start gap-3 text-sm text-slate-900 dark:text-white/70">
+                      <li class="flex items-start gap-3 text-sm text-slate-600 dark:text-white/70">
                         <Icon
                           name="lucide:check"
                           class="use-case-check mt-0.5 h-4 w-4 shrink-0"
