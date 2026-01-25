@@ -42,16 +42,19 @@ const { content } = Astro.props;
           <div class="use-case-card-wrapper h-full">
             <div
               class={`card-shine ${accentClass} group relative flex h-full flex-col rounded-3xl border p-8 backdrop-blur-xl transition-all duration-300 overflow-hidden
-              border-slate-200/90 bg-white/95 shadow-md shadow-slate-900/5 hover:border-slate-300 hover:shadow-lg
+              border-slate-200/80 bg-white/55 shadow-md shadow-slate-900/5 hover:border-slate-300/80 hover:shadow-lg hover:-translate-y-1
               dark:border-white/10 dark:bg-slate-950/80 dark:hover:border-white/20 dark:hover:bg-slate-950/85`}
               style={cardStyle}
             >
               <!-- Background image -->
               <div
-                class="absolute inset-0 bg-cover bg-center opacity-15 scale-105 -z-10"
+                class="absolute inset-0 -z-10 bg-cover bg-center scale-105 opacity-55 dark:opacity-35"
                 style={`background-image: url('${backgroundImage}')`}
                 aria-hidden="true"
               ></div>
+
+              <!-- Light/Dark readability overlay -->
+              <div class="absolute inset-0 -z-10 bg-white/45 blur-sm dark:bg-black/35"></div>
 
               <!-- Gradient tint -->
               <div class="use-case-tint absolute inset-0 -z-10"></div>
@@ -60,7 +63,7 @@ const { content } = Astro.props;
               <div class="relative z-10 flex h-full flex-col">
                 <div>
                   <!-- Large Number -->
-                  <div class="mb-6 text-6xl font-bold select-none font-mono text-slate-900/15 dark:text-white/10">
+                  <div class="mb-6 text-6xl font-bold select-none font-mono text-slate-900/10 dark:text-white/10">
                     0{index + 1}
                   </div>
 
@@ -74,9 +77,9 @@ const { content } = Astro.props;
                 </div>
 
                 {useCase.bullets && useCase.bullets.length > 0 && (
-                  <ul class="mt-auto space-y-3 border-t border-slate-600/70 pt-6 dark:border-white/10">
+                  <ul class="mt-auto space-y-3 border-t border-slate-900/10 pt-6 dark:border-white/10">
                     {useCase.bullets.map((bullet) => (
-                      <li class="flex items-start gap-3 text-sm text-slate-600 dark:text-white/70">
+                      <li class="flex items-start gap-3 text-sm text-slate-700 dark:text-white/70">
                         <Icon
                           name="lucide:check"
                           class="use-case-check mt-0.5 h-4 w-4 shrink-0"
@@ -99,7 +102,8 @@ const { content } = Astro.props;
   .use-case-card-wrapper {
     opacity: 0;
     transform: translateY(30px);
-    transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     transition-delay: var(--delay, 0s);
   }
   .use-case-card-wrapper.is-visible {
@@ -113,7 +117,7 @@ const { content } = Astro.props;
     --accent-color: rgb(100 116 139); /* slate-500 fallback */
   }
   .card-shine::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -142,14 +146,18 @@ const { content } = Astro.props;
     --accent-color: rgb(168 85 247);
     --shine-color: rgba(168, 85, 247, 0.14);
   }
+
+  /* Cleaner tint for LIGHT mode */
   .use-case-tint {
     background: linear-gradient(
       135deg,
-      color-mix(in srgb, var(--accent-color) 18%, transparent),
-      rgba(15, 23, 42, 0.14),
-      color-mix(in srgb, var(--accent-color) 10%, transparent)
+      color-mix(in srgb, var(--accent-color) 14%, transparent),
+      rgba(255, 255, 255, 0.35),
+      color-mix(in srgb, var(--accent-color) 8%, transparent)
     );
   }
+
+  /* Keep your dark tint (it looks great) */
   .dark .use-case-tint {
     background: linear-gradient(
       135deg,
@@ -158,6 +166,7 @@ const { content } = Astro.props;
       rgba(2, 6, 23, 0.3)
     );
   }
+
   .use-case-check {
     color: var(--accent-color, rgba(100, 116, 139, 0.3));
   }
@@ -169,14 +178,18 @@ const { content } = Astro.props;
     .card-shine {
       --shine-color: color-mix(in srgb, var(--accent-color) 20%, transparent);
     }
+
+    /* Light tint stays clean and modern */
     .use-case-tint {
       background: linear-gradient(
         135deg,
-        color-mix(in srgb, var(--accent-color) 18%, transparent),
-        rgba(2, 6, 23, 0.3),
-        color-mix(in srgb, var(--accent-color) 10%, transparent)
+        color-mix(in srgb, var(--accent-color) 14%, transparent),
+        rgba(255, 255, 255, 0.35),
+        color-mix(in srgb, var(--accent-color) 8%, transparent)
       );
     }
+
+    /* Dark tint stays consistent */
     .dark .use-case-tint {
       background: linear-gradient(
         135deg,
@@ -185,6 +198,7 @@ const { content } = Astro.props;
         color-mix(in srgb, var(--accent-color) 10%, transparent)
       );
     }
+
     .use-case-check {
       color: color-mix(in srgb, var(--accent-color) 90%, transparent);
     }
@@ -192,44 +206,48 @@ const { content } = Astro.props;
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener("DOMContentLoaded", () => {
     // Staggered Animation
-    const grid = document.getElementById('use-cases-grid');
+    const grid = document.getElementById("use-cases-grid");
     if (grid) {
-      const cards = grid.querySelectorAll('.use-case-card-wrapper');
-      const observer = new IntersectionObserver((entries, obs) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            cards.forEach((card, index) => {
-              const cardElement = card as HTMLElement;
-              cardElement.style.setProperty('--delay', `${index * 100}ms`);
-              cardElement.classList.add('is-visible');
-            });
-            obs.unobserve(grid);
-          }
-        });
-      }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+      const cards = grid.querySelectorAll(".use-case-card-wrapper");
+      const observer = new IntersectionObserver(
+        (entries, obs) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              cards.forEach((card, index) => {
+                const cardElement = card as HTMLElement;
+                cardElement.style.setProperty("--delay", `${index * 100}ms`);
+                cardElement.classList.add("is-visible");
+              });
+              obs.unobserve(grid);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+      );
       observer.observe(grid);
     }
 
     // Card Shine Effect
     function setupCardShine() {
-      document.querySelectorAll('#use-cases-grid .card-shine').forEach(card => {
+      document.querySelectorAll("#use-cases-grid .card-shine").forEach((card) => {
         const htmlCard = card as HTMLElement;
-        if (htmlCard.dataset.shineListener === 'true') return;
-        
-        htmlCard.addEventListener('mousemove', (e) => {
+        if (htmlCard.dataset.shineListener === "true") return;
+
+        htmlCard.addEventListener("mousemove", (e) => {
           const mouseEvent = e as MouseEvent;
           const rect = htmlCard.getBoundingClientRect();
           const x = mouseEvent.clientX - rect.left;
           const y = mouseEvent.clientY - rect.top;
-          htmlCard.style.setProperty('--mouse-x', `${x}px`);
-          htmlCard.style.setProperty('--mouse-y', `${y}px`);
+          htmlCard.style.setProperty("--mouse-x", `${x}px`);
+          htmlCard.style.setProperty("--mouse-y", `${y}px`);
         });
-        htmlCard.dataset.shineListener = 'true';
+        htmlCard.dataset.shineListener = "true";
       });
     }
+
     setupCardShine();
-    document.addEventListener('astro:after-swap', setupCardShine);
+    document.addEventListener("astro:after-swap", setupCardShine);
   });
 </script>
