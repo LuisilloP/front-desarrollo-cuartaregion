@@ -84,7 +84,7 @@
         "description": "Entendemos tu objetivo y te recomendamos lo esencial para avanzar con orden, sin gastar de más.",
         "icon": "lucide:target",
         "cardColor": "#fb923c",
-        "backgroundImage": "/images/sections/diana.webp",
+        "backgroundImage": "/images/sections/about-us-diana.webp",
         "bullets": [
           "Recomendación según tu presupuesto",
           "Prioridades claras desde el inicio"
@@ -95,7 +95,7 @@
         "description": "Te hablamos con honestidad y sin letra chica. Si algo no te conviene, lo decimos y buscamos una mejor alternativa.",
         "icon": "lucide:shield-check",
         "cardColor": "#38bdf8",
-        "backgroundImage": "/images/sections/why-us-bg.png",
+        "backgroundImage": "/images/backgrounds/why-us-1.webp",
         "bullets": [
           "Alcance por escrito",
           "Sin sorpresas ni costos ocultos"
@@ -106,7 +106,7 @@
         "description": "Usamos herramientas actuales y dejamos todo bien implementado para que tu web funcione bien y pueda crecer.",
         "icon": "lucide:zap",
         "cardColor": "#a855f7",
-        "backgroundImage": "/images/sections/manos.webp",
+        "backgroundImage": "/images/sections/process-manos.webp",
         "bullets": [
           "Seguridad y rendimiento",
           "Mejoras y actualizaciones continuas"
@@ -256,7 +256,7 @@
       "industry": "Salud",
       "city": "Ovalle",
       "summary": "Landing page profesional y personalizada para una clínica dental en Ovalle, creada para reforzar su presencia digital con una imagen premium, clara y confiable.",
-      "coverImage": "/images/cases/clinica-montblanc.png",
+      "coverImage": "/images/portfolio/cases/clinica-montblanc.webp",
       "beforeTitle": "Antes",
       "afterTitle": "Después",
       "beforePoints": [
@@ -302,7 +302,7 @@
       "industry": "Logística",
       "city": "Coquimbo",
       "summary": "Catálogo privado con stock online y avisos automáticos de despacho.",
-      "coverImage": "/images/case-inventario.jpg",
+      "coverImage": "/images/portfolio/cases/inventario-sistemas.webp",
       "beforeTitle": "Antes",
       "afterTitle": "Después",
       "beforePoints": [
@@ -346,7 +346,7 @@
       "industry": "Turismo",
       "city": "Vicuña",
       "summary": "Reservas con pago anticipado y bots que responden 24/7.",
-      "coverImage": "/images/case-turismo.jpg",
+      "coverImage": "/images/portfolio/cases/turismo-coquimbo.webp",
       "beforeTitle": "Antes",
       "afterTitle": "Después",
       "beforePoints": [
