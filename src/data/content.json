@@ -134,105 +134,110 @@
   },
   "services": [
     {
-      "slug": "landing-conversion",
+      "slug": "web-estatica",
       "type": "web",
-      "title": "Página de captación de clientes",
-      "for_who": "Negocios y emprendedores que necesitan generar contactos rápido.",
-      "whatsapp_desc": "Hola, vi la página de captación de clientes y me gustaría confirmar qué incluye.",
-      "what_it_solves": "Una página clara y enfocada en convertir visitas en consultas: mensaje directo, prueba social y medición para mejorar semana a semana.",
+      "title": "Página web estática profesional",
+      "for_who": "Negocios que necesitan una presencia clara en internet y mostrar sus servicios de forma profesional.",
+      "whatsapp_desc": "Hola, vi el servicio de página web estática profesional y me gustaría conocer qué incluye.",
+      "what_it_solves": "Una página simple, rápida y bien estructurada para presentar tu negocio, generar confianza y facilitar el contacto con tus clientes.",
       "benefits": [
-        "Estructura pensada para generar consultas",
-        "Botón y formularios conectados a WhatsApp y/o tu gestor de clientes (CRM)",
-        "Medición básica para saber qué funciona y qué mejorar"
+        "Imagen profesional desde el primer día",
+        "Carga rápida y diseño adaptable a celular y computador",
+        "Botón directo a WhatsApp y formulario de contacto"
       ],
       "deliverables": [
-        "Optimización SEO en la página",
-        "Panel simple de métricas"
+        "Optimización SEO básica",
+        "Formulario de contacto funcional"
       ],
-      "delivery_time": "10 días hábiles",
+      "delivery_time": "7 días hábiles",
       "modality": "Proyecto",
-      "price": "$220.000 CLP",
+      "price": "$180.000 CLP",
       "ctaType": "form",
       "guarantee": "Incluye una ronda de ajustes luego del primer feedback.",
-      "top_banner": "Más solicitado",
-      "order": 1,
-      "featured": true,
-      "icon": "lucide:rocket"
-    },
-    {
-      "slug": "web-reservas-pagos",
-      "type": "web",
-      "title": "Sitio web con reservas y pagos en línea",
-      "for_who": "Clínicas, centros deportivos, turismo y servicios profesionales.",
-      "whatsapp_desc": "Hola, vi el sitio web con reservas y pagos en línea y quisiera conocer más detalles.",
-      "what_it_solves": "Un sitio completo con agenda, confirmaciones automáticas y pago en línea para que tus reservas se gestionen sin llamadas ni vueltas.",
-      "benefits": [
-        "Agenda con recordatorios automáticos",
-        "Pagos en línea (Webpay, MercadoPago o Stripe según tu caso)",
-        "Panel simple para administrar horarios y servicios"
-      ],
-      "deliverables": [
-        "Panel para editar contenido",
-        "Guía rápida de uso"
-      ],
-      "delivery_time": "10 días hábiles",
-      "modality": "Proyecto",
-      "price": "$380.000 CLP",
-      "ctaType": "whatsapp",
-      "guarantee": "Incluye capacitación breve para usar el panel.",
+      "top_banner": "Ideal para empezar",
       "order": 2,
-      "featured": false,
-      "icon": "lucide:calendar-check"
+      "featured": true,
+      "icon": "lucide:layout"
     },
     {
-      "slug": "automatizacion-whatsapp-crm",
-      "type": "digital",
-      "title": "Atención automática por WhatsApp + gestor de clientes",
-      "for_who": "Equipos comerciales que quieren responder rápido y ordenar sus contactos.",
-      "whatsapp_desc": "Hola, vi la atención automática por WhatsApp con gestor de clientes y me gustaría entender cómo funciona.",
-      "what_it_solves": "Respuestas automáticas para preguntas frecuentes, captura de datos y traspaso a un agente cuando corresponde, sincronizado con tu gestor de clientes (CRM).",
+      "slug": "web-administrable-contacto-clientes",
+      "type": "web",
+      "title": "Página web administrable",
+      "for_who": "Negocios que necesitan una web que no solo muestre información, sino que les permita gestionar y recibir consultas de forma ordenada.",
+      "whatsapp_desc": "Hola, vi la página web administrable para contacto con clientes y me gustaría conocer qué incluye.",
+      "what_it_solves": "Una página web que puedes administrar tú mismo, diseñada para facilitar que tus clientes te contacten y para mantener tu información siempre actualizada sin depender de terceros.",
       "benefits": [
-        "Respuestas automáticas con tono humano",
-        "Traspaso a una persona cuando hace falta",
-        "Registro y seguimiento de contactos en un solo lugar"
+        "Permite administrar contenidos fácilmente",
+        "Facilita la recepción de consultas de clientes",
+        "Centraliza los mensajes desde formularios y botones de contacto",
+        "Mejora la comunicación directa con tus clientes"
       ],
       "deliverables": [
-        "Guía de mensajes y respuestas",
-        "Tablero de seguimiento básico"
+        "Panel de administración simple y personalizado",
+        "Configuración de formularios de contacto",
+        "Integración con WhatsApp o correo electrónico",
+        "Guía básica de uso del sistema"
       ],
       "delivery_time": "10 días hábiles",
       "modality": "Proyecto",
       "price": "$260.000 CLP",
-      "ctaType": "whatsapp",
-      "guarantee": "Incluye mejoras y ajustes durante el primer mes.",
+      "ctaType": "form",
+      "guarantee": "Incluye una ronda de ajustes luego del primer feedback y soporte inicial para resolver dudas.",
+      "top_banner": "Más solicitado",
       "order": 3,
-      "featured": false,
-      "icon": "lucide:bot"
+      "featured": true,
+      "icon": "lucide:settings"
     },
     {
-      "slug": "mantencion-ti-monitoreo",
-      "type": "maintenance",
-      "title": "Mantención TI y monitoreo proactivo",
-      "for_who": "Pymes con equipos críticos que no pueden detenerse.",
-      "whatsapp_desc": "Hola, vi el servicio de mantención TI y monitoreo proactivo y quisiera confirmar el alcance.",
-      "what_it_solves": "Plan mensual para mantener tu web y sistemas al día: parches, respaldos y monitoreo para evitar caídas.",
+      "slug": "sistema-gestion-negocio",
+      "type": "software",
+      "title": "Sistema de gestión para tu negocio",
+      "for_who": "Empresas que necesitan ordenar sus procesos, clientes, ventas e información en un solo lugar.",
+      "whatsapp_desc": "Hola, vi el sistema de gestión para negocios y me gustaría conversar sobre mis necesidades.",
+      "what_it_solves": "Una plataforma centralizada para organizar la información del negocio, automatizar tareas y tener control real de la operación.",
       "benefits": [
-        "Parches, actualizaciones y cambios menores",
-        "Respaldos + checklist de seguridad",
-        "Monitoreo y alertas proactivas"
+        "Toda la información en un solo sistema",
+        "Procesos más ordenados y eficientes",
+        "Mayor control sobre ventas, clientes e inventario"
       ],
       "deliverables": [
-        "Inventario y reportes mensuales",
-        "Backups verificados"
+        "Sistema adaptado a tu forma de trabajar",
+        "Capacitación básica de uso"
       ],
-      "delivery_time": "10 días hábiles",
-      "modality": "Mensual",
-      "price": "$160.000 CLP / mes",
-      "ctaType": "whatsapp",
-      "guarantee": "Mesa de ayuda con respuesta en 24 h hábiles.",
+      "delivery_time": "Según alcance del proyecto",
+      "modality": "Proyecto",
+      "price": "$600.000 CLP",
+      "ctaType": "form",
+      "guarantee": "Incluye etapa de análisis y validación antes del desarrollo.",
       "order": 4,
       "featured": false,
-      "icon": "lucide:shield-check"
+      "icon": "lucide:layers"
+    },
+    {
+      "slug": "presencia-digital",
+      "type": "digital",
+      "title": "Configuración de presencia digital",
+      "for_who": "Negocios que quieren ordenar su imagen digital y aparecer de forma profesional en internet.",
+      "whatsapp_desc": "Hola, vi el servicio de configuración de presencia digital y me gustaría saber qué incluye.",
+      "what_it_solves": "Configuramos y dejamos listas tus plataformas digitales para que tu negocio se vea profesional y sea fácil de encontrar.",
+      "benefits": [
+        "Imagen consistente en todas tus plataformas",
+        "Canales de contacto bien configurados",
+        "Mayor confianza para tus clientes"
+      ],
+      "deliverables": [
+        "Configuración de Google Business Profile",
+        "Optimización de WhatsApp Business",
+        "Ajuste básico de Facebook e Instagram"
+      ],
+      "delivery_time": "5 días hábiles",
+      "modality": "Proyecto",
+      "price": "$120.000 CLP",
+      "ctaType": "whatsapp",
+      "guarantee": "Incluye revisión y correcciones finales.",
+      "order": 1,
+      "featured": false,
+      "icon": "lucide:share-2"
     },
     {
       "slug": "orientacion-digital",
@@ -251,7 +256,7 @@
         "Resumen con opciones y rangos de alcance"
       ],
       "ctaType": "whatsapp",
-      "order": 5,
+      "order": 99,
       "featured": false,
       "icon": "lucide:message-circle"
     }
