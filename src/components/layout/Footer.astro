@@ -26,6 +26,15 @@ const {
   legalPages = fallbackLegalPages,
 } = Astro.props;
 const legalLinks = Object.values(legalPages ?? {});
+const pathname = Astro.url?.pathname ?? "/";
+const isHome = pathname === "/" || pathname === "";
+const withHome = (href: string) =>
+  href.startsWith("#") && !isHome ? `/${href}` : href;
+
+const processedNavLinks = navLinks.map((link) => ({
+  ...link,
+  href: withHome(link.href),
+}));
 ---
 
 <footer class="bg-slate-900 text-white">
@@ -33,20 +42,31 @@ const legalLinks = Object.values(legalPages ?? {});
     <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
       <!-- Column 1: Logo and Info -->
       <div class="md:col-span-2 lg:col-span-1">
-        <a
-          href="/#inicio"
-          class="flex items-center gap-3 font-bold text-xl tracking-tight"
-        >
-          <div class="bg-white/90 rounded-lg p-1">
-            <img
-              src="/logo.webp"
-              alt=`Logo de ${siteSettings.siteName}`
-              class="h-10 w-10 object-contain"
-              loading="lazy"
-            />
-          </div>
-          <span class="text-white">{siteSettings.siteName}</span>
-        </a>
+        <!-- Logo -->
+    <a
+      href={withHome("/#inicio")}
+      class:list={[
+        "flex items-center gap-2 sm:gap-3 font-bold text-lg sm:text-xl tracking-tight transition-colors",
+        isHome
+          ? "text-white group-[.scrolled]:text-slate-900 dark:group-[.scrolled]:text-white"
+          : "text-slate-900 dark:text-white",
+      ]}
+    >
+      <div
+        class="relative rounded-lg p-[1px] bg-gradient-to-br from-white/40 via-white/20 to-white/40 backdrop-blur-sm"
+      >
+        <div class="rounded-lg">
+          <img
+            src="/logo.webp"
+            alt={`Logo de ${siteSettings.siteName}`}
+            class="h-8 w-8 sm:h-10 sm:w-10 object-contain rounded-lg"
+            loading="eager"
+          />
+        </div>
+      </div>
+
+      <span>{siteSettings.siteName}</span>
+    </a>
         <p class="mt-4 text-sm text-slate-400">
           {siteSettings.footerText}
         </p>

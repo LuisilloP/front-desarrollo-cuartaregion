@@ -102,6 +102,21 @@ const heroImages = [
         </a>
       </div>
     </div>
+    <div class="mt-16 flex max-w-4xl items-center gap-6">
+          {
+            siteSettings.socialLinks.map((link) => (
+              <a
+                href={link.url}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`Visita nuestro perfil de ${link.name}`}
+                class="text-slate-400 transition-colors hover:text-white"
+              >
+                <Icon name={link.icon} class="h-6 w-6" />
+              </a>
+            ))
+          }
+        </div>
   </div>
 </section>
 

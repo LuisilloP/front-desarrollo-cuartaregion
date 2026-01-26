@@ -1,6 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
 import { buildWhatsAppLink } from "../../lib/utils";
+import GoogleG from "../ui/GoogleG.astro";
 
 // Define a type for a single social link for clarity
 interface SocialLink {
@@ -54,16 +55,25 @@ const whatsappUrl = buildWhatsAppLink(
         {content.description}
       </p>
 
-      <!-- Primary CTA -->
-      <div class="mt-8">
+      <!-- CTAs -->
+      <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
         <a
           href={whatsappUrl}
           target="_blank"
           rel="noreferrer"
-          class="inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-8 py-4 text-base font-semibold text-white shadow-lg transition-transform duration-200 hover:scale-105"
+          class="inline-flex min-w-[240px] items-center justify-center gap-2 rounded-full bg-[#25D366] px-8 py-4 text-base font-semibold text-white shadow-lg transition-transform duration-200 hover:scale-105 dark:shadow-emerald-500/20 sm:min-w-[260px]"
         >
           <Icon name="simple-icons:whatsapp" class="h-5 w-5" />
-          <span>Cotizar por WhatsApp</span>
+          <span>Contactar por WhatsApp</span>
+        </a>
+        <a
+          href="https://forms.gle/5MEDYUSc2pZpS4tz8"
+          target="_blank"
+          rel="noreferrer"
+          class="inline-flex min-w-[240px] items-center justify-center gap-2 rounded-full border border-[#1a73e8]/40 bg-white px-8 py-4 text-base font-semibold text-[#1a73e8] shadow-sm transition-all duration-200 hover:border-[#1a73e8] hover:bg-[#e8f0fe] hover:scale-105 dark:border-[#8ab4f8]/50 dark:bg-slate-900 dark:text-[#8ab4f8] dark:hover:border-[#8ab4f8] dark:hover:bg-[#1a2b4f] sm:min-w-[260px]"
+        >
+          <GoogleG size={20}></GoogleG>
+          <span>Hablanos de tu propuesta</span>
         </a>
       </div>
 
