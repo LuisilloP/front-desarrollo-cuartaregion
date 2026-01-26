@@ -7,7 +7,7 @@ interface Props {
   content: UseCasesSectionContent;
 }
 
-const { content } = Astro.props;
+const { content } = Astro.props as Props;
 ---
 
 <section id="use-cases" class="py-20 lg:py-32">
@@ -31,7 +31,7 @@ const { content } = Astro.props;
         const accentClass = accents[index] ?? "accent-purple";
 
         const cardStyle = useCase.cardColor
-          ? `--accent:${useCase.cardColor}`
+          ? { "--accent": useCase.cardColor }
           : undefined;
 
         const backgroundImage =
@@ -73,9 +73,9 @@ const { content } = Astro.props;
                   </p>
                 </div>
 
-                {useCase.bullets?.length && (
+                {Array.isArray(useCase.bullets) && useCase.bullets.length > 0 && (
                   <ul class="mt-auto space-y-3 border-t border-slate-900/10 pt-6 dark:border-white/10">
-                    {useCase.bullets.map((bullet) => (
+                    {useCase.bullets.filter(Boolean).map((bullet) => (
                       <li class="flex items-start gap-3 text-sm text-slate-700 dark:text-white/70">
                         <Icon name="lucide:check" class="use-case-check mt-0.5 h-4 w-4 shrink-0" />
                         <span>{bullet}</span>
