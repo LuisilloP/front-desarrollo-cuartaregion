@@ -12,7 +12,8 @@ const { content } = Astro.props;
 
 <section id="use-cases" class="py-20 lg:py-32">
   <div class="container mx-auto px-6 sm:px-8">
-    <!-- Section Header -->
+
+    <!-- Header -->
     <div class="mx-auto mb-16 max-w-3xl text-center">
       <h2 class="text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
         {content.title}
@@ -22,73 +23,67 @@ const { content } = Astro.props;
       </p>
     </div>
 
-    <!-- Use Cases Grid -->
-    <div
-      id="use-cases-grid"
-      class="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-3"
-    >
+    <!-- Grid -->
+    <div id="use-cases-grid" class="grid gap-8 lg:grid-cols-3">
+
       {content.cases.map((useCase, index) => {
-        const accentClasses = ["accent-blue", "accent-amber", "accent-purple"];
-        const accentClass = accentClasses[index] ?? "accent-purple";
+        const accents = ["accent-blue", "accent-amber", "accent-purple"];
+        const accentClass = accents[index] ?? "accent-purple";
 
         const cardStyle = useCase.cardColor
-          ? `--accent-color: ${useCase.cardColor};`
+          ? `--accent:${useCase.cardColor}`
           : undefined;
 
         const backgroundImage =
           useCase.backgroundImage || "/images/sections/why-us-bg.png";
 
         return (
-          <div class="use-case-card-wrapper h-full">
+          <div class="use-case-wrapper">
+
             <div
-              class={`card-shine ${accentClass} group relative flex h-full flex-col rounded-3xl border p-8 backdrop-blur-xl transition-all duration-300 overflow-hidden
-              border-slate-200/80 bg-white/55 shadow-md shadow-slate-900/5 hover:border-slate-300/80 hover:shadow-lg hover:-translate-y-1
-              dark:border-white/10 dark:bg-slate-950/80 dark:hover:border-white/20 dark:hover:bg-slate-950/85`}
+              class={`use-case-card ${accentClass} group relative flex h-full flex-col rounded-3xl overflow-hidden isolate border p-8 backdrop-blur transition-all hover:-translate-y-1
+                border-slate-300/70 bg-slate-50/90 shadow-md hover:shadow-lg
+                dark:border-white/10 dark:bg-slate-950/80`}
               style={cardStyle}
             >
+
               <!-- Background image -->
               <div
-                class="absolute inset-0 -z-10 bg-cover bg-center scale-105 opacity-55 dark:opacity-35"
-                style={`background-image: url('${backgroundImage}')`}
-                aria-hidden="true"
-              ></div>
+                class="absolute inset-0 -z-10 bg-cover bg-center opacity-10 dark:opacity-25"
+                style={`background-image:url('${backgroundImage}')`}
+              />
 
-              <!-- Light/Dark readability overlay -->
-              <div class="absolute inset-0 -z-10 bg-white/45 blur-sm dark:bg-black/35"></div>
-
-              <!-- Gradient tint -->
-              <div class="use-case-tint absolute inset-0 -z-10"></div>
+              <!-- Gradient -->
+              <div class="use-case-gradient"></div>
 
               <!-- Content -->
               <div class="relative z-10 flex h-full flex-col">
+
                 <div>
-                  <!-- Large Number -->
-                  <div class="mb-6 text-6xl font-bold select-none font-mono text-slate-900/10 dark:text-white/10">
+                  <div class="mb-6 font-mono text-6xl font-bold text-slate-900/20 dark:text-white/10 select-none">
                     0{index + 1}
                   </div>
 
-                  <h3 class="text-xl font-bold leading-snug tracking-tight text-slate-900 mb-3 dark:text-white">
+                  <h3 class="mb-3 text-xl font-bold text-slate-900 dark:text-white">
                     {useCase.title}
                   </h3>
 
-                  <p class="text-slate-600 line-clamp-3 mb-6 dark:text-white/70">
+                  <p class="mb-6 text-slate-600 dark:text-white/70">
                     {useCase.description}
                   </p>
                 </div>
 
-                {useCase.bullets && useCase.bullets.length > 0 && (
+                {useCase.bullets?.length && (
                   <ul class="mt-auto space-y-3 border-t border-slate-900/10 pt-6 dark:border-white/10">
                     {useCase.bullets.map((bullet) => (
                       <li class="flex items-start gap-3 text-sm text-slate-700 dark:text-white/70">
-                        <Icon
-                          name="lucide:check"
-                          class="use-case-check mt-0.5 h-4 w-4 shrink-0"
-                        />
+                        <Icon name="lucide:check" class="use-case-check mt-0.5 h-4 w-4 shrink-0" />
                         <span>{bullet}</span>
                       </li>
                     ))}
                   </ul>
                 )}
+
               </div>
             </div>
           </div>
@@ -99,155 +94,93 @@ const { content } = Astro.props;
 </section>
 
 <style>
-  .use-case-card-wrapper {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-      transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    transition-delay: var(--delay, 0s);
-  }
-  .use-case-card-wrapper.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+:global(.use-case-wrapper){
+  opacity:0;
+  transform:translateY(30px);
+  transition:.6s cubic-bezier(.25,.46,.45,.94);
+}
 
-  /* Card shine effect (re-scoped here to avoid conflicts if scripts get bundled) */
-  .card-shine {
-    overflow: hidden;
-    --accent-color: rgb(100 116 139); /* slate-500 fallback */
-  }
-  .card-shine::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(
-      400px circle at var(--mouse-x, -9999px) var(--mouse-y, -9999px),
-      var(--shine-color, rgba(100, 116, 139, 0.1)),
-      transparent 40%
-    );
-    border-radius: inherit;
-    z-index: 0;
-    transition: opacity 0.3s;
-  }
+:global(.use-case-wrapper.is-visible){
+  opacity:1;
+  transform:none;
+}
 
-  /* Accent variants: 01 blue, 02 orange, 03 purple */
-  .accent-blue {
-    --accent-color: rgb(56 189 248);
-    --shine-color: rgba(56, 189, 248, 0.12);
-  }
-  .accent-amber {
-    --accent-color: rgb(251 146 60);
-    --shine-color: rgba(251, 146, 60, 0.14);
-  }
-  .accent-purple {
-    --accent-color: rgb(168 85 247);
-    --shine-color: rgba(168, 85, 247, 0.14);
-  }
+/* card system */
 
-  /* Cleaner tint for LIGHT mode */
-  .use-case-tint {
-    background: linear-gradient(
-      135deg,
-      color-mix(in srgb, var(--accent-color) 14%, transparent),
-      rgba(255, 255, 255, 0.35),
-      color-mix(in srgb, var(--accent-color) 8%, transparent)
-    );
-  }
+:global(.use-case-card){
+  position:relative;
+  --accent:rgb(100 116 139);
+  --accent-soft:color-mix(in srgb,var(--accent) 25%,transparent);
+}
 
-  /* Keep your dark tint (it looks great) */
-  .dark .use-case-tint {
-    background: linear-gradient(
-      135deg,
-      rgba(2, 6, 23, 0.4),
-      rgba(2, 6, 23, 0.09),
-      rgba(2, 6, 23, 0.3)
-    );
-  }
+:global(.dark .use-case-card){
+  --accent-soft:color-mix(in srgb,var(--accent) 40%,transparent);
+}
 
-  .use-case-check {
-    color: var(--accent-color, rgba(100, 116, 139, 0.3));
-  }
-  .dark .use-case-check {
-    color: var(--accent-color, rgba(100, 116, 139, 0.4));
-  }
+/* gradient */
 
-  @supports (color: color-mix(in srgb, white, black)) {
-    .card-shine {
-      --shine-color: color-mix(in srgb, var(--accent-color) 20%, transparent);
-    }
+:global(.use-case-gradient){
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,var(--accent-soft),transparent 60%);
+  pointer-events:none;
+}
 
-    /* Light tint stays clean and modern */
-    .use-case-tint {
-      background: linear-gradient(
-        135deg,
-        color-mix(in srgb, var(--accent-color) 14%, transparent),
-        rgba(255, 255, 255, 0.35),
-        color-mix(in srgb, var(--accent-color) 8%, transparent)
-      );
-    }
+/* shine */
 
-    /* Dark tint stays consistent */
-    .dark .use-case-tint {
-      background: linear-gradient(
-        135deg,
-        color-mix(in srgb, var(--accent-color) 18%, transparent),
-        rgba(2, 6, 23, 0.3),
-        color-mix(in srgb, var(--accent-color) 10%, transparent)
-      );
-    }
+:global(.use-case-card)::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(300px circle at var(--mouse-x,50%) var(--mouse-y,50%),var(--accent-soft),transparent 70%);
+  opacity:.8;
+}
 
-    .use-case-check {
-      color: color-mix(in srgb, var(--accent-color) 90%, transparent);
-    }
-  }
+/* icons */
+
+:global(.use-case-check){
+  color:var(--accent);
+}
+
+/* accents */
+
+:global(.accent-blue){--accent:rgb(14, 133, 34)}
+:global(.accent-amber){--accent:rgb(251 146 60)}
+:global(.accent-purple){--accent:rgb(168 85 247)}
 </style>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    // Staggered Animation
-    const grid = document.getElementById("use-cases-grid");
-    if (grid) {
-      const cards = grid.querySelectorAll(".use-case-card-wrapper");
-      const observer = new IntersectionObserver(
-        (entries, obs) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              cards.forEach((card, index) => {
-                const cardElement = card as HTMLElement;
-                cardElement.style.setProperty("--delay", `${index * 100}ms`);
-                cardElement.classList.add("is-visible");
-              });
-              obs.unobserve(grid);
-            }
-          });
-        },
-        { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
-      );
-      observer.observe(grid);
-    }
+document.addEventListener("DOMContentLoaded", () => {
 
-    // Card Shine Effect
-    function setupCardShine() {
-      document.querySelectorAll("#use-cases-grid .card-shine").forEach((card) => {
-        const htmlCard = card as HTMLElement;
-        if (htmlCard.dataset.shineListener === "true") return;
+  const grid = document.getElementById("use-cases-grid");
 
-        htmlCard.addEventListener("mousemove", (e) => {
-          const mouseEvent = e as MouseEvent;
-          const rect = htmlCard.getBoundingClientRect();
-          const x = mouseEvent.clientX - rect.left;
-          const y = mouseEvent.clientY - rect.top;
-          htmlCard.style.setProperty("--mouse-x", `${x}px`);
-          htmlCard.style.setProperty("--mouse-y", `${y}px`);
+  if(grid){
+    const cards = grid.querySelectorAll(".use-case-wrapper");
+
+    const observer = new IntersectionObserver(entries=>{
+      if(entries[0].isIntersecting){
+        cards.forEach((c,i)=>{
+          c.style.transitionDelay=`${i*100}ms`;
+          c.classList.add("is-visible");
         });
-        htmlCard.dataset.shineListener = "true";
-      });
-    }
+        observer.disconnect();
+      }
+    },{threshold:.2});
 
-    setupCardShine();
-    document.addEventListener("astro:after-swap", setupCardShine);
-  });
+    observer.observe(grid);
+  }
+
+  function setupShine(){
+    document.querySelectorAll(".use-case-card").forEach(card=>{
+      card.addEventListener("mousemove",e=>{
+        const r=card.getBoundingClientRect();
+        card.style.setProperty("--mouse-x",`${e.clientX-r.left}px`);
+        card.style.setProperty("--mouse-y",`${e.clientY-r.top}px`);
+      });
+    });
+  }
+
+  setupShine();
+  document.addEventListener("astro:after-swap",setupShine);
+});
 </script>
