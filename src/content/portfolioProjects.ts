@@ -22,51 +22,31 @@ export const companies: Company[] = [
   {
     id: "clinica-montblanc",
     name: "Clinica Montblanc",
-<<<<<<< Updated upstream
-    logo: "/images/companies/logo_montblanc.png",
-=======
-    logo: "/images/logos/logo-01-montblanc.webp",
->>>>>>> Stashed changes
+    logo: "/images/logos/montblanc.webp",
     href: "https://www.clinicamontblanc.cl",
   },
   {
     id: "doctor-harold-ziller",
     name: "Dr. Harold Ziller",
-<<<<<<< Updated upstream
-    logo: "/images/companies/logo_drharaldziller.png",
-=======
-    logo: "/images/logos/logo-02-dr-harald-ziller.webp",
->>>>>>> Stashed changes
+    logo: "/images/logos/dr-harald-ziller.webp",
     href: "https://drharaldziller.cl/",
   },
   {
     id: "estampados-rya",
     name: "Estampados R&A",
-<<<<<<< Updated upstream
-    logo: "/images/companies/logo_rya_estampados.jpg",
-=======
-    logo: "/images/logos/logo-03-rya-estampados.webp",
->>>>>>> Stashed changes
+    logo: "/images/logos/rya-estampados.webp",
     href: "https://rya-estampados.vercel.app/",
   },
   {
     id: "eco-grow",
     name: "Sistema Eco Grow",
-<<<<<<< Updated upstream
-    logo: "/images/companies/logo_ecogrow.png",
-=======
-    logo: "/images/logos/logo-04-eco-grow.webp",
->>>>>>> Stashed changes
+    logo: "/images/logos/eco-grow.webp",
     href: "https://landig-eco-grow.vercel.app/",
   },
   {
     id: "muebleria-el-florentino",
     name: "Muebleria El Florentino",
-<<<<<<< Updated upstream
-    logo: "/images/companies/logo_muebleria_florentino.png",
-=======
-    logo: "/images/logos/logo-05-muebleria-florentino.webp",
->>>>>>> Stashed changes
+    logo: "/images/logos/muebleria-florentino.webp",
     href: "https://elfiorentino.vercel.app/",
   },
 ];

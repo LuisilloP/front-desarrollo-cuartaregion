@@ -19,7 +19,7 @@ const whatsappUrl = buildWhatsAppLink(
   href={whatsappUrl}
   target="_blank"
   rel="noreferrer"
-  class="fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 px-4 py-3 rounded-full bg-[#25D366] text-white font-semibold shadow-2xl hover:scale-[1.02] transition"
+  class="fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 rounded-full bg-[#25D366] text-white font-semibold shadow-2xl transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 px-4 py-3"
   aria-label="WhatsApp"
 >
   <Icon
@@ -27,4 +27,31 @@ const whatsappUrl = buildWhatsAppLink(
     class="h-5 w-5 text-white"
     aria-hidden="true"
   />
+  <span
+    class="whitespace-nowrap overflow-hidden max-w-0 opacity-0 -translate-x-1 transition-all duration-300 text-sm
+    group-hover:max-w-[220px] group-hover:opacity-100 group-hover:translate-x-0
+    group-[.is-expanded]:max-w-[220px] group-[.is-expanded]:opacity-100 group-[.is-expanded]:translate-x-0"
+  >
+    Cotizar por WhatsApp
+  </span>
 </a>
+
+<style>
+  #whatsapp-floating-button {
+    --wa-offset-x: 0px;
+    --wa-scale: 1;
+    transform: translateX(var(--wa-offset-x)) scale(var(--wa-scale));
+    transform-origin: center;
+    will-change: transform;
+  }
+
+  #whatsapp-floating-button:hover {
+    --wa-scale: 1.02;
+  }
+
+  @media (max-width: 640px) {
+    #whatsapp-floating-button.is-expanded {
+      --wa-offset-x: -4rem;
+    }
+  }
+</style>

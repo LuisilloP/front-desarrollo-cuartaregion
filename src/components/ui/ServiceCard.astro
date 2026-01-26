@@ -11,9 +11,10 @@ interface Props {
 const { service, whatsappNumber } = Astro.props;
 const title = (service.title ?? "").trim();
 const whatItSolves = service.what_it_solves ?? "";
+const whatsappDesc = (service.whatsapp_desc ?? "").trim();
 const whatsappUrl = buildWhatsAppLink(
   whatsappNumber,
-  `Hola! Me interesa el servicio ${title}.`,
+  whatsappDesc || `Hola! Quiero cotizar el servicio ${title || "servicio"}.`,
 );
 const benefits = service.benefits?.slice(0, 3) ?? []; // Show max 3 benefits
 const isFeatured = Boolean(service.featured);
@@ -32,7 +33,7 @@ const deliveryLabel =
   href={whatsappUrl}
   target="_blank"
   rel="noreferrer"
-  class="card-shine group relative flex h-full flex-col rounded-3xl border p-6 backdrop-blur-xl transition-all duration-300 lg:p-8 hover:scale-[1.02]
+  class="card-shine group relative flex h-full flex-col rounded-3xl border p-6 backdrop-blur-xl transition-all duration-300 lg:p-8 hover:scale-[1.02] shadow-lg hover:shadow-2xl
   border-slate-900/10 bg-white/40 hover:border-slate-900/20 hover:!bg-white/60
   dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20 dark:hover:!bg-white/[0.07]"
 >
@@ -64,7 +65,7 @@ const deliveryLabel =
 
   {
     whatItSolves && (
-      <p class="mt-2 text-slate-600 dark:text-white/60 line-clamp-2">
+      <p class="mt-2 text-slate-600 dark:text-white/60">
         {whatItSolves}
       </p>
     )

@@ -56,6 +56,7 @@ const SERVICE_FIELDS = `
   slug
   type
   for_who
+  whatsapp_desc
   what_it_solves
   benefits { text }
   deliverables { text }
@@ -219,6 +220,7 @@ type StrapiService = {
   slug?: string | null;
   type?: string | null;
   for_who?: string | null;
+  whatsapp_desc?: string | null;
   what_it_solves?: string | null;
   benefits?: StrapiBullet[] | null;
   deliverables?: StrapiBullet[] | null;
@@ -356,6 +358,7 @@ const mapService = (item: StrapiService): Service => {
     type,
     title: item.title ?? "",
     for_who: item.for_who ?? undefined,
+    whatsapp_desc: item.whatsapp_desc ?? undefined,
     what_it_solves: item.what_it_solves ?? undefined,
     benefits,
     deliverables,

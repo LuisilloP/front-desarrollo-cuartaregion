@@ -55,6 +55,7 @@ export type Service = {
   type?: ServiceCategory;
   title: string;
   for_who?: string;
+  whatsapp_desc?: string;
   what_it_solves?: string;
   benefits?: string[];
   deliverables?: string[];

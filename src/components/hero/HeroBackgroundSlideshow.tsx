@@ -5,6 +5,7 @@ export type Slide = {
   src: string;
   alt?: string;
   position?: string;
+  mobileFocus?: "left" | "right" | "center";
 };
 
 type Props = {
@@ -41,6 +42,13 @@ const HeroBackgroundSlideshow = ({
   if (!safeSlides.length) return null;
 
   const current = safeSlides[index] ?? safeSlides[0];
+  const focusMap: Record<NonNullable<Slide["mobileFocus"]>, string> = {
+    left: "left center",
+    right: "right center",
+    center: "center center"
+  };
+  const mobileFocus = current.mobileFocus ? focusMap[current.mobileFocus] : current.position ?? "center center";
+  const imageStyle = { "--object-position-mobile": mobileFocus } as React.CSSProperties;
 
   return (
     <div
@@ -53,8 +61,8 @@ const HeroBackgroundSlideshow = ({
             key={current.src + index}
             src={current.src}
             alt={current.alt ?? ""}
-            className="absolute inset-0 h-full w-full object-cover"
-            style={{ objectPosition: current.position ?? "center" }}
+            className="absolute inset-0 h-full w-full object-cover object-[var(--object-position-mobile)] sm:object-center"
+            style={imageStyle}
             initial={
               isFirstMount.current
                 ? { opacity: 1, scale: 1, x: 0 }
@@ -74,8 +82,8 @@ const HeroBackgroundSlideshow = ({
         <img
           src={safeSlides[0].src}
           alt={safeSlides[0].alt ?? ""}
-          className="absolute inset-0 h-full w-full object-cover"
-          style={{ objectPosition: safeSlides[0].position ?? "center" }}
+          className="absolute inset-0 h-full w-full object-cover object-[var(--object-position-mobile)] sm:object-center"
+          style={imageStyle}
           loading="eager"
           decoding="sync"
           fetchPriority="high"

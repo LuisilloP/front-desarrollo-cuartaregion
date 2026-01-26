@@ -6,7 +6,11 @@ interface Feature {
   title: string;
   description: string;
   step: string;
-  icon: React.ReactNode;
+  imageSrc: string;
+  imageAlt: string;
+  orderClass?: string;
+  offsetClass?: string;
+  reverse?: boolean;
 }
 
 interface FeaturesGridProps {
@@ -19,59 +23,40 @@ interface FeaturesGridProps {
 const defaultFeatures: Feature[] = [
   {
     step: "PASO 01",
-    title: "Nos cuentas tu idea y tu realidad",
+    title: "Conocemos tu realidad",
     description:
-<<<<<<< Updated upstream
-      "Conversamos contigo para entender tu negocio, tus objetivos y qué te está quitando tiempo hoy.",
-    icon: <Icon icon="lucide:users" className="h-5 w-5" />
-=======
       "Escuchamos tus objetivos y lo que hoy te quita foco para partir con claridad.",
-    imageSrc: "/images/hero/hero-01-coquimbo.webp",
+    imageSrc: "/images/hero/hero-coquimbo.webp",
     imageAlt: "Reuni?n de diagn?stico",
     orderClass: "lg:order-1",
     offsetClass: "lg:translate-y-0"
->>>>>>> Stashed changes
   },
   {
     step: "PASO 02",
-    title: "Te entregamos un plan claro",
+    title: "Definimos el foco",
     description:
-<<<<<<< Updated upstream
-      "Te mostramos opciones simples (y prioridades) para que sepas qué hacer primero y por qué.",
-    icon: <Icon icon="lucide:clipboard-check" className="h-5 w-5" />
-=======
       "Ordenamos necesidades y resultados esperados para avanzar con orden.",
-    imageSrc: "/images/hero/hero-02-serena.webp",
+    imageSrc: "/images/hero/hero-serena.webp",
     imageAlt: "Levantamiento de objetivos",
     orderClass: "lg:order-2",
     offsetClass: "lg:translate-y-6"
->>>>>>> Stashed changes
   },
   {
     step: "PASO 03",
-    title: "Lo revisamos juntos",
+    title: "Plan y tiempos claros",
     description:
-<<<<<<< Updated upstream
-      "Afinamos el plan contigo, resolvemos dudas y dejamos todo alineado a tu presupuesto y tiempos.",
-    icon: <Icon icon="lucide:messages-square" className="h-5 w-5" />
-=======
       "Te proponemos un plan simple con hitos, plazos y costos transparentes.",
-    imageSrc: "/images/hero/hero-03-astro.webp",
+    imageSrc: "/images/hero/hero-astro.webp",
     imageAlt: "Planificaci?n del proyecto",
     orderClass: "lg:order-3",
     offsetClass: "lg:translate-y-12"
->>>>>>> Stashed changes
   },
   {
     step: "PASO 04",
-    title: "Manos a la obra (con soporte real)",
+    title: "Construcci?n en etapas",
     description:
-<<<<<<< Updated upstream
-      "Implementamos la solución, la dejamos funcionando y te acompañamos para que le saques provecho.",
-    icon: <Icon icon="lucide:rocket" className="h-5 w-5" />
-=======
       "Desarrollamos por bloques y compartimos avances frecuentes para validar a tiempo.",
-    imageSrc: "/images/hero/hero-04-cielo.webp",
+    imageSrc: "/images/hero/hero-cielo.webp",
     imageAlt: "Trabajo en construcci?n",
     orderClass: "lg:order-6",
     offsetClass: "lg:translate-y-12",
@@ -82,7 +67,7 @@ const defaultFeatures: Feature[] = [
     title: "Validaci?n contigo",
     description:
       "Revisamos cada hito y ajustamos lo necesario antes de avanzar.",
-    imageSrc: "/images/portfolio/cases/case-02-inventario-sistemas.webp",
+    imageSrc: "/images/portfolio/cases/inventario-sistemas.webp",
     imageAlt: "Revisi?n de avances",
     orderClass: "lg:order-5",
     offsetClass: "lg:translate-y-6",
@@ -93,20 +78,19 @@ const defaultFeatures: Feature[] = [
     title: "Entrega y acompa?amiento",
     description:
       "Dejamos todo funcionando y te apoyamos despu?s para que la soluci?n rinda.",
-    imageSrc: "/images/portfolio/cases/case-03-turismo-coquimbo.webp",
+    imageSrc: "/images/portfolio/cases/turismo-coquimbo.webp",
     imageAlt: "Entrega y seguimiento",
     orderClass: "lg:order-4",
     offsetClass: "lg:translate-y-0",
     reverse: true
->>>>>>> Stashed changes
   }
 ];
 
 const FeaturesGrid: React.FC<FeaturesGridProps> = ({
   features = defaultFeatures,
   eyebrow = "Nuestro proceso",
-  heading = "Así trabajamos contigo, paso a paso",
-  subheading = "Cuatro pasos claros para entender tu realidad, definir mejoras y ponerlas en marcha sin fricción."
+  heading = "Nuestro proceso contigo",
+  subheading = "Seis pasos claros para entender tu negocio, ordenar prioridades y acompañarte de principio a fin."
 }) => {
   const reducedMotion = useReducedMotion();
 
@@ -131,9 +115,6 @@ const FeaturesGrid: React.FC<FeaturesGridProps> = ({
     }
   };
 
-  const hoverShadow =
-    "0 24px 48px rgba(14, 116, 144, 0.18), 0 0 0 1px rgba(56, 189, 248, 0.45)";
-
   return (
     <section className="py-20 lg:py-32">
       <div className="container mx-auto px-4">
@@ -155,31 +136,52 @@ const FeaturesGrid: React.FC<FeaturesGridProps> = ({
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
-          className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"
+          className="grid grid-cols-1 gap-8 lg:grid-cols-2"
         >
           {features.map((feature, index) => (
             <motion.article
               key={`${feature.title}-${index}`}
               variants={itemVariants}
-              transition={reducedMotion ? { duration: 0.2 } : { type: "spring", stiffness: 260, damping: 24 }}
-              whileHover={reducedMotion ? { boxShadow: hoverShadow } : { y: -8, boxShadow: hoverShadow }}
-              className="group relative flex h-full flex-col gap-4 rounded-2xl border border-slate-800/50 bg-white/90 p-6 text-left shadow-[0_16px_40px_rgba(15,23,42,0.08)] backdrop-blur dark:bg-slate-900/70"
+              transition={
+                reducedMotion
+                  ? { duration: 0.2 }
+                  : { type: "spring", stiffness: 260, damping: 24 }
+              }
+              whileHover={reducedMotion ? {} : { y: -6 }}
+              className={`group h-full overflow-hidden rounded-2xl border border-white/10 bg-slate-900/80 shadow-[0_18px_50px_rgba(15,23,42,0.35)] backdrop-blur ${
+                feature.orderClass ?? ""
+              } ${feature.offsetClass ?? ""}`}
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-slate-800/50 bg-slate-100 text-slate-900 shadow-[0_8px_16px_rgba(15,23,42,0.12)] dark:bg-slate-800 dark:text-white">
-                {feature.icon}
+              <div
+                className={`flex h-full flex-col ${
+                  feature.reverse ? "lg:flex-row-reverse" : "lg:flex-row"
+                }`}
+              >
+                <div className="relative w-full overflow-hidden lg:w-5/12">
+                  <img
+                    src={feature.imageSrc}
+                    alt={feature.imageAlt}
+                    loading="lazy"
+                    className="h-56 w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 lg:h-full"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-tr from-slate-900/50 via-slate-900/10 to-transparent" />
+                </div>
+                <div
+                  className={`flex w-full flex-col justify-center gap-3 p-6 lg:w-7/12 lg:p-8 ${
+                    feature.reverse ? "lg:text-right lg:items-end" : "lg:text-left"
+                  }`}
+                >
+                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
+                    {feature.step}
+                  </p>
+                  <h3 className="text-xl font-semibold text-white">
+                    {feature.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-slate-300">
+                    {feature.description}
+                  </p>
+                </div>
               </div>
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">
-                  {feature.step}
-                </p>
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-                  {feature.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-                  {feature.description}
-                </p>
-              </div>
-              <div className="mt-auto h-px w-full bg-gradient-to-r from-transparent via-slate-800/50 to-transparent opacity-60" />
             </motion.article>
           ))}
         </motion.div>

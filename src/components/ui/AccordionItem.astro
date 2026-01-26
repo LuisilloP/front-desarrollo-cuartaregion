@@ -10,7 +10,7 @@ interface Props {
 const { question, answer, defaultOpen = false } = Astro.props;
 ---
 <details 
-  class="group rounded-2xl border 
+  class="group rounded-2xl border shadow-lg transition-shadow duration-300 hover:shadow-2xl
   border-slate-900/10 bg-white/30 
   dark:border-white/10 dark:bg-white/5" 
   open={defaultOpen}
