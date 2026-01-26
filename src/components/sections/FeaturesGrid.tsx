@@ -21,29 +21,84 @@ const defaultFeatures: Feature[] = [
     step: "PASO 01",
     title: "Nos cuentas tu idea y tu realidad",
     description:
+<<<<<<< Updated upstream
       "Conversamos contigo para entender tu negocio, tus objetivos y qué te está quitando tiempo hoy.",
     icon: <Icon icon="lucide:users" className="h-5 w-5" />
+=======
+      "Escuchamos tus objetivos y lo que hoy te quita foco para partir con claridad.",
+    imageSrc: "/images/hero/hero-01-coquimbo.webp",
+    imageAlt: "Reuni?n de diagn?stico",
+    orderClass: "lg:order-1",
+    offsetClass: "lg:translate-y-0"
+>>>>>>> Stashed changes
   },
   {
     step: "PASO 02",
     title: "Te entregamos un plan claro",
     description:
+<<<<<<< Updated upstream
       "Te mostramos opciones simples (y prioridades) para que sepas qué hacer primero y por qué.",
     icon: <Icon icon="lucide:clipboard-check" className="h-5 w-5" />
+=======
+      "Ordenamos necesidades y resultados esperados para avanzar con orden.",
+    imageSrc: "/images/hero/hero-02-serena.webp",
+    imageAlt: "Levantamiento de objetivos",
+    orderClass: "lg:order-2",
+    offsetClass: "lg:translate-y-6"
+>>>>>>> Stashed changes
   },
   {
     step: "PASO 03",
     title: "Lo revisamos juntos",
     description:
+<<<<<<< Updated upstream
       "Afinamos el plan contigo, resolvemos dudas y dejamos todo alineado a tu presupuesto y tiempos.",
     icon: <Icon icon="lucide:messages-square" className="h-5 w-5" />
+=======
+      "Te proponemos un plan simple con hitos, plazos y costos transparentes.",
+    imageSrc: "/images/hero/hero-03-astro.webp",
+    imageAlt: "Planificaci?n del proyecto",
+    orderClass: "lg:order-3",
+    offsetClass: "lg:translate-y-12"
+>>>>>>> Stashed changes
   },
   {
     step: "PASO 04",
     title: "Manos a la obra (con soporte real)",
     description:
+<<<<<<< Updated upstream
       "Implementamos la solución, la dejamos funcionando y te acompañamos para que le saques provecho.",
     icon: <Icon icon="lucide:rocket" className="h-5 w-5" />
+=======
+      "Desarrollamos por bloques y compartimos avances frecuentes para validar a tiempo.",
+    imageSrc: "/images/hero/hero-04-cielo.webp",
+    imageAlt: "Trabajo en construcci?n",
+    orderClass: "lg:order-6",
+    offsetClass: "lg:translate-y-12",
+    reverse: true
+  },
+  {
+    step: "PASO 05",
+    title: "Validaci?n contigo",
+    description:
+      "Revisamos cada hito y ajustamos lo necesario antes de avanzar.",
+    imageSrc: "/images/portfolio/cases/case-02-inventario-sistemas.webp",
+    imageAlt: "Revisi?n de avances",
+    orderClass: "lg:order-5",
+    offsetClass: "lg:translate-y-6",
+    reverse: true
+  },
+  {
+    step: "PASO 06",
+    title: "Entrega y acompa?amiento",
+    description:
+      "Dejamos todo funcionando y te apoyamos despu?s para que la soluci?n rinda.",
+    imageSrc: "/images/portfolio/cases/case-03-turismo-coquimbo.webp",
+    imageAlt: "Entrega y seguimiento",
+    orderClass: "lg:order-4",
+    offsetClass: "lg:translate-y-0",
+    reverse: true
+>>>>>>> Stashed changes
   }
 ];
 

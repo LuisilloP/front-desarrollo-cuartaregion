@@ -319,9 +319,14 @@ const toSlug = (item: { slug?: string | null; documentId?: string | null }): str
 const mapSocialLinks = (links?: StrapiSocialLinks | null): SiteSettings["socialLinks"] => {
   if (!links) return [];
   const items: SiteSettings["socialLinks"] = [];
-  if (links.instagramUrl) items.push({ label: "Instagram", url: links.instagramUrl });
-  if (links.facebookUrl) items.push({ label: "Facebook", url: links.facebookUrl });
-  if (links.linkedinUrl) items.push({ label: "LinkedIn", url: links.linkedinUrl });
+  const addLink = (name: string, url?: string | null, icon?: string) => {
+    if (!url) return;
+    items.push({ name, url, icon: icon ?? "lucide:link" });
+  };
+
+  addLink("Instagram", links.instagramUrl, "simple-icons:instagram");
+  addLink("Facebook", links.facebookUrl, "simple-icons:facebook");
+  addLink("LinkedIn", links.linkedinUrl, "simple-icons:linkedin");
   return items;
 };
 

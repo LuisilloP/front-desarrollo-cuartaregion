@@ -231,7 +231,11 @@
       "industry": "Salud",
       "city": "Ovalle",
       "summary": "Landing page profesional y personalizada para una clínica dental en Ovalle, creada para reforzar su presencia digital con una imagen premium, clara y confiable.",
+<<<<<<< Updated upstream
       "coverImage": "/images/cases/clinica-montblanc.png",
+=======
+      "coverImage": "/images/portfolio/cases/case-01-clinica-montblanc.webp",
+>>>>>>> Stashed changes
       "beforeTitle": "Antes",
       "afterTitle": "Después",
       "beforePoints": [
@@ -277,7 +281,11 @@
       "industry": "Logística",
       "city": "Coquimbo",
       "summary": "Catálogo privado con stock online y avisos automáticos de despacho.",
+<<<<<<< Updated upstream
       "coverImage": "/images/case-inventario.jpg",
+=======
+      "coverImage": "/images/portfolio/cases/case-02-inventario-sistemas.webp",
+>>>>>>> Stashed changes
       "beforeTitle": "Antes",
       "afterTitle": "Después",
       "beforePoints": [
@@ -321,7 +329,11 @@
       "industry": "Turismo",
       "city": "Vicuña",
       "summary": "Reservas con pago anticipado y bots que responden 24/7.",
+<<<<<<< Updated upstream
       "coverImage": "/images/case-turismo.jpg",
+=======
+      "coverImage": "/images/portfolio/cases/case-03-turismo-coquimbo.webp",
+>>>>>>> Stashed changes
       "beforeTitle": "Antes",
       "afterTitle": "Después",
       "beforePoints": [
