@@ -214,31 +214,34 @@
       "icon": "lucide:layers"
     },
     {
-      "slug": "presencia-digital",
-      "type": "digital",
-      "title": "Configuración de presencia digital",
-      "for_who": "Negocios que quieren ordenar su imagen digital y aparecer de forma profesional en internet.",
-      "whatsapp_desc": "Hola, vi el servicio de configuración de presencia digital y me gustaría saber qué incluye.",
-      "what_it_solves": "Configuramos y dejamos listas tus plataformas digitales para que tu negocio se vea profesional y sea fácil de encontrar.",
-      "benefits": [
-        "Imagen consistente en todas tus plataformas",
-        "Canales de contacto bien configurados",
-        "Mayor confianza para tus clientes"
-      ],
-      "deliverables": [
-        "Configuración de Google Business Profile",
-        "Optimización de WhatsApp Business",
-        "Ajuste básico de Facebook e Instagram"
-      ],
-      "delivery_time": "5 días hábiles",
-      "modality": "Proyecto",
-      "price": "$120.000 CLP",
-      "ctaType": "whatsapp",
-      "guarantee": "Incluye revisión y correcciones finales.",
-      "order": 1,
-      "featured": false,
-      "icon": "lucide:share-2"
-    },
+  "slug": "presencia-digital",
+  "type": "digital",
+  "title": "Gestión y configuración de redes sociales para negocios",
+  "for_who": "Negocios que quieren ordenar y profesionalizar su presencia en redes sociales y plataformas digitales.",
+  "whatsapp_desc": "Hola, vi el servicio de gestión y configuración de redes sociales y me gustaría saber qué incluye.",
+  "what_it_solves": "Configuramos y organizamos tus redes sociales y plataformas de Meta para que tu negocio tenga una presencia clara, profesional y lista para comunicarse con clientes.",
+  "benefits": [
+    "Perfiles profesionales y bien configurados en redes sociales",
+    "Centralización de mensajes y contactos desde Meta Business",
+    "Imagen digital coherente en todas tus plataformas",
+    "Mayor confianza y orden en la comunicación con clientes"
+  ],
+  "deliverables": [
+    "Configuración de Meta Business Suite (Facebook e Instagram)",
+    "Optimización de WhatsApp Business",
+    "Creación o ajuste de perfiles de Facebook e Instagram",
+    "Configuración de Google Business Profile",
+    "Estructura base para gestión de mensajes y contactos"
+  ],
+  "delivery_time": "5 días hábiles",
+  "modality": "Proyecto",
+  "price": "$140.000 CLP",
+  "ctaType": "whatsapp",
+  "guarantee": "Incluye revisión y correcciones finales.",
+  "order": 7,
+  "featured": false,
+  "icon": "lucide:share-2"
+},
     {
       "slug": "orientacion-digital",
       "type": "digital",
