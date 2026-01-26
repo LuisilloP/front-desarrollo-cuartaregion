@@ -2,14 +2,38 @@ import { env } from "../lib/env";
 
 const siteUrl = env.siteUrl || "https://example.com";
 
-export function GET() {
-  const body = `User-agent: *
-Allow: /
+// Common generative-AI crawlers we want to block using valid robots directives.
+const aiCrawlers = [
+  "GPTBot", // OpenAI
+  "ChatGPT-User",
+  "Google-Extended",
+  "CCBot", // Common Crawl
+  "anthropic-ai",
+  "PerplexityBot",
+  "omgili", // Diffbot/Thene
+  "omgili bot"
+];
 
-Sitemap: ${siteUrl}/sitemap.xml
-`;
+export function GET() {
+  const lines: string[] = [
+    "# robots.txt generado por Astro",
+    "# Directivas no estandar como 'Content-Signal' se eliminaron para evitar errores de validacion.",
+    "User-agent: *",
+    "Allow: /",
+    ""
+  ];
+
+  aiCrawlers.forEach((agent) => {
+    lines.push(`User-agent: ${agent}`);
+    lines.push("Disallow: /");
+    lines.push("");
+  });
+
+  lines.push(`Sitemap: ${siteUrl}/sitemap.xml`);
+
+  const body = lines.join("\n");
 
   return new Response(body, {
-    headers: { "Content-Type": "text/plain" }
+    headers: { "Content-Type": "text/plain; charset=utf-8" }
   });
 }
