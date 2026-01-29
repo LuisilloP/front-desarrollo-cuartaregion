@@ -49,4 +49,10 @@ export const companies: Company[] = [
     logo: "/images/logos/muebleria-florentino.webp",
     href: "https://elfiorentino.vercel.app/",
   },
+    {
+    id: "propiedades-arenas",
+    name: "Propiedades Arenas",
+    logo: "/images/logos/propiedades-arenas.webp",
+    href: "https://propiedadesarenas.cl/",
+  },
 ];
