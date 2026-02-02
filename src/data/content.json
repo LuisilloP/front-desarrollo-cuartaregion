@@ -312,94 +312,128 @@
       "featured": true
     },
     {
-      "slug": "b2b-inventario",
-      "clientName": "Andes Supply",
-      "title": "Portal B2B con inventario en tiempo real",
-      "industry": "Logística",
-      "city": "Coquimbo",
-      "summary": "Catálogo privado con stock online y avisos automáticos de despacho.",
-      "coverImage": "/images/portfolio/cases/inventario-sistemas.webp",
+      "slug": "propiedades-arenas",
+      "clientName": "Propiedades Arenas",
+      "title": "Landing inmobiliaria con filtros y CTA",
+      "industry": "Inmobiliaria",
+      "city": "La Serena / Coquimbo",
+      "summary": "Primera fase de digitalización para una corredora de propiedades: diseñamos una landing premium que funciona como vitrina digital, con catálogo ordenado, búsqueda con filtros y llamados a la acción visibles para convertir visitas en consultas reales.",
+      "coverImage": "/images/portfolio/cases/propiedades-arenas.webp",
       "beforeTitle": "Antes",
       "afterTitle": "Después",
       "beforePoints": [
         {
-          "text": "Pedidos por correo sin seguimiento",
+          "text": "Sin una plataforma clara para exhibir propiedades y transmitir confianza desde el primer clic",
+          "tone": "warning"
+        },
+        {
+          "text": "Búsqueda poco eficiente: los interesados dependían de consultas manuales para encontrar opciones",
           "tone": "danger"
         },
         {
-          "text": "Stock desalineado con ventas",
+          "text": "Puntos de contacto poco visibles, con menor conversión de visitas a leads",
           "tone": "warning"
         }
       ],
       "afterPoints": [
         {
-          "text": "Stock en tiempo real para clientes B2B",
+          "text": "Landing premium como vitrina digital: catálogo presentado con jerarquía visual y enfoque comercial",
           "tone": "success"
         },
         {
-          "text": "Alertas y tracking unificados",
+          "text": "Búsqueda con filtros para acelerar la selección (tipo, operación y criterios clave), mejorando la experiencia del usuario",
+          "tone": "success"
+        },
+        {
+          "text": "CTAs estratégicos (WhatsApp/contacto) para transformar navegación en consultas medibles",
           "tone": "success"
         }
       ],
       "impactTags": [
         {
-          "text": "Reclamos -40%",
+          "text": "Imagen de marca más sólida",
           "variant": "green"
         },
         {
-          "text": "Pedidos 2x más rápidos",
+          "text": "Catálogo más claro y navegable",
           "variant": "blue"
+        },
+        {
+          "text": "Más conversiones por CTA",
+          "variant": "orange"
         }
       ],
       "ctaPrimaryType": "contact",
-      "ctaPrimaryLabel": "Necesito un portal B2B",
-      "siteUrl": "https://ejemplo-b2b.com",
-      "order": 2
+      "ctaPrimaryLabel": "Quiero una vitrina inmobiliaria",
+      "siteUrl": "https://propiedadesarenas.cl",
+      "order": 2,
+      "featured": true
     },
-    {
-      "slug": "turismo-experiencias",
-      "clientName": "Ruta del Valle",
-      "industry": "Turismo",
-      "city": "Vicuña",
-      "summary": "Reservas con pago anticipado y bots que responden 24/7.",
-      "coverImage": "/images/portfolio/cases/turismo-coquimbo.webp",
-      "beforeTitle": "Antes",
-      "afterTitle": "Después",
-      "beforePoints": [
-        {
-          "text": "Consultas repetidas en temporada alta",
-          "tone": "danger"
-        },
-        {
-          "text": "Confirmaciones manuales",
-          "tone": "warning"
-        }
-      ],
-      "afterPoints": [
-        {
-          "text": "Asistentes automáticos con respuestas frecuentes y derivación a agente",
-          "tone": "success"
-        },
-        {
-          "text": "Reservas confirmadas con pago anticipado",
-          "tone": "success"
-        }
-      ],
-      "impactTags": [
-        {
-          "text": "Menos tiempo en inbox",
-          "variant": "blue"
-        },
-        {
-          "text": "Up-sell en checkout",
-          "variant": "green"
-        }
-      ],
-      "ctaPrimaryType": "contact",
-      "ctaPrimaryLabel": "Quiero automatizar reservas",
-      "siteUrl": "https://ejemplo-tours.com",
-      "order": 3
-    }
+   {
+     "slug": "el-arlequin",
+     "clientName": "El Arlequín",
+     "title": "Sistema de pedidos administrable",
+     "industry": "Gastronomía",
+     "city": null,
+     "summary": "Diseñamos una plataforma integral de pedidos para profesionalizar la operación de El Arlequín. El sistema está pensado para el mesón y el ejecutivo de venta, con administración completa de catálogo, clientes y zonas de despacho, además de un configurador avanzado de productos (tamaños, ingredientes extra y creador de pizzas con precios dinámicos).",
+     "coverImage": "/images/portfolio/cases/el-arlequin.webp",
+     "beforeTitle": "Antes",
+     "afterTitle": "Después",
+     "beforePoints": [
+       {
+         "text": "Toma y seguimiento de pedidos con procesos manuales, con riesgo de errores y tiempos de respuesta altos",
+         "tone": "warning"
+       },
+       {
+         "text": "Catálogo difícil de mantener: productos con múltiples tamaños, personalizaciones y extras sin control centralizado",
+         "tone": "danger"
+       },
+       {
+         "text": "Despacho y cálculo de envío sin zonificación formal, afectando la consistencia del cobro y la atención",
+         "tone": "warning"
+       }
+     ],
+     "afterPoints": [
+       {
+         "text": "Flujo unificado para mesón y ventas: creación, administración y seguimiento de pedidos desde un solo panel",
+         "tone": "success"
+       },
+       {
+         "text": "Backoffice administrable: gestión de productos, clientes y reglas de despacho con control y trazabilidad",
+         "tone": "success"
+       },
+       {
+         "text": "Zonas de reparto configurables con cálculo automático de envío para estandarizar la operación",
+         "tone": "success"
+       },
+       {
+         "text": "Configurador avanzado: productos con más de un tamaño, ingredientes adicionales y creador de pizzas con precios dinámicos",
+         "tone": "success"
+       }
+     ],
+     "impactTags": [
+       {
+         "text": "Menos errores operativos",
+         "variant": "green"
+       },
+       {
+         "text": "Gestión centralizada",
+         "variant": "blue"
+       },
+       {
+         "text": "Despacho estandarizado",
+         "variant": "orange"
+       },
+       {
+         "text": "Personalización avanzada",
+         "variant": "purple"
+       }
+     ],
+     "ctaPrimaryType": "contact",
+     "ctaPrimaryLabel": "Quiero una plataforma de pedidos",
+     "siteUrl": null,
+     "order": 3
+   }
   ],
   "reviews": [
     {
