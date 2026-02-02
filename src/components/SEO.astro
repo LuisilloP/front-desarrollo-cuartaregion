@@ -1,0 +1,171 @@
+---
+import type { SiteSettings } from "../data/mock";
+import { env } from "../lib/env";
+
+export interface Props {
+    title?: string;
+    description?: string;
+    image?: string;
+    imageAlt?: string;
+    siteSettings?: SiteSettings;
+    ogType?: "website" | "article";
+    article?: {
+        publishedTime?: string;
+        modifiedTime?: string;
+        section?: string;
+        tags?: string[];
+    };
+    noindex?: boolean;
+    structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
+}
+
+const {
+    title,
+    description,
+    image,
+    imageAlt,
+    siteSettings,
+    ogType = "website",
+    article,
+    noindex,
+    structuredData,
+} = Astro.props;
+
+const siteName = siteSettings?.siteName ?? "Agencia Digital";
+const tagline = siteSettings?.tagline ?? "Webs y automatizaciones que venden";
+const whatsappNumber = siteSettings?.whatsappNumber ?? "+56900000000";
+const region = siteSettings?.region ?? "La Serena";
+const socialLinks = siteSettings?.socialLinks ?? [];
+
+const pageTitle = title
+    ? title.includes(siteName)
+        ? title
+        : `${title} | ${siteName}`
+    : `${siteName} | ${tagline}`;
+
+const pageDescription = description || tagline;
+const canonical = Astro.url ? Astro.url.toString() : undefined;
+const siteUrl = env.siteUrl ?? (Astro.site ? Astro.site.toString() : undefined);
+
+// Ensure image is absolute
+const ogImage = image || "/og-default.svg"; // Fallback image
+const resolvedOgImage =
+    ogImage.startsWith("http") || !siteUrl
+        ? ogImage
+        : new URL(ogImage, siteUrl).toString();
+
+const resolvedCanonical = canonical ?? siteUrl;
+const ogImageAlt = imageAlt || title || siteName;
+
+const robotsDirective = noindex
+    ? "noindex, nofollow"
+    : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
+
+// Schema.org - LocalBusiness
+const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": ["ProfessionalService", "WebDevelopment"], // Customized for Aliado Digital
+    name: siteName,
+    url: siteUrl,
+    logo: siteUrl ? new URL("/favicon.svg", siteUrl).toString() : undefined,
+    image: resolvedOgImage,
+    description: pageDescription,
+    address: {
+        "@type": "PostalAddress",
+        addressLocality: region,
+        addressRegion: "Coquimbo",
+        addressCountry: "CL",
+    },
+    priceRange: "$$", // Reasonable default for agencies
+    telephone: whatsappNumber,
+    openingHoursSpecification: [
+        {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+            opens: "09:00",
+            closes: "18:00",
+        },
+    ],
+    sameAs: socialLinks.map((link) => link.url),
+};
+---
+
+<!-- Global Metadata -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="generator" content={Astro.generator} />
+
+<!-- Canonical URL -->
+{resolvedCanonical && <link rel="canonical" href={resolvedCanonical} />}
+
+<!-- Primary Meta Tags -->
+<title>{pageTitle}</title>
+<meta name="title" content={pageTitle} />
+<meta name="description" content={pageDescription} />
+<meta name="robots" content={robotsDirective} />
+<meta name="googlebot" content={robotsDirective} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={resolvedCanonical} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={pageDescription} />
+<meta property="og:image" content={resolvedOgImage} />
+<meta property="og:image:alt" content={ogImageAlt} />
+<meta property="og:site_name" content={siteName} />
+<meta property="og:locale" content="es_CL" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={resolvedCanonical} />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={pageDescription} />
+<meta name="twitter:image" content={resolvedOgImage} />
+
+<!-- Article Metadata (if applicable) -->
+{
+    ogType === "article" && article && (
+        <>
+            {article.publishedTime && (
+                <meta
+                    property="article:published_time"
+                    content={article.publishedTime}
+                />
+            )}
+            {article.modifiedTime && (
+                <meta
+                    property="article:modified_time"
+                    content={article.modifiedTime}
+                />
+            )}
+            {article.section && (
+                <meta property="article:section" content={article.section} />
+            )}
+            {article.tags?.map((tag) => (
+                <meta property="article:tag" content={tag} />
+            ))}
+        </>
+    )
+}
+
+<!-- Schema.org JSON-LD -->
+<script
+    type="application/ld+json"
+    set:html={JSON.stringify(localBusinessSchema)}
+/>
+{
+    structuredData &&
+        (Array.isArray(structuredData) ? (
+            structuredData.map((item) => (
+                <script
+                    type="application/ld+json"
+                    set:html={JSON.stringify(item)}
+                />
+            ))
+        ) : (
+            <script
+                type="application/ld+json"
+                set:html={JSON.stringify(structuredData)}
+            />
+        ))
+}
