@@ -6,7 +6,6 @@ import ServicesSection from "../components/sections/ServicesSection.astro";
 import HostingSection from "../components/sections/HostingSection.astro";
 import ProcessSection from "../components/sections/ProcessSection.astro";
 import CasesSection from "../components/sections/CasesSection.astro";
-import ReviewsSection from "../components/sections/ReviewsSection.astro";
 import FAQSection from "../components/sections/FAQSection.astro";
 import ContactSection from "../components/sections/ContactSection.astro";
 import Footer from "../components/layout/Footer.astro";
@@ -17,7 +16,6 @@ import {
   fetchSiteSettings,
   fetchServices,
   fetchCases,
-  fetchReviews,
   fetchFaqs,
 } from "../lib/api/services";
 
@@ -36,7 +34,6 @@ const staticContent = contentJson as Content;
 const {
   heroSection,
   useCasesSection,
-  reviewsSection,
   faqSection,
   contactSection,
   legalPages,
@@ -46,7 +43,6 @@ const {
 const siteSettings = await fetchSiteSettings();
 const services = await fetchServices();
 const cases = await fetchCases();
-const reviews = await fetchReviews();
 const faqs = await fetchFaqs();
 
 const recentCases = cases.slice(0, 3);
