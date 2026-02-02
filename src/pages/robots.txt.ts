@@ -1,8 +1,7 @@
-import { SITE } from "astro:env";
 import { env } from "../lib/env";
 
 // Resolve dominio público: primero env vars, luego SITE de Astro, luego fallback fijo.
-const siteUrl = env.siteUrl || SITE?.toString?.() || "https://aliadodigital.cl";
+const siteUrl = env.siteUrl || import.meta.env.SITE || "https://aliadodigital.cl";
 
 // Common generative-AI crawlers we want to block using valid robots directives.
 const aiCrawlers = [
