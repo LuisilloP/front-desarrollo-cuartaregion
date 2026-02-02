@@ -47,8 +47,11 @@ const pageDescription = description || tagline;
 const canonical = Astro.url ? Astro.url.toString() : undefined;
 const siteUrl = env.siteUrl ?? (Astro.site ? Astro.site.toString() : undefined);
 
-// Ensure image is absolute
-const ogImage = image || "/og-default.svg"; // Fallback image
+// Ensure image is absolute and valid for OG
+// Fallback to a high-quality raster image (WebP) instead of SVG
+const defaultOgImage = "/images/hero/hero-astro.webp";
+const ogImage = image || defaultOgImage;
+
 const resolvedOgImage =
     ogImage.startsWith("http") || !siteUrl
         ? ogImage
@@ -56,6 +59,15 @@ const resolvedOgImage =
 
 const resolvedCanonical = canonical ?? siteUrl;
 const ogImageAlt = imageAlt || title || siteName;
+
+// Determine image type based on extension (simple heuristic)
+const imageExt = resolvedOgImage.split(".").pop()?.toLowerCase();
+const ogImageType =
+    imageExt === "png"
+        ? "image/png"
+        : imageExt === "jpg" || imageExt === "jpeg"
+          ? "image/jpeg"
+          : "image/webp";
 
 const robotsDirective = noindex
     ? "noindex, nofollow"
@@ -111,6 +123,10 @@ const localBusinessSchema = {
 <meta property="og:title" content={pageTitle} />
 <meta property="og:description" content={pageDescription} />
 <meta property="og:image" content={resolvedOgImage} />
+<meta property="og:image:type" content={ogImageType} />
+<!-- We hint decent dimensions for the hero image to encourage large card display -->
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content={ogImageAlt} />
 <meta property="og:site_name" content={siteName} />
 <meta property="og:locale" content="es_CL" />
