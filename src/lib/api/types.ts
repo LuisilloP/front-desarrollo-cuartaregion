@@ -212,15 +212,32 @@ export type PageHero = {
 };
 
 export type ValueItem = {
+  label?: string;
   title: string;
   description: string;
   bullets: string[];
 };
 
-export type ValueSection = {
+export type ValuePillar = {
   title: string;
   description: string;
-  quote: string;
+};
+
+export type ValueSection = {
+  eyebrow?: string;
+  title: string;
+  description: string;
+  quote?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  ctaNote?: string;
+  ctaSecondaryLabel?: string;
+  ctaSecondaryHref?: string;
+  diagnosisTitle?: string;
+  diagnosisDescription?: string;
+  diagnosisNote?: string;
+  pillars?: ValuePillar[];
+  outcomes?: string[];
   items: ValueItem[];
 };
 

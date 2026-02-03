@@ -1,59 +1,157 @@
 ---
 import type { ValueSection as ValueSectionContent } from "../../../lib/api/types";
+import GoogleG from "../../ui/GoogleG.astro";
 
 interface Props extends ValueSectionContent {
   sectionId?: string;
 }
 
 const {
+  eyebrow = "Propuesta de valor",
   title,
   description,
   quote,
+  ctaLabel,
+  ctaHref,
+  ctaNote,
+  ctaSecondaryLabel,
+  ctaSecondaryHref,
+  diagnosisTitle,
+  diagnosisDescription,
+  diagnosisNote,
   items,
   sectionId = "propuesta",
 } = Astro.props as Props;
+
+const usePremium =
+  Boolean(ctaLabel) ||
+  items.some((item) => item.label);
+
+const isExternalCta = Boolean(ctaHref?.startsWith("http"));
 ---
 
 <section id={sectionId} class="relative py-20 lg:py-28">
-  <div class="section-shell grid gap-12 lg:grid-cols-2 lg:items-start">
-    <div class="space-y-6" data-reveal="fade-up">
-      <p
-        class="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-primary"
-      >
-        Propuesta de valor
-      </p>
-      <h2 class="text-3xl font-semibold text-content sm:text-4xl">
-        {title}
-      </h2>
-      <p class="text-lg text-muted">
-        {description}
-      </p>
-      <blockquote class="rounded-2xl border border-border bg-surface-strong/70 p-5 text-base italic text-muted">
-        "{quote}"
-      </blockquote>
-    </div>
+  {usePremium ? (
+    <>
+      <div class="pointer-events-none absolute inset-y-0 right-0 -z-10 hidden w-1/2 lg:block">
+        <div class="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent"></div>
+      </div>
 
-    <div class="grid gap-6" data-reveal="fade-up" data-delay="120">
-      {items.map((item) => (
-        <article class="card space-y-4">
-          <div>
-            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
-              {item.title}
-            </p>
-            <p class="mt-2 text-base font-semibold text-content">
-              {item.description}
-            </p>
-          </div>
-          <ul class="space-y-2 text-sm text-muted">
-            {item.bullets.map((bullet) => (
-              <li class="flex items-start gap-2">
-                <span class="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-accent"></span>
-                <span>{bullet}</span>
-              </li>
+      <div class="section-shell grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+        <div class="space-y-6" data-reveal="fade-up">
+          <p
+            class="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-primary"
+          >
+            {eyebrow}
+          </p>
+          <h2 class="text-3xl font-semibold text-content sm:text-4xl">
+            {title}
+          </h2>
+          <p class="max-w-prose text-lg leading-relaxed text-muted">
+            {description}
+          </p>
+
+          {ctaLabel && ctaHref ? (
+            <div class="space-y-4">
+              <a
+                href={ctaHref}
+                target={isExternalCta ? "_blank" : undefined}
+                rel={isExternalCta ? "noreferrer" : undefined}
+                class="inline-flex min-w-[240px] items-center justify-center gap-2 rounded-full border border-[#1a73e8]/40 bg-white px-8 py-4 text-base font-semibold text-[#1a73e8] shadow-sm transition-all duration-200 hover:border-[#1a73e8] hover:bg-[#e8f0fe] hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight/30 dark:border-[#8ab4f8]/50 dark:bg-slate-900 dark:text-[#8ab4f8] dark:hover:border-[#8ab4f8] dark:hover:bg-[#1a2b4f] sm:min-w-[260px]"
+              >
+                <GoogleG size={20} />
+                <span>{ctaLabel}</span>
+              </a>
+              {ctaNote ? (
+                <p class="text-sm text-muted leading-relaxed">
+                  {ctaNote}
+                </p>
+              ) : null}
+              {ctaSecondaryLabel && ctaSecondaryHref ? (
+                <a
+                  href={ctaSecondaryHref}
+                  class="inline-flex items-center gap-2 text-sm font-medium text-muted transition hover:text-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight/30"
+                >
+                  {ctaSecondaryLabel}
+                </a>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
+
+        <div class="space-y-6" data-reveal="fade-up" data-delay="120">
+          <div class="grid gap-6">
+            {items.map((item) => (
+              <article class="group rounded-2xl border border-border/70 bg-card/90 p-6 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-border/90 hover:shadow-md">
+                {item.label && (
+                  <p class="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
+                    {item.label}
+                  </p>
+                )}
+                <h3 class="mt-3 text-lg font-semibold text-content">
+                  {item.title}
+                </h3>
+                <p class="mt-2 text-sm text-muted">
+                  {item.description}
+                </p>
+                <ul class="mt-4 space-y-2 text-sm text-muted">
+                  {item.bullets.map((bullet) => (
+                    <li class="flex items-start gap-2">
+                      <span class="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-accent"></span>
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
             ))}
-          </ul>
-        </article>
-      ))}
+          </div>
+
+        </div>
+      </div>
+    </>
+  ) : (
+    <div class="section-shell grid gap-12 lg:grid-cols-2 lg:items-start">
+      <div class="space-y-6" data-reveal="fade-up">
+        <p
+          class="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-primary"
+        >
+          {eyebrow}
+        </p>
+        <h2 class="text-3xl font-semibold text-content sm:text-4xl">
+          {title}
+        </h2>
+        <p class="text-lg text-muted">
+          {description}
+        </p>
+        {quote ? (
+          <blockquote class="rounded-2xl border border-border bg-surface-strong/70 p-5 text-base italic text-muted">
+            "{quote}"
+          </blockquote>
+        ) : null}
+      </div>
+
+      <div class="grid gap-6" data-reveal="fade-up" data-delay="120">
+        {items.map((item) => (
+          <article class="card space-y-4">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
+                {item.title}
+              </p>
+              <p class="mt-2 text-base font-semibold text-content">
+                {item.description}
+              </p>
+            </div>
+            <ul class="space-y-2 text-sm text-muted">
+              {item.bullets.map((bullet) => (
+                <li class="flex items-start gap-2">
+                  <span class="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-accent"></span>
+                  <span>{bullet}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
     </div>
-  </div>
+  )}
 </section>

@@ -40,26 +40,31 @@
     ]
   },
   "value": {
-    "title": "Marketing digital con dirección, no con azar",
-    "description": "Hoy las decisiones de compra comienzan en internet. Si no estás presente con el mensaje correcto, otro ocupará tu lugar. Nuestro foco es ayudarte a competir con estrategia y resultados medibles.",
-    "quote": "No se trata de aparecer más, sino de llegar a las personas correctas, en el momento correcto, con el mensaje correcto.",
+    "eyebrow": "ENFOQUE DE TRABAJO",
+    "title": "Marketing que se mide y se optimiza.",
+    "description": "La transición digital no es \"estar en internet\". Es convertir inversión en oportunidades reales. Con estrategia, medición y optimización, el crecimiento deja de depender de la suerte.",
+    "ctaLabel": "Solicitar diagnóstico",
+    "ctaHref": "https://forms.gle/5MEDYUSc2pZpS4tz8",
+    "ctaNote": "Te entregamos un plan inicial en 24h hábiles, basado en una breve revisión de tu caso (10–15 min).",
     "items": [
       {
-        "title": "Gastar en anuncios",
-        "description": "Aumenta visibilidad, pero sin un plan sólido se diluye.",
+        "label": "SIN SISTEMA",
+        "title": "Invertir sin control se vuelve gasto.",
+        "description": "Presupuesto activo, resultados variables.",
         "bullets": [
-          "Segmentación genérica y poco control",
-          "Mensajes sin intención comercial clara",
-          "Resultados inestables y difíciles de replicar"
+          "Audiencias demasiado amplias (poco control de calidad)",
+          "Mensajes que no conectan con intención de compra",
+          "Sin trazabilidad: no sabes qué realmente funciona"
         ]
       },
       {
-        "title": "Invertir estratégicamente",
-        "description": "Alinea presupuesto, audiencia y conversión.",
+        "label": "CON MÉTODO",
+        "title": "Un sistema para atraer y convertir.",
+        "description": "Decisiones con datos, mejora continua.",
         "bullets": [
-          "Segmentación precisa según tu cliente ideal",
-          "Embudo con mensajes y ofertas coherentes",
-          "Optimización continua basada en datos reales"
+          "Segmentación precisa según cliente ideal y contexto",
+          "Mensajes y ofertas coherentes por etapa del funnel",
+          "Optimización semanal + reportes accionables"
         ]
       }
     ]
