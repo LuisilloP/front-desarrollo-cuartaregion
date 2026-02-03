@@ -24,6 +24,8 @@ const iconName = service.icon || "lucide:gem"; // Default icon
 const price = (service.price ?? "").trim();
 const deliveryTime = (service.delivery_time ?? "").trim();
 const modality = (service.modality ?? "").trim();
+const ctaLabel = (service.ctaLabel ?? "").trim() || "Cotizar este plan";
+const ctaHref = (service.ctaHref ?? "").trim();
 const variant = (service.variant ?? "web") as "web" | "marketing" | "mixed";
 const isMixed = variant === "mixed";
 const accentTone =
@@ -90,12 +92,15 @@ const shineStyle =
 // For maintenance, text is "Activación: ...", otherwise "Entrega: ..."
 const deliveryLabel =
   service.slug === "mantencion-ti-monitoreo" ? "Activación" : "Entrega";
+
+const linkHref = ctaHref || whatsappUrl;
+const isExternal = linkHref.startsWith("http");
 ---
 
 <a
-  href={whatsappUrl}
-  target="_blank"
-  rel="noreferrer"
+  href={linkHref}
+  target={isExternal ? "_blank" : undefined}
+  rel={isExternal ? "noreferrer" : undefined}
   data-variant={variant}
   data-accent={accentTone ?? undefined}
   style={shineStyle}
@@ -200,7 +205,7 @@ const deliveryLabel =
     <div
       class={`text-lg inline-flex items-center gap-2 font-medium transition-colors ${resolvedAccent.cta}`}
     >
-      Cotizar este plan <Icon
+      {ctaLabel} <Icon
         name="lucide:arrow-right"
         class="h-4 w-4 transition-transform group-hover:translate-x-1"
       />

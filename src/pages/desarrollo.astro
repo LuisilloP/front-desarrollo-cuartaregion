@@ -6,7 +6,7 @@ import SectionDivider from "../components/layout/SectionDivider.astro";
 import WhatsAppFloatingButton from "../components/layout/WhatsAppFloatingButton.astro";
 import SectionHero from "../components/common/sections/SectionHero.astro";
 import ValueSection from "../components/common/sections/ValueSection.astro";
-import ServicesSection from "../components/desarrollo/ServicesSection.astro";
+import ServicesSection from "../components/sections/ServicesSection.astro";
 import TrustSection from "../components/common/sections/TrustSection.astro";
 import CtaFormSection from "../components/common/sections/CtaFormSection.astro";
 import { fetchSiteSettings, fetchServices } from "../lib/api/services";
@@ -19,30 +19,15 @@ const services = await fetchServices();
 const content = contentJson as Content;
 const developmentContent = developmentJson as DevelopmentPageContent;
 
-const { hero, value, servicesSection, trust, cta, seo } = developmentContent;
+const { hero, value, trust, cta, seo } = developmentContent;
 const pageTitle = seo?.title ?? "Desarrollo Web y Software | Aliado Digital";
 const pageDescription =
   seo?.description ??
   "Desarrollo web y software a medida para pymes, profesionales y negocios locales de Chile.";
 
-const excludeTypes = (servicesSection.excludeTypes ?? []).map((type) =>
-  String(type).toLowerCase(),
+const servicesForPage = services.filter(
+  (service) => (service.type ?? "").toLowerCase() !== "digital",
 );
-const includeTypes = (servicesSection.includeTypes ?? []).map((type) =>
-  String(type).toLowerCase(),
-);
-const filteredServices = services.filter((service) => {
-  const type = (service.type ?? "").toLowerCase();
-  if (includeTypes.length > 0) {
-    return includeTypes.includes(type);
-  }
-  if (excludeTypes.length > 0) {
-    return !excludeTypes.includes(type);
-  }
-  return true;
-});
-const servicesForPage =
-  filteredServices.length > 0 ? filteredServices : services;
 ---
 
 <Layout
@@ -52,16 +37,18 @@ const servicesForPage =
 >
   <Navbar siteSettings={siteSettings} navLinks={content.navLinks} />
   <main class="overflow-x-hidden">
-    <SectionHero
-      sectionId="desarrollo-hero"
-      title={hero.title}
-      subtitle={hero.subtitle}
-      primaryCta={hero.primaryCta}
-      secondaryCta={hero.secondaryCta}
-      slides={hero.slides}
-      imageSrc={hero.imageSrc}
-      imageAlt={hero.imageAlt}
-    />
+    <div class="dark">
+      <SectionHero
+        sectionId="desarrollo-hero"
+        title={hero.title}
+        subtitle={hero.subtitle}
+        primaryCta={hero.primaryCta}
+        secondaryCta={hero.secondaryCta}
+        slides={hero.slides}
+        imageSrc={hero.imageSrc}
+        imageAlt={hero.imageAlt}
+      />
+    </div>
 
     <SectionDivider tone="accent" />
 
@@ -74,9 +61,8 @@ const servicesForPage =
 
     <SectionDivider />
 
+    <div id="planes" aria-hidden="true"></div>
     <ServicesSection
-      title={servicesSection.title}
-      description={servicesSection.description}
       services={servicesForPage}
       whatsappNumber={siteSettings.whatsappNumber}
     />

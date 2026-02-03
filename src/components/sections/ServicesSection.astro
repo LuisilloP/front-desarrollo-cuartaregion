@@ -6,9 +6,10 @@ import { Icon } from "astro-icon/components";
 interface Props {
   services: Service[];
   whatsappNumber: string;
+  singleGrid?: boolean;
 }
 
-const { services, whatsappNumber } = Astro.props;
+const { services, whatsappNumber, singleGrid = false } = Astro.props as Props;
 const sortedServices = [...services].sort(
   (a, b) => (a.order ?? 99) - (b.order ?? 99),
 );
@@ -40,20 +41,28 @@ const mixedServices = sortedServices.filter(
     </div>
 
     <!-- Services Grid -->
-    <div
-      class="services-grid grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
-    >
-      {
-        webServices.map((service) => (
-          <div class="service-card-wrapper">
-            <ServiceCard service={service} whatsappNumber={whatsappNumber} />
-          </div>
-        ))
-      }
-    </div>
+    {
+      singleGrid ? (
+        <div class="services-grid grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {sortedServices.map((service) => (
+            <div class="service-card-wrapper">
+              <ServiceCard service={service} whatsappNumber={whatsappNumber} />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="services-grid grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {webServices.map((service) => (
+            <div class="service-card-wrapper">
+              <ServiceCard service={service} whatsappNumber={whatsappNumber} />
+            </div>
+          ))}
+        </div>
+      )
+    }
 
     {
-      marketingServices.length > 0 && (
+      !singleGrid && marketingServices.length > 0 && (
         <>
           <div class="mx-auto mt-16 mb-10 max-w-3xl text-center">
             <h3 class="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
@@ -75,7 +84,7 @@ const mixedServices = sortedServices.filter(
     }
 
     {
-      mixedServices.length > 0 && (
+      !singleGrid && mixedServices.length > 0 && (
         <>
           <div class="mx-auto mt-16 mb-10 max-w-3xl text-center">
             <h3 class="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-4xl">

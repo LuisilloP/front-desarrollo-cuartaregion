@@ -63,6 +63,8 @@ export type Service = {
   deliverables?: string[];
   delivery_time?: string;
   price?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
   ctaType?: string;
   guarantee?: string;
   top_banner?: string;

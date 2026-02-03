@@ -11,8 +11,8 @@
       "href": "#contacto-desarrollo"
     },
     "secondaryCta": {
-      "label": "Ver servicios",
-      "href": "#servicios"
+      "label": "Ver planes",
+      "href": "#planes"
     },
     "imageSrc": "/images/hero/hero-astro.webp",
     "imageAlt": "Desarrollo web y software",

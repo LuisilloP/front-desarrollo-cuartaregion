@@ -14,12 +14,11 @@ import WhatsAppFloatingButton from "../components/layout/WhatsAppFloatingButton.
 import SectionDivider from "../components/layout/SectionDivider.astro";
 import {
   fetchSiteSettings,
-  fetchServices,
   fetchCases,
   fetchFaqs,
 } from "../lib/api/services";
 
-import type { Content, HomePageContent } from "../lib/api/types";
+import type { Content, HomePageContent, Service } from "../lib/api/types";
 import contentJson from "../data/content.json";
 import homeJson from "../data/pages/home.json";
 
@@ -33,8 +32,77 @@ const homeContent = homeJson as HomePageContent;
 const { heroSection, useCasesSection, faqSection, contactSection } = homeContent;
 const { legalPages, navLinks } = globalContent;
 
+const planSummaries: Service[] = [
+  {
+    slug: "planes-desarrollo",
+    type: "web",
+    variant: "web",
+    title: "Planes de desarrollo",
+    what_it_solves:
+      "Web estática, web administrable o sistemas a medida según tu etapa.",
+    benefits: [
+      "Web estática profesional",
+      "Web administrable",
+      "Sistema de gestión a medida",
+    ],
+    delivery_time: "Según plan",
+    modality: "Proyecto",
+    price: "Desde $160.000 CLP",
+    top_banner: "Desarrollo",
+    icon: "lucide:layout",
+    whatsapp_desc: "Hola, quiero ver los planes de desarrollo disponibles.",
+    ctaLabel: "Ver planes disponibles",
+    ctaHref: "/desarrollo#planes",
+    order: 1,
+  },
+  {
+    slug: "planes-marketing",
+    type: "digital",
+    variant: "marketing",
+    accent: "amber",
+    title: "Planes de marketing",
+    what_it_solves:
+      "Planes para atraer clientes con campañas, contenido y optimización.",
+    benefits: [
+      "Meta Ads y Google Ads",
+      "Redes sociales y contenido",
+      "Embudos y estrategia",
+    ],
+    delivery_time: "Según plan",
+    modality: "Mensual",
+    price: "Desde $140.000 CLP",
+    top_banner: "Marketing",
+    icon: "lucide:rocket",
+    whatsapp_desc: "Hola, quiero ver los planes de marketing disponibles.",
+    ctaLabel: "Ver planes disponibles",
+    ctaHref: "/marketing#planes",
+    order: 2,
+  },
+  {
+    slug: "planes-mixto",
+    type: "digital",
+    variant: "mixed",
+    accent: "orange",
+    title: "Plan mixto web + marketing",
+    what_it_solves: "Combina desarrollo web y campañas para lanzar y convertir.",
+    benefits: [
+      "Landing optimizada",
+      "Campañas con tracking",
+      "Reporte y mejoras continuas",
+    ],
+    delivery_time: "14 días hábiles",
+    modality: "Proyecto + Mensual",
+    price: "Desde $320.000 CLP",
+    top_banner: "Mixto",
+    icon: "lucide:layers",
+    whatsapp_desc: "Hola, quiero ver los planes mixtos disponibles.",
+    ctaLabel: "Ver planes disponibles",
+    ctaHref: "/marketing#planes",
+    order: 3,
+  },
+];
+
 const siteSettings = await fetchSiteSettings();
-const services = await fetchServices();
 const cases = await fetchCases();
 const faqs = await fetchFaqs();
 
@@ -50,10 +118,11 @@ const recentCases = cases.slice(0, 3);
   <main class="space-y-8 overflow-x-hidden max-w-full">
     <Hero siteSettings={siteSettings} content={heroSection} />
 
-    {/* Pass all services to the section, not just featured ones */}
+    {/* Show summary cards for each plan group */}
     <ServicesSection
-      services={services}
+      services={planSummaries}
       whatsappNumber={siteSettings.whatsappNumber}
+      singleGrid
     />
 
     <SectionDivider tone="accent" />
