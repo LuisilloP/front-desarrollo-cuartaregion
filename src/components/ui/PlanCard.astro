@@ -1,17 +1,20 @@
----
+﻿---
 import { Icon } from "astro-icon/components";
 
 interface Plan {
   name: string;
+  badge: string;
+  idealFor: string;
   price: string;
-  reach: string;
-  benefits: string[];
-  results: string[];
-  badge?: string;
+  currency?: string;
+  priceNote?: string;
+  includes: string[];
+  deliverables: string[];
   ctaLabel?: string;
   ctaHref?: string;
+  compareLabel?: string;
+  compareHref?: string;
   featured?: boolean;
-  highlightLabel?: string;
 }
 
 interface Props {
@@ -21,123 +24,122 @@ interface Props {
 const { plan } = Astro.props as Props;
 const {
   name,
+  badge,
+  idealFor,
   price,
-  reach,
-  benefits,
-  results,
-  badge = "3 días de prueba GRATIS",
+  currency = "CLP",
+  priceNote = "Gestión mensual · Inversión publicitaria no incluida",
+  includes,
+  deliverables,
   ctaLabel = "Elegir este plan",
   ctaHref = "#contacto-marketing",
+  compareLabel = "Ver comparativa",
+  compareHref = "#comparar",
   featured = false,
-  highlightLabel = "Más elegido",
 } = plan;
-
-const priceParts = price.trim().split(" ");
-const priceAmount = priceParts[0] ?? price;
-const priceCurrency = priceParts.slice(1).join(" ");
 ---
 
 <article
-  class="card-shine group relative flex h-full flex-col rounded-3xl border p-6 backdrop-blur-xl transition-all duration-300 lg:p-8 hover:scale-[1.02] shadow-lg hover:shadow-2xl
-  border-slate-900/10 bg-white/40 hover:border-slate-900/20 hover:!bg-white/60
-  dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20 dark:hover:!bg-white/[0.07]"
+  class:list={[
+    "card-shine group relative flex h-full flex-col rounded-2xl border bg-card/90 p-6 shadow-sm transition-all duration-300",
+    "hover:-translate-y-0.5 hover:shadow-md hover:border-border/90",
+    featured
+      ? "border-primary/30 ring-1 ring-primary/20 ring-inset bg-gradient-to-b from-primary/5 via-card/95 to-card/95 shadow-md hover:shadow-lg"
+      : "border-border/70",
+  ]}
 >
-  {featured && (
+  <header class="relative z-10 space-y-4">
     <span
-      class="absolute right-6 top-6 z-10 inline-flex shrink-0 items-center rounded-full px-3 py-1 text-xs font-medium ring-1 ring-inset
-    bg-sky-500/10 text-sky-600 ring-sky-500/20
-    dark:bg-sky-400/10 dark:text-sky-300 dark:ring-sky-400/20"
-    >
-      {highlightLabel}
-    </span>
-  )}
-
-  <div class="flex items-start justify-between gap-4">
-    <div>
-      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-white/60">
-        Plan
-      </p>
-      <h3 class="mt-2 text-2xl font-semibold leading-snug tracking-tight text-slate-900 dark:text-white">
-        {name}
-      </h3>
-    </div>
-    <span
-      class="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ring-1 ring-inset
-    bg-slate-100 text-slate-700 ring-slate-500/10
-    dark:bg-white/10 dark:text-white/70 dark:ring-white/20"
+      class:list={[
+        "inline-flex items-center rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em]",
+        featured
+          ? "border-primary/30 bg-primary/15 text-primary shadow-sm shadow-primary/10"
+          : "border-border/70 bg-surface-strong/70 text-muted",
+      ]}
     >
       {badge}
     </span>
-  </div>
 
-  <div class="mt-6 space-y-2">
-    <p class="text-4xl font-semibold tracking-tight text-slate-900 dark:text-white">
-      <span>{priceAmount}</span>
-      {priceCurrency && (
-        <span class="ml-2 text-sm font-medium uppercase tracking-[0.2em] text-slate-500 dark:text-white/60">
-          {priceCurrency}
-        </span>
-      )}
-    </p>
-    <p class="text-sm text-slate-600 dark:text-white/60">
-      Alcance estimado: {reach}
-    </p>
-  </div>
+    <div class="space-y-3">
+      <h3 class="text-2xl font-semibold tracking-tight text-content sm:text-3xl">
+        {name}
+      </h3>
+      <div class="space-y-1">
+        <div class="flex items-end gap-2">
+          <span class="text-4xl font-semibold leading-none tracking-tight text-content sm:text-5xl">
+            {price}
+          </span>
+          <span class="pb-1 text-[10px] font-semibold uppercase tracking-[0.3em] text-muted/70 sm:text-xs">
+            {currency}
+          </span>
+        </div>
+        <p class="text-xs text-muted/80">{priceNote}</p>
+      </div>
+      <p class="text-sm text-muted">Ideal para: {idealFor}</p>
+    </div>
+  </header>
 
-  <div class="mt-6 space-y-3">
-    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-white/60">
+  <div class="relative z-10 mt-6 space-y-3">
+    <p class="text-xs font-semibold uppercase tracking-[0.24em] text-muted">
       Incluye
     </p>
-    <ul class="space-y-3 text-slate-700 dark:text-white/80">
-      {benefits.map((benefit) => (
+    <ul class="space-y-3 text-sm text-content">
+      {includes.map((item) => (
         <li class="flex items-start gap-3">
           <Icon
-            name="lucide:check-circle"
-            class="mt-1 h-4 w-4 flex-shrink-0 text-sky-500 dark:text-sky-300"
+            name="lucide:check"
+            class="mt-0.5 h-4 w-4 flex-shrink-0 text-accent"
+            aria-hidden="true"
           />
-          <span>{benefit}</span>
+          <span>{item}</span>
         </li>
       ))}
     </ul>
   </div>
 
-  <div class="mt-6 space-y-3 rounded-2xl border border-slate-900/10 bg-white/50 p-4 dark:border-white/10 dark:bg-white/5">
-    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-white/60">
-      Resultado final
-    </p>
-    <ul class="space-y-3 text-slate-700 dark:text-white/80">
-      {results.map((result) => (
-        <li class="flex items-start gap-3">
-          <Icon
-            name="lucide:arrow-up-right"
-            class="mt-1 h-4 w-4 flex-shrink-0 text-sky-500 dark:text-sky-300"
-          />
-          <span>{result}</span>
-        </li>
-      ))}
-    </ul>
-  </div>
+  <footer class="relative z-10 mt-auto space-y-4 pt-6">
+    <div class="space-y-2 rounded-xl border border-border/70 bg-surface-strong/60 p-4">
+      <p class="text-xs font-semibold uppercase tracking-[0.24em] text-muted">
+        Entregables
+      </p>
+      <ul class="space-y-2 text-sm text-content">
+        {deliverables.map((item) => (
+          <li class="flex items-start gap-3">
+            <Icon
+              name="lucide:file-text"
+              class="mt-0.5 h-4 w-4 flex-shrink-0 text-primary"
+              aria-hidden="true"
+            />
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
 
-  <a
-    href={ctaHref}
-    class="mt-auto inline-flex items-center gap-2 pt-8 text-lg font-medium transition-colors
-    text-sky-600 group-hover:text-sky-500
-    dark:text-sky-300 dark:group-hover:text-sky-200"
-  >
-    {ctaLabel}
-    <Icon
-      name="lucide:arrow-right"
-      class="h-4 w-4 transition-transform group-hover:translate-x-1"
-    />
-  </a>
+    <div class="space-y-3">
+      <a
+        href={ctaHref}
+        class="inline-flex w-full items-center justify-center rounded-full bg-primary px-5 py-3 text-sm font-semibold text-contrast shadow-lg shadow-primary/15 transition hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight/30"
+      >
+        {ctaLabel}
+      </a>
+      <!-- <a
+        href={compareHref}
+        class="inline-flex w-full items-center justify-center gap-2 rounded-full text-sm font-medium text-muted transition hover:text-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight/30"
+      >
+        {compareLabel}
+        <Icon name="lucide:arrow-right" class="h-4 w-4" aria-hidden="true" />
+      </a> -->
+    </div>
+  </footer>
 </article>
 
 <style>
   :root {
-    --shine-color: rgba(100, 116, 139, 0.1); /* slate-500 */
+    --shine-color: rgba(9, 125, 127, 0.08); /* accent */
   }
   .dark {
-    --shine-color: rgba(125, 211, 252, 0.1); /* sky-300 */
+    --shine-color: rgba(125, 216, 224, 0.08); /* highlight */
   }
   .card-shine {
     overflow: hidden;
@@ -150,7 +152,7 @@ const priceCurrency = priceParts.slice(1).join(" ");
     width: 100%;
     height: 100%;
     background: radial-gradient(
-      400px circle at var(--mouse-x, -9999px) var(--mouse-y, -9999px),
+      420px circle at var(--mouse-x, -9999px) var(--mouse-y, -9999px),
       var(--shine-color),
       transparent 40%
     );

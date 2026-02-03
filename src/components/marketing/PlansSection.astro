@@ -1,14 +1,83 @@
----
-import type { MarketingPlan } from "../../lib/api/types";
+﻿---
 import PlanCard from "../ui/PlanCard.astro";
+
+interface Plan {
+  name: string;
+  badge: string;
+  idealFor: string;
+  price: string;
+  currency?: string;
+  priceNote?: string;
+  includes: string[];
+  deliverables: string[];
+  ctaLabel?: string;
+  ctaHref?: string;
+  compareLabel?: string;
+  compareHref?: string;
+  featured?: boolean;
+}
 
 interface Props {
   title: string;
   description: string;
-  plans: MarketingPlan[];
 }
 
-const { title, description, plans } = Astro.props as Props;
+const { title, description } = Astro.props as Props;
+
+const plans: Plan[] = [
+  {
+    name: "Impulso Digital",
+    badge: "Para empezar",
+    idealFor: "Primeros leads y validación rápida.",
+    price: "$297.000",
+    currency: "CLP",
+    includes: [
+      "Setup y tracking básico",
+      "Campañas y segmentación inicial",
+      "Creativos iniciales",
+      "Optimización semanal",
+      "Reporte mensual y próximos pasos",
+    ],
+    deliverables: ["Dashboard + reporte", "Plan de acción 30 días"],
+    ctaHref: "#contacto-marketing",
+  },
+  {
+    name: "Acelerador de Ventas",
+    badge: "Más recomendado",
+    idealFor: "Más conversiones y estabilidad.",
+    price: "$547.000",
+    currency: "CLP",
+    includes: [
+      "Campañas y segmentación optimizada",
+      "Pruebas A/B de creativos",
+      "Optimización por CPA/ROAS",
+      "Retargeting estratégico",
+      "Reporte quincenal y ajustes",
+    ],
+    deliverables: [
+      "Dashboard + reporte quincenal",
+      "Recomendaciones accionables",
+    ],
+    ctaHref: "#contacto-marketing",
+    featured: true,
+  },
+  {
+    name: "Dominio Digital",
+    badge: "Para escalar",
+    idealFor: "Escalar con estrategia full funnel.",
+    price: "$997.000",
+    currency: "CLP",
+    includes: [
+      "Estrategia full funnel",
+      "Creativos premium iterativos",
+      "Escalado y control de presupuesto",
+      "Optimización por etapas",
+      "Asesoría directa",
+    ],
+    deliverables: ["Roadmap + revisión mensual", "Reporte + insights"],
+    ctaHref: "#contacto-marketing",
+  },
+];
 ---
 
 <section id="planes" class="py-20 lg:py-32">
