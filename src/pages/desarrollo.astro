@@ -1,0 +1,190 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/layout/Navbar.astro";
+import Footer from "../components/layout/Footer.astro";
+import SectionDivider from "../components/layout/SectionDivider.astro";
+import WhatsAppFloatingButton from "../components/layout/WhatsAppFloatingButton.astro";
+import MarketingHero from "../components/sections/MarketingHero.astro";
+import MarketingValue from "../components/sections/MarketingValue.astro";
+import DevelopmentServicesSection from "../components/sections/DevelopmentServicesSection.astro";
+import MarketingTrust from "../components/sections/MarketingTrust.astro";
+import MarketingCTAForm from "../components/sections/MarketingCTAForm.astro";
+import { fetchSiteSettings, fetchServices } from "../lib/api/services";
+import type { Content } from "../lib/api/types";
+import contentJson from "../data/content.json";
+
+const siteSettings = await fetchSiteSettings();
+const services = await fetchServices();
+const content = contentJson as Content;
+
+const pageTitle = "Desarrollo Web y Software | Aliado Digital";
+const pageDescription =
+  "Desarrollo web y software a medida para pymes, profesionales y negocios locales de Chile.";
+
+const developmentSlides = [
+  {
+    src: "/images/hero/hero-coquimbo.webp",
+    alt: "Bahia y puerto de Coquimbo",
+    position: "left",
+  },
+  {
+    src: "/images/hero/hero-serena.webp",
+    alt: "Atardecer en La Serena",
+    position: "right",
+  },
+  {
+    src: "/images/hero/hero-astro.webp",
+    alt: "Cielo estrellado en Valle del Elqui",
+    position: "left",
+  },
+  {
+    src: "/images/hero/hero-cielo.webp",
+    alt: "Vista de La Serena desde el cielo",
+    position: "center",
+  },
+];
+
+const hero = {
+  title: "Desarrollo web y software a medida que impulsa tu negocio",
+  subtitle:
+    "DiseÃ±amos plataformas claras, rÃ¡pidas y escalables para vender mÃ¡s y operar con orden.",
+  primaryCta: {
+    label: "Cotizar desarrollo",
+    href: "#contacto-desarrollo",
+  },
+  secondaryCta: {
+    label: "Ver servicios",
+    href: "#servicios",
+  },
+};
+
+const value = {
+  title: "TecnologÃ­a con foco en resultados",
+  description:
+    "Un buen desarrollo no es solo cÃ³digo: es una herramienta para crecer, automatizar y tomar mejores decisiones.",
+  quote:
+    "No se trata de tener una web bonita, sino de construir una soluciÃ³n que ordene tu operaciÃ³n y genere ventas.",
+  items: [
+    {
+      title: "Soluciones genÃ©ricas",
+      description: "RÃ¡pidas de lanzar, pero difÃ­ciles de escalar.",
+      bullets: [
+        "Limitadas para procesos reales de negocio",
+        "DifÃ­ciles de mantener o ampliar",
+        "Poca diferenciaciÃ³n frente a tu competencia",
+      ],
+    },
+    {
+      title: "Desarrollo a medida",
+      description: "Se adapta a tu negocio y crece contigo.",
+      bullets: [
+        "Funcionalidades alineadas a tus objetivos",
+        "Base sÃ³lida para futuras mejoras",
+        "Mejor experiencia para tus clientes",
+      ],
+    },
+  ],
+};
+
+const filteredServices = services.filter(
+  (service) => (service.type ?? "").toLowerCase() !== "digital",
+);
+const servicesForPage = filteredServices.length > 0 ? filteredServices : services;
+
+const servicesSection = {
+  title: "Planes de desarrollo y tecnologÃ­a",
+  description:
+    "Selecciona la soluciÃ³n que necesitas hoy y acompaÃ±amos tu crecimiento con mejoras constantes.",
+};
+
+const trust = {
+  title: "Equipos que confÃ­an en nuestro desarrollo",
+  description:
+    "Trabajamos con negocios que buscan tecnologÃ­a estable, segura y con soporte real.",
+  logos: [
+    "Andes",
+    "Puerto",
+    "Suria",
+    "KuyÃ©n",
+    "Norte",
+    "Brisa",
+    "Altamar",
+    "Cumbres",
+    "PacÃ­fico",
+    "Marea",
+    "RaÃ­z",
+    "Vector",
+  ],
+};
+
+const cta = {
+  title: "Â¿Listo para construir una soluciÃ³n digital sÃ³lida?",
+  description:
+    "CuÃ©ntanos sobre tu proyecto y te ayudamos a definir el mejor camino.",
+  ctaLabel: "Hablemos de tu desarrollo",
+};
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  siteSettings={siteSettings}
+>
+  <Navbar siteSettings={siteSettings} navLinks={content.navLinks} />
+  <main class="overflow-x-hidden">
+    <MarketingHero
+      title={hero.title}
+      subtitle={hero.subtitle}
+      primaryCta={hero.primaryCta}
+      secondaryCta={hero.secondaryCta}
+      slides={developmentSlides}
+      imageSrc="/images/hero/hero-astro.webp"
+      imageAlt="Desarrollo web y software"
+    />
+
+    <SectionDivider tone="accent" />
+
+    <MarketingValue
+      title={value.title}
+      description={value.description}
+      quote={value.quote}
+      items={value.items}
+    />
+
+    <SectionDivider />
+
+    <DevelopmentServicesSection
+      title={servicesSection.title}
+      description={servicesSection.description}
+      services={servicesForPage}
+      whatsappNumber={siteSettings.whatsappNumber}
+    />
+
+    <SectionDivider />
+
+    <MarketingTrust
+      title={trust.title}
+      description={trust.description}
+      logos={trust.logos}
+    />
+
+    <SectionDivider />
+
+    <MarketingCTAForm
+      title={cta.title}
+      description={cta.description}
+      ctaLabel={cta.ctaLabel}
+      sectionId="contacto-desarrollo"
+      formId="desarrollo-form"
+    />
+  </main>
+  <Footer
+    siteSettings={siteSettings}
+    navLinks={content.navLinks}
+    legalPages={content.legalPages}
+  />
+  <WhatsAppFloatingButton
+    whatsappNumber={siteSettings.whatsappNumber}
+    message="Hola! Quiero un desarrollo a medida."
+  />
+</Layout>

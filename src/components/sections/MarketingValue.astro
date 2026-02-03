@@ -1,0 +1,60 @@
+---
+interface DifferenceItem {
+  title: string;
+  description: string;
+  bullets: string[];
+}
+
+interface Props {
+  title: string;
+  description: string;
+  quote: string;
+  items: DifferenceItem[];
+}
+
+const { title, description, quote, items } = Astro.props as Props;
+---
+
+<section id="propuesta" class="relative py-20 lg:py-28">
+  <div class="section-shell grid gap-12 lg:grid-cols-2 lg:items-start">
+    <div class="space-y-6" data-reveal="fade-up">
+      <p
+        class="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-primary"
+      >
+        Propuesta de valor
+      </p>
+      <h2 class="text-3xl font-semibold text-content sm:text-4xl">
+        {title}
+      </h2>
+      <p class="text-lg text-muted">
+        {description}
+      </p>
+      <blockquote class="rounded-2xl border border-border bg-surface-strong/70 p-5 text-base italic text-muted">
+        "{quote}"
+      </blockquote>
+    </div>
+
+    <div class="grid gap-6" data-reveal="fade-up" data-delay="120">
+      {items.map((item) => (
+        <article class="card space-y-4">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
+              {item.title}
+            </p>
+            <p class="mt-2 text-base font-semibold text-content">
+              {item.description}
+            </p>
+          </div>
+          <ul class="space-y-2 text-sm text-muted">
+            {item.bullets.map((bullet) => (
+              <li class="flex items-start gap-2">
+                <span class="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-accent"></span>
+                <span>{bullet}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

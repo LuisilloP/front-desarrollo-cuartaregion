@@ -1,0 +1,139 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  ctaLabel: string;
+  sectionId?: string;
+  formId?: string;
+}
+
+const {
+  title,
+  description,
+  ctaLabel,
+  sectionId = "contacto-marketing",
+  formId = "marketing-form",
+} = Astro.props as Props;
+---
+
+<section id={sectionId} class="relative py-20 lg:py-32">
+  <div class="absolute inset-0 -z-10">
+    <div class="absolute inset-0 bg-gradient-to-br from-sky-500/15 via-transparent to-emerald-400/10"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-surface/80 via-transparent to-transparent"></div>
+  </div>
+
+  <div class="section-shell">
+    <div class="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+      <div class="space-y-6" data-reveal="fade-up">
+        <p
+          class="inline-flex items-center rounded-full border border-highlight/30 bg-highlight/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-highlight"
+        >
+          Conversemos
+        </p>
+        <h2 class="text-3xl font-semibold text-content sm:text-4xl">
+          {title}
+        </h2>
+        <p class="text-lg text-muted">
+          {description}
+        </p>
+        <ul class="space-y-3 text-sm text-muted">
+          <li class="flex items-start gap-2">
+            <span class="mt-1 h-2 w-2 rounded-full bg-accent"></span>
+            <span>Diagnóstico rápido de tu situación actual y objetivos.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1 h-2 w-2 rounded-full bg-accent"></span>
+            <span>Plan claro con foco en resultados medibles.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1 h-2 w-2 rounded-full bg-accent"></span>
+            <span>Respuesta en horario hábil en menos de 24-48 hrs.</span>
+          </li>
+        </ul>
+      </div>
+
+      <form
+        id={formId}
+        class="card space-y-4"
+        method="post"
+        action=""
+        data-form={sectionId}
+        data-reveal="fade-up"
+        data-delay="120"
+      >
+        <div class="grid gap-4 sm:grid-cols-2">
+          <label class="space-y-2 text-sm font-medium text-muted" for="nombre">
+            Nombre
+            <input
+              id="nombre"
+              name="nombre"
+              type="text"
+              autocomplete="name"
+              required
+              class="w-full rounded-2xl border border-border bg-surface-strong/70 px-4 py-3 text-content placeholder:text-muted/60 focus:border-highlight focus:outline-none focus:ring-2 focus:ring-highlight/20"
+              placeholder="Tu nombre"
+            />
+          </label>
+          <label class="space-y-2 text-sm font-medium text-muted" for="empresa">
+            Empresa
+            <input
+              id="empresa"
+              name="empresa"
+              type="text"
+              autocomplete="organization"
+              class="w-full rounded-2xl border border-border bg-surface-strong/70 px-4 py-3 text-content placeholder:text-muted/60 focus:border-highlight focus:outline-none focus:ring-2 focus:ring-highlight/20"
+              placeholder="Nombre del negocio"
+            />
+          </label>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-2">
+          <label class="space-y-2 text-sm font-medium text-muted" for="email">
+            Email
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+              class="w-full rounded-2xl border border-border bg-surface-strong/70 px-4 py-3 text-content placeholder:text-muted/60 focus:border-highlight focus:outline-none focus:ring-2 focus:ring-highlight/20"
+              placeholder="correo@empresa.cl"
+            />
+          </label>
+          <label class="space-y-2 text-sm font-medium text-muted" for="whatsapp">
+            WhatsApp
+            <input
+              id="whatsapp"
+              name="whatsapp"
+              type="tel"
+              autocomplete="tel"
+              class="w-full rounded-2xl border border-border bg-surface-strong/70 px-4 py-3 text-content placeholder:text-muted/60 focus:border-highlight focus:outline-none focus:ring-2 focus:ring-highlight/20"
+              placeholder="+56 9 1234 5678"
+            />
+          </label>
+        </div>
+
+        <label class="space-y-2 text-sm font-medium text-muted" for="mensaje">
+          Mensaje
+          <textarea
+            id="mensaje"
+            name="mensaje"
+            rows="4"
+            class="w-full rounded-2xl border border-border bg-surface-strong/70 px-4 py-3 text-content placeholder:text-muted/60 focus:border-highlight focus:outline-none focus:ring-2 focus:ring-highlight/20"
+            placeholder="Cuéntanos qué quieres lograr con tu marketing."
+          ></textarea>
+        </label>
+
+        <button
+          type="submit"
+          class="inline-flex w-full items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-contrast shadow-lg shadow-primary/20 transition hover:shadow-xl"
+        >
+          {ctaLabel}
+        </button>
+        <p class="text-xs text-muted">
+          Formulario listo para integración con email o backend cuando lo necesites.
+        </p>
+      </form>
+    </div>
+  </div>
+</section>

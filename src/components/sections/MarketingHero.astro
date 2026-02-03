@@ -1,0 +1,125 @@
+---
+import HeroBackgroundSlideshow from "../hero/HeroBackgroundSlideshow.tsx";
+
+interface Cta {
+  label: string;
+  href: string;
+}
+
+interface Slide {
+  src: string;
+  alt?: string;
+  position?: string;
+  mobileFocus?: "left" | "right" | "center";
+}
+
+interface Props {
+  title: string;
+  subtitle: string;
+  primaryCta: Cta;
+  secondaryCta: Cta;
+  imageSrc?: string;
+  imageAlt?: string;
+  slides?: Slide[];
+}
+
+const {
+  title,
+  subtitle,
+  primaryCta,
+  secondaryCta,
+  imageSrc = "/images/marketing/fondo.png",
+  imageAlt = "Marketing digital para pymes",
+  slides = [],
+} = Astro.props as Props;
+---
+
+<section id="marketing-hero" class="relative min-h-screen overflow-hidden">
+  <div class="absolute inset-0 -z-10">
+    {slides.length > 0 ? (
+      <HeroBackgroundSlideshow
+        client:load
+        slides={slides}
+        intervalMs={7000}
+        transitionMs={1200}
+        showOverlay={false}
+      />
+    ) : (
+      <img
+        src={imageSrc}
+        alt=""
+        aria-hidden="true"
+        loading="eager"
+        class="absolute inset-0 h-full w-full object-cover object-center brightness-[0.85] saturate-90"
+      />
+    )}
+    <div class="absolute inset-0 bg-white/60 dark:bg-black/50 backdrop-blur-sm"></div>
+    <div
+      class="absolute inset-0 bg-gradient-to-b from-white/50 via-white/70 to-white/85 dark:from-black/35 dark:via-black/55 dark:to-black/75"
+    ></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent dark:from-black/35"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.18),transparent_40%)] dark:bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.18),transparent_45%)]"></div>
+  </div>
+
+  <div class="section-shell relative flex min-h-screen items-center py-24 sm:py-28 lg:py-32">
+    <div class="grid w-full items-center gap-12 lg:grid-cols-2">
+      <div class="space-y-6">
+        <h1
+          class="text-4xl font-semibold leading-tight tracking-tight text-slate-900 dark:text-white sm:text-5xl lg:text-6xl"
+          data-reveal="fade-up"
+        >
+          {title}
+        </h1>
+
+        <p
+          class="max-w-xl text-lg text-slate-700 dark:text-white/70 sm:text-xl"
+          data-reveal="fade-up"
+          data-delay="120"
+        >
+          {subtitle}
+        </p>
+
+        <div
+          class="flex flex-col gap-4 sm:flex-row"
+          data-reveal="fade-up"
+          data-delay="200"
+        >
+          <a
+            href={primaryCta.href}
+            class="inline-flex items-center justify-center rounded-full bg-slate-900 px-7 py-3.5 text-base font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100"
+          >
+            {primaryCta.label}
+          </a>
+          <a
+            href={secondaryCta.href}
+            class="inline-flex items-center justify-center rounded-full border border-slate-900/30 px-7 py-3.5 text-base font-semibold text-slate-900 transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-900/50 dark:border-white/30 dark:text-white dark:hover:border-white/50"
+          >
+            {secondaryCta.label}
+          </a>
+        </div>
+      </div>
+
+      <div
+        class="order-last mx-auto w-full max-w-md lg:order-none"
+        data-reveal="fade-up"
+        data-delay="240"
+      >
+        <div class="relative overflow-hidden rounded-3xl border border-slate-900/10 bg-white/60 shadow-2xl dark:border-white/10 dark:bg-white/5">
+          <img
+            src={imageSrc}
+            alt={imageAlt}
+            loading="lazy"
+            class="h-72 w-full object-cover opacity-80"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent"></div>
+          <div class="absolute inset-0 ring-1 ring-white/10"></div>
+          <div class="absolute bottom-5 left-5 right-5 grid grid-cols-3 gap-3">
+            <div class="h-12 rounded-2xl border border-white/15 bg-white/10"></div>
+            <div class="h-12 rounded-2xl border border-white/20 bg-white/15"></div>
+            <div class="h-12 rounded-2xl border border-white/10 bg-white/5"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

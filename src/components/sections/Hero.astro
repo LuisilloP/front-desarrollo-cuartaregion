@@ -5,12 +5,20 @@ import type { SiteSettings, HeroSectionContent } from "../../lib/api/types";
 import { buildWhatsAppLink } from "../../lib/utils";
 import HeroBackgroundSlideshow from "../hero/HeroBackgroundSlideshow.tsx";
 
+type Slide = {
+  src: string;
+  alt?: string;
+  position?: string;
+  mobileFocus?: "left" | "right" | "center";
+};
+
 interface Props {
   siteSettings: SiteSettings;
   content: HeroSectionContent;
+  slides?: Slide[];
 }
 
-const { siteSettings, content } = Astro.props;
+const { siteSettings, content, slides } = Astro.props as Props;
 const whatsappUrl = buildWhatsAppLink(
   siteSettings.whatsappNumber,
   "Hola! Quiero potenciar mi web y automatizar ventas.",
@@ -22,6 +30,8 @@ const heroImages = [
   { src: "/images/hero/hero-astro.webp", alt: "Cielo estrellado en Valle del Elqui", position: "left" },
   { src: "/images/hero/hero-cielo.webp", alt: "Vista de La Serena desde el cielo", position: "center" },
 ];
+
+const activeSlides = slides && slides.length > 0 ? slides : heroImages;
 ---
 
 <section
@@ -32,7 +42,7 @@ const heroImages = [
   <div class="absolute inset-0 z-0">
     <HeroBackgroundSlideshow
       client:load
-      slides={heroImages}
+      slides={activeSlides}
       intervalMs={7000}
       transitionMs={1200}
     />

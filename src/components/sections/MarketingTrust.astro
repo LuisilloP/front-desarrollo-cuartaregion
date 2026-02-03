@@ -1,0 +1,34 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  logos: string[];
+}
+
+const { title, description, logos } = Astro.props as Props;
+---
+
+<section id="confianza" class="relative py-20 lg:py-28">
+  <div class="section-shell">
+    <div class="mx-auto max-w-3xl text-center" data-reveal="fade-up">
+      <h2 class="text-3xl font-semibold text-content sm:text-4xl">
+        {title}
+      </h2>
+      <p class="mt-4 text-lg text-muted">
+        {description}
+      </p>
+    </div>
+
+    <div
+      class="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6"
+      data-reveal="fade-up"
+      data-delay="120"
+    >
+      {logos.map((logo) => (
+        <div class="flex items-center justify-center rounded-2xl border border-border bg-surface-strong/70 px-4 py-6 text-xs font-semibold uppercase tracking-[0.2em] text-muted">
+          <span>{logo}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

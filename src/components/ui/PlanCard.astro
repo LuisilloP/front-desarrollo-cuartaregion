@@ -1,0 +1,182 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Plan {
+  name: string;
+  price: string;
+  reach: string;
+  benefits: string[];
+  results: string[];
+  badge?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  featured?: boolean;
+  highlightLabel?: string;
+}
+
+interface Props {
+  plan: Plan;
+}
+
+const { plan } = Astro.props as Props;
+const {
+  name,
+  price,
+  reach,
+  benefits,
+  results,
+  badge = "3 días de prueba GRATIS",
+  ctaLabel = "Elegir este plan",
+  ctaHref = "#contacto-marketing",
+  featured = false,
+  highlightLabel = "Más elegido",
+} = plan;
+
+const priceParts = price.trim().split(" ");
+const priceAmount = priceParts[0] ?? price;
+const priceCurrency = priceParts.slice(1).join(" ");
+---
+
+<article
+  class="card-shine group relative flex h-full flex-col rounded-3xl border p-6 backdrop-blur-xl transition-all duration-300 lg:p-8 hover:scale-[1.02] shadow-lg hover:shadow-2xl
+  border-slate-900/10 bg-white/40 hover:border-slate-900/20 hover:!bg-white/60
+  dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20 dark:hover:!bg-white/[0.07]"
+>
+  {featured && (
+    <span
+      class="absolute right-6 top-6 z-10 inline-flex shrink-0 items-center rounded-full px-3 py-1 text-xs font-medium ring-1 ring-inset
+    bg-sky-500/10 text-sky-600 ring-sky-500/20
+    dark:bg-sky-400/10 dark:text-sky-300 dark:ring-sky-400/20"
+    >
+      {highlightLabel}
+    </span>
+  )}
+
+  <div class="flex items-start justify-between gap-4">
+    <div>
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-white/60">
+        Plan
+      </p>
+      <h3 class="mt-2 text-2xl font-semibold leading-snug tracking-tight text-slate-900 dark:text-white">
+        {name}
+      </h3>
+    </div>
+    <span
+      class="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ring-1 ring-inset
+    bg-slate-100 text-slate-700 ring-slate-500/10
+    dark:bg-white/10 dark:text-white/70 dark:ring-white/20"
+    >
+      {badge}
+    </span>
+  </div>
+
+  <div class="mt-6 space-y-2">
+    <p class="text-4xl font-semibold tracking-tight text-slate-900 dark:text-white">
+      <span>{priceAmount}</span>
+      {priceCurrency && (
+        <span class="ml-2 text-sm font-medium uppercase tracking-[0.2em] text-slate-500 dark:text-white/60">
+          {priceCurrency}
+        </span>
+      )}
+    </p>
+    <p class="text-sm text-slate-600 dark:text-white/60">
+      Alcance estimado: {reach}
+    </p>
+  </div>
+
+  <div class="mt-6 space-y-3">
+    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-white/60">
+      Incluye
+    </p>
+    <ul class="space-y-3 text-slate-700 dark:text-white/80">
+      {benefits.map((benefit) => (
+        <li class="flex items-start gap-3">
+          <Icon
+            name="lucide:check-circle"
+            class="mt-1 h-4 w-4 flex-shrink-0 text-sky-500 dark:text-sky-300"
+          />
+          <span>{benefit}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div class="mt-6 space-y-3 rounded-2xl border border-slate-900/10 bg-white/50 p-4 dark:border-white/10 dark:bg-white/5">
+    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-white/60">
+      Resultado final
+    </p>
+    <ul class="space-y-3 text-slate-700 dark:text-white/80">
+      {results.map((result) => (
+        <li class="flex items-start gap-3">
+          <Icon
+            name="lucide:arrow-up-right"
+            class="mt-1 h-4 w-4 flex-shrink-0 text-sky-500 dark:text-sky-300"
+          />
+          <span>{result}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <a
+    href={ctaHref}
+    class="mt-auto inline-flex items-center gap-2 pt-8 text-lg font-medium transition-colors
+    text-sky-600 group-hover:text-sky-500
+    dark:text-sky-300 dark:group-hover:text-sky-200"
+  >
+    {ctaLabel}
+    <Icon
+      name="lucide:arrow-right"
+      class="h-4 w-4 transition-transform group-hover:translate-x-1"
+    />
+  </a>
+</article>
+
+<style>
+  :root {
+    --shine-color: rgba(100, 116, 139, 0.1); /* slate-500 */
+  }
+  .dark {
+    --shine-color: rgba(125, 211, 252, 0.1); /* sky-300 */
+  }
+  .card-shine {
+    overflow: hidden;
+  }
+  .card-shine::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+      400px circle at var(--mouse-x, -9999px) var(--mouse-y, -9999px),
+      var(--shine-color),
+      transparent 40%
+    );
+    border-radius: inherit;
+    z-index: 0;
+    transition: opacity 0.3s;
+  }
+</style>
+
+<script is:inline>
+  function setupCardShine() {
+    document.querySelectorAll(".card-shine").forEach((card) => {
+      if (card.dataset.shineListener === "true") return;
+
+      card.addEventListener("mousemove", (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty("--mouse-x", `${x}px`);
+        card.style.setProperty("--mouse-y", `${y}px`);
+      });
+
+      card.dataset.shineListener = "true";
+    });
+  }
+
+  setupCardShine();
+  document.addEventListener("astro:after-swap", setupCardShine);
+</script>
