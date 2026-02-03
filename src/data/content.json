@@ -62,7 +62,7 @@
   "heroSection": {
     "eyebrow": "Tu aliado tecnológico en la Región de Coquimbo",
     "title": "Tecnología que impulsa tu negocio",
-    "description": "Diseñamos sitios web, sistemas y automatizaciones simples que te ahorran tiempo y te ayudan a vender más. Te acompañamos a modernizar tu negocio paso a paso."
+    "description": "Diseñamos sitios web, sistemas y automatizaciones simples, y activamos campañas de Meta Ads (Facebook/Instagram) para atraer clientes. Te acompañamos a modernizar tu negocio paso a paso."
   },
   "contactSection": {
     "eyebrow": "Hablemos",
@@ -140,6 +140,7 @@
     {
       "slug": "web-estatica",
       "type": "web",
+      "variant": "web",
       "title": "Página web estática profesional",
       "for_who": "Negocios que necesitan una presencia clara en internet y mostrar sus servicios de forma profesional.",
       "whatsapp_desc": "Hola, vi el servicio de página web estática profesional y me gustaría conocer qué incluye.",
@@ -166,6 +167,7 @@
     {
       "slug": "web-administrable-contacto-clientes",
       "type": "web",
+      "variant": "web",
       "title": "Página web administrable",
       "for_who": "Negocios que necesitan una web que no solo muestre información, sino que les permita gestionar y recibir consultas de forma ordenada.",
       "whatsapp_desc": "Hola, vi la página web administrable para contacto con clientes y me gustaría conocer qué incluye.",
@@ -195,6 +197,7 @@
     {
       "slug": "sistema-gestion-negocio",
       "type": "software",
+      "variant": "web",
       "title": "Sistema de gestión para tu negocio",
       "for_who": "Empresas que necesitan ordenar sus procesos, clientes, ventas e información en un solo lugar.",
       "whatsapp_desc": "Hola, vi el sistema de gestión para negocios y me gustaría conversar sobre mis necesidades.",
@@ -220,6 +223,7 @@
     {
       "slug": "presencia-digital",
       "type": "digital",
+      "variant": "web",
       "title": "Gestión y configuración de redes sociales para negocios",
       "for_who": "Negocios que quieren ordenar y profesionalizar su presencia en redes sociales y plataformas digitales.",
       "whatsapp_desc": "Hola, vi el servicio de gestión y configuración de redes sociales y me gustaría saber qué incluye.",
@@ -249,6 +253,7 @@
     {
       "slug": "orientacion-digital",
       "type": "digital",
+      "variant": "web",
       "title": "Orientación para empezar con tecnología",
       "for_who": "Personas y negocios que no saben por dónde empezar y quieren una guía clara, sin tecnicismos.",
       "whatsapp_desc": "Hola, vi la orientación para empezar con tecnología y me gustaría saber por dónde comenzar.",
@@ -266,6 +271,156 @@
       "order": 99,
       "featured": false,
       "icon": "lucide:message-circle"
+    },
+    {
+      "slug": "meta-ads",
+      "type": "digital",
+      "variant": "marketing",
+      "accent": "amber",
+      "title": "Meta Ads (Facebook / Instagram)",
+      "for_who": "Negocios que quieren atraer clientes con campaÃ±as pagadas en redes sociales.",
+      "whatsapp_desc": "Hola, vi el plan de Meta Ads y me gustarÃ­a cotizar una campaÃ±a.",
+      "what_it_solves": "CampaÃ±as pagadas para generar leads y ventas en Facebook e Instagram con segmentaciÃ³n precisa y creatividades que convierten.",
+      "benefits": [
+        "CampaÃ±as con objetivos claros",
+        "SegmentaciÃ³n y audiencias lookalike",
+        "Creatividades y copys listos para test A/B",
+        "Reporte mensual con aprendizajes"
+      ],
+      "deliverables": [
+        "ConfiguraciÃ³n de Business Manager y pÃ­xel",
+        "Estructura de campaÃ±as y conjuntos de anuncios",
+        "OptimizaciÃ³n semanal segÃºn resultados"
+      ],
+      "delivery_time": "5 dÃ­as hÃ¡biles",
+      "modality": "Mensual",
+      "price": "$180.000 CLP",
+      "ctaType": "whatsapp",
+      "guarantee": "Incluye optimizaciÃ³n inicial y ajustes de segmentaciÃ³n.",
+      "top_banner": "TracciÃ³n en redes",
+      "order": 12,
+      "featured": false,
+      "icon": "lucide:rocket"
+    },
+    {
+      "slug": "google-ads",
+      "type": "digital",
+      "variant": "marketing",
+      "accent": "orange",
+      "title": "Google Ads",
+      "for_who": "Empresas que necesitan captar demanda activa en bÃºsquedas y sitios relevantes.",
+      "whatsapp_desc": "Hola, vi el plan de Google Ads y me gustarÃ­a cotizar.",
+      "what_it_solves": "Anuncios en bÃºsqueda y display para aparecer cuando tus clientes te estÃ¡n buscando.",
+      "benefits": [
+        "BÃºsqueda con palabras clave estratÃ©gicas",
+        "Display para alcance y remarketing",
+        "Conversion tracking y etiquetas",
+        "OptimizaciÃ³n continua de presupuesto"
+      ],
+      "deliverables": [
+        "ConfiguraciÃ³n de Google Ads y Analytics",
+        "Estructura de campaÃ±as y anuncios",
+        "Reporte mensual con mejoras"
+      ],
+      "delivery_time": "7 dÃ­as hÃ¡biles",
+      "modality": "Mensual",
+      "price": "$200.000 CLP",
+      "ctaType": "whatsapp",
+      "guarantee": "Incluye calibraciÃ³n inicial de conversiones.",
+      "top_banner": "Demanda activa",
+      "order": 13,
+      "featured": false,
+      "icon": "lucide:search"
+    },
+    {
+      "slug": "redes-sociales",
+      "type": "digital",
+      "variant": "marketing",
+      "accent": "amber",
+      "title": "Redes Sociales",
+      "for_who": "Marcas que quieren mantener una presencia constante y profesional en social media.",
+      "whatsapp_desc": "Hola, vi el plan de redes sociales y me gustarÃ­a cotizar.",
+      "what_it_solves": "Contenido y gestiÃ³n mensual para mantener activa tu comunidad y generar confianza.",
+      "benefits": [
+        "Calendario editorial mensual",
+        "DiseÃ±o de posts y stories",
+        "GestiÃ³n de comunidad y respuestas",
+        "MÃ©tricas y aprendizajes"
+      ],
+      "deliverables": [
+        "Plan de contenidos y parrilla mensual",
+        "Pack de piezas grÃ¡ficas optimizadas",
+        "Reporte mensual con alcance y engagement"
+      ],
+      "delivery_time": "10 dÃ­as hÃ¡biles",
+      "modality": "Mensual",
+      "price": "$140.000 CLP",
+      "ctaType": "whatsapp",
+      "guarantee": "Incluye ajustes de tono y estilo visual.",
+      "top_banner": "Marca activa",
+      "order": 14,
+      "featured": false,
+      "icon": "lucide:messages-square"
+    },
+    {
+      "slug": "embudos-estrategia",
+      "type": "digital",
+      "variant": "marketing",
+      "accent": "orange",
+      "title": "Embudos / Estrategia",
+      "for_who": "Negocios que quieren ordenar su captaciÃ³n y convertir visitas en clientes.",
+      "whatsapp_desc": "Hola, vi el plan de embudos y estrategia y me gustarÃ­a cotizar.",
+      "what_it_solves": "Definimos propuesta, funnel y campaÃ±as para escalar resultados con claridad.",
+      "benefits": [
+        "Propuesta de valor clara",
+        "Funnel con etapas definidas",
+        "Landing + campaÃ±as integradas",
+        "KPIs y objetivos medibles"
+      ],
+      "deliverables": [
+        "DiagnÃ³stico y mapa de embudo",
+        "DefiniciÃ³n de mensajes y activos clave",
+        "Plan de mediciÃ³n y optimizaciÃ³n"
+      ],
+      "delivery_time": "12 dÃ­as hÃ¡biles",
+      "modality": "Proyecto + Mensual",
+      "price": "$260.000 CLP",
+      "ctaType": "whatsapp",
+      "guarantee": "Incluye ajustes iniciales del funnel.",
+      "top_banner": "Estrategia completa",
+      "order": 15,
+      "featured": false,
+      "icon": "lucide:filter"
+    },
+    {
+      "slug": "plan-mixto-web-marketing",
+      "type": "digital",
+      "variant": "mixed",
+      "accent": "orange",
+      "title": "Plan Mixto: Web + Marketing",
+      "for_who": "Negocios que quieren lanzar su web y activar campaÃ±as en una sola propuesta.",
+      "whatsapp_desc": "Hola, vi el plan mixto web + marketing y me gustarÃ­a cotizar.",
+      "what_it_solves": "Lanzamiento digital completo: una web optimizada con campaÃ±as activas y mediciÃ³n desde el dÃ­a uno.",
+      "benefits": [
+        "Landing optimizada para conversiÃ³n",
+        "CampaÃ±as activas con tracking",
+        "AutomatizaciÃ³n de contactos",
+        "Reporte mensual y mejoras"
+      ],
+      "deliverables": [
+        "DiseÃ±o y desarrollo de landing",
+        "ConfiguraciÃ³n de pÃ­xeles y eventos",
+        "Set inicial de campaÃ±as y anuncios"
+      ],
+      "delivery_time": "14 dÃ­as hÃ¡biles",
+      "modality": "Proyecto + Mensual",
+      "price": "$320.000 CLP",
+      "ctaType": "whatsapp",
+      "guarantee": "Incluye ajustes de la landing y optimizaciÃ³n inicial.",
+      "top_banner": "Combo recomendado",
+      "order": 24,
+      "featured": false,
+      "icon": "lucide:layers"
     }
   ],
   "cases": [

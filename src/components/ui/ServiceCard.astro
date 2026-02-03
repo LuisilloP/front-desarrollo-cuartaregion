@@ -24,6 +24,69 @@ const iconName = service.icon || "lucide:gem"; // Default icon
 const price = (service.price ?? "").trim();
 const deliveryTime = (service.delivery_time ?? "").trim();
 const modality = (service.modality ?? "").trim();
+const variant = (service.variant ?? "web") as "web" | "marketing" | "mixed";
+const isMixed = variant === "mixed";
+const accentTone =
+  variant === "web" ? null : service.accent === "amber" ? "amber" : "orange";
+
+const webAccent = {
+  banner:
+    "bg-sky-500/10 text-sky-600 ring-sky-500/20 dark:bg-sky-400/10 dark:text-sky-300 dark:ring-sky-400/20",
+  icon: "bg-sky-500/10 text-sky-600 border-sky-500/20 dark:bg-sky-400/10 dark:text-sky-300 dark:border-sky-400/20",
+  modality:
+    "bg-blue-50 text-blue-700 ring-blue-700/10 dark:bg-blue-400/10 dark:text-blue-400 dark:ring-blue-400/30",
+  check: "text-sky-500 dark:text-sky-300",
+  cta: "text-sky-600 group-hover:text-sky-500 dark:text-sky-300 dark:group-hover:text-sky-200",
+};
+
+const marketingAccents = {
+  amber: {
+    banner:
+      "bg-amber-500/10 text-amber-600 ring-amber-500/20 dark:bg-amber-400/10 dark:text-amber-300 dark:ring-amber-400/20",
+    icon: "bg-amber-500/10 text-amber-600 border-amber-500/20 dark:bg-amber-400/10 dark:text-amber-300 dark:border-amber-400/20",
+    modality:
+      "bg-amber-50 text-amber-700 ring-amber-700/10 dark:bg-amber-400/10 dark:text-amber-400 dark:ring-amber-400/30",
+    check: "text-amber-500 dark:text-amber-300",
+    cta: "text-amber-600 group-hover:text-amber-500 dark:text-amber-300 dark:group-hover:text-amber-200",
+    shine: "rgba(245, 158, 11, 0.16)",
+  },
+  orange: {
+    banner:
+      "bg-orange-500/10 text-orange-600 ring-orange-500/20 dark:bg-orange-400/10 dark:text-orange-300 dark:ring-orange-400/20",
+    icon: "bg-orange-500/10 text-orange-600 border-orange-500/20 dark:bg-orange-400/10 dark:text-orange-300 dark:border-orange-400/20",
+    modality:
+      "bg-orange-50 text-orange-700 ring-orange-700/10 dark:bg-orange-400/10 dark:text-orange-400 dark:ring-orange-400/30",
+    check: "text-orange-500 dark:text-orange-300",
+    cta: "text-orange-600 group-hover:text-orange-500 dark:text-orange-300 dark:group-hover:text-orange-200",
+    shine: "rgba(249, 115, 22, 0.16)",
+  },
+} as const;
+
+const accent =
+  variant === "web"
+    ? webAccent
+    : marketingAccents[accentTone ?? "orange"];
+
+const mixedAccent = {
+  banner:
+    "bg-sky-500/10 text-sky-600 ring-sky-500/20 dark:bg-sky-400/10 dark:text-sky-300 dark:ring-sky-400/20",
+  icon: "bg-orange-500/10 text-orange-600 border-orange-500/20 dark:bg-orange-400/10 dark:text-orange-300 dark:border-orange-400/20",
+  modality:
+    "bg-orange-50 text-orange-700 ring-orange-700/10 dark:bg-orange-400/10 dark:text-orange-400 dark:ring-orange-400/30",
+  check:
+    "text-amber-500 dark:text-amber-300 group-hover:text-sky-500 dark:group-hover:text-sky-300",
+  cta: "text-amber-500 group-hover:text-sky-500 dark:text-amber-300 dark:group-hover:text-sky-300",
+  shine: "rgba(56, 189, 248, 0.16)",
+};
+
+const resolvedAccent = isMixed ? mixedAccent : accent;
+const deliveryChipClass = isMixed
+  ? "bg-sky-500/10 text-sky-600 ring-sky-500/20 dark:bg-sky-400/10 dark:text-sky-300 dark:ring-sky-400/20"
+  : "bg-slate-100 text-slate-600 ring-slate-500/10 dark:bg-slate-400/10 dark:text-slate-400 dark:ring-slate-400/20";
+const mixedCardClass = isMixed ? "ring-1 ring-white/10" : "";
+
+const shineStyle =
+  variant === "web" ? undefined : `--shine-color: ${resolvedAccent.shine};`;
 // For maintenance, text is "Activación: ...", otherwise "Entrega: ..."
 const deliveryLabel =
   service.slug === "mantencion-ti-monitoreo" ? "Activación" : "Entrega";
@@ -33,16 +96,29 @@ const deliveryLabel =
   href={whatsappUrl}
   target="_blank"
   rel="noreferrer"
-  class="card-shine group relative flex h-full flex-col rounded-3xl border p-6 backdrop-blur-xl transition-all duration-300 lg:p-8 hover:scale-[1.02] shadow-lg hover:shadow-2xl
+  data-variant={variant}
+  data-accent={accentTone ?? undefined}
+  style={shineStyle}
+  class={`card-shine group relative z-0 flex h-full flex-col rounded-3xl border p-6 backdrop-blur-xl transition-all duration-300 lg:p-8 hover:scale-[1.02] shadow-lg hover:shadow-2xl
   border-slate-900/10 bg-white/40 hover:border-slate-900/20 hover:!bg-white/60
-  dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20 dark:hover:!bg-white/[0.07]"
+  dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20 dark:hover:!bg-white/[0.07]
+  ${mixedCardClass}`}
 >
+  {
+    isMixed && (
+      <div class="pointer-events-none absolute inset-0 z-0">
+        <div class="absolute inset-0 bg-[radial-gradient(620px_circle_at_15%_20%,rgba(56,189,248,0.20),transparent_60%)]" />
+        <div class="absolute inset-0 bg-[radial-gradient(660px_circle_at_85%_80%,rgba(251,146,60,0.18),transparent_60%)]" />
+        <div class="absolute inset-0 bg-[linear-gradient(135deg,rgba(56,189,248,0.08),rgba(251,146,60,0.08))] opacity-40 blur-2xl" />
+      </div>
+    )
+  }
+
+  <div class="z-10 flex h-full flex-col">
   {
     bannerLabel && (
       <span
-        class="absolute right-6 top-6 z-10 inline-flex shrink-0 items-center rounded-full px-3 py-1 text-xs font-medium ring-1 ring-inset
-    bg-sky-500/10 text-sky-600 ring-sky-500/20
-    dark:bg-sky-400/10 dark:text-sky-300 dark:ring-sky-400/20"
+        class={`absolute right-6 top-6 z-10 inline-flex shrink-0 items-center rounded-full px-3 py-1 text-xs font-medium ring-1 ring-inset ${resolvedAccent.banner}`}
       >
         {bannerLabel}
       </span>
@@ -50,9 +126,7 @@ const deliveryLabel =
   }
 
   <div
-    class="relative mb-6 flex h-12 w-12 items-center justify-center rounded-2xl border
-  bg-sky-500/10 text-sky-600 border-sky-500/20
-  dark:bg-sky-400/10 dark:text-sky-300 dark:border-sky-400/20"
+    class={`relative mb-6 flex h-12 w-12 items-center justify-center rounded-2xl border ${resolvedAccent.icon}`}
   >
     <Icon name={iconName} class="h-6 w-6" />
   </div>
@@ -73,14 +147,18 @@ const deliveryLabel =
   <div class="mt-4 flex flex-wrap gap-2">
     {
       deliveryTime && (
-        <span class="inline-flex items-center rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-600 ring-1 ring-inset ring-slate-500/10 dark:bg-slate-400/10 dark:text-slate-400 dark:ring-slate-400/20">
+        <span
+          class={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${deliveryChipClass}`}
+        >
           {deliveryLabel}: {deliveryTime}
         </span>
       )
     }
     {
       modality && (
-        <span class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 dark:bg-blue-400/10 dark:text-blue-400 dark:ring-blue-400/30">
+        <span
+          class={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${resolvedAccent.modality}`}
+        >
           Modalidad: {modality}
         </span>
       )
@@ -94,7 +172,7 @@ const deliveryLabel =
           <li class="flex items-start gap-3">
             <Icon
               name="lucide:check-circle"
-              class="mt-1 h-4 w-4 flex-shrink-0 text-sky-500 dark:text-sky-300"
+              class={`mt-1 h-4 w-4 flex-shrink-0 ${resolvedAccent.check}`}
             />
             <span>{benefit}</span>
           </li>
@@ -120,9 +198,7 @@ const deliveryLabel =
       )
     }
     <div
-      class="text-lg inline-flex items-center gap-2 font-medium transition-colors
-    text-sky-600 group-hover:text-sky-500
-    dark:text-sky-300 dark:group-hover:text-sky-200"
+      class={`text-lg inline-flex items-center gap-2 font-medium transition-colors ${resolvedAccent.cta}`}
     >
       Cotizar este plan <Icon
         name="lucide:arrow-right"
@@ -130,6 +206,7 @@ const deliveryLabel =
       />
     </div>
   </div>
+</div>
 </a>
 
 <style>
@@ -142,7 +219,7 @@ const deliveryLabel =
   .card-shine {
     overflow: hidden;
   }
-  .card-shine::before {
+  .card-shine::after {
     content: "";
     position: absolute;
     top: 0;
@@ -155,7 +232,8 @@ const deliveryLabel =
       transparent 40%
     );
     border-radius: inherit;
-    z-index: 0;
+    z-index: -1;
+    pointer-events: none;
     transition: opacity 0.3s;
   }
 </style>

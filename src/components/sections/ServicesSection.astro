@@ -12,6 +12,15 @@ const { services, whatsappNumber } = Astro.props;
 const sortedServices = [...services].sort(
   (a, b) => (a.order ?? 99) - (b.order ?? 99),
 );
+const webServices = sortedServices.filter(
+  (service) => (service.variant ?? "web") === "web",
+);
+const marketingServices = sortedServices.filter(
+  (service) => service.variant === "marketing",
+);
+const mixedServices = sortedServices.filter(
+  (service) => service.variant === "mixed",
+);
 ---
 
 <section id="servicios" class="py-20 lg:py-32">
@@ -32,17 +41,60 @@ const sortedServices = [...services].sort(
 
     <!-- Services Grid -->
     <div
-      id="services-grid"
-      class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
+      class="services-grid grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
     >
       {
-        sortedServices.map((service) => (
+        webServices.map((service) => (
           <div class="service-card-wrapper">
             <ServiceCard service={service} whatsappNumber={whatsappNumber} />
           </div>
         ))
       }
     </div>
+
+    {
+      marketingServices.length > 0 && (
+        <>
+          <div class="mx-auto mt-16 mb-10 max-w-3xl text-center">
+            <h3 class="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
+              Marketing
+            </h3>
+            <p class="mt-3 text-base text-slate-600 dark:text-white/60">
+              CampaÃ±as y contenidos para atraer clientes de forma constante.
+            </p>
+          </div>
+          <div class="services-grid grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {marketingServices.map((service) => (
+              <div class="service-card-wrapper">
+                <ServiceCard service={service} whatsappNumber={whatsappNumber} />
+              </div>
+            ))}
+          </div>
+        </>
+      )
+    }
+
+    {
+      mixedServices.length > 0 && (
+        <>
+          <div class="mx-auto mt-16 mb-10 max-w-3xl text-center">
+            <h3 class="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
+              Mixta (Web + Marketing)
+            </h3>
+            <p class="mt-3 text-base text-slate-600 dark:text-white/60">
+              Una sola propuesta para lanzar tu web y activar campaÃ±as.
+            </p>
+          </div>
+          <div class="services-grid grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {mixedServices.map((service) => (
+              <div class="service-card-wrapper">
+                <ServiceCard service={service} whatsappNumber={whatsappNumber} />
+              </div>
+            ))}
+          </div>
+        </>
+      )
+    }
   </div>
 </section>
 
@@ -63,30 +115,33 @@ const sortedServices = [...services].sort(
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const grid = document.getElementById("services-grid");
-    if (!grid) return;
+    const grids = document.querySelectorAll(".services-grid");
+    if (!grids.length) return;
 
-    const cards = grid.querySelectorAll(".service-card-wrapper");
+    grids.forEach((grid) => {
+      const cards = grid.querySelectorAll(".service-card-wrapper");
+      if (!cards.length) return;
 
-    const observer = new IntersectionObserver(
-      (entries, obs) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            cards.forEach((card, index) => {
-              const cardElement = card as HTMLElement;
-              cardElement.style.setProperty("--delay", `${index * 100}ms`);
-              cardElement.classList.add("is-visible");
-            });
-            obs.unobserve(grid); // Stop observing after animation is triggered
-          }
-        });
-      },
-      {
-        threshold: 0.1, // Trigger when 10% of the grid is visible
-        rootMargin: "0px 0px -50px 0px", // Trigger a bit before it's fully in view
-      },
-    );
+      const observer = new IntersectionObserver(
+        (entries, obs) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              cards.forEach((card, index) => {
+                const cardElement = card as HTMLElement;
+                cardElement.style.setProperty("--delay", `${index * 100}ms`);
+                cardElement.classList.add("is-visible");
+              });
+              obs.unobserve(grid); // Stop observing after animation is triggered
+            }
+          });
+        },
+        {
+          threshold: 0.1, // Trigger when 10% of the grid is visible
+          rootMargin: "0px 0px -50px 0px", // Trigger a bit before it's fully in view
+        },
+      );
 
-    observer.observe(grid);
+      observer.observe(grid);
+    });
   });
 </script>

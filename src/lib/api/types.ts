@@ -53,6 +53,8 @@ export type ServiceCategory = "web" | "maintenance" | "digital";
 export type Service = {
   slug: string;
   type?: ServiceCategory;
+  variant?: "web" | "marketing" | "mixed";
+  accent?: "amber" | "orange";
   title: string;
   for_who?: string;
   whatsapp_desc?: string;
