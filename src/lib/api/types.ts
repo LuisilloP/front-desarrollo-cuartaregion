@@ -189,14 +189,114 @@ export interface HeroSectionContent {
   description: string;
 }
 
-export interface Content {
-  siteSettings: SiteSettings;
-  navLinks: NavLink[];
+export type PageCta = {
+  label: string;
+  href: string;
+};
+
+export type PageSlide = {
+  src: string;
+  alt?: string;
+  position?: string;
+  mobileFocus?: "left" | "right" | "center";
+};
+
+export type PageHero = {
+  title: string;
+  subtitle: string;
+  primaryCta: PageCta;
+  secondaryCta: PageCta;
+  imageSrc?: string;
+  imageAlt?: string;
+  slides?: PageSlide[];
+};
+
+export type ValueItem = {
+  title: string;
+  description: string;
+  bullets: string[];
+};
+
+export type ValueSection = {
+  title: string;
+  description: string;
+  quote: string;
+  items: ValueItem[];
+};
+
+export type TrustSection = {
+  title: string;
+  description: string;
+  logos: string[];
+};
+
+export type PageCtaSection = {
+  title: string;
+  description: string;
+  ctaLabel: string;
+  sectionId?: string;
+  formId?: string;
+};
+
+export type MarketingPlan = {
+  name: string;
+  price: string;
+  reach: string;
+  benefits: string[];
+  results: string[];
+  badge?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  featured?: boolean;
+  highlightLabel?: string;
+};
+
+export type MarketingPageContent = {
+  seo?: {
+    title: string;
+    description: string;
+  };
+  hero: PageHero;
+  value: ValueSection;
+  plansSection?: {
+    title: string;
+    description: string;
+  };
+  plans: MarketingPlan[];
+  trust: TrustSection;
+  cta: PageCtaSection;
+};
+
+export type DevelopmentServicesSectionContent = {
+  title: string;
+  description: string;
+  includeTypes?: ServiceCategory[];
+  excludeTypes?: ServiceCategory[];
+};
+
+export type DevelopmentPageContent = {
+  seo?: {
+    title: string;
+    description: string;
+  };
+  hero: PageHero;
+  value: ValueSection;
+  servicesSection: DevelopmentServicesSectionContent;
+  trust: TrustSection;
+  cta: PageCtaSection;
+};
+
+export type HomePageContent = {
   heroSection: HeroSectionContent;
   contactSection: ContactSectionContent;
   useCasesSection: UseCasesSectionContent;
   reviewsSection: ReviewsSectionContent;
   faqSection: FaqSectionContent;
+};
+
+export interface Content {
+  siteSettings: SiteSettings;
+  navLinks: NavLink[];
   services: Service[];
   cases: CaseStudy[];
   reviews: Testimonial[];

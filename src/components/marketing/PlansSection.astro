@@ -1,29 +1,16 @@
 ---
+import type { MarketingPlan } from "../../lib/api/types";
 import PlanCard from "../ui/PlanCard.astro";
-
-interface Plan {
-  name: string;
-  price: string;
-  reach: string;
-  benefits: string[];
-  results: string[];
-  badge?: string;
-  ctaLabel?: string;
-  ctaHref?: string;
-  featured?: boolean;
-  highlightLabel?: string;
-}
 
 interface Props {
   title: string;
   description: string;
-  plans: Plan[];
+  plans: MarketingPlan[];
 }
 
 const { title, description, plans } = Astro.props as Props;
 ---
 
-<div id="servicios" aria-hidden="true"></div>
 <section id="planes" class="py-20 lg:py-32">
   <div class="section-shell">
     <div class="mx-auto max-w-3xl text-center" data-reveal="fade-up">

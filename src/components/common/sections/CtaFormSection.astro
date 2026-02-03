@@ -1,11 +1,7 @@
 ---
-interface Props {
-  title: string;
-  description: string;
-  ctaLabel: string;
-  sectionId?: string;
-  formId?: string;
-}
+import type { PageCtaSection } from "../../../lib/api/types";
+
+interface Props extends PageCtaSection {}
 
 const {
   title,

@@ -4,158 +4,25 @@ import Navbar from "../components/layout/Navbar.astro";
 import Footer from "../components/layout/Footer.astro";
 import SectionDivider from "../components/layout/SectionDivider.astro";
 import WhatsAppFloatingButton from "../components/layout/WhatsAppFloatingButton.astro";
-import MarketingHero from "../components/sections/MarketingHero.astro";
-import MarketingValue from "../components/sections/MarketingValue.astro";
-import MarketingPlans from "../components/sections/MarketingPlans.astro";
-import MarketingTrust from "../components/sections/MarketingTrust.astro";
-import MarketingCTAForm from "../components/sections/MarketingCTAForm.astro";
+import SectionHero from "../components/common/sections/SectionHero.astro";
+import ValueSection from "../components/common/sections/ValueSection.astro";
+import PlansSection from "../components/marketing/PlansSection.astro";
+import TrustSection from "../components/common/sections/TrustSection.astro";
+import CtaFormSection from "../components/common/sections/CtaFormSection.astro";
 import { fetchSiteSettings } from "../lib/api/services";
-import type { Content } from "../lib/api/types";
+import type { Content, MarketingPageContent } from "../lib/api/types";
 import contentJson from "../data/content.json";
+import marketingJson from "../data/pages/marketing.json";
 
 const siteSettings = await fetchSiteSettings();
 const content = contentJson as Content;
+const marketingContent = marketingJson as MarketingPageContent;
 
-const pageTitle = "Marketing Digital para Pymes | Aliado Digital";
+const { hero, value, plans, trust, cta, seo, plansSection } = marketingContent;
+const pageTitle = seo?.title ?? "Marketing Digital para Pymes | Aliado Digital";
 const pageDescription =
+  seo?.description ??
   "Marketing digital enfocado en resultados reales para pymes, profesionales y negocios locales de Chile.";
-
-const marketingSlides = [
-  {
-    src: "/images/hero/hero-coquimbo.webp",
-    alt: "Bahia y puerto de Coquimbo",
-    position: "left",
-  },
-  {
-    src: "/images/hero/hero-serena.webp",
-    alt: "Atardecer en La Serena",
-    position: "right",
-  },
-  {
-    src: "/images/hero/hero-astro.webp",
-    alt: "Cielo estrellado en Valle del Elqui",
-    position: "left",
-  },
-  {
-    src: "/images/hero/hero-cielo.webp",
-    alt: "Vista de La Serena desde el cielo",
-    position: "center",
-  },
-];
-
-const hero = {
-  title: "Hacemos crecer tu negocio con marketing digital que funciona",
-  subtitle:
-    "Estrategia, contenido y campañas enfocadas en resultados medibles para pymes, profesionales y negocios locales de Chile.",
-  primaryCta: {
-    label: "Quiero más clientes",
-    href: "#contacto-marketing",
-  },
-  secondaryCta: {
-    label: "Ver planes",
-    href: "#planes",
-  },
-};
-
-const value = {
-  title: "Marketing digital con dirección, no con azar",
-  description:
-    "Hoy las decisiones de compra comienzan en internet. Si no estás presente con el mensaje correcto, otro ocupará tu lugar. Nuestro foco es ayudarte a competir con estrategia y resultados medibles.",
-  quote:
-    "No se trata de aparecer más, sino de llegar a las personas correctas, en el momento correcto, con el mensaje correcto.",
-  items: [
-    {
-      title: "Gastar en anuncios",
-      description: "Aumenta visibilidad, pero sin un plan sólido se diluye.",
-      bullets: [
-        "Segmentación genérica y poco control",
-        "Mensajes sin intención comercial clara",
-        "Resultados inestables y difíciles de replicar",
-      ],
-    },
-    {
-      title: "Invertir estratégicamente",
-      description: "Alinea presupuesto, audiencia y conversión.",
-      bullets: [
-        "Segmentación precisa según tu cliente ideal",
-        "Embudo con mensajes y ofertas coherentes",
-        "Optimización continua basada en datos reales",
-      ],
-    },
-  ],
-};
-
-const plans = [
-  {
-    name: "Impulso Digital",
-    price: "$297.000 CLP",
-    reach: "80-180 clientes potenciales",
-    benefits: [
-      "Campañas + Segmentación",
-      "Optimización Básica",
-      "Copy Persuasivo",
-      "Creativos Simples",
-    ],
-    results: ["Visibilidad inmediata", "Primeros leads", "Datos para escalar"],
-    ctaHref: "#contacto-marketing",
-  },
-  {
-    name: "Acelerador de Ventas",
-    price: "$547.000 CLP",
-    reach: "200-450 clientes potenciales",
-    benefits: [
-      "Todo el Plan Impulso",
-      "Estrategia de Ventas",
-      "Pruebas A/B",
-      "Optimización Avanzada",
-      "Reporte de Resultados",
-    ],
-    results: ["Más ventas", "Leads constantes", "Escalabilidad real"],
-    featured: true,
-    highlightLabel: "Más elegido",
-    ctaHref: "#contacto-marketing",
-  },
-  {
-    name: "Dominio Digital",
-    price: "$997.000 CLP",
-    reach: "500-1.000 clientes potenciales",
-    benefits: [
-      "Estrategia Full Funnel",
-      "Escalado agresivo",
-      "Creativos Premium",
-      "Asesoría Directa",
-    ],
-    results: ["Alto volumen", "Marca líder", "Máximo retorno"],
-    ctaHref: "#contacto-marketing",
-  },
-];
-
-const trust = {
-  title: "Negocios que ya confían en nosotros",
-  description:
-    "Trabajamos con marcas que buscan resultados reales, no promesas vacías.",
-  logos: [
-    "Andes",
-    "Puerto",
-    "Suria",
-    "Kuyén",
-    "Norte",
-    "Brisa",
-    "Altamar",
-    "Cumbres",
-    "Pacífico",
-    "Marea",
-    "Raíz",
-    "Vector",
-  ],
-};
-
-const cta = {
-  title: "¿Listo para convertir tu marketing en resultados reales?",
-  description:
-    "Cuéntanos sobre tu negocio y te contactamos para ayudarte a crecer.",
-  ctaLabel: "Hablemos de tu proyecto",
-};
 ---
 
 <Layout
@@ -165,17 +32,20 @@ const cta = {
 >
   <Navbar siteSettings={siteSettings} navLinks={content.navLinks} />
   <main class="overflow-x-hidden">
-    <MarketingHero
+    <SectionHero
+      sectionId="marketing-hero"
       title={hero.title}
       subtitle={hero.subtitle}
       primaryCta={hero.primaryCta}
       secondaryCta={hero.secondaryCta}
-      slides={marketingSlides}
+      imageSrc={hero.imageSrc}
+      imageAlt={hero.imageAlt}
+      slides={hero.slides}
     />
 
     <SectionDivider tone="accent" />
 
-    <MarketingValue
+    <ValueSection
       title={value.title}
       description={value.description}
       quote={value.quote}
@@ -184,15 +54,18 @@ const cta = {
 
     <SectionDivider />
 
-    <MarketingPlans
-      title="Planes de marketing digital"
-      description="Elige el plan que mejor se ajuste a tu etapa. Todos priorizan resultados reales y crecimiento sostenido."
+    <PlansSection
+      title={plansSection?.title ?? "Planes de marketing digital"}
+      description={
+        plansSection?.description ??
+        "Elige el plan que mejor se ajuste a tu etapa. Todos priorizan resultados reales y crecimiento sostenido."
+      }
       plans={plans}
     />
 
     <SectionDivider />
 
-    <MarketingTrust
+    <TrustSection
       title={trust.title}
       description={trust.description}
       logos={trust.logos}
@@ -200,10 +73,12 @@ const cta = {
 
     <SectionDivider />
 
-    <MarketingCTAForm
+    <CtaFormSection
       title={cta.title}
       description={cta.description}
       ctaLabel={cta.ctaLabel}
+      sectionId={cta.sectionId}
+      formId={cta.formId}
     />
   </main>
   <Footer

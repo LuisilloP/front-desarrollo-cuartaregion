@@ -1,21 +1,20 @@
 ---
-interface DifferenceItem {
-  title: string;
-  description: string;
-  bullets: string[];
+import type { ValueSection as ValueSectionContent } from "../../../lib/api/types";
+
+interface Props extends ValueSectionContent {
+  sectionId?: string;
 }
 
-interface Props {
-  title: string;
-  description: string;
-  quote: string;
-  items: DifferenceItem[];
-}
-
-const { title, description, quote, items } = Astro.props as Props;
+const {
+  title,
+  description,
+  quote,
+  items,
+  sectionId = "propuesta",
+} = Astro.props as Props;
 ---
 
-<section id="propuesta" class="relative py-20 lg:py-28">
+<section id={sectionId} class="relative py-20 lg:py-28">
   <div class="section-shell grid gap-12 lg:grid-cols-2 lg:items-start">
     <div class="space-y-6" data-reveal="fade-up">
       <p

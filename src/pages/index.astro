@@ -19,26 +19,19 @@ import {
   fetchFaqs,
 } from "../lib/api/services";
 
-// Import the new Content type for full type safety
-import type { Content } from "../lib/api/types";
-// Import the JSON data
+import type { Content, HomePageContent } from "../lib/api/types";
 import contentJson from "../data/content.json";
+import homeJson from "../data/pages/home.json";
 
 // Import the marquee component and its data
 import PortfolioMarqueeSection from "../components/sections/PortfolioMarqueeSection.tsx";
 import { companies as portfolioCompanies } from "../content/portfolioProjects";
 
-// Cast the imported JSON to our new Content type
-const staticContent = contentJson as Content;
+const globalContent = contentJson as Content;
+const homeContent = homeJson as HomePageContent;
 
-const {
-  heroSection,
-  useCasesSection,
-  faqSection,
-  contactSection,
-  legalPages,
-  navLinks,
-} = staticContent;
+const { heroSection, useCasesSection, faqSection, contactSection } = homeContent;
+const { legalPages, navLinks } = globalContent;
 
 const siteSettings = await fetchSiteSettings();
 const services = await fetchServices();

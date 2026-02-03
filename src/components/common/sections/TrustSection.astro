@@ -1,14 +1,15 @@
 ---
-interface Props {
-  title: string;
-  description: string;
-  logos: string[];
+import type { TrustSection as TrustSectionContent } from "../../../lib/api/types";
+
+interface Props extends TrustSectionContent {
+  sectionId?: string;
 }
 
-const { title, description, logos } = Astro.props as Props;
+const { title, description, logos, sectionId = "confianza" } =
+  Astro.props as Props;
 ---
 
-<section id="confianza" class="relative py-20 lg:py-28">
+<section id={sectionId} class="relative py-20 lg:py-28">
   <div class="section-shell">
     <div class="mx-auto max-w-3xl text-center" data-reveal="fade-up">
       <h2 class="text-3xl font-semibold text-content sm:text-4xl">

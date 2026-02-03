@@ -1,0 +1,99 @@
+{
+  "seo": {
+    "title": "Desarrollo Web y Software | Aliado Digital",
+    "description": "Desarrollo web y software a medida para pymes, profesionales y negocios locales de Chile."
+  },
+  "hero": {
+    "title": "Desarrollo web y software a medida que impulsa tu negocio",
+    "subtitle": "Diseñamos plataformas claras, rápidas y escalables para vender más y operar con orden.",
+    "primaryCta": {
+      "label": "Cotizar desarrollo",
+      "href": "#contacto-desarrollo"
+    },
+    "secondaryCta": {
+      "label": "Ver servicios",
+      "href": "#servicios"
+    },
+    "imageSrc": "/images/hero/hero-astro.webp",
+    "imageAlt": "Desarrollo web y software",
+    "slides": [
+      {
+        "src": "/images/hero/hero-coquimbo.webp",
+        "alt": "Bahia y puerto de Coquimbo",
+        "position": "left"
+      },
+      {
+        "src": "/images/hero/hero-serena.webp",
+        "alt": "Atardecer en La Serena",
+        "position": "right"
+      },
+      {
+        "src": "/images/hero/hero-astro.webp",
+        "alt": "Cielo estrellado en Valle del Elqui",
+        "position": "left"
+      },
+      {
+        "src": "/images/hero/hero-cielo.webp",
+        "alt": "Vista de La Serena desde el cielo",
+        "position": "center"
+      }
+    ]
+  },
+  "value": {
+    "title": "Tecnología con foco en resultados",
+    "description": "Un buen desarrollo no es solo código: es una herramienta para crecer, automatizar y tomar mejores decisiones.",
+    "quote": "No se trata de tener una web bonita, sino de construir una solución que ordene tu operación y genere ventas.",
+    "items": [
+      {
+        "title": "Soluciones genéricas",
+        "description": "Rápidas de lanzar, pero difíciles de escalar.",
+        "bullets": [
+          "Limitadas para procesos reales de negocio",
+          "Difíciles de mantener o ampliar",
+          "Poca diferenciación frente a tu competencia"
+        ]
+      },
+      {
+        "title": "Desarrollo a medida",
+        "description": "Se adapta a tu negocio y crece contigo.",
+        "bullets": [
+          "Funcionalidades alineadas a tus objetivos",
+          "Base sólida para futuras mejoras",
+          "Mejor experiencia para tus clientes"
+        ]
+      }
+    ]
+  },
+  "servicesSection": {
+    "title": "Planes de desarrollo y tecnología",
+    "description": "Selecciona la solución que necesitas hoy y acompañamos tu crecimiento con mejoras constantes.",
+    "excludeTypes": [
+      "digital"
+    ]
+  },
+  "trust": {
+    "title": "Equipos que confían en nuestro desarrollo",
+    "description": "Trabajamos con negocios que buscan tecnología estable, segura y con soporte real.",
+    "logos": [
+      "Andes",
+      "Puerto",
+      "Suria",
+      "Kuyén",
+      "Norte",
+      "Brisa",
+      "Altamar",
+      "Cumbres",
+      "Pacífico",
+      "Marea",
+      "Raíz",
+      "Vector"
+    ]
+  },
+  "cta": {
+    "title": "¿Listo para construir una solución digital sólida?",
+    "description": "Cuéntanos sobre tu proyecto y te ayudamos a definir el mejor camino.",
+    "ctaLabel": "Hablemos de tu desarrollo",
+    "sectionId": "contacto-desarrollo",
+    "formId": "desarrollo-form"
+  }
+}

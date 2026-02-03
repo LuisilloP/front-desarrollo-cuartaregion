@@ -1,26 +1,9 @@
 ---
-import HeroBackgroundSlideshow from "../hero/HeroBackgroundSlideshow.tsx";
+import type { PageHero } from "../../../lib/api/types";
+import HeroBackgroundSlideshow from "../../hero/HeroBackgroundSlideshow.tsx";
 
-interface Cta {
-  label: string;
-  href: string;
-}
-
-interface Slide {
-  src: string;
-  alt?: string;
-  position?: string;
-  mobileFocus?: "left" | "right" | "center";
-}
-
-interface Props {
-  title: string;
-  subtitle: string;
-  primaryCta: Cta;
-  secondaryCta: Cta;
-  imageSrc?: string;
-  imageAlt?: string;
-  slides?: Slide[];
+interface Props extends PageHero {
+  sectionId?: string;
 }
 
 const {
@@ -31,10 +14,11 @@ const {
   imageSrc = "/images/marketing/fondo.png",
   imageAlt = "Marketing digital para pymes",
   slides = [],
+  sectionId = "marketing-hero",
 } = Astro.props as Props;
 ---
 
-<section id="marketing-hero" class="relative min-h-screen overflow-hidden">
+<section id={sectionId} class="relative min-h-screen overflow-hidden">
   <div class="absolute inset-0 -z-10">
     {slides.length > 0 ? (
       <HeroBackgroundSlideshow
