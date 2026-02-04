@@ -8,6 +8,7 @@ import SectionHero from "../components/common/sections/SectionHero.astro";
 import ValueSection from "../components/common/sections/ValueSection.astro";
 import ServicesSection from "../components/sections/ServicesSection.astro";
 import TrustSection from "../components/common/sections/TrustSection.astro";
+import ProcessSection from "../components/sections/ProcessSection.astro";
 import CtaFormSection from "../components/common/sections/CtaFormSection.astro";
 import { fetchSiteSettings, fetchServices } from "../lib/api/services";
 import type { Content, DevelopmentPageContent } from "../lib/api/types";
@@ -74,6 +75,10 @@ const servicesForPage = services.filter(
       description={trust.description}
       logos={trust.logos}
     />
+
+    <SectionDivider />
+
+    <ProcessSection />
 
     <SectionDivider />
 
