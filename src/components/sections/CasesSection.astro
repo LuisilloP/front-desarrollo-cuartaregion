@@ -1,6 +1,5 @@
 ---
 import type { CaseStudy } from "../../lib/api/types";
-import { Icon } from "astro-icon/components";
 import CaseCard from "../ui/CaseCard.astro";
 
 interface Props {
@@ -11,11 +10,12 @@ const { cases } = Astro.props;
 const sortedCases = [...cases].sort(
   (a, b) => (a.order ?? 99) - (b.order ?? 99),
 );
+const initialVisible = 3;
+const hasExtraCases = sortedCases.length > initialVisible;
 ---
 
 <section id="casos-de-exito" class="py-20 lg:py-32">
   <div class="container mx-auto px-6 sm:px-8">
-    <!-- Section Header -->
     <div class="mx-auto mb-16 max-w-3xl text-center">
       <h2
         class="text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl"
@@ -27,19 +27,35 @@ const sortedCases = [...cases].sort(
       </p>
     </div>
 
-    <!-- Cases Grid -->
     <div
       id="cases-grid"
-      class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mt-10"
+      data-initial-visible={initialVisible}
+      class="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
     >
       {
-        sortedCases.map((caseItem) => (
-          <div class="case-card-wrapper">
+        sortedCases.map((caseItem, index) => (
+          <div
+            class={`case-card-wrapper ${index >= initialVisible ? "case-card-hidden" : ""}`}
+          >
             <CaseCard caseItem={caseItem} />
           </div>
         ))
       }
     </div>
+
+    {
+      hasExtraCases && (
+        <div id="cases-load-more-wrap" class="mt-10 flex justify-center">
+          <button
+            id="cases-load-more"
+            type="button"
+            class="inline-flex items-center justify-center rounded-2xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold tracking-[0.01em] text-slate-700 shadow-sm transition-colors duration-200 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-offset-2 dark:border-white/20 dark:bg-white/10 dark:text-white dark:hover:bg-white/15 dark:focus-visible:ring-offset-slate-950"
+          >
+            Ver más casos
+          </button>
+        </div>
+      )
+    }
   </div>
 </section>
 
@@ -56,6 +72,9 @@ const sortedCases = [...cases].sort(
     opacity: 1;
     transform: translateY(0);
   }
+  .case-card-hidden {
+    display: none;
+  }
 </style>
 
 <script>
@@ -63,19 +82,84 @@ const sortedCases = [...cases].sort(
     const grid = document.getElementById("cases-grid");
     if (!grid) return;
 
-    const cards = grid.querySelectorAll(".case-card-wrapper");
+    const cards = Array.from(
+      grid.querySelectorAll(".case-card-wrapper"),
+    ) as HTMLElement[];
+    const loadMoreBtn = document.getElementById(
+      "cases-load-more",
+    ) as HTMLButtonElement | null;
+
+    const initialVisibleCount = Number.parseInt(
+      grid.dataset.initialVisible ?? "3",
+      10,
+    );
+    const visibleCount = Math.min(initialVisibleCount, cards.length);
+    let gridWasVisible = false;
+    let isExpanded = false;
+
+    const syncButtonText = () => {
+      if (!loadMoreBtn) return;
+      loadMoreBtn.textContent = isExpanded ? "Ocultar casos" : "Ver más casos";
+    };
+
+    const cardTransitionMs = 600;
+    const hideStaggerMs = 140;
+    const hideTimers: number[] = [];
+
+    const clearHideTimers = () => {
+      hideTimers.forEach((timerId) => window.clearTimeout(timerId));
+      hideTimers.length = 0;
+    };
+
+    const queueHide = (callback: () => void, delayMs: number) => {
+      const timerId = window.setTimeout(() => {
+        callback();
+      }, delayMs);
+      hideTimers.push(timerId);
+    };
+
+    const hideExtraCards = () => {
+      clearHideTimers();
+      const extras = cards
+        .slice(visibleCount)
+        .filter((card) => !card.classList.contains("case-card-hidden"));
+      const reversedExtras = [...extras].reverse();
+
+      reversedExtras.forEach((card, index) => {
+        const startDelay = index * hideStaggerMs;
+        queueHide(() => {
+          card.style.setProperty("--delay", "0ms");
+          card.classList.remove("is-visible");
+        }, startDelay);
+
+        queueHide(() => {
+          if (!card.classList.contains("is-visible")) {
+            card.classList.add("case-card-hidden");
+          }
+        }, startDelay + cardTransitionMs);
+      });
+    };
+
+    const showExtraCards = () => {
+      clearHideTimers();
+      cards.slice(visibleCount).forEach((card, offset) => {
+        card.classList.remove("case-card-hidden");
+        if (!gridWasVisible) return;
+        card.style.setProperty("--delay", `${offset * 80}ms`);
+        requestAnimationFrame(() => card.classList.add("is-visible"));
+      });
+    };
 
     const observer = new IntersectionObserver(
       (entries, obs) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            cards.forEach((card, index) => {
-              const cardElement = card as HTMLElement;
-              cardElement.style.setProperty("--delay", `${index * 100}ms`);
-              cardElement.classList.add("is-visible");
-            });
-            obs.unobserve(grid);
-          }
+          if (!entry.isIntersecting) return;
+          gridWasVisible = true;
+          cards.slice(0, visibleCount).forEach((card, index) => {
+            card.style.setProperty("--delay", `${index * 100}ms`);
+            card.classList.add("is-visible");
+          });
+          obs.unobserve(grid);
         });
       },
       {
@@ -85,5 +169,19 @@ const sortedCases = [...cases].sort(
     );
 
     observer.observe(grid);
+
+    if (!loadMoreBtn || cards.length <= visibleCount) return;
+
+    loadMoreBtn.addEventListener("click", () => {
+      if (isExpanded) {
+        hideExtraCards();
+      } else {
+        showExtraCards();
+      }
+      isExpanded = !isExpanded;
+      syncButtonText();
+    });
+
+    syncButtonText();
   });
 </script>

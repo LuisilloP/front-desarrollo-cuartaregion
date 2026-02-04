@@ -103,8 +103,18 @@ const planSummaries: Service[] = [
 const siteSettings = await fetchSiteSettings();
 const cases = await fetchCases();
 const faqs = await fetchFaqs();
-
-const recentCases = cases.slice(0, 3);
+const arlequinCase = cases.find((item) => item.slug === "el-arlequin");
+const demoExtraCasesCount =
+  arlequinCase && cases.length < 6 ? 6 - cases.length : 0;
+const demoCases = arlequinCase
+  ? [
+      ...cases,
+      ...Array.from({ length: demoExtraCasesCount }, (_, index) => ({
+        ...arlequinCase,
+        order: (arlequinCase.order ?? 99) + index + 10,
+      })),
+    ]
+  : cases;
 ---
 
 <Layout
@@ -126,7 +136,7 @@ const recentCases = cases.slice(0, 3);
     <SectionDivider tone="accent" />
 
     {/* Social proof early - Cases show we deliver results */}
-    <CasesSection cases={recentCases} />
+    <CasesSection cases={demoCases} />
 
     <SectionDivider />
 
