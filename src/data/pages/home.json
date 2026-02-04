@@ -26,46 +26,6 @@
       }
     ]
   },
-  "useCasesSection": {
-    "eyebrow": "Lo que nos diferencia",
-    "title": "Así trabajamos contigo",
-    "description": "Trabajamos de forma cercana y transparente. Escuchamos lo que necesitas, definimos prioridades y te proponemos un plan claro para avanzar rápido, sin complicaciones. Y después del lanzamiento, seguimos disponibles para ayudarte a mejorar.",
-    "cases": [
-      {
-        "title": "Claro y a tu medida",
-        "description": "Entendemos tu objetivo y te recomendamos lo esencial para avanzar con orden, sin gastar de más.",
-        "icon": "lucide:target",
-        "cardColor": "#fb923c",
-        "backgroundImage": "/images/sections/about-us-diana.webp",
-        "bullets": [
-          "Recomendación según tu presupuesto",
-          "Prioridades claras desde el inicio"
-        ]
-      },
-      {
-        "title": "Transparencia desde el primer día",
-        "description": "Te hablamos con honestidad y sin letra chica. Si algo no te conviene, lo decimos y buscamos una mejor alternativa.",
-        "icon": "lucide:shield-check",
-        "cardColor": "#38bdf8",
-        "backgroundImage": "/images/backgrounds/why-us-1.webp",
-        "bullets": [
-          "Alcance por escrito",
-          "Sin sorpresas ni costos ocultos"
-        ]
-      },
-      {
-        "title": "Tecnología moderna y soporte real",
-        "description": "Usamos herramientas actuales y dejamos todo bien implementado para que tu web funcione bien y pueda crecer.",
-        "icon": "lucide:zap",
-        "cardColor": "#a855f7",
-        "backgroundImage": "/images/sections/process-manos.webp",
-        "bullets": [
-          "Seguridad y rendimiento",
-          "Mejoras y actualizaciones continuas"
-        ]
-      }
-    ]
-  },
   "reviewsSection": {
     "eyebrow": "Nuestros Aliados",
     "title": "Historias de éxito en conjunto",
