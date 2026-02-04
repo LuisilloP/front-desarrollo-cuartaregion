@@ -45,12 +45,12 @@
     "quote": "No se trata de tener una web bonita, sino de construir una solución que ordene tu operación y genere ventas.",
     "items": [
       {
-        "title": "Soluciones genéricas",
-        "description": "Rápidas de lanzar, pero difíciles de escalar.",
+        "title": "Soluciones genéricas en otras páginas",
+        "description": "En otras plataformas se lanzan rápido, pero suelen ser difíciles de escalar.",
         "bullets": [
-          "Limitadas para procesos reales de negocio",
-          "Difíciles de mantener o ampliar",
-          "Poca diferenciación frente a tu competencia"
+          "Suelen quedar cortas para procesos reales de negocio",
+          "A menudo son difíciles de mantener o ampliar",
+          "Tienden a ofrecer poca diferenciación frente a la competencia"
         ]
       },
       {

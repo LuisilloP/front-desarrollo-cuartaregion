@@ -82,14 +82,28 @@ const isExternalCta = Boolean(ctaHref?.startsWith("http"));
         <div class="mt-6 space-y-4 sm:mt-0 sm:space-y-6" data-reveal="fade-up" data-delay="120">
           <div class="grid gap-4 sm:gap-6">
             {items.map((item) => {
-              const isHighlighted = item.label?.toLowerCase().includes("con método");
+              const labelText = (item.label ?? item.title ?? "").toLowerCase();
+              const isWithoutSystem = labelText.includes("sin sistema");
+              const isMethod =
+                labelText.includes("con método") ||
+                labelText.includes("con metodo");
+
+              const cardTone = isWithoutSystem
+                ? "border-rose-500/35 ring-1 ring-rose-500/15 bg-gradient-to-b from-rose-500/5 to-transparent hover:border-rose-500/55 hover:shadow-md dark:border-rose-300/35 dark:hover:border-rose-200/55 dark:ring-rose-300/20"
+                : isMethod
+                  ? "border-emerald-500/35 ring-1 ring-emerald-500/15 bg-gradient-to-b from-emerald-500/5 to-transparent hover:border-emerald-500/55 hover:shadow-md dark:border-emerald-300/35 dark:hover:border-emerald-200/55 dark:ring-emerald-300/20"
+                  : "border-border/70 hover:border-border/90 hover:shadow-md";
+
+              const bulletTone = isWithoutSystem
+                ? "bg-rose-400/90"
+                : isMethod
+                  ? "bg-emerald-400/90"
+                  : "bg-accent";
               return (
                 <article
                   class:list={[
                     "group rounded-2xl border bg-card/90 p-5 shadow-sm transition-all duration-300 hover:-translate-y-0.5 sm:p-6",
-                    isHighlighted
-                      ? "border-primary/20 ring-1 ring-primary/10 bg-gradient-to-b from-primary/5 to-transparent hover:border-primary/30 hover:shadow-md sm:ring-primary/15"
-                      : "border-border/70 hover:border-border/90 hover:shadow-md",
+                    cardTone,
                   ]}
                 >
                 {item.label && (
@@ -106,7 +120,12 @@ const isExternalCta = Boolean(ctaHref?.startsWith("http"));
                 <ul class="mt-4 space-y-2 text-sm text-muted">
                   {item.bullets.map((bullet) => (
                     <li class="flex items-start gap-2">
-                      <span class="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-accent"></span>
+                      <span
+                        class:list={[
+                          "mt-1 h-2 w-2 flex-shrink-0 rounded-full",
+                          bulletTone,
+                        ]}
+                      ></span>
                       <span>{bullet}</span>
                     </li>
                   ))}
@@ -141,8 +160,28 @@ const isExternalCta = Boolean(ctaHref?.startsWith("http"));
       </div>
 
       <div class="grid gap-6" data-reveal="fade-up" data-delay="120">
-        {items.map((item) => (
-          <article class="card space-y-4">
+        {items.map((item, index) => {
+          const borderTone =
+            index === 0
+              ? "!border-rose-500/70 hover:!border-rose-400/90"
+              : index === 1
+                ? "!border-emerald-500/70 hover:!border-emerald-400/90"
+                : "";
+
+          const bulletTone =
+            index === 0
+              ? "bg-rose-400/90"
+              : index === 1
+                ? "bg-emerald-400/90"
+                : "bg-accent";
+
+          return (
+          <article
+            class:list={[
+              "card space-y-4 transition-colors duration-300",
+              borderTone,
+            ]}
+          >
             <div>
               <p class="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
                 {item.title}
@@ -154,13 +193,17 @@ const isExternalCta = Boolean(ctaHref?.startsWith("http"));
             <ul class="space-y-2 text-sm text-muted">
               {item.bullets.map((bullet) => (
                 <li class="flex items-start gap-2">
-                  <span class="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-accent"></span>
+                  <span class:list={[
+                    "mt-1 h-2 w-2 flex-shrink-0 rounded-full",
+                    bulletTone,
+                  ]}></span>
                   <span>{bullet}</span>
                 </li>
               ))}
             </ul>
           </article>
-        ))}
+          );
+        })}
       </div>
     </div>
   )}
