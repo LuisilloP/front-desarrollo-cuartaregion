@@ -129,6 +129,81 @@
       "ctaHref": "#contacto-marketing"
     }
   ],
+  "useCasesSection": {
+    "eyebrow": "Como trabajamos",
+    "title": "Asi trabajamos tu marketing",
+    "description": "Orden, medicion y optimizacion continua para atraer clientes con consistencia.",
+    "cases": [
+      {
+        "title": "Diagnostico y objetivo claro",
+        "description": "Definimos a quien quieres llegar, tu oferta y metas reales de conversion.",
+        "icon": "lucide:target",
+        "cardColor": "#0e8522",
+        "backgroundImage": "/images/sections/about-us-diana.webp",
+        "bullets": [
+          "Brief rapido y analisis de negocio",
+          "Propuesta de valor y mensaje principal"
+        ]
+      },
+      {
+        "title": "Campanas con estructura",
+        "description": "Creamos campanas por etapas del funnel con mensajes y creativos coherentes.",
+        "icon": "lucide:megaphone",
+        "cardColor": "#fb923c",
+        "backgroundImage": "/images/backgrounds/why-us-1.webp",
+        "bullets": [
+          "Segmentacion por cliente ideal",
+          "Creativos adaptados a cada etapa"
+        ]
+      },
+      {
+        "title": "Medicion y optimizacion semanal",
+        "description": "Medimos, iteramos y escalamos lo que funciona para mejorar resultados.",
+        "icon": "lucide:bar-chart-3",
+        "cardColor": "#a855f7",
+        "backgroundImage": "/images/sections/process-manos.webp",
+        "bullets": [
+          "Tracking y eventos claves",
+          "Ajustes de presupuesto y anuncios"
+        ]
+      }
+    ]
+  },
+  "processSection": {
+    "sectionId": "proceso-marketing",
+    "title": "Proceso claro para crecer en marketing",
+    "description": "Un flujo simple que ordena la estrategia, ejecuta campanas y optimiza cada semana.",
+    "steps": [
+      {
+        "num": "01",
+        "title": "Diagnostico y objetivos",
+        "desc": "Definimos cliente ideal, propuesta y metas realistas para medir resultados.",
+        "result": "Estrategia y foco",
+        "img": "/images/nuestro-proceso/paso-01.webp"
+      },
+      {
+        "num": "02",
+        "title": "Configuracion y lanzamiento",
+        "desc": "Estructuramos campañas, creativos y seguimiento para empezar a captar leads.",
+        "result": "Campanas en marcha",
+        "img": "/images/nuestro-proceso/paso-02.webp"
+      },
+      {
+        "num": "03",
+        "title": "Optimizacion continua",
+        "desc": "Ajustamos anuncios, segmentacion y presupuesto segun datos reales.",
+        "result": "Mejor conversion",
+        "img": "/images/nuestro-proceso/paso-03.webp"
+      },
+      {
+        "num": "04",
+        "title": "Reporte y crecimiento",
+        "desc": "Medimos resultados, aprendemos y escalamos lo que funciona.",
+        "result": "Crecimiento sostenido",
+        "img": "/images/nuestro-proceso/paso-04.webp"
+      }
+    ]
+  },
   "trust": {
     "title": "Negocios que ya confían en nosotros",
     "description": "Trabajamos con marcas que buscan resultados reales, no promesas vacías.",
@@ -146,6 +221,16 @@
       "Raíz",
       "Vector"
     ]
+  },
+  "contactSection": {
+    "eyebrow": "Hablemos",
+    "title": "Hablemos de tu marketing",
+    "description": "Cuentanos tu objetivo y te proponemos una estrategia clara para atraer mas clientes.",
+    "sectionId": "contacto-marketing",
+    "whatsappMessage": "Hola! Quiero atraer mas clientes con marketing digital.",
+    "primaryCtaLabel": "Contactar por WhatsApp",
+    "secondaryCtaLabel": "Completar diagnostico",
+    "secondaryCtaHref": "https://forms.gle/5MEDYUSc2pZpS4tz8"
   },
   "cta": {
     "title": "¿Listo para convertir tu marketing en resultados reales?",
