@@ -21,16 +21,29 @@ interface Content {
 interface Props {
   content: Content;
   whatsappNumber: string;
+  sectionId?: string;
+  whatsappMessage?: string;
+  primaryCtaLabel?: string;
+  secondaryCtaLabel?: string;
+  secondaryCtaHref?: string;
 }
 
-const { content, whatsappNumber } = Astro.props;
+const {
+  content,
+  whatsappNumber,
+  sectionId = "contacto",
+  whatsappMessage = "Hola! Quiero cotizar un proyecto.",
+  primaryCtaLabel = "Contactar por WhatsApp",
+  secondaryCtaLabel = "Hablanos de tu propuesta",
+  secondaryCtaHref = "https://forms.gle/5MEDYUSc2pZpS4tz8",
+} = Astro.props as Props;
 const whatsappUrl = buildWhatsAppLink(
   whatsappNumber,
-  "Hola! Quiero cotizar un proyecto.",
+  whatsappMessage,
 );
 ---
 
-<section id="contacto" class="relative py-20 lg:py-32">
+<section id={sectionId} class="relative py-20 lg:py-32">
   <!-- Background Gradient -->
   <div
     class="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-slate-100 to-transparent dark:from-slate-900/80"
@@ -64,16 +77,16 @@ const whatsappUrl = buildWhatsAppLink(
           class="inline-flex min-w-[240px] items-center justify-center gap-2 rounded-full bg-[#25D366] px-8 py-4 text-base font-semibold text-white shadow-lg transition-transform duration-200 hover:scale-105 dark:shadow-emerald-500/20 sm:min-w-[260px]"
         >
           <Icon name="simple-icons:whatsapp" class="h-5 w-5" />
-          <span>Contactar por WhatsApp</span>
+          <span>{primaryCtaLabel}</span>
         </a>
         <a
-          href="https://forms.gle/5MEDYUSc2pZpS4tz8"
+          href={secondaryCtaHref}
           target="_blank"
           rel="noreferrer"
           class="inline-flex min-w-[240px] items-center justify-center gap-2 rounded-full border border-[#1a73e8]/40 bg-white px-8 py-4 text-base font-semibold text-[#1a73e8] shadow-sm transition-all duration-200 hover:border-[#1a73e8] hover:bg-[#e8f0fe] hover:scale-105 dark:border-[#8ab4f8]/50 dark:bg-slate-900 dark:text-[#8ab4f8] dark:hover:border-[#8ab4f8] dark:hover:bg-[#1a2b4f] sm:min-w-[260px]"
         >
           <GoogleG size={20}></GoogleG>
-          <span>Hablanos de tu propuesta</span>
+          <span>{secondaryCtaLabel}</span>
         </a>
       </div>
 

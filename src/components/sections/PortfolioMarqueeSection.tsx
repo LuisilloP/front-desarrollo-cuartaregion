@@ -7,6 +7,8 @@ import type { Company } from "../../content/portfolioProjects";
 interface PortfolioMarqueeSectionProps {
   companies: Company[];
   durationSeconds?: number;
+  title?: string;
+  description?: string;
 }
 
 // --- Sub-components ---
@@ -60,9 +62,15 @@ const CompanyCard = ({ company }: { company: Company }) => {
 
 // --- Main Component ---
 
+const DEFAULT_TITLE = "Marcas que han confiado en Aliado Digital";
+const DEFAULT_DESCRIPTION =
+  "Nos gusta trabajar con personas reales y proyectos con objetivos claros. Estas son algunas marcas que confiaron en nosotros para mejorar su presencia online y sus procesos.";
+
 const PortfolioMarqueeSection: React.FC<PortfolioMarqueeSectionProps> = ({
   companies,
   durationSeconds = 50,
+  title = DEFAULT_TITLE,
+  description = DEFAULT_DESCRIPTION,
 }) => {
   const marqueeContainerRef = useRef<HTMLDivElement>(null);
   const marqueeTrackRef = useRef<HTMLUListElement>(null);
@@ -250,12 +258,10 @@ const PortfolioMarqueeSection: React.FC<PortfolioMarqueeSectionProps> = ({
       <div className="section-shell">
         <div className="mx-auto max-w-3xl text-center space-y-4">
           <h2 className="text-3xl font-bold tracking-tight text-content sm:text-4xl lg:text-5xl">
-            Marcas que han confiado en Aliado Digital
+            {title}
           </h2>
           <p className="text-base text-muted sm:text-lg">
-            Nos gusta trabajar con personas reales y proyectos con objetivos
-            claros. Estas son algunas marcas que confiaron en nosotros para
-            mejorar su presencia online y sus procesos.
+            {description}
           </p>
         </div>
       </div>

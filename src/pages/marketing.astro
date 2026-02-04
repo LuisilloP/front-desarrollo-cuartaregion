@@ -7,22 +7,59 @@ import WhatsAppFloatingButton from "../components/layout/WhatsAppFloatingButton.
 import SectionHero from "../components/common/sections/SectionHero.astro";
 import ValueSection from "../components/common/sections/ValueSection.astro";
 import PlansSection from "../components/marketing/PlansSection.astro";
-import TrustSection from "../components/common/sections/TrustSection.astro";
-import CtaFormSection from "../components/common/sections/CtaFormSection.astro";
+import HostingSection from "../components/sections/HostingSection.astro";
+import ProcessSection from "../components/sections/ProcessSection.astro";
+import PortfolioMarqueeSection from "../components/sections/PortfolioMarqueeSection.tsx";
+import ContactSection from "../components/sections/ContactSection.astro";
 import { fetchSiteSettings } from "../lib/api/services";
 import type { Content, MarketingPageContent } from "../lib/api/types";
+import type { Company } from "../content/portfolioProjects";
 import contentJson from "../data/content.json";
 import marketingJson from "../data/pages/marketing.json";
+import marketingClientsJson from "../data/pages/marketing-clients.json";
 
 const siteSettings = await fetchSiteSettings();
 const content = contentJson as Content;
 const marketingContent = marketingJson as MarketingPageContent;
+const marketingClients = marketingClientsJson as {
+  title?: string;
+  description?: string;
+  companies: Company[];
+};
 
-const { hero, value, plans, trust, cta, seo, plansSection } = marketingContent;
+const {
+  hero,
+  value,
+  seo,
+  plansSection,
+  contactSection,
+  useCasesSection,
+  processSection,
+} = marketingContent;
 const pageTitle = seo?.title ?? "Marketing Digital para Pymes | Aliado Digital";
 const pageDescription =
   seo?.description ??
   "Marketing digital enfocado en resultados reales para pymes, profesionales y negocios locales de Chile.";
+
+const contactContent = {
+  eyebrow: contactSection?.eyebrow ?? "Hablemos",
+  title: contactSection?.title ?? "Hablemos de tu marketing",
+  description:
+    contactSection?.description ??
+    "Cuentanos tu objetivo y te proponemos una estrategia clara para atraer mas clientes.",
+  socialLinks: contactSection?.socialLinks ?? content.siteSettings.socialLinks,
+};
+
+const contactSectionId = contactSection?.sectionId ?? "contacto-marketing";
+const contactWhatsappMessage =
+  contactSection?.whatsappMessage ??
+  "Hola! Quiero atraer mas clientes con marketing digital.";
+const contactPrimaryCtaLabel =
+  contactSection?.primaryCtaLabel ?? "Contactar por WhatsApp";
+const contactSecondaryCtaLabel =
+  contactSection?.secondaryCtaLabel ?? "Completar diagnostico";
+const contactSecondaryCtaHref =
+  contactSection?.secondaryCtaHref ?? "https://forms.gle/5MEDYUSc2pZpS4tz8";
 ---
 
 <Layout
@@ -73,20 +110,38 @@ const pageDescription =
 
     <SectionDivider />
 
-    <TrustSection
-      title={trust.title}
-      description={trust.description}
-      logos={trust.logos}
+    {useCasesSection && <HostingSection content={useCasesSection} />}
+
+    <SectionDivider />
+
+    {processSection && (
+      <ProcessSection
+        sectionId={processSection.sectionId}
+        title={processSection.title}
+        description={processSection.description}
+        steps={processSection.steps}
+      />
+    )}
+
+    <SectionDivider />
+
+    <PortfolioMarqueeSection
+      client:visible
+      title={marketingClients.title}
+      description={marketingClients.description}
+      companies={marketingClients.companies}
     />
 
     <SectionDivider />
 
-    <CtaFormSection
-      title={cta.title}
-      description={cta.description}
-      ctaLabel={cta.ctaLabel}
-      sectionId={cta.sectionId}
-      formId={cta.formId}
+    <ContactSection
+      content={contactContent}
+      whatsappNumber={siteSettings.whatsappNumber}
+      sectionId={contactSectionId}
+      whatsappMessage={contactWhatsappMessage}
+      primaryCtaLabel={contactPrimaryCtaLabel}
+      secondaryCtaLabel={contactSecondaryCtaLabel}
+      secondaryCtaHref={contactSecondaryCtaHref}
     />
   </main>
   <Footer

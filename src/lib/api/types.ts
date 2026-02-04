@@ -156,6 +156,18 @@ export interface ContactSectionContent {
   socialLinks: SocialLink[];
 }
 
+export type ContactSectionConfig = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  socialLinks?: SocialLink[];
+  sectionId?: string;
+  whatsappMessage?: string;
+  primaryCtaLabel?: string;
+  secondaryCtaLabel?: string;
+  secondaryCtaHref?: string;
+};
+
 export interface UseCase {
   title: string;
   description: string;
@@ -172,6 +184,21 @@ export interface UseCasesSectionContent {
   closingText?: string;
   cases: UseCase[];
 }
+
+export type ProcessStep = {
+  num: string;
+  title: string;
+  desc: string;
+  result: string;
+  img: string;
+};
+
+export type ProcessSectionContent = {
+  sectionId?: string;
+  title: string;
+  description: string;
+  steps: ProcessStep[];
+};
 
 export interface ReviewsSectionContent {
   eyebrow: string;
@@ -283,6 +310,9 @@ export type MarketingPageContent = {
   };
   plans: MarketingPlan[];
   trust: TrustSection;
+  useCasesSection?: UseCasesSectionContent;
+  processSection?: ProcessSectionContent;
+  contactSection?: ContactSectionConfig;
   cta: PageCtaSection;
 };
 
