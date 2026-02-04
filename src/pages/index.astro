@@ -3,8 +3,6 @@ import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/layout/Navbar.astro";
 import Hero from "../components/sections/Hero.astro";
 import ServicesSection from "../components/sections/ServicesSection.astro";
-import HostingSection from "../components/sections/HostingSection.astro";
-import ProcessSection from "../components/sections/ProcessSection.astro";
 import CasesSection from "../components/sections/CasesSection.astro";
 import FAQSection from "../components/sections/FAQSection.astro";
 import ContactSection from "../components/sections/ContactSection.astro";
@@ -29,7 +27,7 @@ import { companies as portfolioCompanies } from "../content/portfolioProjects";
 const globalContent = contentJson as Content;
 const homeContent = homeJson as HomePageContent;
 
-const { heroSection, useCasesSection, faqSection, contactSection } = homeContent;
+const { heroSection, faqSection, contactSection } = homeContent;
 const { legalPages, navLinks } = globalContent;
 
 const planSummaries: Service[] = [
@@ -142,11 +140,6 @@ const demoCases = arlequinCase
 
     <SectionDivider />
 
-    {/* How we work - Premium process section */}
-    <ProcessSection />
-
-    <SectionDivider />
-
     {/* More social proof - Portfolio companies */}
     <PortfolioMarqueeSection client:visible companies={portfolioCompanies} />
 
@@ -154,11 +147,6 @@ const demoCases = arlequinCase
 
     {/* About Us after user is already interested */}
     <AboutUs />
-
-    <SectionDivider />
-
-    {/* Why choose us - Reinforcement */}
-    <HostingSection content={useCasesSection} />
 
     <SectionDivider />
 
