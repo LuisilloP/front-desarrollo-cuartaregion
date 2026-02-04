@@ -1,0 +1,90 @@
+---
+import BannerBase from "./BannerBase.astro";
+import type {
+  BannerAccentKey,
+  BannerIntensity,
+  BannerLayout,
+  BannerLink,
+  BannerSize,
+  BannerTone,
+} from "./banner.types";
+
+interface Props {
+  sectionId?: string;
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  badgeText?: string;
+  primaryLink?: BannerLink;
+  secondaryLink?: BannerLink;
+  bullets?: string[];
+  ariaLabel?: string;
+  bgImage?: string;
+  imageAlt?: string;
+  reverse?: boolean;
+  layout?: BannerLayout;
+  size?: BannerSize;
+  tone?: BannerTone;
+  intensity?: BannerIntensity;
+  accentKey?: BannerAccentKey;
+  watermarkIcon?: string;
+  headerIcon?: string;
+  class?: string;
+}
+
+const {
+  sectionId,
+  title = "Lanzamiento digital completo",
+  subtitle = "Web optimizada + campanas activas desde el dia uno",
+  description = "Un plan combinado para lanzar rapido, medir cada paso y escalar con decisiones claras.",
+  badgeText = "Combo recomendado",
+  primaryLink = { label: "Cotizar combo", href: "#contacto-marketing" },
+  secondaryLink = {
+    label: "Ver detalles",
+    href: "/servicios/plan-mixto-web-marketing",
+  },
+  bullets = [
+    "Landing optimizada",
+    "Meta Ads con tracking",
+    "Reporte y optimizacion mensual",
+  ],
+  ariaLabel,
+  bgImage,
+  imageAlt,
+  reverse = false,
+  layout = "split",
+  size = "default",
+  tone = "vivid",
+  intensity = "md",
+  accentKey = "auto",
+  watermarkIcon,
+  headerIcon,
+  class: className = "",
+} = Astro.props as Props;
+---
+
+<BannerBase
+  sectionId={sectionId}
+  variant="mixed"
+  accentKey={accentKey}
+  tone={tone}
+  intensity={intensity}
+  layout={layout}
+  reverse={reverse}
+  size={size}
+  badgeText={badgeText}
+  title={title}
+  subtitle={subtitle}
+  description={description}
+  bullets={bullets}
+  primaryLink={primaryLink}
+  secondaryLink={secondaryLink}
+  ariaLabel={ariaLabel}
+  bgImage={bgImage}
+  imageAlt={imageAlt}
+  watermarkIcon={watermarkIcon}
+  headerIcon={headerIcon}
+  class={className}
+>
+  <slot name="visual" slot="visual" />
+</BannerBase>

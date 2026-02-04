@@ -1,0 +1,243 @@
+---
+import { Icon } from "astro-icon/components";
+import { resolveBannerIcons } from "./banner.icons";
+import { BANNER_SIZE_TOKENS, resolveBannerLayoutTokens } from "./banner.layouts";
+import type { BannerProps } from "./banner.types";
+import { cx, isSafeLocalImage, resolveBannerTheme } from "./banner.utils";
+
+const {
+  sectionId,
+  variant,
+  accentKey = "auto",
+  tone = "default",
+  intensity = "md",
+  layout = "split",
+  reverse = false,
+  size = "default",
+  badgeText,
+  title,
+  subtitle,
+  description,
+  bullets = [],
+  primaryLink,
+  secondaryLink,
+  ariaLabel,
+  bgImage,
+  imageAlt,
+  watermarkIcon,
+  headerIcon,
+  class: className = "",
+} = Astro.props as BannerProps;
+
+const safeBullets = bullets.slice(0, 3);
+const safeBgImage = isSafeLocalImage(bgImage) ? bgImage : null;
+const resolvedImageAlt = imageAlt ?? title;
+const resolvedAriaLabel = ariaLabel ?? primaryLink.label;
+const hasVisualSlot = Astro.slots.has("visual");
+
+const theme = resolveBannerTheme({ variant, accentKey, tone, intensity });
+const sizeTokens = BANNER_SIZE_TOKENS[size];
+const layoutTokens = resolveBannerLayoutTokens(layout, reverse);
+const icons = resolveBannerIcons(variant, { watermarkIcon, headerIcon });
+---
+
+<section
+  id={sectionId}
+  class:list={[
+    "relative overflow-hidden rounded-3xl border border-slate-200/70 bg-slate-50 shadow-[0_20px_60px_rgba(15,23,42,0.12)] dark:border-border/70 dark:bg-card/90 dark:shadow-soft",
+    sizeTokens.sectionPadding,
+    className,
+  ]}
+>
+  <div class="pointer-events-none absolute inset-0 dark:hidden">
+    <div class:list={["absolute inset-0", theme.variant.lightOverlay, theme.intensity.lightOverlay]}></div>
+    {layoutTokens.showAccentPanel ? (
+      <div class:list={["absolute inset-y-0 hidden w-2/5 lg:block", layoutTokens.accentPanelPosition]}>
+        <div
+          class:list={["h-full w-full", theme.variant.lightPanel, theme.intensity.lightPanel]}
+          style={layoutTokens.accentPanelClipPath}
+        ></div>
+      </div>
+    ) : null}
+    <div
+      class:list={[
+        "absolute inset-0 [background-image:radial-gradient(circle_at_1px_1px,rgba(30,41,59,0.35)_1px,transparent_0)] [background-size:20px_20px]",
+        theme.intensity.lightPattern,
+      ]}
+    ></div>
+  </div>
+
+  <div class="pointer-events-none absolute inset-0 hidden dark:block">
+    <div
+      class:list={[
+        "absolute -left-20 -top-20 h-56 w-56 rounded-full blur-3xl",
+        theme.variant.darkGlowStart,
+        theme.intensity.darkGlow,
+      ]}
+    ></div>
+    <div
+      class:list={[
+        "absolute -bottom-24 -right-16 h-72 w-72 rounded-full blur-3xl",
+        theme.variant.darkGlowEnd,
+        theme.intensity.darkGlow,
+      ]}
+    ></div>
+    {layoutTokens.showAccentPanel ? (
+      <div class:list={["absolute inset-y-0 hidden w-2/5 lg:block", layoutTokens.accentPanelPosition]}>
+        <div
+          class:list={["h-full w-full", theme.variant.darkPanel, theme.intensity.darkPanel]}
+          style={layoutTokens.accentPanelClipPath}
+        ></div>
+      </div>
+    ) : null}
+    <div
+      class:list={[
+        "absolute inset-0 [background-image:radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.35)_1px,transparent_0)] [background-size:22px_22px]",
+        theme.intensity.darkPattern,
+      ]}
+    ></div>
+  </div>
+
+  <div class:list={["relative z-10 grid", sizeTokens.sectionGap, layoutTokens.grid]}>
+    <div class:list={["space-y-6", layoutTokens.textOrder]}>
+      {badgeText ? (
+        <span
+          class:list={[
+            "inline-flex w-fit items-center gap-2 rounded-full font-semibold uppercase tracking-[0.24em]",
+            sizeTokens.badge,
+            theme.badge,
+          ]}
+        >
+          <Icon name={icons.header} class:list={["h-3.5 w-3.5", theme.headerIcon]} aria-hidden="true" />
+          <span>{badgeText}</span>
+        </span>
+      ) : null}
+
+      <div class="space-y-3">
+        <h2 class:list={["font-semibold leading-tight text-slate-900 dark:text-content", sizeTokens.title]}>
+          {title}
+        </h2>
+        {subtitle ? (
+          <p class:list={["font-medium leading-snug", sizeTokens.subtitle, theme.subtitle]}>
+            {subtitle}
+          </p>
+        ) : null}
+        {description ? (
+          <p class:list={["max-w-[60ch] leading-relaxed text-slate-600 dark:text-muted", sizeTokens.description]}>
+            {description}
+          </p>
+        ) : null}
+      </div>
+
+      {safeBullets.length > 0 ? (
+        <ul class="grid gap-2 text-sm text-slate-700 sm:grid-cols-2 sm:gap-3 dark:text-content/90">
+          {safeBullets.map((bullet) => (
+            <li class="flex items-start gap-2">
+              <span class:list={["mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full", theme.bullet]} aria-hidden="true"></span>
+              <span>{bullet}</span>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+
+      <div class="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center">
+        <a
+          href={primaryLink.href}
+          aria-label={resolvedAriaLabel}
+          class:list={[
+            "group/cta inline-flex items-center justify-center gap-2 rounded-full text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2",
+            sizeTokens.ctaPadding,
+            theme.primaryCta,
+          ]}
+        >
+          <span>{primaryLink.label}</span>
+          <Icon
+            name={icons.arrow}
+            class:list={["h-4 w-4 transition-transform duration-200 group-hover/cta:translate-x-0.5", theme.arrow]}
+            aria-hidden="true"
+          />
+        </a>
+        {secondaryLink ? (
+          <a
+            href={secondaryLink.href}
+            class:list={[
+              "inline-flex items-center justify-center rounded-full text-sm font-semibold backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2",
+              sizeTokens.ctaPadding,
+              theme.secondaryCta,
+            ]}
+          >
+            {secondaryLink.label}
+          </a>
+        ) : null}
+      </div>
+    </div>
+
+    <div class:list={["relative", layoutTokens.visualOrder]}>
+      <div
+        class:list={[
+          "relative overflow-hidden rounded-2xl",
+          sizeTokens.visualMinHeight,
+          sizeTokens.visualPadding,
+          theme.variant.visualWrap,
+        ]}
+      >
+        <Icon
+          name={icons.watermark}
+          class:list={[
+            "pointer-events-none absolute z-10 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5",
+            theme.variant.watermarkPlacement,
+            sizeTokens.watermarkSize,
+            theme.watermark,
+            theme.intensity.watermark,
+          ]}
+          aria-hidden="true"
+        />
+
+        {safeBgImage ? (
+          <>
+            <img
+              src={safeBgImage}
+              alt={resolvedImageAlt}
+              loading="lazy"
+              decoding="async"
+              class="h-full w-full rounded-xl object-cover"
+            />
+            <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-900/35 via-slate-900/10 to-transparent dark:from-black/45 dark:via-black/15"></div>
+          </>
+        ) : hasVisualSlot ? (
+          <slot name="visual" />
+        ) : (
+          <>
+            <div class="absolute inset-0 dark:hidden">
+              <div class:list={["absolute inset-0 bg-gradient-to-br", theme.variant.visualTint]}></div>
+              <div class="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.75)_6%,rgba(255,255,255,0.12)_42%,transparent_72%)] opacity-80"></div>
+              <div class="absolute inset-0 opacity-[0.06] [background-image:radial-gradient(circle_at_1px_1px,rgba(15,23,42,0.3)_1px,transparent_0)] [background-size:20px_20px]"></div>
+              <div class:list={["absolute -right-12 -top-10 h-40 w-40 rounded-full blur-3xl", theme.variant.visualGlowA, theme.intensity.visualGlow]}></div>
+              <div class:list={["absolute -bottom-12 -left-10 h-44 w-44 rounded-full blur-3xl", theme.variant.visualGlowB, theme.intensity.visualGlow]}></div>
+              <div class="absolute inset-5 rounded-2xl border border-slate-200/80 bg-white/45 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]"></div>
+              <div class="absolute left-10 right-10 top-10 h-16 rounded-xl border border-slate-200/80 bg-white/70 shadow-sm"></div>
+              <div class="absolute left-12 right-12 top-[8.5rem] h-3 rounded-full bg-slate-300/70"></div>
+              <div class="absolute left-12 right-20 top-[11rem] h-3 rounded-full bg-slate-200/80"></div>
+              <div class="absolute bottom-10 left-10 h-12 w-12 rounded-xl border border-slate-200/80 bg-white/65 shadow-sm"></div>
+              <div class="absolute bottom-10 left-[6.5rem] h-12 w-20 rounded-xl border border-slate-200/80 bg-white/65 shadow-sm"></div>
+              <div class="absolute bottom-10 right-10 h-12 w-14 rounded-xl border border-slate-200/80 bg-white/65 shadow-sm"></div>
+            </div>
+
+            <div class="absolute inset-0 hidden dark:block">
+              <div class="absolute inset-0 opacity-35 [background-image:linear-gradient(rgba(255,255,255,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.12)_1px,transparent_1px)] [background-size:24px_24px]"></div>
+              <div class:list={["absolute -right-12 -top-10 h-40 w-40 rounded-full blur-3xl", theme.variant.darkVisualGlowA]}></div>
+              <div class:list={["absolute -bottom-12 -left-10 h-44 w-44 rounded-full blur-3xl", theme.variant.darkVisualGlowB]}></div>
+              <div class="absolute inset-5 rounded-2xl border border-white/15 bg-black/20"></div>
+              <div class="absolute left-10 right-10 top-10 h-16 rounded-xl border border-white/20 bg-white/10 backdrop-blur-sm"></div>
+              <div class="absolute left-12 right-12 top-[8.5rem] h-3 rounded-full bg-white/20"></div>
+              <div class="absolute left-12 right-20 top-[11rem] h-3 rounded-full bg-white/15"></div>
+              <div class="absolute bottom-10 left-10 h-12 w-12 rounded-xl border border-white/20 bg-white/10"></div>
+              <div class="absolute bottom-10 left-[6.5rem] h-12 w-20 rounded-xl border border-white/20 bg-white/10"></div>
+              <div class="absolute bottom-10 right-10 h-12 w-14 rounded-xl border border-white/20 bg-white/10"></div>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,142 @@
+---
+import { Icon } from "astro-icon/components";
+import { resolvePromoIcons } from "./promo.icons";
+import { promoSizeTokens } from "./promo.sizes";
+import type { PromoProps } from "./promo.types";
+import { cx, isSafeLocalImage, resolveTheme } from "./promo.utils";
+
+const {
+  badgeText,
+  title,
+  description,
+  href,
+  variant,
+  size = "tile",
+  hintText = "Ver planes",
+  ariaLabel,
+  bgImage,
+  class: className = "",
+  watermarkIcon,
+  arrowIcon,
+  tone = "default",
+  intensity = "md",
+  accent = "auto",
+} = Astro.props as PromoProps;
+
+const sizeStyles = promoSizeTokens[size];
+const theme = resolveTheme({ variant, tone, intensity, accent });
+const icons = resolvePromoIcons(variant, { watermarkIcon, arrowIcon });
+const safeBgImage = isSafeLocalImage(bgImage) ? bgImage : null;
+const resolvedAriaLabel = ariaLabel ?? `Ir a ${title}`;
+
+const watermarkBase = cx(
+  "pointer-events-none absolute z-[1] text-slate-900/[0.10] dark:text-white/[0.12] transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:rotate-[1.5deg] group-focus-visible:translate-x-0.5 group-focus-visible:-translate-y-0.5 group-focus-visible:rotate-[1.5deg]",
+  theme.watermarkOpacity,
+);
+
+const arrowBase =
+  "pointer-events-none absolute right-4 top-4 z-10 h-4 w-4 opacity-60 transition-all duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-100 group-focus-visible:-translate-y-0.5 group-focus-visible:translate-x-0.5 group-focus-visible:opacity-100";
+---
+
+<a
+  href={href}
+  aria-label={resolvedAriaLabel}
+  class:list={[
+    "group relative block overflow-hidden rounded-2xl border border-slate-200/70 bg-gradient-to-br from-white via-white to-slate-50 shadow-[0_14px_36px_rgba(15,23,42,0.10)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_20px_44px_rgba(15,23,42,0.15)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 dark:border-border/70 dark:bg-none dark:bg-card/90 dark:shadow-[0_16px_44px_rgba(2,6,23,0.55)] dark:hover:shadow-[0_22px_50px_rgba(2,6,23,0.62)] dark:focus-visible:ring-offset-slate-950",
+    theme.ring,
+    className,
+  ]}
+>
+  <span
+    class:list={[
+      "pointer-events-none absolute left-0 top-0 z-0 h-full w-[5px] rounded-l-2xl transition-opacity duration-200",
+      theme.strip,
+    ]}
+  ></span>
+  <span
+    class:list={[
+      "pointer-events-none absolute inset-0 z-0 [background-image:radial-gradient(circle_at_1px_1px,rgba(15,23,42,0.22)_1px,transparent_0)] dark:[background-image:radial-gradient(circle_at_1px_1px,rgba(148,163,184,0.35)_1px,transparent_0)] [background-size:18px_18px]",
+      theme.pattern,
+    ]}
+  ></span>
+  <span class:list={["pointer-events-none absolute inset-0 z-0 opacity-80", theme.sheen]}></span>
+
+  {safeBgImage ? (
+    <img
+      src={safeBgImage}
+      alt=""
+      loading="lazy"
+      decoding="async"
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover opacity-[0.09] blur-[1px]"
+    />
+  ) : null}
+
+  <span
+    class:list={[
+      "pointer-events-none absolute z-0 rounded-full transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100",
+      theme.glowMain,
+    ]}
+  ></span>
+  <span
+    class:list={[
+      "pointer-events-none absolute z-0 rounded-full transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100",
+      theme.glowSoft,
+    ]}
+  ></span>
+
+  <Icon
+    name={icons.watermark}
+    class:list={[watermarkBase, theme.watermarkPlacement, sizeStyles.watermark]}
+    aria-hidden="true"
+  />
+
+  <Icon name={icons.arrow} class:list={[arrowBase, theme.arrow]} aria-hidden="true" />
+
+  <div class:list={["relative z-10 grid h-full grid-rows-[1fr_auto]", sizeStyles.wrapper]}>
+    <div class:list={["pr-8 sm:pr-9", sizeStyles.stack]}>
+      <span
+        class:list={[
+          "inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.24em] backdrop-blur-sm",
+          theme.badge,
+        ]}
+      >
+        {badgeText}
+      </span>
+      <h3
+        class:list={[
+          "font-semibold leading-tight text-slate-900 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] overflow-hidden break-words dark:text-content",
+          sizeStyles.title,
+        ]}
+      >
+        {title}
+      </h3>
+      <p
+        class:list={[
+          "max-w-[50ch] text-[13px] leading-relaxed text-slate-600 [display:-webkit-box] [-webkit-box-orient:vertical] overflow-hidden dark:text-muted",
+          sizeStyles.descClamp,
+        ]}
+      >
+        {description}
+      </p>
+    </div>
+
+    <div class="mt-2 flex items-center justify-between gap-3">
+      <span
+        class:list={[
+          "h-px w-24 shrink-0 rounded-full bg-gradient-to-r transition-all duration-200 group-hover:w-32 group-focus-visible:w-32",
+          theme.footerLine,
+          theme.rail,
+        ]}
+      ></span>
+      <span
+        class:list={[
+          "shrink-0 whitespace-nowrap text-xs font-semibold uppercase tracking-[0.22em] transition-all duration-200 group-hover:translate-x-0.5 group-focus-visible:translate-x-0.5",
+          theme.hint,
+        ]}
+      >
+        {hintText} -&gt;
+      </span>
+    </div>
+  </div>
+</a>

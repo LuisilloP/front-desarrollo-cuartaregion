@@ -3,6 +3,8 @@ import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/layout/Navbar.astro";
 import Hero from "../components/sections/Hero.astro";
 import ServicesSection from "../components/sections/ServicesSection.astro";
+import HostingSection from "../components/sections/HostingSection.astro";
+import ProcessSection from "../components/sections/ProcessSection.astro";
 import CasesSection from "../components/sections/CasesSection.astro";
 import FAQSection from "../components/sections/FAQSection.astro";
 import ContactSection from "../components/sections/ContactSection.astro";
@@ -10,6 +12,12 @@ import Footer from "../components/layout/Footer.astro";
 import AboutUs from "../components/sections/AboutUs.astro";
 import WhatsAppFloatingButton from "../components/layout/WhatsAppFloatingButton.astro";
 import SectionDivider from "../components/layout/SectionDivider.astro";
+import BannerCombo from "../components/banners/BannerCombo.astro";
+import BannerWeb from "../components/banners/BannerWeb.astro";
+import BannerMarketing from "../components/banners/BannerMarketing.astro";
+import PromoWeb from "../components/promos/PromoWeb.astro";
+import PromoMarketing from "../components/promos/PromoMarketing.astro";
+import PromoCombo from "../components/promos/PromoCombo.astro";
 import {
   fetchSiteSettings,
   fetchCases,
@@ -27,8 +35,17 @@ import { companies as portfolioCompanies } from "../content/portfolioProjects";
 const globalContent = contentJson as Content;
 const homeContent = homeJson as HomePageContent;
 
-const { heroSection, faqSection, contactSection } = homeContent;
+const { heroSection, useCasesSection, faqSection, contactSection } = homeContent;
 const { legalPages, navLinks } = globalContent;
+const showProcessSection = false;
+const showUseCasesSection = false;
+
+const homeNavLinks = navLinks.filter((link) => {
+  const anchor = link.href.replace(/^\/?#/, "");
+  if (anchor === "proceso" && !showProcessSection) return false;
+  if (anchor === "use-cases" && !showUseCasesSection) return false;
+  return true;
+});
 
 const planSummaries: Service[] = [
   {
@@ -103,20 +120,7 @@ const planSummaries: Service[] = [
 const siteSettings = await fetchSiteSettings();
 const cases = await fetchCases();
 const faqs = await fetchFaqs();
-const demoBaseCase =
-  cases.find((item) => item.slug === "el-arlequin") ?? cases[cases.length - 1];
-const demoExtraCasesCount =
-  demoBaseCase && cases.length < 6 ? 6 - cases.length : 0;
-const demoCases = demoBaseCase
-  ? [
-      ...cases,
-      ...Array.from({ length: demoExtraCasesCount }, (_, index) => ({
-        ...demoBaseCase,
-        slug: `${demoBaseCase.slug}-demo-${index + 1}`,
-        order: (demoBaseCase.order ?? 99) + index + 10,
-      })),
-    ]
-  : cases;
+const recentCases = cases.slice(0, 3);
 ---
 
 <Layout
@@ -124,9 +128,58 @@ const demoCases = demoBaseCase
   description={siteSettings.tagline}
   siteSettings={siteSettings}
 >
-  <Navbar siteSettings={siteSettings} navLinks={navLinks} />
+  <Navbar siteSettings={siteSettings} navLinks={homeNavLinks} />
   <main class="space-y-8 overflow-x-hidden max-w-full">
     <Hero siteSettings={siteSettings} content={heroSection} />
+
+    <section class="section-shell py-4 sm:py-6" aria-labelledby="promos-heading">
+      <div class="mb-4 sm:mb-5">
+        <p
+          id="promos-heading"
+          class="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-primary/80"
+        >
+          Accesos rápidos
+        </p>
+      </div>
+
+      <div class="mt-3 sm:mt-4 grid gap-3 sm:gap-4 lg:grid-cols-3">
+        <PromoWeb />
+        <PromoMarketing />
+        <PromoCombo />
+      </div>
+      <div class="mt-3 sm:mt-4 grid gap-3 sm:gap-4 lg:grid-cols-2">
+        <PromoWeb />
+        <PromoMarketing />
+      </div>
+      <div class="mt-3 sm:mt-4">
+        <PromoCombo />
+      </div>
+    </section>
+
+    <section class="section-shell space-y-6 py-4 sm:py-6 lg:py-8">
+      <BannerCombo />
+      <BannerCombo
+        title="Web + Marketing que convierte"
+        subtitle="Landing, captacion y seguimiento conectados en un solo flujo"
+        description="Integramos diseno, mensaje y pauta para que tu inversion tenga foco comercial desde el inicio."
+        badgeText="Todo en un plan"
+        primaryLink={{ label: "Hablar por WhatsApp", href: "#contacto-marketing" }}
+        secondaryLink={{ label: "Agendar llamada", href: "#contacto-marketing" }}
+        bullets={[
+          "Oferta clara para captar mejores leads",
+          "Embudo digital con medicion real",
+          "Optimizacion continua por resultados",
+        ]}
+        reverse
+      />
+      <BannerWeb />
+      <BannerMarketing />
+    </section>
+
+    <div id="planes-web" aria-hidden="true"></div>
+    <div id="planes-marketing" aria-hidden="true"></div>
+    <div id="planes-combo" aria-hidden="true"></div>
+    <div id="planes" aria-hidden="true"></div>
 
     {/* Show summary cards for each plan group */}
     <ServicesSection
@@ -138,7 +191,12 @@ const demoCases = demoBaseCase
     <SectionDivider tone="accent" />
 
     {/* Social proof early - Cases show we deliver results */}
-    <CasesSection cases={demoCases} />
+    <CasesSection cases={recentCases} />
+
+    <SectionDivider />
+
+    {/* How we work - Premium process section */}
+    {showProcessSection ? <ProcessSection /> : null}
 
     <SectionDivider />
 
@@ -149,6 +207,11 @@ const demoCases = demoBaseCase
 
     {/* About Us after user is already interested */}
     <AboutUs />
+
+    <SectionDivider />
+
+    {/* Why choose us - Reinforcement */}
+    {showUseCasesSection ? <HostingSection content={useCasesSection} /> : null}
 
     <SectionDivider />
 

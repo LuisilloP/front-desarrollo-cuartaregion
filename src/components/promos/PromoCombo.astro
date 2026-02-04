@@ -1,0 +1,54 @@
+---
+import PromoCard from "./PromoCard.astro";
+import type { Accent, Intensity, Size, Tone } from "./promo.types";
+
+interface Props {
+  title?: string;
+  description?: string;
+  href?: string;
+  hintText?: string;
+  size?: Size;
+  ariaLabel?: string;
+  bgImage?: string;
+  class?: string;
+  tone?: Tone;
+  intensity?: Intensity;
+  accent?: Accent;
+  watermarkIcon?: string;
+  arrowIcon?: string;
+}
+
+const {
+  title = "Web + Marketing",
+  description = "Todo conectado para convertir desde el dia uno.",
+  href = "#planes-combo",
+  hintText = "Ver combo",
+  size = "tile",
+  ariaLabel = "Ir a planes combo",
+  bgImage,
+  class: className = "",
+  tone = "vivid",
+  intensity = "md",
+  accent = "auto",
+  watermarkIcon = "lucide:atom",
+  arrowIcon,
+} = Astro.props as Props;
+---
+
+<PromoCard
+  badgeText="COMBO"
+  title={title}
+  description={description}
+  href={href}
+  hintText={hintText}
+  size={size}
+  ariaLabel={ariaLabel}
+  bgImage={bgImage}
+  variant="mixed"
+  class={className}
+  tone={tone}
+  intensity={intensity}
+  accent={accent}
+  watermarkIcon={watermarkIcon}
+  arrowIcon={arrowIcon}
+/>

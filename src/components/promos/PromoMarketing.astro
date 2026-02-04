@@ -1,0 +1,54 @@
+---
+import PromoCard from "./PromoCard.astro";
+import type { Accent, Intensity, Size, Tone } from "./promo.types";
+
+interface Props {
+  title?: string;
+  description?: string;
+  href?: string;
+  hintText?: string;
+  size?: Size;
+  ariaLabel?: string;
+  bgImage?: string;
+  class?: string;
+  tone?: Tone;
+  intensity?: Intensity;
+  accent?: Accent;
+  watermarkIcon?: string;
+  arrowIcon?: string;
+}
+
+const {
+  title = "Campanas que traen clientes",
+  description = "Segmentacion, tracking y optimizacion continua.",
+  href = "#planes-marketing",
+  hintText = "Ver planes",
+  size = "tile",
+  ariaLabel = "Ir a planes marketing",
+  bgImage,
+  class: className = "",
+  tone = "vivid",
+  intensity = "md",
+  accent = "auto",
+  watermarkIcon,
+  arrowIcon,
+} = Astro.props as Props;
+---
+
+<PromoCard
+  badgeText="META ADS"
+  title={title}
+  description={description}
+  href={href}
+  hintText={hintText}
+  size={size}
+  ariaLabel={ariaLabel}
+  bgImage={bgImage}
+  variant="marketing"
+  class={className}
+  tone={tone}
+  intensity={intensity}
+  accent={accent}
+  watermarkIcon={watermarkIcon}
+  arrowIcon={arrowIcon}
+/>
