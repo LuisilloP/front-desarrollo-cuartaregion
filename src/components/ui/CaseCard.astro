@@ -39,12 +39,21 @@ const hasDevelopmentIntent =
     projectContext,
   );
 
+const manualProjectTypeBySlug: Record<
+  string,
+  "Marketing" | "Desarrollo Web" | "Proyecto Mixto"
+> = {
+  "propiedades-arenas": "Proyecto Mixto",
+};
+
+const manualProjectType = manualProjectTypeBySlug[caseItem.slug];
 const projectTypeLabel =
-  hasMarketingIntent && hasDevelopmentIntent
+  manualProjectType ??
+  (hasMarketingIntent && hasDevelopmentIntent
     ? "Proyecto Mixto"
     : hasMarketingIntent
       ? "Marketing"
-      : "Desarrollo Web";
+      : "Desarrollo Web");
 
 const projectTypePillClass =
   projectTypeLabel === "Marketing"
