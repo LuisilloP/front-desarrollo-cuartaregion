@@ -1,8 +1,15 @@
 ﻿---
 import PromoCard from "./PromoCard.astro";
-import type { Accent, Intensity, Size, Tone } from "./config/promo.types";
+import type {
+  Accent,
+  Intensity,
+  Size,
+  Tone,
+  Variant,
+} from "./config/promo.types";
 
 interface Props {
+  badgeText?: string;
   title?: string;
   description?: string;
   href?: string;
@@ -19,6 +26,7 @@ interface Props {
 }
 
 const {
+  badgeText = "META ADS",
   title = "Campanas que traen clientes",
   description = "Segmentacion, tracking y optimizacion continua.",
   href = "#planes-marketing",
@@ -33,10 +41,12 @@ const {
   watermarkIcon,
   arrowIcon,
 } = Astro.props as Props;
+
+const variant: Variant = "marketing";
 ---
 
 <PromoCard
-  badgeText="META ADS"
+  badgeText={badgeText}
   title={title}
   description={description}
   href={href}
@@ -44,7 +54,7 @@ const {
   size={size}
   ariaLabel={ariaLabel}
   bgImage={bgImage}
-  variant="marketing"
+  variant={variant}
   class={className}
   tone={tone}
   intensity={intensity}

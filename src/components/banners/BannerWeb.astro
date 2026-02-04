@@ -7,6 +7,7 @@ import type {
   BannerLink,
   BannerSize,
   BannerTone,
+  BannerVariant,
 } from "./config/banner.types";
 
 interface Props {
@@ -58,11 +59,13 @@ const {
   headerIcon,
   class: className = "",
 } = Astro.props as Props;
+
+const variant: BannerVariant = "web";
 ---
 
 <BannerBase
   sectionId={sectionId}
-  variant="web"
+  variant={variant}
   accentKey={accentKey}
   tone={tone}
   intensity={intensity}
