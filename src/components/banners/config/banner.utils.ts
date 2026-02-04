@@ -1,4 +1,4 @@
-import { BANNER_ACCENT_TOKENS } from "./banner.accents";
+import { BANNER_ACCENT_TOKENS } from "./banner.tokens";
 import { BANNER_INTENSITY_TOKENS, getBannerVariantTokens } from "./banner.theme";
 import type {
   BannerAccentKey,
@@ -65,7 +65,7 @@ export function resolveBannerTheme({
     secondaryCta: variantTheme.secondaryCta ?? accent.secondaryCta,
     highlight: variantTheme.highlight ?? accent.highlight,
     arrow: variantTheme.arrow ?? accent.arrow,
-    headerIcon: variantTheme.headerIcon ?? accent.headerIcon,
+    badgeIcon: variantTheme.badgeIcon ?? accent.badgeIcon,
     watermark: variantTheme.watermark ?? accent.watermark,
   };
 }

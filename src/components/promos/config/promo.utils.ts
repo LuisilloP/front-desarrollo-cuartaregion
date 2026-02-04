@@ -1,6 +1,10 @@
-import { getPromoThemeBaseTokens, promoIntensityMap } from "./promo.tokens";
+import {
+  getPromoAccentTokens,
+  getPromoVariantTokens,
+  promoIntensityMap,
+} from "./promo.tokens";
 import type {
-  Accent,
+  AccentKey,
   Intensity,
   PromoThemeTokens,
   Tone,
@@ -11,7 +15,7 @@ interface ResolveThemeParams {
   variant: Variant;
   tone?: Tone;
   intensity?: Intensity;
-  accent?: Accent;
+  accentKey?: AccentKey;
 }
 
 const localImagePathPattern =
@@ -34,10 +38,14 @@ export function resolveTheme({
   variant,
   tone = "default",
   intensity = "md",
-  accent = "auto",
+  accentKey = "auto",
 }: ResolveThemeParams): PromoThemeTokens {
-  const paletteVariant = accent === "auto" ? variant : accent;
-  const theme = getPromoThemeBaseTokens(paletteVariant, tone);
+  const variantTheme = getPromoVariantTokens(variant, tone);
+  const resolvedAccentKey =
+    accentKey === "auto" ? variantTheme.defaultAccent : accentKey;
+  const accentTheme =
+    accentKey === "auto" ? null : getPromoAccentTokens(resolvedAccentKey, tone);
+  const theme = accentTheme ? { ...variantTheme, ...accentTheme } : variantTheme;
   const intensityTokens = promoIntensityMap[intensity];
 
   return {

@@ -16,6 +16,7 @@ interface Props {
   subtitle?: string;
   description?: string;
   badgeText?: string;
+  badgeIcon?: string;
   primaryLink?: BannerLink;
   secondaryLink?: BannerLink;
   bullets?: string[];
@@ -55,12 +56,14 @@ const {
   tone = "vivid",
   intensity = "md",
   accentKey = "auto",
-  watermarkIcon,
+  badgeIcon,
+  watermarkIcon = "lucide:layout-template",
   headerIcon,
   class: className = "",
 } = Astro.props as Props;
 
 const variant: BannerVariant = "web";
+const resolvedBadgeIcon = badgeIcon ?? headerIcon ?? "lucide:monitor";
 ---
 
 <BannerBase
@@ -82,8 +85,8 @@ const variant: BannerVariant = "web";
   ariaLabel={ariaLabel}
   bgImage={bgImage}
   imageAlt={imageAlt}
+  badgeIcon={resolvedBadgeIcon}
   watermarkIcon={watermarkIcon}
-  headerIcon={headerIcon}
   class={className}
 >
   <slot name="visual" slot="visual" />

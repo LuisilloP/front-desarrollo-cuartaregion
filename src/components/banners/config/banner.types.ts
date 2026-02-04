@@ -13,7 +13,7 @@ export interface BannerLink {
 
 export interface BannerProps {
   sectionId?: string;
-  variant: BannerVariant;
+  variant?: BannerVariant;
   accentKey?: BannerAccentKey;
   tone?: BannerTone;
   intensity?: BannerIntensity;
@@ -21,11 +21,12 @@ export interface BannerProps {
   reverse?: boolean;
   size?: BannerSize;
   badgeText?: string;
+  badgeIcon?: string;
   title: string;
   subtitle?: string;
   description?: string;
   bullets?: string[];
-  primaryLink: BannerLink;
+  primaryLink?: BannerLink;
   secondaryLink?: BannerLink;
   ariaLabel?: string;
   bgImage?: string;
@@ -37,7 +38,7 @@ export interface BannerProps {
 
 export interface BannerAccentTokens {
   badge: string;
-  headerIcon: string;
+  badgeIcon: string;
   subtitle: string;
   bullet: string;
   primaryCta: string;
@@ -68,7 +69,7 @@ export interface BannerVariantThemeTokens {
   secondaryCta?: string;
   highlight?: string;
   arrow?: string;
-  headerIcon?: string;
+  badgeIcon?: string;
   watermark?: string;
 }
 
@@ -116,12 +117,12 @@ export interface ResolvedBannerThemeTokens {
   secondaryCta: string;
   highlight: string;
   arrow: string;
-  headerIcon: string;
+  badgeIcon: string;
   watermark: string;
 }
 
 export interface BannerIconTokens {
-  watermark: string;
-  header: string;
+  watermark?: string;
+  badge?: string;
   arrow: string;
 }

@@ -1,4 +1,4 @@
-﻿---
+---
 import PromoCard from "./PromoCard.astro";
 import type {
   AccentKey,
@@ -27,24 +27,24 @@ interface Props {
 }
 
 const {
-  badgeText = "META ADS",
-  badgeIcon = "simple-icons:meta",
-  title = "Campanas que traen clientes",
-  description = "Segmentacion, tracking y optimizacion continua.",
-  href = "#planes-marketing",
-  hintText = "Ver planes",
+  badgeText = "COMBO",
+  badgeIcon = "lucide:sparkles",
+  title = "Web + Marketing",
+  description = "Todo conectado para convertir desde el dia uno.",
+  href = "#planes-combo",
+  hintText = "Ver combo",
   size = "tile",
-  ariaLabel = "Ir a planes marketing",
+  ariaLabel = "Ir a planes combo",
   bgImage,
   class: className = "",
   tone = "vivid",
   intensity = "md",
   accentKey = "auto",
-  watermarkIcon = "lucide:target",
+  watermarkIcon = "lucide:layers",
   arrowIcon,
 } = Astro.props as Props;
 
-const variant: Variant = "marketing";
+const variant: Variant = "mixed";
 ---
 
 <PromoCard
@@ -65,4 +65,3 @@ const variant: Variant = "marketing";
   watermarkIcon={watermarkIcon}
   arrowIcon={arrowIcon}
 />
-

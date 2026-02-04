@@ -1,12 +1,14 @@
-export type Variant = "web" | "marketing" | "mixed";
+export type PromoVariant = "web" | "marketing" | "mixed";
+export type Variant = PromoVariant;
 export type Size = "tile" | "strip";
 export type Tone = "default" | "vivid";
 export type Intensity = "low" | "md" | "high";
-export type Accent = "auto" | Variant;
-export type PromoAccentName = "sky" | "orange" | "mix";
+export type PromoAccentKey = "auto" | "sky" | "orange" | "slate" | "rose";
+export type PromoResolvedAccentKey = Exclude<PromoAccentKey, "auto">;
+export type AccentKey = PromoAccentKey;
+export type Accent = PromoAccentKey;
 
 export interface PromoThemeBaseTokens {
-  accentName: PromoAccentName;
   badge: string;
   strip: string;
   sheen: string;
@@ -18,6 +20,8 @@ export interface PromoThemeBaseTokens {
   glowSoft: string;
   watermarkPlacement: string;
 }
+
+export interface PromoAccentTokens extends Partial<PromoThemeBaseTokens> {}
 
 export interface PromoIntensityTokens {
   strip: string;
@@ -34,6 +38,10 @@ export interface PromoThemeTokens extends PromoThemeBaseTokens {
   watermarkOpacity: string;
 }
 
+export interface PromoVariantTokens extends PromoThemeBaseTokens {
+  defaultAccent: PromoResolvedAccentKey;
+}
+
 export interface PromoSizeTokens {
   wrapper: string;
   title: string;
@@ -43,29 +51,32 @@ export interface PromoSizeTokens {
 }
 
 export interface PromoIconTokens {
-  watermark: string;
-  arrow: string;
+  watermark?: string;
+  badge?: string;
+  arrow?: string;
 }
 
 export interface PromoIconOverrides {
   watermarkIcon?: string;
+  badgeIcon?: string;
   arrowIcon?: string;
 }
 
 export interface PromoProps {
-  badgeText: string;
   title: string;
-  description: string;
-  href: string;
-  variant: Variant;
-  size?: Size;
-  hintText?: string;
-  ariaLabel?: string;
-  bgImage?: string;
-  class?: string;
+  description?: string;
+  badgeText?: string;
+  badgeIcon?: string;
   watermarkIcon?: string;
-  arrowIcon?: string;
+  hintText?: string;
+  href?: string;
+  ariaLabel?: string;
+  variant?: PromoVariant;
+  accentKey?: PromoAccentKey;
   tone?: Tone;
   intensity?: Intensity;
-  accent?: Accent;
+  size?: Size;
+  bgImage?: string;
+  class?: string;
+  arrowIcon?: string;
 }

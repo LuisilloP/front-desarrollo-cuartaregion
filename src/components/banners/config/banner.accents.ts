@@ -4,7 +4,7 @@ export const BANNER_ACCENT_TOKENS = {
   sky: {
     badge:
       "bg-white/70 border border-sky-300/70 text-sky-700 backdrop-blur-sm dark:border-sky-400/45 dark:bg-sky-500/15 dark:text-sky-100",
-    headerIcon: "text-sky-600 dark:text-sky-300",
+    badgeIcon: "text-sky-600 dark:text-sky-300",
     subtitle: "text-slate-800 dark:text-sky-100",
     bullet: "bg-sky-500 dark:bg-sky-400",
     primaryCta:
@@ -18,7 +18,7 @@ export const BANNER_ACCENT_TOKENS = {
   orange: {
     badge:
       "bg-white/70 border border-amber-300/70 text-amber-700 backdrop-blur-sm dark:border-orange-400/45 dark:bg-orange-500/15 dark:text-orange-100",
-    headerIcon: "text-orange-600 dark:text-orange-300",
+    badgeIcon: "text-orange-600 dark:text-orange-300",
     subtitle: "text-slate-800 dark:text-orange-100",
     bullet: "bg-orange-500 dark:bg-orange-400",
     primaryCta:
@@ -32,7 +32,7 @@ export const BANNER_ACCENT_TOKENS = {
   slate: {
     badge:
       "bg-white/70 border border-slate-300/70 text-slate-700 backdrop-blur-sm dark:border-slate-400/45 dark:bg-slate-500/15 dark:text-slate-100",
-    headerIcon: "text-slate-600 dark:text-slate-300",
+    badgeIcon: "text-slate-600 dark:text-slate-300",
     subtitle: "text-slate-800 dark:text-slate-100",
     bullet: "bg-slate-500 dark:bg-slate-300",
     primaryCta:
@@ -46,7 +46,7 @@ export const BANNER_ACCENT_TOKENS = {
   rose: {
     badge:
       "bg-white/70 border border-rose-300/70 text-rose-700 backdrop-blur-sm dark:border-rose-400/45 dark:bg-rose-500/15 dark:text-rose-100",
-    headerIcon: "text-rose-600 dark:text-rose-300",
+    badgeIcon: "text-rose-600 dark:text-rose-300",
     subtitle: "text-slate-800 dark:text-rose-100",
     bullet: "bg-rose-500 dark:bg-rose-400",
     primaryCta:

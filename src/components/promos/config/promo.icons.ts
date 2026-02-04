@@ -1,31 +1,23 @@
-import type { PromoIconOverrides, PromoIconTokens, Variant } from "./promo.types";
+import type { PromoIconOverrides, PromoIconTokens } from "./promo.types";
 
-const defaultWatermarkIcons = {
-  web: "mdi:monitor-dashboard",
-  marketing: "mdi:bullseye-arrow",
-  mixed: "mdi:layers-triple-outline",
-} as const satisfies Record<Variant, string>;
-
-const defaultArrowIcon = "mdi:arrow-top-right";
+const DEFAULT_ARROW_ICON = "lucide:arrow-up-right";
 const iconNamePattern = /^(mdi|lucide|simple-icons):[a-z0-9-]+$/i;
 
-function sanitizeMdiIconName(candidate?: string): string | null {
+function sanitizeIconName(candidate?: string): string | undefined {
   if (!candidate) {
-    return null;
+    return undefined;
   }
 
   const normalized = candidate.trim();
-  return iconNamePattern.test(normalized) ? normalized : null;
+  return iconNamePattern.test(normalized) ? normalized : undefined;
 }
 
 export function resolvePromoIcons(
-  variant: Variant,
   overrides: PromoIconOverrides = {},
 ): PromoIconTokens {
   return {
-    watermark:
-      sanitizeMdiIconName(overrides.watermarkIcon) ??
-      defaultWatermarkIcons[variant],
-    arrow: sanitizeMdiIconName(overrides.arrowIcon) ?? defaultArrowIcon,
+    watermark: sanitizeIconName(overrides.watermarkIcon),
+    badge: sanitizeIconName(overrides.badgeIcon),
+    arrow: sanitizeIconName(overrides.arrowIcon) ?? DEFAULT_ARROW_ICON,
   };
 }

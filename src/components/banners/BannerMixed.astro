@@ -1,4 +1,4 @@
-﻿---
+---
 import BannerBase from "./BannerBase.astro";
 import type {
   BannerAccentKey,
@@ -36,16 +36,20 @@ interface Props {
 
 const {
   sectionId,
-  title = "Campanas que traen clientes",
-  subtitle = "Meta Ads con enfoque en intencion de compra",
-  description = "Segmentacion, creatividades, tracking y optimizacion continua.",
-  badgeText = "Meta Ads",
-  primaryLink = { label: "Cotizar campanas", href: "#contacto-marketing" },
-  secondaryLink = { label: "Ver planes de marketing", href: "/marketing#planes" },
+  title = "Lanzamiento digital completo",
+  subtitle = "Web optimizada + campanas activas desde el dia uno",
+  description = "Un plan combinado para lanzar rapido, medir cada paso y escalar con decisiones claras.",
+  badgeText = "Combo recomendado",
+  badgeIcon,
+  primaryLink = { label: "Cotizar combo", href: "#contacto-marketing" },
+  secondaryLink = {
+    label: "Ver detalles",
+    href: "/servicios/plan-mixto-web-marketing",
+  },
   bullets = [
-    "Audiencias y mensajes por etapa",
-    "Medicion de leads y conversiones",
-    "Iteraciones semanales con data real",
+    "Landing optimizada",
+    "Meta Ads con tracking",
+    "Reporte y optimizacion mensual",
   ],
   ariaLabel,
   bgImage,
@@ -56,14 +60,13 @@ const {
   tone = "vivid",
   intensity = "md",
   accentKey = "auto",
-  badgeIcon,
-  watermarkIcon = "lucide:target",
+  watermarkIcon = "lucide:layers",
   headerIcon,
   class: className = "",
 } = Astro.props as Props;
 
-const variant: BannerVariant = "marketing";
-const resolvedBadgeIcon = badgeIcon ?? headerIcon ?? "simple-icons:meta";
+const variant: BannerVariant = "mixed";
+const resolvedBadgeIcon = badgeIcon ?? headerIcon ?? "lucide:sparkles";
 ---
 
 <BannerBase

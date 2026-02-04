@@ -1,7 +1,7 @@
 ﻿---
 import PromoCard from "./PromoCard.astro";
 import type {
-  Accent,
+  AccentKey,
   Intensity,
   Size,
   Tone,
@@ -10,6 +10,7 @@ import type {
 
 interface Props {
   badgeText?: string;
+  badgeIcon?: string;
   title?: string;
   description?: string;
   href?: string;
@@ -20,13 +21,14 @@ interface Props {
   class?: string;
   tone?: Tone;
   intensity?: Intensity;
-  accent?: Accent;
+  accentKey?: AccentKey;
   watermarkIcon?: string;
   arrowIcon?: string;
 }
 
 const {
   badgeText = "DESARROLLO WEB",
+  badgeIcon = "lucide:monitor",
   title = "Web rapida y lista para vender",
   description = "SEO tecnico, performance y estructura solida.",
   href = "#planes-web",
@@ -37,8 +39,8 @@ const {
   class: className = "",
   tone = "vivid",
   intensity = "md",
-  accent = "auto",
-  watermarkIcon,
+  accentKey = "auto",
+  watermarkIcon = "lucide:layout-template",
   arrowIcon,
 } = Astro.props as Props;
 
@@ -47,6 +49,7 @@ const variant: Variant = "web";
 
 <PromoCard
   badgeText={badgeText}
+  badgeIcon={badgeIcon}
   title={title}
   description={description}
   href={href}
@@ -58,7 +61,7 @@ const variant: Variant = "web";
   class={className}
   tone={tone}
   intensity={intensity}
-  accent={accent}
+  accentKey={accentKey}
   watermarkIcon={watermarkIcon}
   arrowIcon={arrowIcon}
 />
