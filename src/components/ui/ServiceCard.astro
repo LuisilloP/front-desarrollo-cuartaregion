@@ -93,8 +93,32 @@ const shineStyle =
 const deliveryLabel =
   service.slug === "mantencion-ti-monitoreo" ? "Activación" : "Entrega";
 
-const linkHref = ctaHref || whatsappUrl;
+const linkHref = isMixed ? whatsappUrl : ctaHref || whatsappUrl;
 const isExternal = linkHref.startsWith("http");
+
+const ctaBaseClass =
+  "cta-button inline-flex min-h-12 w-full cursor-pointer items-center justify-between gap-3 rounded-2xl px-5 py-3.5 text-lg font-semibold tracking-[0.01em] shadow-md ring-1 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg sm:min-h-11 sm:py-3 sm:text-base lg:min-h-10 lg:py-2.5 lg:text-sm 2xl:w-auto 2xl:justify-center";
+
+const ctaButtonClass = isMixed
+  ? "bg-gradient-to-r from-blue-600 to-amber-500 text-white ring-blue-300/35 shadow-lg shadow-blue-900/20 group-hover:from-blue-700 group-hover:to-amber-600"
+  : variant === "web"
+    ? "bg-blue-600 text-white ring-blue-900/20 shadow-blue-900/15 group-hover:bg-blue-700"
+    : accentTone === "amber"
+      ? "bg-gradient-to-r from-amber-200 to-orange-300 text-slate-900 ring-orange-300/45 shadow-amber-900/10 group-hover:from-amber-300 group-hover:to-orange-400"
+      : "bg-gradient-to-r from-amber-200 to-orange-300 text-slate-900 ring-orange-300/45 shadow-amber-900/10 group-hover:from-amber-300 group-hover:to-orange-400";
+
+const ctaFocusClass = isMixed
+  ? "group-focus-visible:ring-2 group-focus-visible:ring-blue-300 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-white dark:group-focus-visible:ring-offset-slate-950"
+  : variant === "web"
+    ? "group-focus-visible:ring-2 group-focus-visible:ring-blue-300 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-white dark:group-focus-visible:ring-offset-slate-950"
+    : "group-focus-visible:ring-2 group-focus-visible:ring-orange-300 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-white dark:group-focus-visible:ring-offset-slate-950";
+
+const ctaIconClass =
+  variant === "marketing" && accentTone === "amber"
+    ? "text-slate-950"
+    : variant === "web" || isMixed
+      ? "text-white"
+      : "text-slate-950";
 ---
 
 <a
@@ -186,7 +210,7 @@ const isExternal = linkHref.startsWith("http");
     )
   }
 
-  <div class="mt-auto flex items-end justify-between gap-4 pt-8">
+  <div class="mt-auto flex flex-col items-start gap-3 pt-8 2xl:flex-row 2xl:items-end 2xl:justify-between">
     {
       price && (
         <div class="shrink-0">
@@ -203,11 +227,12 @@ const isExternal = linkHref.startsWith("http");
       )
     }
     <div
-      class={`text-lg inline-flex items-center gap-2 font-medium transition-colors ${resolvedAccent.cta}`}
+      class={`${ctaBaseClass} ${ctaButtonClass} ${ctaFocusClass}`}
     >
-      {ctaLabel} <Icon
+      <span class="text-left leading-tight">{ctaLabel}</span>
+      <Icon
         name="lucide:arrow-right"
-        class="h-4 w-4 transition-transform group-hover:translate-x-1"
+        class={`cta-arrow ml-auto h-4 w-4 flex-shrink-0 transition-transform duration-200 ${ctaIconClass}`}
       />
     </div>
   </div>
@@ -240,6 +265,32 @@ const isExternal = linkHref.startsWith("http");
     z-index: -1;
     pointer-events: none;
     transition: opacity 0.3s;
+  }
+
+  @keyframes cta-arrow-nudge {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(4px);
+    }
+  }
+
+  @media (hover: hover) {
+    .cta-button:hover .cta-arrow {
+      animation: cta-arrow-nudge 520ms ease-out 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta-button {
+      transition: none;
+    }
+    .cta-arrow {
+      transition: none;
+      animation: none !important;
+    }
   }
 </style>
 
