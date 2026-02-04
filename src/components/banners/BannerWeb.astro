@@ -1,4 +1,4 @@
----
+﻿---
 import BannerBase from "./BannerBase.astro";
 import type {
   BannerAccentKey,
@@ -7,7 +7,7 @@ import type {
   BannerLink,
   BannerSize,
   BannerTone,
-} from "./banner.types";
+} from "./config/banner.types";
 
 interface Props {
   sectionId?: string;
@@ -85,3 +85,4 @@ const {
 >
   <slot name="visual" slot="visual" />
 </BannerBase>
+

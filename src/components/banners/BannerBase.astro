@@ -1,9 +1,9 @@
----
+﻿---
 import { Icon } from "astro-icon/components";
-import { resolveBannerIcons } from "./banner.icons";
-import { BANNER_SIZE_TOKENS, resolveBannerLayoutTokens } from "./banner.layouts";
-import type { BannerProps } from "./banner.types";
-import { cx, isSafeLocalImage, resolveBannerTheme } from "./banner.utils";
+import { resolveBannerIcons } from "./config/banner.icons";
+import { BANNER_SIZE_TOKENS, resolveBannerLayoutTokens } from "./config/banner.layouts";
+import type { BannerProps } from "./config/banner.types";
+import { cx, isSafeLocalImage, resolveBannerTheme } from "./config/banner.utils";
 
 const {
   sectionId,
@@ -241,3 +241,4 @@ const icons = resolveBannerIcons(variant, { watermarkIcon, headerIcon });
     </div>
   </div>
 </section>
+

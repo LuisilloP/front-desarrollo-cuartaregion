@@ -1,9 +1,9 @@
 ---
 import { Icon } from "astro-icon/components";
-import { resolvePromoIcons } from "./promo.icons";
-import { promoSizeTokens } from "./promo.sizes";
-import type { PromoProps } from "./promo.types";
-import { cx, isSafeLocalImage, resolveTheme } from "./promo.utils";
+import { resolvePromoIcons } from "./config/promo.icons";
+import { promoSizeTokens } from "./config/promo.sizes";
+import type { PromoProps } from "./config/promo.types";
+import { cx, isSafeLocalImage, resolveTheme } from "./config/promo.utils";
 
 const {
   badgeText,
@@ -135,8 +135,9 @@ const arrowBase =
           theme.hint,
         ]}
       >
-        {hintText} -&gt;
+        {hintText}
       </span>
     </div>
   </div>
 </a>
+
