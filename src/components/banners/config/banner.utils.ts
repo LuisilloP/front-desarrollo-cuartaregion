@@ -67,5 +67,8 @@ export function resolveBannerTheme({
     arrow: variantTheme.arrow ?? accent.arrow,
     badgeIcon: variantTheme.badgeIcon ?? accent.badgeIcon,
     watermark: variantTheme.watermark ?? accent.watermark,
+    rightGlow: variantTheme.rightGlow ?? accent.rightGlow,
+    rightSheen: variantTheme.rightSheen ?? accent.rightSheen,
+    watermarkColor: variantTheme.watermarkColor ?? accent.watermarkColor ?? accent.watermark,
   };
 }

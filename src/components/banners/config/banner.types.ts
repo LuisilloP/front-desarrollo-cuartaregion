@@ -11,6 +11,12 @@ export interface BannerLink {
   href: string;
 }
 
+export interface BannerMedia {
+  bgImage?: string;
+  icon?: string;
+  grid?: boolean;
+}
+
 export interface BannerProps {
   sectionId?: string;
   variant?: BannerVariant;
@@ -29,9 +35,11 @@ export interface BannerProps {
   primaryLink?: BannerLink;
   secondaryLink?: BannerLink;
   ariaLabel?: string;
+  media?: BannerMedia | null;
   bgImage?: string;
   imageAlt?: string;
   watermarkIcon?: string;
+  rightIcon?: string;
   headerIcon?: string;
   class?: string;
 }
@@ -46,6 +54,9 @@ export interface BannerAccentTokens {
   highlight: string;
   arrow: string;
   watermark: string;
+  rightGlow: string;
+  rightSheen: string;
+  watermarkColor?: string;
 }
 
 export interface BannerVariantThemeTokens {
@@ -71,6 +82,9 @@ export interface BannerVariantThemeTokens {
   arrow?: string;
   badgeIcon?: string;
   watermark?: string;
+  rightGlow?: string;
+  rightSheen?: string;
+  watermarkColor?: string;
 }
 
 export interface BannerIntensityTokens {
@@ -119,6 +133,9 @@ export interface ResolvedBannerThemeTokens {
   arrow: string;
   badgeIcon: string;
   watermark: string;
+  rightGlow: string;
+  rightSheen: string;
+  watermarkColor: string;
 }
 
 export interface BannerIconTokens {

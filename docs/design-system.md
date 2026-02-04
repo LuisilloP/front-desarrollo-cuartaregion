@@ -10,12 +10,12 @@ Con `auto`, cada `variant` usa su acento por defecto.
 
 ### Tokens
 Los estilos viven en tokens (`as const`) para:
-- evitar clases dinámicas (`text-${x}`),
+- evitar clases dinamicas (`text-${x}`),
 - mantener consistencia entre componentes,
 - extender colores de forma segura.
 
-### Sin clases dinámicas
-No usamos composición de clases con template strings dinámicos. Todas las clases Tailwind están declaradas como strings literales en:
+### Sin clases dinamicas
+No usamos composicion de clases con template strings dinamicos. Todas las clases Tailwind estan declaradas como strings literales en:
 - `src/components/promos/config/promo.tokens.ts`
 - `src/components/banners/config/banner.tokens.ts`
 
@@ -43,7 +43,7 @@ Comportamientos opcionales:
 ```astro
 <PromoCard
   title="Web de alto rendimiento"
-  description="SEO técnico y base escalable"
+  description="SEO tecnico y base escalable"
   badgeText="DESARROLLO WEB"
   badgeIcon="lucide:monitor"
   watermarkIcon="lucide:layout-template"
@@ -78,41 +78,58 @@ Wrappers:
 
 ### Props (BannerBase)
 - Requerida: `title`
-- Opcionales: `variant`, `badgeText`, `badgeIcon`, `subtitle`, `description`, `bullets`, `primaryLink`, `secondaryLink`, `watermarkIcon`, `bgImage`, `accentKey`, `tone`, `intensity`, `layout`, `reverse`, `size`, `class`
+- Opcionales: `variant`, `badgeText`, `badgeIcon`, `subtitle`, `description`, `bullets`, `primaryLink`, `secondaryLink`, `watermarkIcon`, `rightIcon`, `media`, `bgImage`, `accentKey`, `tone`, `intensity`, `layout`, `reverse`, `size`, `class`
+
+`media`:
+```ts
+media?: {
+  bgImage?: string; // solo rutas locales validas
+  icon?: string;    // iconify name, opcional
+  grid?: boolean;   // reservado para custom media
+} | null
+```
 
 Comportamientos opcionales:
 - sin `primaryLink` y `secondaryLink`: no renderiza CTAs
 - sin `badgeText`: no renderiza badge
 - sin `badgeIcon`: badge sin icono
-- sin `watermarkIcon`: no watermark
-- `bullets` se limita a máximo 3 items
+- sin `watermarkIcon` y sin `rightIcon`: no icono decorativo derecho
+- `bullets` se limita a maximo 3 items
 
-### Ejemplo banner con CTAs
+### Estado sin media (sin foto / sin slot)
+- si no hay `bgImage` valida ni slot `media`, el panel derecho desaparece completamente
+- el layout colapsa a 1 columna (sin huecos)
+- el texto gana ancho (`max-w` mayor)
+- se mantiene composicion premium con decorador absoluto derecho (`rightSheen` + `rightGlow`)
+- si existe `rightIcon` (o fallback `watermarkIcon`), se renderiza icono flotante sin recuadro en la esquina superior derecha
+
+### Ejemplo banner con CTAs y media
 ```astro
 <BannerBase
-  title="Campañas de intención"
+  title="Campanas de intencion"
   variant="marketing"
   badgeText="META ADS"
   badgeIcon="simple-icons:meta"
-  subtitle="Optimización continua"
-  description="Segmentación + tracking + iteración"
+  subtitle="Optimizacion continua"
+  description="Segmentacion + tracking + iteracion"
   bullets={["Audiencias", "Creatividades", "Reporte mensual"]}
   primaryLink={{ label: "Cotizar", href: "#contacto-marketing" }}
   secondaryLink={{ label: "Ver planes", href: "/marketing#planes" }}
-  watermarkIcon="lucide:target"
+  rightIcon="lucide:target"
+  media={{ bgImage: "/images/marketing/banner.webp" }}
   accentKey="orange"
   tone="vivid"
 />
 ```
 
-### Ejemplo banner informativo (sin CTAs)
+### Ejemplo banner sin media (sin panel derecho)
 ```astro
 <BannerBase
   title="Estrategia de lanzamiento"
   variant="mixed"
-  description="Plan de implementación en fases"
-  accentKey="slate"
-  watermarkIcon="lucide:layers"
+  description="Plan de implementacion en fases"
+  rightIcon="lucide:layers"
+  media={null}
 />
 ```
 
@@ -154,7 +171,7 @@ Defaults por wrappers:
 - No anidar `<a>` dentro de `<a>`.
 - Decorativos siempre con `pointer-events-none`.
 
-## 7) Snippets rápidos (wrappers)
+## 7) Snippets rapidos (wrappers)
 
 ```astro
 <PromoWeb />
@@ -163,5 +180,5 @@ Defaults por wrappers:
 
 <BannerWeb />
 <BannerMarketing accentKey="orange" />
-<BannerMixed primaryLink={undefined} secondaryLink={undefined} />
+<BannerMixed primaryLink={undefined} secondaryLink={undefined} media={null} />
 ```

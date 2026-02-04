@@ -20,6 +20,17 @@ function sanitizeLink(link?: BannerLink): BannerLink | null {
   return { href, label };
 }
 
+const iconNamePattern = /^(lucide|simple-icons|mdi):[a-z0-9-]+$/i;
+
+function sanitizeIconName(candidate?: string): string | null {
+  if (!candidate) {
+    return null;
+  }
+
+  const normalized = candidate.trim();
+  return iconNamePattern.test(normalized) ? normalized : null;
+}
+
 const {
   sectionId,
   variant = "web",
@@ -38,9 +49,11 @@ const {
   primaryLink,
   secondaryLink,
   ariaLabel,
+  media,
   bgImage,
   imageAlt,
   watermarkIcon,
+  rightIcon,
   headerIcon,
   class: className = "",
 } = Astro.props as BannerProps;
@@ -49,16 +62,28 @@ const safeBullets = (bullets ?? []).slice(0, 3);
 const normalizedPrimaryLink = sanitizeLink(primaryLink);
 const normalizedSecondaryLink = sanitizeLink(secondaryLink);
 const hasAnyLinks = Boolean(normalizedPrimaryLink || normalizedSecondaryLink);
-const safeBgImage = isSafeLocalImage(bgImage) ? bgImage : null;
+
+const mediaImage = media?.bgImage ?? bgImage;
+const safeBgImage = isSafeLocalImage(mediaImage) ? mediaImage : null;
+const hasImage = Boolean(safeBgImage);
+
+const hasSlotMedia = Astro.slots.has("media");
+const hasLegacySlotVisual = Astro.slots.has("visual");
+const hasMediaPanel = hasImage || hasSlotMedia || hasLegacySlotVisual;
+
 const resolvedImageAlt = imageAlt ?? title;
 const resolvedAriaLabel = ariaLabel ?? normalizedPrimaryLink?.label ?? title;
-const hasVisualSlot = Astro.slots.has("visual");
+const resolvedLayout = hasMediaPanel ? layout : "stack";
 
 const theme = resolveBannerTheme({ variant, accentKey, tone, intensity });
 const sizeTokens = BANNER_SIZE_TOKENS[size];
-const layoutTokens = resolveBannerLayoutTokens(layout, reverse);
+const layoutTokens = resolveBannerLayoutTokens(resolvedLayout, reverse);
+
+const resolvedRightIcon = sanitizeIconName(rightIcon ?? media?.icon ?? watermarkIcon ?? undefined);
+const hasRightIcon = Boolean(resolvedRightIcon);
+
 const icons = resolveBannerIcons({
-  watermarkIcon,
+  watermarkIcon: resolvedRightIcon ?? undefined,
   badgeIcon: badgeIcon ?? headerIcon,
 });
 ---
@@ -66,7 +91,7 @@ const icons = resolveBannerIcons({
 <section
   id={sectionId}
   class:list={[
-    "relative overflow-hidden rounded-3xl border border-slate-200/70 bg-slate-50 shadow-[0_20px_60px_rgba(15,23,42,0.12)] dark:border-border/70 dark:bg-card/90 dark:shadow-soft",
+    "group relative overflow-hidden rounded-3xl border border-slate-200/70 bg-slate-50 shadow-[0_20px_60px_rgba(15,23,42,0.12)] dark:border-border/70 dark:bg-card/90 dark:shadow-soft",
     sizeTokens.sectionPadding,
     className,
   ]}
@@ -120,8 +145,38 @@ const icons = resolveBannerIcons({
     ></div>
   </div>
 
-  <div class:list={["relative z-10 grid", sizeTokens.sectionGap, layoutTokens.grid]}>
-    <div class:list={["space-y-6", layoutTokens.textOrder]}>
+  {!hasMediaPanel ? (
+    <span class="pointer-events-none absolute right-0 top-0 hidden h-full w-[42%] opacity-70 lg:block">
+      <span class:list={["absolute inset-0 rounded-[2rem]", theme.rightGlow]}></span>
+      <span class:list={["absolute inset-0", theme.rightSheen]}></span>
+    </span>
+  ) : null}
+
+  {!hasMediaPanel && hasRightIcon && icons.watermark ? (
+    <Icon
+      name={icons.watermark}
+      class:list={[
+        "pointer-events-none absolute right-8 top-10 z-[1] h-14 w-14 opacity-60 transition-transform duration-300 sm:h-16 sm:w-16 lg:h-[72px] lg:w-[72px] group-hover:-translate-y-0.5 group-hover:translate-x-0.5",
+        theme.watermarkColor,
+      ]}
+      aria-hidden="true"
+    />
+  ) : null}
+
+  <div
+    class:list={[
+      "relative z-10 grid",
+      sizeTokens.sectionGap,
+      hasMediaPanel ? "lg:grid-cols-[1.1fr_0.9fr] lg:items-center" : "grid-cols-1",
+    ]}
+  >
+    <div
+      class:list={[
+        "space-y-6",
+        layoutTokens.textOrder,
+        hasMediaPanel ? "lg:pr-10" : "lg:pr-0 max-w-[70ch]",
+      ]}
+    >
       {badgeText ? (
         <span
           class:list={[
@@ -147,7 +202,13 @@ const icons = resolveBannerIcons({
           </p>
         ) : null}
         {description ? (
-          <p class:list={["max-w-[60ch] leading-relaxed text-slate-600 dark:text-muted", sizeTokens.description]}>
+          <p
+            class:list={[
+              hasMediaPanel ? "max-w-[60ch]" : "max-w-[70ch]",
+              "leading-relaxed text-slate-600 dark:text-muted",
+              sizeTokens.description,
+            ]}
+          >
             {description}
           </p>
         ) : null}
@@ -179,7 +240,10 @@ const icons = resolveBannerIcons({
               <span>{normalizedPrimaryLink.label}</span>
               <Icon
                 name={icons.arrow}
-                class:list={["h-4 w-4 transition-transform duration-200 group-hover/cta:translate-x-0.5", theme.arrow]}
+                class:list={[
+                  "h-4 w-4 transition-transform duration-200 group-hover/cta:translate-x-0.5",
+                  theme.arrow,
+                ]}
                 aria-hidden="true"
               />
             </a>
@@ -200,74 +264,48 @@ const icons = resolveBannerIcons({
       ) : null}
     </div>
 
-    <div class:list={["relative", layoutTokens.visualOrder]}>
-      <div
-        class:list={[
-          "relative overflow-hidden rounded-2xl",
-          sizeTokens.visualMinHeight,
-          sizeTokens.visualPadding,
-          theme.variant.visualWrap,
-        ]}
-      >
-        {icons.watermark ? (
-          <Icon
-            name={icons.watermark}
-            class:list={[
-              "pointer-events-none absolute z-10 transition-transform duration-300",
-              theme.variant.watermarkPlacement,
-              sizeTokens.watermarkSize,
-              theme.watermark,
-              theme.intensity.watermark,
-            ]}
-            aria-hidden="true"
-          />
-        ) : null}
-
-        {safeBgImage ? (
-          <>
-            <img
-              src={safeBgImage}
-              alt={resolvedImageAlt}
-              loading="lazy"
-              decoding="async"
-              class="h-full w-full rounded-xl object-cover"
+    {hasMediaPanel ? (
+      <div class:list={["relative", layoutTokens.visualOrder]}>
+        <div
+          class:list={[
+            "relative overflow-hidden rounded-2xl",
+            sizeTokens.visualMinHeight,
+            sizeTokens.visualPadding,
+            theme.variant.visualWrap,
+          ]}
+        >
+          {hasRightIcon && icons.watermark ? (
+            <Icon
+              name={icons.watermark}
+              class:list={[
+                "pointer-events-none absolute z-10 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5",
+                theme.variant.watermarkPlacement,
+                sizeTokens.watermarkSize,
+                theme.watermark,
+                theme.intensity.watermark,
+              ]}
+              aria-hidden="true"
             />
-            <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-900/35 via-slate-900/10 to-transparent dark:from-black/45 dark:via-black/15"></div>
-          </>
-        ) : hasVisualSlot ? (
-          <slot name="visual" />
-        ) : (
-          <>
-            <div class="absolute inset-0 dark:hidden">
-              <div class:list={["absolute inset-0 bg-gradient-to-br", theme.variant.visualTint]}></div>
-              <div class="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.75)_6%,rgba(255,255,255,0.12)_42%,transparent_72%)] opacity-80"></div>
-              <div class="absolute inset-0 opacity-[0.06] [background-image:radial-gradient(circle_at_1px_1px,rgba(15,23,42,0.3)_1px,transparent_0)] [background-size:20px_20px]"></div>
-              <div class:list={["absolute -right-12 -top-10 h-40 w-40 rounded-full blur-3xl", theme.variant.visualGlowA, theme.intensity.visualGlow]}></div>
-              <div class:list={["absolute -bottom-12 -left-10 h-44 w-44 rounded-full blur-3xl", theme.variant.visualGlowB, theme.intensity.visualGlow]}></div>
-              <div class="absolute inset-5 rounded-2xl border border-slate-200/80 bg-white/45 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]"></div>
-              <div class="absolute left-10 right-10 top-10 h-16 rounded-xl border border-slate-200/80 bg-white/70 shadow-sm"></div>
-              <div class="absolute left-12 right-12 top-[8.5rem] h-3 rounded-full bg-slate-300/70"></div>
-              <div class="absolute left-12 right-20 top-[11rem] h-3 rounded-full bg-slate-200/80"></div>
-              <div class="absolute bottom-10 left-10 h-12 w-12 rounded-xl border border-slate-200/80 bg-white/65 shadow-sm"></div>
-              <div class="absolute bottom-10 left-[6.5rem] h-12 w-20 rounded-xl border border-slate-200/80 bg-white/65 shadow-sm"></div>
-              <div class="absolute bottom-10 right-10 h-12 w-14 rounded-xl border border-slate-200/80 bg-white/65 shadow-sm"></div>
-            </div>
+          ) : null}
 
-            <div class="absolute inset-0 hidden dark:block">
-              <div class="absolute inset-0 opacity-35 [background-image:linear-gradient(rgba(255,255,255,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.12)_1px,transparent_1px)] [background-size:24px_24px]"></div>
-              <div class:list={["absolute -right-12 -top-10 h-40 w-40 rounded-full blur-3xl", theme.variant.darkVisualGlowA]}></div>
-              <div class:list={["absolute -bottom-12 -left-10 h-44 w-44 rounded-full blur-3xl", theme.variant.darkVisualGlowB]}></div>
-              <div class="absolute inset-5 rounded-2xl border border-white/15 bg-black/20"></div>
-              <div class="absolute left-10 right-10 top-10 h-16 rounded-xl border border-white/20 bg-white/10 backdrop-blur-sm"></div>
-              <div class="absolute left-12 right-12 top-[8.5rem] h-3 rounded-full bg-white/20"></div>
-              <div class="absolute left-12 right-20 top-[11rem] h-3 rounded-full bg-white/15"></div>
-              <div class="absolute bottom-10 left-10 h-12 w-12 rounded-xl border border-white/20 bg-white/10"></div>
-              <div class="absolute bottom-10 left-[6.5rem] h-12 w-20 rounded-xl border border-white/20 bg-white/10"></div>
-              <div class="absolute bottom-10 right-10 h-12 w-14 rounded-xl border border-white/20 bg-white/10"></div>
-            </div>
-          </>
-        )}
+          {safeBgImage ? (
+            <>
+              <img
+                src={safeBgImage}
+                alt={resolvedImageAlt}
+                loading="lazy"
+                decoding="async"
+                class="h-full w-full rounded-xl object-cover"
+              />
+              <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-900/35 via-slate-900/10 to-transparent dark:from-black/45 dark:via-black/15"></div>
+            </>
+          ) : hasSlotMedia ? (
+            <slot name="media" />
+          ) : hasLegacySlotVisual ? (
+            <slot name="visual" />
+          ) : null}
+        </div>
       </div>
-    </div>
+    ) : null}
   </div>
 </section>

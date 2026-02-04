@@ -66,6 +66,11 @@ const BASE_VARIANT_TOKENS = {
     secondaryCta:
       "border border-slate-300 bg-white/50 text-slate-700 hover:bg-white/80 focus-visible:ring-slate-300/60 dark:border-sky-400/40 dark:bg-transparent dark:text-sky-100 dark:hover:bg-sky-500/10 dark:focus-visible:ring-sky-300/40",
     watermark: "text-slate-500/20 dark:text-sky-300/25",
+    rightGlow:
+      "bg-[radial-gradient(circle_at_62%_30%,rgba(56,189,248,0.16),transparent_52%),radial-gradient(circle_at_78%_66%,rgba(249,115,22,0.14),transparent_58%)] dark:bg-[radial-gradient(circle_at_62%_30%,rgba(56,189,248,0.14),transparent_56%),radial-gradient(circle_at_78%_66%,rgba(249,115,22,0.12),transparent_62%)]",
+    rightSheen:
+      "bg-[linear-gradient(116deg,transparent_0%,rgba(2,6,23,0.00)_30%,rgba(14,165,233,0.10)_66%,rgba(249,115,22,0.10)_100%)] dark:bg-[linear-gradient(116deg,transparent_0%,rgba(2,6,23,0.00)_30%,rgba(56,189,248,0.18)_66%,rgba(249,115,22,0.20)_100%)]",
+    watermarkColor: "text-slate-900/[0.08] dark:text-white/[0.10]",
   },
 } as const satisfies Record<BannerVariant, BannerVariantThemeTokens>;
 

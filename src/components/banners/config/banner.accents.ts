@@ -14,6 +14,11 @@ export const BANNER_ACCENT_TOKENS = {
     highlight: "text-sky-700 dark:text-sky-300",
     arrow: "text-white/90",
     watermark: "text-sky-600/20 dark:text-sky-300/25",
+    rightGlow:
+      "bg-[radial-gradient(circle_at_70%_30%,rgba(56,189,248,0.18),transparent_55%)] dark:bg-[radial-gradient(circle_at_70%_30%,rgba(56,189,248,0.16),transparent_60%)]",
+    rightSheen:
+      "bg-[linear-gradient(115deg,transparent_0%,rgba(2,6,23,0.00)_35%,rgba(14,165,233,0.10)_100%)] dark:bg-[linear-gradient(115deg,transparent_0%,rgba(2,6,23,0.00)_35%,rgba(2,6,23,0.35)_100%)]",
+    watermarkColor: "text-slate-900/[0.08] dark:text-white/[0.10]",
   },
   orange: {
     badge:
@@ -28,6 +33,11 @@ export const BANNER_ACCENT_TOKENS = {
     highlight: "text-orange-700 dark:text-orange-300",
     arrow: "text-white/90",
     watermark: "text-orange-600/20 dark:text-orange-300/25",
+    rightGlow:
+      "bg-[radial-gradient(circle_at_70%_30%,rgba(249,115,22,0.18),transparent_55%)] dark:bg-[radial-gradient(circle_at_70%_30%,rgba(249,115,22,0.16),transparent_60%)]",
+    rightSheen:
+      "bg-[linear-gradient(115deg,transparent_0%,rgba(2,6,23,0.00)_35%,rgba(249,115,22,0.10)_100%)] dark:bg-[linear-gradient(115deg,transparent_0%,rgba(2,6,23,0.00)_35%,rgba(2,6,23,0.35)_100%)]",
+    watermarkColor: "text-slate-900/[0.08] dark:text-white/[0.10]",
   },
   slate: {
     badge:
@@ -42,6 +52,11 @@ export const BANNER_ACCENT_TOKENS = {
     highlight: "text-slate-700 dark:text-slate-300",
     arrow: "text-white/90",
     watermark: "text-slate-600/20 dark:text-slate-300/25",
+    rightGlow:
+      "bg-[radial-gradient(circle_at_70%_30%,rgba(100,116,139,0.18),transparent_55%)] dark:bg-[radial-gradient(circle_at_70%_30%,rgba(100,116,139,0.16),transparent_60%)]",
+    rightSheen:
+      "bg-[linear-gradient(115deg,transparent_0%,rgba(2,6,23,0.00)_35%,rgba(51,65,85,0.16)_100%)] dark:bg-[linear-gradient(115deg,transparent_0%,rgba(2,6,23,0.00)_35%,rgba(2,6,23,0.35)_100%)]",
+    watermarkColor: "text-slate-900/[0.08] dark:text-white/[0.10]",
   },
   rose: {
     badge:
@@ -56,5 +71,10 @@ export const BANNER_ACCENT_TOKENS = {
     highlight: "text-rose-700 dark:text-rose-300",
     arrow: "text-white/90",
     watermark: "text-rose-600/20 dark:text-rose-300/25",
+    rightGlow:
+      "bg-[radial-gradient(circle_at_70%_30%,rgba(244,63,94,0.18),transparent_55%)] dark:bg-[radial-gradient(circle_at_70%_30%,rgba(244,63,94,0.16),transparent_60%)]",
+    rightSheen:
+      "bg-[linear-gradient(115deg,transparent_0%,rgba(2,6,23,0.00)_35%,rgba(244,63,94,0.10)_100%)] dark:bg-[linear-gradient(115deg,transparent_0%,rgba(2,6,23,0.00)_35%,rgba(2,6,23,0.35)_100%)]",
+    watermarkColor: "text-slate-900/[0.08] dark:text-white/[0.10]",
   },
 } as const satisfies Record<BannerResolvedAccentKey, BannerAccentTokens>;

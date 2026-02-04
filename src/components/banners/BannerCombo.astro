@@ -5,6 +5,7 @@ import type {
   BannerIntensity,
   BannerLayout,
   BannerLink,
+  BannerMedia,
   BannerSize,
   BannerTone,
 } from "./config/banner.types";
@@ -20,6 +21,7 @@ interface Props {
   secondaryLink?: BannerLink;
   bullets?: string[];
   ariaLabel?: string;
+  media?: BannerMedia | null;
   bgImage?: string;
   imageAlt?: string;
   reverse?: boolean;
@@ -28,14 +30,16 @@ interface Props {
   tone?: BannerTone;
   intensity?: BannerIntensity;
   accentKey?: BannerAccentKey;
+  rightIcon?: string;
   watermarkIcon?: string;
   headerIcon?: string;
   class?: string;
 }
 
 const props = Astro.props as Props;
+const hasVisualSlot = Astro.slots.has("visual");
 ---
 
 <BannerMixed {...props}>
-  <slot name="visual" slot="visual" />
+  {hasVisualSlot ? <slot name="visual" slot="media" /> : null}
 </BannerMixed>
