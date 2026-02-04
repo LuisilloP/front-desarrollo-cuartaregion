@@ -26,8 +26,8 @@ export const companies: Company[] = [
     href: "https://www.clinicamontblanc.cl",
   },
   {
-    id: "doctor-harold-ziller",
-    name: "Dr. Harold Ziller",
+    id: "doctor-harald-ziller",
+    name: "Dr. Harald Ziller",
     logo: "/images/logos/dr-harald-ziller.webp",
     href: "https://drharaldziller.cl/",
   },

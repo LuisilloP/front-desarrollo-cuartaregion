@@ -147,7 +147,7 @@
       },
       {
         "title": "Campanas con estructura",
-        "description": "Creamos campanas por etapas del funnel con mensajes y creativos coherentes.",
+        "description": "Creamos campañas por etapas del funnel con mensajes y creativos coherentes.",
         "icon": "lucide:megaphone",
         "cardColor": "#fb923c",
         "backgroundImage": "/images/backgrounds/why-us-1.webp",
@@ -172,7 +172,7 @@
   "processSection": {
     "sectionId": "proceso-marketing",
     "title": "Proceso claro para crecer en marketing",
-    "description": "Un flujo simple que ordena la estrategia, ejecuta campanas y optimiza cada semana.",
+    "description": "Un flujo simple que ordena la estrategia, ejecuta campañas y optimiza cada semana.",
     "steps": [
       {
         "num": "01",

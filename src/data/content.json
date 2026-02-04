@@ -444,44 +444,218 @@
       "featured": true
     },
     {
+      "slug": "ansar",
+      "clientName": "Ansar",
+      "title": "Impulso digital con contenido, Meta Ads y campañas",
+      "industry": "Automotora",
+      "city": "La Serena",
+      "summary": "Ejecutamos un servicio de impulso digital para Ansar con publicaciones en redes sociales, estrategia, contenido y campañas de Meta Ads, logrando un promedio de 80 a 120 clientes potenciales que escribieron por redes sociales.",
+      "coverImage": "/images/marketing/ansar/img.webp",
+      "beforeTitle": "Antes",
+      "afterTitle": "Despues",
+      "beforePoints": [
+        {
+          "text": "Publicaciones sin una linea estrategica continua",
+          "tone": "warning"
+        },
+        {
+          "text": "Campañas sin una estructura clara de contenido y objetivos",
+          "tone": "danger"
+        }
+      ],
+      "afterPoints": [
+        {
+          "text": "Plan de contenido y publicaciones con enfoque comercial",
+          "tone": "success"
+        },
+        {
+          "text": "Meta Ads con segmentación y optimización semanal",
+          "tone": "success"
+        },
+        {
+          "text": "Promedio mensual de 80 a 120 clientes potenciales que escribieron por redes sociales",
+          "tone": "success"
+        }
+      ],
+      "impactTags": [
+        {
+          "text": "Mas conversaciones calificadas",
+          "variant": "green"
+        },
+        {
+          "text": "Mejor consistencia de contenido",
+          "variant": "blue"
+        },
+        {
+          "text": "Campañas con foco en resultado",
+          "variant": "orange"
+        }
+      ],
+      "ctaPrimaryType": "contact",
+      "ctaPrimaryLabel": "Quiero impulsar mis redes con estrategia",
+      "siteUrl": "https://www.instagram.com/ansarautomotriz/",
+      "order": 3,
+      "featured": true
+    },
+    {
+      "slug": "dr-harald-ziller",
+      "clientName": "Dr. Harald Ziller",
+      "title": "Plan mixto: desarrollo web y presencia digital",
+      "industry": "Salud",
+      "city": "Ovalle",
+      "summary": "Plan mixto que incluyo desarrollo de pagina web y mejora de presencia digital en redes sociales, con creacion de cuenta de Google, implementacion de WhatsApp Business, optimizacion de LinkedIn y contenido para fortalecer su posicionamiento online.",
+      "coverImage": "/images/portfolio/cases/haraldziller.webp",
+      "beforeTitle": "Antes",
+      "afterTitle": "Despues",
+      "beforePoints": [
+        {
+          "text": "Presencia digital dispersa y sin una estrategia unificada",
+          "tone": "warning"
+        },
+        {
+          "text": "Sin estructura clara en perfiles y canales de contacto digital",
+          "tone": "danger"
+        },
+        {
+          "text": "Contenido poco consistente para sostener comunicacion en redes",
+          "tone": "warning"
+        }
+      ],
+      "afterPoints": [
+        {
+          "text": "Pagina web profesional desarrollada como base de su presencia digital",
+          "tone": "success"
+        },
+        {
+          "text": "Implementacion de Google, WhatsApp Business y optimizacion de perfil en LinkedIn",
+          "tone": "success"
+        },
+        {
+          "text": "Plan de contenido y mejoras en redes sociales con enfoque de presencia y conversion",
+          "tone": "success"
+        }
+      ],
+      "impactTags": [
+        {
+          "text": "Presencia digital profesional",
+          "variant": "green"
+        },
+        {
+          "text": "Canales de contacto optimizados",
+          "variant": "blue"
+        },
+        {
+          "text": "Estrategia de contenido activa",
+          "variant": "orange"
+        }
+      ],
+      "ctaPrimaryType": "contact",
+      "ctaPrimaryLabel": "Quiero un plan mixto para mi consulta",
+      "siteUrl": "https://drharaldziller.cl/",
+      "order": 4,
+      "featured": false
+    },
+    {
+      "slug": "muebleria-el-fiorentino",
+      "clientName": "Muebleria El Fiorentino",
+      "title": "Pagina web para iniciar presencia digital y mostrar muebles a medida",
+      "industry": "Muebleria",
+      "city": "Punitaqui",
+      "summary": "Desarrollamos su primera pagina web para que la muebleria pudiera comenzar con presencia digital, mostrar su empresa y exhibir sus muebles a medida con un catalogo claro, CTA directos por WhatsApp y mejor visibilidad local en la Region de Coquimbo.",
+      "coverImage": "/images/portfolio/cases/fiorentino.webp",
+      "beforeTitle": "Antes",
+      "afterTitle": "Despues",
+      "beforePoints": [
+        {
+          "text": "No tenian sitio web para presentar la muebleria y sus trabajos",
+          "tone": "warning"
+        },
+        {
+          "text": "La presencia digital era limitada y dependia de canales dispersos",
+          "tone": "danger"
+        },
+        {
+          "text": "Costaba mostrar catalogo, proceso y confianza a nuevos clientes",
+          "tone": "warning"
+        }
+      ],
+      "afterPoints": [
+        {
+          "text": "Sitio web profesional con propuesta clara de valor y enfoque comercial",
+          "tone": "success"
+        },
+        {
+          "text": "Catalogo organizado por categorias para facilitar la eleccion del mueble",
+          "tone": "success"
+        },
+        {
+          "text": "CTA de cotizacion por WhatsApp y mejor canal de contacto para conversion",
+          "tone": "success"
+        },
+        {
+          "text": "Refuerzo de confianza con trayectoria (+20 anos), ubicacion en Punitaqui y marcas que los avalan",
+          "tone": "success"
+        }
+      ],
+      "impactTags": [
+        {
+          "text": "Primera presencia web formal",
+          "variant": "green"
+        },
+        {
+          "text": "Catalogo mas claro y navegable",
+          "variant": "blue"
+        },
+        {
+          "text": "Mas consultas por WhatsApp",
+          "variant": "orange"
+        }
+      ],
+      "ctaPrimaryType": "contact",
+      "ctaPrimaryLabel": "Quiero una web para mi negocio",
+      "siteUrl": "https://elfiorentino.vercel.app/",
+      "order": 5,
+      "featured": true
+    },
+    {
       "slug": "el-arlequin",
-      "clientName": "El Arlequín",
+      "clientName": "El Arlequin",
       "title": "Sistema de pedidos administrable",
-      "industry": "Gastronomía",
+      "industry": "Gastronomia",
       "city": null,
-      "summary": "Diseñamos una plataforma integral de pedidos para profesionalizar la operación de El Arlequín. El sistema está pensado para el mesón y el ejecutivo de venta, con administración completa de catálogo, clientes y zonas de despacho, además de un configurador avanzado de productos (tamaños, ingredientes extra y creador de pizzas con precios dinámicos).",
+      "summary": "Disenamos una plataforma integral de pedidos para profesionalizar la operacion de El Arlequin. El sistema esta pensado para el meson y el ejecutivo de venta, con administracion completa de catalogo, clientes y zonas de despacho, ademas de un configurador avanzado de productos.",
       "coverImage": "/images/portfolio/cases/el-arlequin.webp",
       "beforeTitle": "Antes",
-      "afterTitle": "Después",
+      "afterTitle": "Despues",
       "beforePoints": [
         {
           "text": "Toma y seguimiento de pedidos con procesos manuales, con riesgo de errores y tiempos de respuesta altos",
           "tone": "warning"
         },
         {
-          "text": "Catálogo difícil de mantener: productos con múltiples tamaños, personalizaciones y extras sin control centralizado",
+          "text": "Catalogo dificil de mantener: productos con multiples tamanos, personalizaciones y extras sin control centralizado",
           "tone": "danger"
         },
         {
-          "text": "Despacho y cálculo de envío sin zonificación formal, afectando la consistencia del cobro y la atención",
+          "text": "Despacho y calculo de envio sin zonificacion formal, afectando la consistencia del cobro y la atencion",
           "tone": "warning"
         }
       ],
       "afterPoints": [
         {
-          "text": "Flujo unificado para mesón y ventas: creación, administración y seguimiento de pedidos desde un solo panel",
+          "text": "Flujo unificado para meson y ventas: creacion, administracion y seguimiento de pedidos desde un solo panel",
           "tone": "success"
         },
         {
-          "text": "Backoffice administrable: gestión de productos, clientes y reglas de despacho con control y trazabilidad",
+          "text": "Backoffice administrable: gestion de productos, clientes y reglas de despacho con control y trazabilidad",
           "tone": "success"
         },
         {
-          "text": "Zonas de reparto configurables con cálculo automático de envío para estandarizar la operación",
+          "text": "Zonas de reparto configurables con calculo automatico de envio para estandarizar la operacion",
           "tone": "success"
         },
         {
-          "text": "Configurador avanzado: productos con más de un tamaño, ingredientes adicionales y creador de pizzas con precios dinámicos",
+          "text": "Configurador avanzado: productos con mas de un tamano, ingredientes adicionales y creador de pizzas con precios dinamicos",
           "tone": "success"
         }
       ],
@@ -491,7 +665,7 @@
           "variant": "green"
         },
         {
-          "text": "Gestión centralizada",
+          "text": "Gestion centralizada",
           "variant": "blue"
         },
         {
@@ -499,14 +673,14 @@
           "variant": "orange"
         },
         {
-          "text": "Personalización avanzada",
+          "text": "Personalizacion avanzada",
           "variant": "purple"
         }
       ],
       "ctaPrimaryType": "contact",
       "ctaPrimaryLabel": "Quiero una plataforma de pedidos",
       "siteUrl": null,
-      "order": 3
+      "order": 6
     }
   ],
   "reviews": [

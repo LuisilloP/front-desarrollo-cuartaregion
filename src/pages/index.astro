@@ -103,15 +103,17 @@ const planSummaries: Service[] = [
 const siteSettings = await fetchSiteSettings();
 const cases = await fetchCases();
 const faqs = await fetchFaqs();
-const arlequinCase = cases.find((item) => item.slug === "el-arlequin");
+const demoBaseCase =
+  cases.find((item) => item.slug === "el-arlequin") ?? cases[cases.length - 1];
 const demoExtraCasesCount =
-  arlequinCase && cases.length < 6 ? 6 - cases.length : 0;
-const demoCases = arlequinCase
+  demoBaseCase && cases.length < 6 ? 6 - cases.length : 0;
+const demoCases = demoBaseCase
   ? [
       ...cases,
       ...Array.from({ length: demoExtraCasesCount }, (_, index) => ({
-        ...arlequinCase,
-        order: (arlequinCase.order ?? 99) + index + 10,
+        ...demoBaseCase,
+        slug: `${demoBaseCase.slug}-demo-${index + 1}`,
+        order: (demoBaseCase.order ?? 99) + index + 10,
       })),
     ]
   : cases;
