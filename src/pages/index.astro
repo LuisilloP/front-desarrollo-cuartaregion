@@ -148,17 +148,20 @@ const recentCases = cases;
     {showProcessSection ? <ProcessSection /> : null}
 
     {/* More social proof - Portfolio companies */}
-    <div class="section-shell">
+    <div class="container mx-auto px-6 sm:px-8">
       <BannerWeb
         size="compact"
-        title="Tu web rapida y lista para vender"
-        subtitle="Arquitectura solida para crecer"
-        description="Landing o administrable con SEO tecnico y performance."
+        title="Convierte visitas en clientes con una web que transmite confianza"
+        subtitle="Diseño premium, velocidad real y estructura para crecer"
+        description="Creamos sitios rápidos y claros, listos para vender desde el primer día, con SEO técnico y base escalable."
+        bgImage="/images/sections/desarrollo.webp"
+        imageAlt="Desarrollo web en dispositivos"
         bullets={[
-          "Diseno enfocado en conversion",
-          "Carga rapida en movil y desktop",
+          "UX pensada para conversiones",
+          "Carga rápida y experiencia impecable en móvil",
+          "SEO técnico y analítica para medir resultados",
         ]}
-        primaryLink={{ label: "Cotizar desarrollo", href: "/desarrollo" }}
+        primaryLink={{ label: "Ir a desarrollo", href: "/desarrollo" }}
         secondaryLink={{ label: "Ver planes web", href: "/desarrollo#planes" }}
         class="w-full"
       />
@@ -166,17 +169,20 @@ const recentCases = cases;
 
     <PortfolioMarqueeSection client:visible companies={portfolioCompanies} />
 
-    <div class="section-shell">
+    <div class="container mx-auto px-6 sm:px-8">
       <BannerMarketing
         size="compact"
-        title="Campañas Meta Ads"
-        subtitle="Intención de compra"
-        description="Segmentación, tracking y optimización continua."
+        title="Campañas que generan demanda y ventas reales"
+        subtitle="Meta Ads con estrategia, creatividad y optimización continua"
+        description="Atrae clientes con anuncios medibles, segmentación precisa y mensajes que convierten."
+        bgImage="/images/sections/marketing.webp"
+        imageAlt="Marketing digital en dispositivos"
         bullets={[
-          "Audiencias y mensajes por etapa",
-          "Medición de leads y conversiones",
+          "Leads calificados cada semana",
+          "Creatividades y copies según tu rubro",
+          "Optimización con datos, no con intuición",
         ]}
-        primaryLink={{ label: "Cotizar campañas", href: "/marketing" }}
+        primaryLink={{ label: "Ir a marketing", href: "/marketing" }}
         secondaryLink={{ label: "Ver planes de marketing", href: "/marketing#planes" }}
         class="w-full"
       />

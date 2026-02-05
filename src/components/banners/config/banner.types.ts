@@ -38,6 +38,7 @@ export interface BannerProps {
   media?: BannerMedia | null;
   bgImage?: string;
   imageAlt?: string;
+  imageOpacity?: number;
   watermarkIcon?: string;
   rightIcon?: string;
   headerIcon?: string;

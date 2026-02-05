@@ -25,6 +25,7 @@ interface Props {
   media?: BannerMedia | null;
   bgImage?: string;
   imageAlt?: string;
+  imageOpacity?: number;
   reverse?: boolean;
   layout?: BannerLayout;
   size?: BannerSize;
@@ -54,6 +55,7 @@ const {
   media,
   bgImage,
   imageAlt,
+  imageOpacity = 0.8,
   reverse = false,
   layout = "split",
   size = "default",
@@ -92,6 +94,7 @@ const hasVisualSlot = Astro.slots.has("visual");
   media={media}
   bgImage={bgImage}
   imageAlt={imageAlt}
+  imageOpacity={imageOpacity}
   rightIcon={rightIcon}
   badgeIcon={resolvedBadgeIcon}
   watermarkIcon={watermarkIcon}
