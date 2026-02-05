@@ -2,22 +2,24 @@
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/layout/Navbar.astro";
 import Footer from "../components/layout/Footer.astro";
-import SectionDivider from "../components/layout/SectionDivider.astro";
 import WhatsAppFloatingButton from "../components/layout/WhatsAppFloatingButton.astro";
 import MarketingHero from "../components/marketing/MarketingHero.astro";
 import PlansSection from "../components/marketing/PlansSection.astro";
 import HostingSection from "../components/sections/HostingSection.astro";
 import ProcessSection from "../components/sections/ProcessSection.astro";
+import CasesSection from "../components/sections/CasesSection.astro";
 import PortfolioMarqueeSection from "../components/sections/PortfolioMarqueeSection.tsx";
 import ContactSection from "../components/sections/ContactSection.astro";
-import { fetchSiteSettings } from "../lib/api/services";
-import type { Content, MarketingPageContent } from "../lib/api/types";
+import { fetchCases, fetchSiteSettings } from "../lib/api/services";
+import type { CaseStudy, Content, MarketingPageContent } from "../lib/api/types";
 import type { Company } from "../content/portfolioProjects";
 import contentJson from "../data/content.json";
 import marketingJson from "../data/pages/marketing.json";
 import marketingClientsJson from "../data/pages/marketing-clients.json";
+import marketingCasesJson from "../data/pages/marketing-cases.json";
 
 const siteSettings = await fetchSiteSettings();
+const allCases = await fetchCases();
 const content = contentJson as Content;
 const marketingContent = marketingJson as MarketingPageContent;
 const marketingClients = marketingClientsJson as {
@@ -25,6 +27,9 @@ const marketingClients = marketingClientsJson as {
   description?: string;
   companies: Company[];
 };
+const marketingCases = (marketingCasesJson.slugs ?? [])
+  .map((slug) => allCases.find((item) => item.slug === slug))
+  .filter((item): item is CaseStudy => Boolean(item));
 
 const {
   hero,
@@ -74,9 +79,7 @@ const contactSecondaryCtaHref =
   <main class="overflow-x-hidden">
     <MarketingHero hero={hero} value={value} />
 
-    <SectionDivider />
-
-    <PlansSection
+     <PlansSection
       title={plansSection?.title ?? "Planes de marketing digital"}
       description={
         plansSection?.description ??
@@ -84,11 +87,9 @@ const contactSecondaryCtaHref =
       }
     />
 
-    <SectionDivider />
-
-    {useCasesSection && <HostingSection content={useCasesSection} />}
-
-    <SectionDivider />
+    {marketingCases.length > 0 && (
+      <CasesSection cases={marketingCases} origin="marketing" />
+    )}
 
     {processSection && (
       <ProcessSection
@@ -99,7 +100,7 @@ const contactSecondaryCtaHref =
       />
     )}
 
-    <SectionDivider />
+    <!-- {useCasesSection && <HostingSection content={useCasesSection} />} -->
 
     <PortfolioMarqueeSection
       client:visible
@@ -107,8 +108,6 @@ const contactSecondaryCtaHref =
       description={marketingClients.description}
       companies={marketingClients.companies}
     />
-
-    <SectionDivider />
 
     <ContactSection
       content={contactContent}

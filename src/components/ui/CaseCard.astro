@@ -3,9 +3,10 @@ import type { CaseStudy } from "../../lib/api/types";
 
 interface Props {
   caseItem: CaseStudy;
+  origin?: "home" | "marketing";
 }
 
-const { caseItem } = Astro.props;
+const { caseItem, origin } = Astro.props as Props;
 
 const clientName = (caseItem.clientName ?? "").trim();
 const title = (caseItem.title ?? "").trim() || clientName;
@@ -20,7 +21,10 @@ const truncateText = (text: string, maxChars: number) => {
 const summaryPreview = truncateText(summary, 175);
 const coverAlt =
   caseItem.coverImageAlt || `Caso de éxito de ${caseItem.clientName || title}`;
-const href = `/casos/${caseItem.slug}`;
+const href =
+  origin === "marketing"
+    ? `/casos/${caseItem.slug}?from=marketing`
+    : `/casos/${caseItem.slug}`;
 
 const projectContext = [
   caseItem.title ?? "",
