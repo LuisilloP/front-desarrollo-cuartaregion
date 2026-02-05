@@ -46,7 +46,11 @@ const mixedServices = sortedServices.filter(
         <div class="services-grid grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {sortedServices.map((service) => (
             <div class="service-card-wrapper">
-              <ServiceCard service={service} whatsappNumber={whatsappNumber} />
+              <ServiceCard
+                service={service}
+                whatsappNumber={whatsappNumber}
+                maxBenefits={service.slug === "planes-mixto" ? 5 : 4}
+              />
             </div>
           ))}
         </div>

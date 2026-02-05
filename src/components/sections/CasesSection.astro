@@ -89,6 +89,9 @@ const hasExtraCases = sortedCases.length > initialVisible;
     const loadMoreBtn = document.getElementById(
       "cases-load-more",
     ) as HTMLButtonElement | null;
+    const loadMoreWrap = document.getElementById(
+      "cases-load-more-wrap",
+    ) as HTMLElement | null;
 
     const initialVisibleCount = Number.parseInt(
       grid.dataset.initialVisible ?? "3",
@@ -106,6 +109,29 @@ const hasExtraCases = sortedCases.length > initialVisible;
     const cardTransitionMs = 600;
     const hideStaggerMs = 140;
     const hideTimers: number[] = [];
+    const buttonMoveDurationMs = 480;
+
+    const animateLoadMoreWrapMove = (layoutChange: () => void) => {
+      if (!loadMoreWrap) {
+        layoutChange();
+        return;
+      }
+
+      const startTop = loadMoreWrap.getBoundingClientRect().top;
+      layoutChange();
+      const endTop = loadMoreWrap.getBoundingClientRect().top;
+      const deltaY = startTop - endTop;
+
+      if (Math.abs(deltaY) < 1) return;
+
+      loadMoreWrap.style.transition = "none";
+      loadMoreWrap.style.transform = `translateY(${deltaY}px)`;
+
+      requestAnimationFrame(() => {
+        loadMoreWrap.style.transition = `transform ${buttonMoveDurationMs}ms cubic-bezier(0.22, 1, 0.36, 1)`;
+        loadMoreWrap.style.transform = "translateY(0)";
+      });
+    };
 
     const clearHideTimers = () => {
       hideTimers.forEach((timerId) => window.clearTimeout(timerId));
@@ -125,6 +151,7 @@ const hasExtraCases = sortedCases.length > initialVisible;
         .slice(visibleCount)
         .filter((card) => !card.classList.contains("case-card-hidden"));
       const reversedExtras = [...extras].reverse();
+      const hasExtras = reversedExtras.length > 0;
 
       reversedExtras.forEach((card, index) => {
         const startDelay = index * hideStaggerMs;
@@ -132,13 +159,21 @@ const hasExtraCases = sortedCases.length > initialVisible;
           card.style.setProperty("--delay", "0ms");
           card.classList.remove("is-visible");
         }, startDelay);
-
-        queueHide(() => {
-          if (!card.classList.contains("is-visible")) {
-            card.classList.add("case-card-hidden");
-          }
-        }, startDelay + cardTransitionMs);
       });
+
+      if (!hasExtras) return;
+
+      const hideAllDelay =
+        (reversedExtras.length - 1) * hideStaggerMs + cardTransitionMs;
+      queueHide(() => {
+        animateLoadMoreWrapMove(() => {
+          reversedExtras.forEach((card) => {
+            if (!card.classList.contains("is-visible")) {
+              card.classList.add("case-card-hidden");
+            }
+          });
+        });
+      }, hideAllDelay);
     };
 
     const showExtraCards = () => {
