@@ -130,7 +130,11 @@ const contactSecondaryCtaHref = secondaryHrefRaw.startsWith("#")
   description={pageDescription}
   siteSettings={siteSettings}
 >
-  <Navbar siteSettings={siteSettings} navLinks={content.navLinks} />
+  <Navbar
+    siteSettings={siteSettings}
+    navLinks={content.navLinks}
+    forceTransparent
+  />
   <main class="overflow-x-hidden">
     <section id="desarrollo-hero" class="relative min-h-screen overflow-hidden">
       <div class="absolute inset-0 z-0">
