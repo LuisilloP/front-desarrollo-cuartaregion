@@ -6,9 +6,10 @@ import { Icon } from "astro-icon/components";
 interface Props {
   service: Service;
   whatsappNumber: string;
+  maxBenefits?: number;
 }
 
-const { service, whatsappNumber } = Astro.props;
+const { service, whatsappNumber, maxBenefits } = Astro.props;
 const title = (service.title ?? "").trim();
 const whatItSolves = service.what_it_solves ?? "";
 const whatsappDesc = (service.whatsapp_desc ?? "").trim();
@@ -16,7 +17,7 @@ const whatsappUrl = buildWhatsAppLink(
   whatsappNumber,
   whatsappDesc || `Hola! Quiero cotizar el servicio ${title || "servicio"}.`,
 );
-const benefits = service.benefits?.slice(0, 3) ?? []; // Show max 3 benefits
+const benefits = service.benefits?.slice(0, maxBenefits ?? 3) ?? [];
 const isFeatured = Boolean(service.featured);
 const topBanner = (service.top_banner ?? "").trim();
 const bannerLabel = topBanner || (isFeatured ? "Más popular" : "");
