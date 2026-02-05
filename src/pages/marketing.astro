@@ -2,7 +2,6 @@
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/layout/Navbar.astro";
 import Footer from "../components/layout/Footer.astro";
-import SectionDivider from "../components/layout/SectionDivider.astro";
 import WhatsAppFloatingButton from "../components/layout/WhatsAppFloatingButton.astro";
 import MarketingHero from "../components/marketing/MarketingHero.astro";
 import PlansSection from "../components/marketing/PlansSection.astro";
@@ -80,9 +79,7 @@ const contactSecondaryCtaHref =
   <main class="overflow-x-hidden">
     <MarketingHero hero={hero} value={value} />
 
-    <SectionDivider />
-
-    <PlansSection
+     <PlansSection
       title={plansSection?.title ?? "Planes de marketing digital"}
       description={
         plansSection?.description ??
@@ -90,11 +87,9 @@ const contactSecondaryCtaHref =
       }
     />
 
-    <SectionDivider />
-
-    {useCasesSection && <HostingSection content={useCasesSection} />}
-
-    <SectionDivider />
+    {marketingCases.length > 0 && (
+      <CasesSection cases={marketingCases} origin="marketing" />
+    )}
 
     {processSection && (
       <ProcessSection
@@ -105,13 +100,7 @@ const contactSecondaryCtaHref =
       />
     )}
 
-    <SectionDivider />
-
-    {marketingCases.length > 0 && (
-      <CasesSection cases={marketingCases} origin="marketing" />
-    )}
-
-    <SectionDivider />
+    <!-- {useCasesSection && <HostingSection content={useCasesSection} />} -->
 
     <PortfolioMarqueeSection
       client:visible
@@ -119,8 +108,6 @@ const contactSecondaryCtaHref =
       description={marketingClients.description}
       companies={marketingClients.companies}
     />
-
-    <SectionDivider />
 
     <ContactSection
       content={contactContent}
