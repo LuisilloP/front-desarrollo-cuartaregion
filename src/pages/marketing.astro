@@ -8,16 +8,19 @@ import MarketingHero from "../components/marketing/MarketingHero.astro";
 import PlansSection from "../components/marketing/PlansSection.astro";
 import HostingSection from "../components/sections/HostingSection.astro";
 import ProcessSection from "../components/sections/ProcessSection.astro";
+import CasesSection from "../components/sections/CasesSection.astro";
 import PortfolioMarqueeSection from "../components/sections/PortfolioMarqueeSection.tsx";
 import ContactSection from "../components/sections/ContactSection.astro";
-import { fetchSiteSettings } from "../lib/api/services";
-import type { Content, MarketingPageContent } from "../lib/api/types";
+import { fetchCases, fetchSiteSettings } from "../lib/api/services";
+import type { CaseStudy, Content, MarketingPageContent } from "../lib/api/types";
 import type { Company } from "../content/portfolioProjects";
 import contentJson from "../data/content.json";
 import marketingJson from "../data/pages/marketing.json";
 import marketingClientsJson from "../data/pages/marketing-clients.json";
+import marketingCasesJson from "../data/pages/marketing-cases.json";
 
 const siteSettings = await fetchSiteSettings();
+const allCases = await fetchCases();
 const content = contentJson as Content;
 const marketingContent = marketingJson as MarketingPageContent;
 const marketingClients = marketingClientsJson as {
@@ -25,6 +28,9 @@ const marketingClients = marketingClientsJson as {
   description?: string;
   companies: Company[];
 };
+const marketingCases = (marketingCasesJson.slugs ?? [])
+  .map((slug) => allCases.find((item) => item.slug === slug))
+  .filter((item): item is CaseStudy => Boolean(item));
 
 const {
   hero,
@@ -97,6 +103,12 @@ const contactSecondaryCtaHref =
         description={processSection.description}
         steps={processSection.steps}
       />
+    )}
+
+    <SectionDivider />
+
+    {marketingCases.length > 0 && (
+      <CasesSection cases={marketingCases} origin="marketing" />
     )}
 
     <SectionDivider />

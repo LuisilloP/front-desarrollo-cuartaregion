@@ -171,34 +171,34 @@
   },
   "processSection": {
     "sectionId": "proceso-marketing",
-    "title": "Proceso claro para crecer en marketing",
-    "description": "Un flujo simple que ordena la estrategia, ejecuta campañas y optimiza cada semana.",
+    "title": "Gestión de redes sociales con un plan claro",
+    "description": "Partimos con un diagnóstico real, te mostramos resultados en días y luego escalamos con mejora continua.",
     "steps": [
       {
         "num": "01",
-        "title": "Diagnostico y objetivos",
-        "desc": "Definimos cliente ideal, propuesta y metas realistas para medir resultados.",
-        "result": "Estrategia y foco",
+        "title": "Diagnóstico + plan de acción",
+        "desc": "Revisamos tus redes (perfil, contenido, mensajes y consistencia) y armamos un plan simple con prioridades claras y metas medibles.",
+        "result": "Auditoría + plan",
         "img": "/images/nuestro-proceso/paso-01.webp"
       },
       {
         "num": "02",
-        "title": "Configuracion y lanzamiento",
-        "desc": "Estructuramos campañas, creativos y seguimiento para empezar a captar leads.",
-        "result": "Campanas en marcha",
+        "title": "Prueba de 3 días (sin compromiso)",
+        "desc": "Si aún no te convence nuestro método, activamos una prueba de 3 días para que lo veas en acción: orden, ajustes y mejoras rápidas visibles.",
+        "result": "3 días para probar",
         "img": "/images/nuestro-proceso/paso-02.webp"
       },
       {
         "num": "03",
-        "title": "Optimizacion continua",
-        "desc": "Ajustamos anuncios, segmentacion y presupuesto segun datos reales.",
-        "result": "Mejor conversion",
+        "title": "Implementación y publicación",
+        "desc": "Ejecutamos el plan: calendario de contenido, creatividades y programación. Dejamos tu comunicación más clara y constante.",
+        "result": "En marcha",
         "img": "/images/nuestro-proceso/paso-03.webp"
       },
       {
         "num": "04",
-        "title": "Reporte y crecimiento",
-        "desc": "Medimos resultados, aprendemos y escalamos lo que funciona.",
+        "title": "Reportes y optimización continua",
+        "desc": "Medimos resultados, ajustamos el contenido y repetimos lo que funciona. Reportes claros y mejoras semana a semana.",
         "result": "Crecimiento sostenido",
         "img": "/images/nuestro-proceso/paso-04.webp"
       }

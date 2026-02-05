@@ -4,9 +4,10 @@ import CaseCard from "../ui/CaseCard.astro";
 
 interface Props {
   cases: CaseStudy[];
+  origin?: "home" | "marketing";
 }
 
-const { cases } = Astro.props;
+const { cases, origin } = Astro.props as Props;
 const sortedCases = [...cases].sort(
   (a, b) => (a.order ?? 99) - (b.order ?? 99),
 );
@@ -37,7 +38,7 @@ const hasExtraCases = sortedCases.length > initialVisible;
           <div
             class={`case-card-wrapper ${index >= initialVisible ? "case-card-hidden" : ""}`}
           >
-            <CaseCard caseItem={caseItem} />
+            <CaseCard caseItem={caseItem} origin={origin} />
           </div>
         ))
       }

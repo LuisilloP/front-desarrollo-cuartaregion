@@ -177,6 +177,7 @@ const ctaClass = isContactCta
   ? "bg-[#25D366] text-white hover:brightness-95"
   : "bg-gradient-to-r from-primary to-accent text-contrast hover:brightness-105";
 const showSiteButton = Boolean(siteUrlExternal && siteUrlExternal !== ctaHref);
+const backHref = "/#casos-de-exito";
 ---
 
 <Layout
@@ -197,8 +198,9 @@ const showSiteButton = Boolean(siteUrlExternal && siteUrlExternal !== ctaHref);
           <div class="space-y-3">
             <div class="flex flex-wrap items-center gap-3 mt-10">
               <a
+                  id="case-back-link"
                   class="pill gap-0 border border-border/70 bg-card px-3 py-1 text-content/90 transition hover:border-primary/40 hover:text-primary"
-                  href="/#casos-de-exito"
+                  href={backHref}
                 >
                   <Icon
                     name="lucide:arrow-left"
@@ -509,3 +511,13 @@ const showSiteButton = Boolean(siteUrlExternal && siteUrlExternal !== ctaHref);
     message="Hola! Me interesa este caso."
   />
 </Layout>
+
+<script is:inline>
+  const backLink = document.getElementById("case-back-link");
+  if (backLink) {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("from") === "marketing") {
+      backLink.setAttribute("href", "/marketing#casos-de-exito");
+    }
+  }
+</script>
