@@ -4,8 +4,7 @@ import Navbar from "../components/layout/Navbar.astro";
 import Footer from "../components/layout/Footer.astro";
 import SectionDivider from "../components/layout/SectionDivider.astro";
 import WhatsAppFloatingButton from "../components/layout/WhatsAppFloatingButton.astro";
-import SectionHero from "../components/common/sections/SectionHero.astro";
-import ValueSection from "../components/common/sections/ValueSection.astro";
+import MarketingHero from "../components/marketing/MarketingHero.astro";
 import PlansSection from "../components/marketing/PlansSection.astro";
 import HostingSection from "../components/sections/HostingSection.astro";
 import ProcessSection from "../components/sections/ProcessSection.astro";
@@ -67,36 +66,13 @@ const contactSecondaryCtaHref =
   description={pageDescription}
   siteSettings={siteSettings}
 >
-  <Navbar siteSettings={siteSettings} navLinks={content.navLinks} />
+  <Navbar
+    siteSettings={siteSettings}
+    navLinks={content.navLinks}
+    forceTransparent
+  />
   <main class="overflow-x-hidden">
-    <SectionHero
-      sectionId="marketing-hero"
-      title={hero.title}
-      subtitle={hero.subtitle}
-      primaryCta={hero.primaryCta}
-      secondaryCta={hero.secondaryCta}
-      imageSrc={hero.imageSrc}
-      imageAlt={hero.imageAlt}
-      slides={hero.slides}
-    />
-
-    <SectionDivider tone="accent" />
-
-    <ValueSection
-      eyebrow={value.eyebrow}
-      title={value.title}
-      description={value.description}
-      quote={value.quote}
-      ctaLabel={value.ctaLabel}
-      ctaHref={value.ctaHref}
-      ctaNote={value.ctaNote}
-      ctaSecondaryLabel={value.ctaSecondaryLabel}
-      ctaSecondaryHref={value.ctaSecondaryHref}
-      diagnosisTitle={value.diagnosisTitle}
-      diagnosisDescription={value.diagnosisDescription}
-      diagnosisNote={value.diagnosisNote}
-      items={value.items}
-    />
+    <MarketingHero hero={hero} value={value} />
 
     <SectionDivider />
 

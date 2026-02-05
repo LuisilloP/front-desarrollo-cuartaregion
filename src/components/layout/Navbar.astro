@@ -6,13 +6,16 @@ import contentJson from "../../data/content.json";
 interface Props {
   siteSettings: SiteSettings;
   navLinks?: NavLink[];
+  forceTransparent?: boolean;
 }
 
 const content = contentJson as Content;
 const fallbackNavLinks = content.navLinks ?? [];
-const { siteSettings, navLinks = fallbackNavLinks } = Astro.props;
+const { siteSettings, navLinks = fallbackNavLinks, forceTransparent } =
+  Astro.props as Props;
 const pathname = Astro.url?.pathname ?? "/";
 const isHome = pathname === "/" || pathname === "";
+const isTransparent = Boolean(forceTransparent) || isHome;
 const withHome = (href: string) =>
   href.startsWith("#") && !isHome ? `/${href}` : href;
 
@@ -26,7 +29,8 @@ const processedNavLinks = navLinks.map((link) => ({
   id="main-header"
   class:list={[
     "group fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-in-out",
-    !isHome && "bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg shadow-lg",
+    !isTransparent &&
+      "bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg shadow-lg",
   ]}
 >
   <nav
@@ -37,7 +41,7 @@ const processedNavLinks = navLinks.map((link) => ({
       href={withHome("/#inicio")}
       class:list={[
         "flex items-center gap-2 sm:gap-3 font-bold text-lg sm:text-xl tracking-tight transition-colors",
-        isHome
+        isTransparent
           ? "text-white group-[.scrolled]:text-slate-900 dark:group-[.scrolled]:text-white"
           : "text-slate-900 dark:text-white",
       ]}
@@ -62,7 +66,7 @@ const processedNavLinks = navLinks.map((link) => ({
     <div
       class:list={[
         "hidden lg:flex items-center gap-x-8",
-        isHome
+        isTransparent
           ? "text-white group-[.scrolled]:text-slate-700 dark:group-[.scrolled]:text-white"
           : "text-slate-700 dark:text-white",
       ]}
@@ -83,7 +87,7 @@ const processedNavLinks = navLinks.map((link) => ({
     <div
       class:list={[
         "flex items-center gap-x-2",
-        isHome
+        isTransparent
           ? "text-white group-[.scrolled]:text-slate-700 dark:group-[.scrolled]:text-white"
           : "text-slate-700 dark:text-white",
       ]}
@@ -116,7 +120,7 @@ const processedNavLinks = navLinks.map((link) => ({
         <span
           class:list={[
             "w-5 h-0.5 rounded-full transition-transform duration-300 ease-in-out origin-center",
-            isHome
+            isTransparent
               ? "bg-white group-[.scrolled]:bg-slate-900 dark:group-[.scrolled]:bg-white"
               : "bg-slate-900 dark:bg-white",
           ]}
@@ -124,7 +128,7 @@ const processedNavLinks = navLinks.map((link) => ({
         <span
           class:list={[
             "w-5 h-0.5 rounded-full transition-transform duration-300 ease-in-out origin-center",
-            isHome
+            isTransparent
               ? "bg-white group-[.scrolled]:bg-slate-900 dark:group-[.scrolled]:bg-white"
               : "bg-slate-900 dark:bg-white",
           ]}
