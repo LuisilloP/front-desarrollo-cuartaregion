@@ -11,20 +11,9 @@ import ContactSection from "../components/sections/ContactSection.astro";
 import Footer from "../components/layout/Footer.astro";
 import AboutUs from "../components/sections/AboutUs.astro";
 import WhatsAppFloatingButton from "../components/layout/WhatsAppFloatingButton.astro";
-import SectionDivider from "../components/layout/SectionDivider.astro";
-import BannerCombo from "../components/banners/BannerCombo.astro";
 import BannerWeb from "../components/banners/BannerWeb.astro";
 import BannerMarketing from "../components/banners/BannerMarketing.astro";
-import BannerTest from "src/components/banners/BannerTest.astro";
-import PromoWeb from "../components/promos/PromoWeb.astro";
-import PromoMarketing from "../components/promos/PromoMarketing.astro";
-import PromoCombo from "../components/promos/PromoCombo.astro";
-import PromoTest from "src/components/promos/PromoTest.astro";
-import {
-  fetchSiteSettings,
-  fetchCases,
-  fetchFaqs,
-} from "../lib/api/services";
+import { fetchSiteSettings, fetchCases, fetchFaqs } from "../lib/api/services";
 
 import type { Content, HomePageContent, Service } from "../lib/api/types";
 import contentJson from "../data/content.json";
@@ -33,11 +22,13 @@ import homeJson from "../data/pages/home.json";
 // Import the marquee component and its data
 import PortfolioMarqueeSection from "../components/sections/PortfolioMarqueeSection.tsx";
 import { companies as portfolioCompanies } from "../content/portfolioProjects";
+import Marketing from "./marketing.astro";
 
 const globalContent = contentJson as Content;
 const homeContent = homeJson as HomePageContent;
 
-const { heroSection, useCasesSection, faqSection, contactSection } = homeContent;
+const { heroSection, useCasesSection, faqSection, contactSection } =
+  homeContent;
 const { legalPages, navLinks } = globalContent;
 const showProcessSection = false;
 const showUseCasesSection = false;
@@ -103,7 +94,8 @@ const planSummaries: Service[] = [
     variant: "mixed",
     accent: "orange",
     title: "Plan mixto web + marketing",
-    what_it_solves: "Combina desarrollo web y campañas para lanzar y convertir.",
+    what_it_solves:
+      "Combina desarrollo web y campañas para lanzar y convertir.",
     benefits: [
       "Landing optimizada",
       "Campañas con tracking",
@@ -125,7 +117,7 @@ const planSummaries: Service[] = [
 const siteSettings = await fetchSiteSettings();
 const cases = await fetchCases();
 const faqs = await fetchFaqs();
-const recentCases = cases.slice(0, 3);
+const recentCases = cases;
 ---
 
 <Layout
@@ -136,55 +128,6 @@ const recentCases = cases.slice(0, 3);
   <Navbar siteSettings={siteSettings} navLinks={homeNavLinks} />
   <main class="space-y-8 overflow-x-hidden max-w-full">
     <Hero siteSettings={siteSettings} content={heroSection} />
-
-    <section class="section-shell py-4 sm:py-6" aria-labelledby="promos-heading">
-      <div class="mb-4 sm:mb-5">
-        <p
-          id="promos-heading"
-          class="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-primary/80"
-        >
-          Accesos rápidos
-        </p>
-      </div>
-      <div class="mt-3 sm:mt-4 grid gap-3 sm:gap-4 lg:grid-cols-3">
-        <PromoTest />
-        <PromoTest />
-        <PromoTest />
-      </div>
-      <div class="mt-3 sm:mt-4 grid gap-3 sm:gap-4 lg:grid-cols-3">
-        <PromoWeb />
-        <PromoMarketing />
-        <PromoCombo />
-      </div>
-      <div class="mt-3 sm:mt-4 grid gap-3 sm:gap-4 lg:grid-cols-2">
-        <PromoWeb />
-        <PromoMarketing />
-      </div>
-      <div class="mt-3 sm:mt-4">
-        <PromoCombo />
-      </div>
-    </section>
-
-    <section class="section-shell space-y-6 py-4 sm:py-6 lg:py-8">
-      <BannerTest />
-      <BannerCombo />
-      <BannerCombo
-        title="Web + Marketing que convierte"
-        subtitle="Landing, captacion y seguimiento conectados en un solo flujo"
-        description="Integramos diseno, mensaje y pauta para que tu inversion tenga foco comercial desde el inicio."
-        badgeText="Todo en un plan"
-        primaryLink={{ label: "Hablar por WhatsApp", href: "#contacto-marketing" }}
-        secondaryLink={{ label: "Agendar llamada", href: "#contacto-marketing" }}
-        bullets={[
-          "Oferta clara para captar mejores leads",
-          "Embudo digital con medicion real",
-          "Optimizacion continua por resultados",
-        ]}
-        reverse
-      />
-      <BannerWeb />
-      <BannerMarketing />
-    </section>
 
     <div id="planes-web" aria-hidden="true"></div>
     <div id="planes-marketing" aria-hidden="true"></div>
@@ -198,37 +141,55 @@ const recentCases = cases.slice(0, 3);
       singleGrid
     />
 
-    <SectionDivider tone="accent" />
-
     {/* Social proof early - Cases show we deliver results */}
     <CasesSection cases={recentCases} />
-
-    <SectionDivider />
 
     {/* How we work - Premium process section */}
     {showProcessSection ? <ProcessSection /> : null}
 
-    <SectionDivider />
-
     {/* More social proof - Portfolio companies */}
+    <div class="section-shell">
+      <BannerWeb
+        size="compact"
+        title="Tu web rapida y lista para vender"
+        subtitle="Arquitectura solida para crecer"
+        description="Landing o administrable con SEO tecnico y performance."
+        bullets={[
+          "Diseno enfocado en conversion",
+          "Carga rapida en movil y desktop",
+        ]}
+        primaryLink={{ label: "Cotizar desarrollo", href: "/desarrollo" }}
+        secondaryLink={{ label: "Ver planes web", href: "/desarrollo#planes" }}
+        class="w-full"
+      />
+    </div>
+
     <PortfolioMarqueeSection client:visible companies={portfolioCompanies} />
 
-    <SectionDivider />
+    <div class="section-shell">
+      <BannerMarketing
+        size="compact"
+        title="Campañas Meta Ads"
+        subtitle="Intención de compra"
+        description="Segmentación, tracking y optimización continua."
+        bullets={[
+          "Audiencias y mensajes por etapa",
+          "Medición de leads y conversiones",
+        ]}
+        primaryLink={{ label: "Cotizar campañas", href: "/marketing" }}
+        secondaryLink={{ label: "Ver planes de marketing", href: "/marketing#planes" }}
+        class="w-full"
+      />
+    </div>
 
     {/* About Us after user is already interested */}
     <AboutUs />
 
-    <SectionDivider />
-
     {/* Why choose us - Reinforcement */}
     {showUseCasesSection ? <HostingSection content={useCasesSection} /> : null}
 
-    <SectionDivider />
-
     {/* FAQ - Handle objections */}
     <FAQSection content={faqSection} faqs={faqs} />
-
-    <SectionDivider />
 
     {/* Final CTA */}
     <ContactSection
