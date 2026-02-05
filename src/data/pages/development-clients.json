@@ -1,0 +1,42 @@
+{
+  "title": "Clientes de desarrollo web que confiaron en Aliado Digital",
+  "description": "Paginas web, sistemas y soluciones a medida para negocios reales.",
+  "companies": [
+    {
+      "id": "clinica-montblanc",
+      "name": "Clinica Montblanc",
+      "logo": "/images/logos/montblanc.webp",
+      "href": "https://www.clinicamontblanc.cl"
+    },
+    {
+      "id": "doctor-harald-ziller",
+      "name": "Dr. Harald Ziller",
+      "logo": "/images/logos/dr-harald-ziller.webp",
+      "href": "https://drharaldziller.cl/"
+    },
+    {
+      "id": "estampados-rya",
+      "name": "Estampados R&A",
+      "logo": "/images/logos/rya-estampados.webp",
+      "href": "https://rya-estampados.vercel.app/"
+    },
+    {
+      "id": "eco-grow",
+      "name": "Sistema Eco Grow",
+      "logo": "/images/logos/eco-grow.webp",
+      "href": "https://landig-eco-grow.vercel.app/"
+    },
+    {
+      "id": "muebleria-el-florentino",
+      "name": "Muebleria El Florentino",
+      "logo": "/images/logos/muebleria-florentino.webp",
+      "href": "https://elfiorentino.vercel.app/"
+    },
+    {
+      "id": "propiedades-arenas",
+      "name": "Propiedades Arenas",
+      "logo": "/images/logos/propiedades-arenas.webp",
+      "href": "https://propiedadesarenas.cl/"
+    }
+  ]
+}

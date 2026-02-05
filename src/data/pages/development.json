@@ -1,0 +1,239 @@
+{
+  "seo": {
+    "title": "Desarrollo Web y Software | Aliado Digital",
+    "description": "Desarrollo web y software a medida para pymes, profesionales y negocios locales de Chile."
+  },
+  "hero": {
+    "title": "Desarrollo web y software a medida que impulsa tu negocio",
+    "subtitle": "Disenamos plataformas claras, rapidas y escalables para vender mas y operar con orden.",
+    "primaryCta": {
+      "label": "Cotizar desarrollo",
+      "href": "#contacto-desarrollo"
+    },
+    "secondaryCta": {
+      "label": "Ver planes",
+      "href": "#planes"
+    },
+    "imageSrc": "/images/hero/hero-astro.webp",
+    "imageAlt": "Desarrollo web y software",
+    "slides": [
+      {
+        "src": "/images/hero/hero-coquimbo.webp",
+        "alt": "Bahia y puerto de Coquimbo",
+        "position": "left"
+      },
+      {
+        "src": "/images/hero/hero-serena.webp",
+        "alt": "Atardecer en La Serena",
+        "position": "right"
+      },
+      {
+        "src": "/images/hero/hero-astro.webp",
+        "alt": "Cielo estrellado en Valle del Elqui",
+        "position": "left"
+      },
+      {
+        "src": "/images/hero/hero-cielo.webp",
+        "alt": "Vista de La Serena desde el cielo",
+        "position": "center"
+      }
+    ]
+  },
+  "value": {
+    "eyebrow": "PROPUESTA DE VALOR",
+    "title": "Tecnologia con foco en resultados",
+    "description": "Un buen desarrollo no es solo codigo: es una herramienta para crecer, automatizar y tomar mejores decisiones.",
+    "quote": "No se trata de tener una web bonita, sino de construir una solucion que ordene tu operacion y genere ventas.",
+    "ctaLabel": "Cotizar desarrollo",
+    "ctaHref": "#contacto-desarrollo",
+    "ctaNote": "Te guiamos sin compromiso.",
+    "items": [
+      {
+        "label": "SIN BASE",
+        "title": "Soluciones genericas en otras paginas",
+        "description": "En otras plataformas se lanzan rapido, pero suelen ser dificiles de escalar.",
+        "bullets": [
+          "Suelen quedar cortas para procesos reales de negocio",
+          "A menudo son dificiles de mantener o ampliar",
+          "Tienden a ofrecer poca diferenciacion frente a la competencia"
+        ]
+      },
+      {
+        "label": "CON METODO",
+        "title": "Desarrollo a medida",
+        "description": "Se adapta a tu negocio y crece contigo.",
+        "bullets": [
+          "Funcionalidades alineadas a tus objetivos",
+          "Base solida para futuras mejoras",
+          "Mejor experiencia para tus clientes"
+        ]
+      }
+    ]
+  },
+  "plansSection": {
+    "title": "Planes de desarrollo y tecnologia",
+    "description": "Selecciona la solucion que necesitas hoy y acompanamos tu crecimiento con mejoras constantes."
+  },
+  "plans": [
+    {
+      "name": "Landing profesional",
+      "price": "$160.000 CLP",
+      "reach": "Ideal para validar tu oferta y empezar a vender.",
+      "benefits": [
+        "Pagina rapida y clara",
+        "Diseno adaptable a movil y desktop",
+        "Boton directo a WhatsApp y formulario"
+      ],
+      "results": [
+        "Presencia online profesional",
+        "Mayor confianza desde el primer dia",
+        "Consultas mas ordenadas"
+      ],
+      "ctaHref": "#contacto-desarrollo"
+    },
+    {
+      "name": "Web administrable",
+      "price": "$250.000 CLP",
+      "reach": "Para negocios que necesitan actualizar contenido sin depender de terceros.",
+      "benefits": [
+        "Panel de administracion simple",
+        "Integracion de contacto y formularios",
+        "SEO tecnico basico incluido"
+      ],
+      "results": [
+        "Autonomia para actualizar la web",
+        "Mejor organizacion del contenido",
+        "Base lista para crecer"
+      ],
+      "featured": true,
+      "highlightLabel": "Mas solicitado",
+      "ctaHref": "#contacto-desarrollo"
+    },
+    {
+      "name": "Sistema a medida",
+      "price": "$350.000 CLP",
+      "reach": "Para ordenar procesos y escalar con control.",
+      "benefits": [
+        "Plataforma adaptada a tu operacion",
+        "Automatizacion de tareas clave",
+        "Soporte en la implementacion"
+      ],
+      "results": [
+        "Operaciones mas ordenadas",
+        "Mejor control del negocio",
+        "Escalabilidad real"
+      ],
+      "ctaHref": "#contacto-desarrollo"
+    }
+  ],
+  "useCasesSection": {
+    "eyebrow": "Como trabajamos",
+    "title": "Asi construimos tu desarrollo",
+    "description": "Orden, claridad y foco en resultados reales.",
+    "cases": [
+      {
+        "title": "Diagnostico y arquitectura",
+        "description": "Definimos objetivos, flujos y la estructura base del proyecto.",
+        "icon": "lucide:target",
+        "cardColor": "#0e8522",
+        "backgroundImage": "/images/sections/about-us-diana.webp",
+        "bullets": [
+          "Levantamiento de requisitos",
+          "Propuesta de valor y prioridades"
+        ]
+      },
+      {
+        "title": "Diseno y desarrollo",
+        "description": "Construimos una interfaz clara y una base tecnica solida.",
+        "icon": "lucide:layout",
+        "cardColor": "#0ea5e9",
+        "backgroundImage": "/images/backgrounds/why-us-1.webp",
+        "bullets": [
+          "UI/UX con foco en conversion",
+          "Codigo optimizado y escalable"
+        ]
+      },
+      {
+        "title": "Lanzamiento y mejoras",
+        "description": "Publicamos, medimos y optimizamos segun resultados.",
+        "icon": "lucide:rocket",
+        "cardColor": "#a855f7",
+        "backgroundImage": "/images/sections/process-manos.webp",
+        "bullets": [
+          "QA y performance",
+          "Mejoras continuas"
+        ]
+      }
+    ]
+  },
+  "processSection": {
+    "sectionId": "proceso-desarrollo",
+    "title": "Desarrollo web con un plan claro",
+    "description": "Trabajamos por etapas para asegurar calidad, orden y resultados reales.",
+    "steps": [
+      {
+        "num": "01",
+        "title": "Diagnostico + alcance",
+        "desc": "Definimos objetivos, usuarios y funcionalidades clave para tu negocio.",
+        "result": "Mapa de requerimientos",
+        "img": "/images/nuestro-proceso/paso-01.webp"
+      },
+      {
+        "num": "02",
+        "title": "Diseno y prototipo",
+        "desc": "Disenamos la interfaz y validamos la estructura antes de desarrollar.",
+        "result": "Prototipo validado",
+        "img": "/images/nuestro-proceso/paso-02.webp"
+      },
+      {
+        "num": "03",
+        "title": "Desarrollo + QA",
+        "desc": "Construimos la plataforma con foco en performance, SEO y seguridad.",
+        "result": "Version lista para publicar",
+        "img": "/images/nuestro-proceso/paso-03.webp"
+      },
+      {
+        "num": "04",
+        "title": "Lanzamiento y soporte",
+        "desc": "Publicamos el proyecto y dejamos soporte para mejoras.",
+        "result": "Proyecto en marcha",
+        "img": "/images/nuestro-proceso/paso-04.webp"
+      }
+    ]
+  },
+  "trust": {
+    "title": "Equipos que confian en nuestro desarrollo",
+    "description": "Trabajamos con negocios que buscan tecnologia estable, segura y con soporte real.",
+    "logos": [
+      "Andes",
+      "Puerto",
+      "Suria",
+      "Kuyen",
+      "Norte",
+      "Brisa",
+      "Altamar",
+      "Cumbres",
+      "Pacifico",
+      "Marea",
+      "Raiz",
+      "Vector"
+    ]
+  },
+  "contactSection": {
+    "eyebrow": "Hablemos",
+    "title": "Hablemos de tu desarrollo",
+    "description": "Cuentanos sobre tu proyecto y te proponemos un camino claro para construirlo.",
+    "sectionId": "contacto-desarrollo",
+    "whatsappMessage": "Hola! Quiero cotizar un desarrollo web a medida.",
+    "primaryCtaLabel": "Contactar por WhatsApp",
+    "secondaryCtaLabel": "Completar brief",
+    "secondaryCtaHref": "https://forms.gle/5MEDYUSc2pZpS4tz8"
+  },
+  "cta": {
+    "title": "Listo para construir una solucion digital solida?",
+    "description": "Cuentanos sobre tu proyecto y te ayudamos a definir el mejor camino.",
+    "ctaLabel": "Hablemos de tu desarrollo",
+    "sectionId": "contacto-desarrollo",
+    "formId": "desarrollo-form"
+  }
+}

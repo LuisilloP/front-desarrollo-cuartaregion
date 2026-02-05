@@ -1,0 +1,170 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Cta {
+  label: string;
+  href: string;
+}
+
+interface Media {
+  bgImage?: string;
+  icon?: string;
+}
+
+interface Props {
+  title: string;
+  subtitle: string;
+  badgeText?: string;
+  primaryCta: Cta;
+  secondaryCta?: Cta;
+  media?: Media;
+  sectionId?: string;
+}
+
+const {
+  title,
+  subtitle,
+  badgeText,
+  primaryCta,
+  secondaryCta,
+  media,
+  sectionId = "desarrollo-hero",
+} = Astro.props as Props;
+
+const hasMedia = Boolean(media?.bgImage || media?.icon);
+const hasLocalImage = Boolean(media?.bgImage && media.bgImage.startsWith("/"));
+const mediaIcon = media?.icon ?? "lucide:layout-template";
+const gridClass = hasMedia
+  ? "lg:grid-cols-[1.05fr_0.95fr]"
+  : "lg:grid-cols-1";
+---
+
+<section
+  id={sectionId}
+  class="relative overflow-hidden py-24 sm:py-28 lg:py-32"
+>
+  <div class="absolute inset-0 -z-10">
+    <div
+      class="absolute -top-24 left-1/3 h-72 w-72 rounded-full bg-sky-500/10 blur-3xl dark:bg-sky-400/10"
+    >
+    </div>
+    <div
+      class="absolute bottom-0 right-1/4 h-80 w-80 rounded-full bg-emerald-500/10 blur-3xl dark:bg-emerald-400/10"
+    >
+    </div>
+    <div
+      class="absolute inset-0 bg-gradient-to-b from-surface/70 via-surface/40 to-transparent dark:from-surface/90 dark:via-surface/60"
+    >
+    </div>
+    <div
+      class="absolute inset-0 opacity-[0.04] dark:opacity-[0.06]"
+      style="background-image: radial-gradient(circle at 1px 1px, rgb(0 0 0 / 0.7) 1px, transparent 0); background-size: 38px 38px;"
+    >
+    </div>
+  </div>
+
+  {!hasMedia ? (
+    <div
+      class="pointer-events-none absolute right-0 top-1/3 hidden h-44 w-44 translate-x-1/3 rounded-full bg-gradient-to-br from-sky-500/20 via-sky-500/5 to-transparent blur-3xl lg:block"
+    >
+    </div>
+  ) : null}
+
+  <div class="section-shell relative">
+    <div class={`grid items-center gap-12 ${gridClass}`}>
+      <div class="space-y-6" data-reveal="fade-up">
+        {badgeText ? (
+          <p
+            class="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-primary"
+          >
+            {badgeText}
+          </p>
+        ) : null}
+        <h1 class="font-display text-4xl leading-tight text-content sm:text-5xl lg:text-6xl">
+          {title}
+        </h1>
+        <p class="max-w-[60ch] text-lg leading-relaxed text-muted sm:text-xl">
+          {subtitle}
+        </p>
+
+        <div
+          class="flex flex-col gap-4 sm:flex-row"
+          data-reveal="fade-up"
+          data-delay="120"
+        >
+          <a
+            href={primaryCta.href}
+            class="hover-lift inline-flex items-center justify-center rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-contrast shadow-lg shadow-primary/20 transition-all duration-200 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight/40"
+          >
+            {primaryCta.label}
+          </a>
+          {secondaryCta ? (
+            <a
+              href={secondaryCta.href}
+              class="hover-lift inline-flex items-center justify-center rounded-full border border-border/70 bg-transparent px-7 py-3.5 text-sm font-semibold text-content transition-all duration-200 hover:border-border hover:bg-surface-strong/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight/30"
+            >
+              {secondaryCta.label}
+            </a>
+          ) : null}
+        </div>
+      </div>
+
+      {hasMedia ? (
+        <div class="relative" data-reveal="fade-up" data-delay="180">
+          <div
+            class="relative min-h-[320px] overflow-hidden rounded-3xl border border-slate-900/10 bg-white/60 p-6 shadow-soft backdrop-blur-xl dark:border-white/10 dark:bg-white/5"
+          >
+            {hasLocalImage ? (
+              <img
+                src={media?.bgImage}
+                alt=""
+                aria-hidden="true"
+                class="absolute inset-0 h-full w-full object-cover opacity-50"
+              />
+            ) : null}
+            <div class="absolute inset-0 bg-gradient-to-br from-sky-500/10 via-transparent to-emerald-400/10">
+            </div>
+            <div
+              class="absolute inset-0 opacity-[0.18] dark:opacity-[0.24]"
+              style="background-image: linear-gradient(to right, rgba(148,163,184,0.2) 1px, transparent 1px), linear-gradient(to bottom, rgba(148,163,184,0.2) 1px, transparent 1px); background-size: 32px 32px;"
+            >
+            </div>
+            <div class="relative z-10 flex h-full min-h-[320px] flex-col justify-between">
+              <div class="flex flex-1 items-center justify-center">
+                {!hasLocalImage ? (
+                  <Icon
+                    name={mediaIcon}
+                    class="h-24 w-24 text-slate-900/25 dark:text-white/20"
+                    aria-hidden="true"
+                  />
+                ) : (
+                  <Icon
+                    name={mediaIcon}
+                    class="absolute bottom-6 right-6 h-20 w-20 text-slate-900/15 dark:text-white/15"
+                    aria-hidden="true"
+                  />
+                )}
+              </div>
+              <div class="grid grid-cols-3 gap-3">
+                <div
+                  class="h-10 rounded-2xl border border-slate-900/10 bg-white/40 dark:border-white/15 dark:bg-white/10"
+                >
+                </div>
+                <div
+                  class="h-10 rounded-2xl border border-slate-900/15 bg-white/50 dark:border-white/20 dark:bg-white/15"
+                >
+                </div>
+                <div
+                  class="h-10 rounded-2xl border border-slate-900/10 bg-white/30 dark:border-white/10 dark:bg-white/5"
+                >
+                </div>
+              </div>
+            </div>
+            <div class="absolute inset-0 ring-1 ring-slate-900/10 dark:ring-white/10">
+            </div>
+          </div>
+        </div>
+      ) : null}
+    </div>
+  </div>
+</section>

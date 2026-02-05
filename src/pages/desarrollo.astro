@@ -1,26 +1,37 @@
----
+﻿---
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/layout/Navbar.astro";
 import Footer from "../components/layout/Footer.astro";
 import SectionDivider from "../components/layout/SectionDivider.astro";
 import WhatsAppFloatingButton from "../components/layout/WhatsAppFloatingButton.astro";
-import SectionHero from "../components/common/sections/SectionHero.astro";
-import ValueSection from "../components/common/sections/ValueSection.astro";
+import HeroBackgroundSlideshow from "../components/hero/HeroBackgroundSlideshow.tsx";
+import GoogleG from "../components/ui/GoogleG.astro";
 import ServicesSection from "../components/sections/ServicesSection.astro";
-import TrustSection from "../components/common/sections/TrustSection.astro";
 import ProcessSection from "../components/sections/ProcessSection.astro";
-import CtaFormSection from "../components/common/sections/CtaFormSection.astro";
-import { fetchSiteSettings, fetchServices } from "../lib/api/services";
-import type { Content, DevelopmentPageContent } from "../lib/api/types";
+import CasesSection from "../components/sections/CasesSection.astro";
+import PortfolioMarqueeSection from "../components/sections/PortfolioMarqueeSection.tsx";
+import ContactSection from "../components/sections/ContactSection.astro";
+import { companies as portfolioFallbackCompanies } from "../content/portfolioProjects";
+import type { Company } from "../content/portfolioProjects";
+import { fetchSiteSettings, fetchServices, fetchCases } from "../lib/api/services";
+import type { CaseStudy, Content, DevelopmentPageContent } from "../lib/api/types";
 import contentJson from "../data/content.json";
-import developmentJson from "../data/pages/desarrollo.json";
+import developmentJson from "../data/pages/development.json";
+import developmentCasesJson from "../data/pages/development-cases.json";
+import developmentClientsJson from "../data/pages/development-clients.json";
 
 const siteSettings = await fetchSiteSettings();
 const services = await fetchServices();
+const cases = await fetchCases();
 const content = contentJson as Content;
 const developmentContent = developmentJson as DevelopmentPageContent;
+const developmentClients = developmentClientsJson as {
+  title?: string;
+  description?: string;
+  companies?: Company[];
+};
 
-const { hero, value, trust, cta, seo } = developmentContent;
+const { hero, trust, cta, seo } = developmentContent;
 const pageTitle = seo?.title ?? "Desarrollo Web y Software | Aliado Digital";
 const pageDescription =
   seo?.description ??
@@ -29,6 +40,89 @@ const pageDescription =
 const servicesForPage = services.filter(
   (service) => (service.type ?? "").toLowerCase() !== "digital",
 );
+const fallbackCases = content.cases ?? [];
+const casesSource = cases.length > 0 ? cases : fallbackCases;
+const developmentCases = (developmentCasesJson.slugs ?? [])
+  .map((slug) => casesSource.find((item) => item.slug === slug))
+  .filter((item): item is CaseStudy => Boolean(item));
+const casesForPage =
+  developmentCases.length > 0 ? developmentCases : casesSource;
+
+const hasSlides = Boolean(hero?.slides && hero.slides.length > 0);
+const slides = hasSlides
+  ? hero.slides
+  : hero?.imageSrc
+    ? [{ src: hero.imageSrc, alt: hero.imageAlt ?? "" }]
+    : [];
+
+const heroValue = {
+  title: "Desarrollo web rápido, claro y profesional.",
+  description:
+    "La transformación digital no es “tener una web”. Es tener una plataforma clara, rápida y preparada para crecer: que genere confianza, capture oportunidades y acompañe tu operación sin volverse un problema.",
+  ctaLabel: "Cotizar web",
+  ctaHref: hero.primaryCta?.href ?? "#contacto-desarrollo",
+  ctaNote: "Te orientamos con una revisión breve (10–15 min) y una propuesta inicial en 24h hábiles, según tu caso.",
+  items: [
+    {
+      label: "SIN BASE",
+      title: "Tener una web “por estar” termina saliendo caro.",
+      description:
+        "Se ve bien, pero no rinde ni aguanta el crecimiento.",
+      bullets: [
+        "Sitio lento o pesado (pierdes visitas y potenciales clientes)",
+        "Contenido difícil de actualizar (dependes de terceros)",
+        "Sin estructura para SEO y medición (no sabes qué está funcionando)",
+      ],
+    },
+    {
+      label: "A CON MÉTODO",
+      title: "Desarrollo a medida",
+      description: "Orden, claridad y una base que te acompaña cuando creces.",
+      bullets: [
+        "Estructura sólida para que no tengas que rehacer después",
+        "Rápida y cómoda de usar en celular y computador",
+        "Preparada para que te encuentren en Google y puedas ver resultados con datos claros",
+      ],
+    },
+  ],
+};
+
+const isExternalCta = Boolean(heroValue.ctaHref?.startsWith("http"));
+const items = heroValue.items ?? [];
+
+const portfolioTitle =
+  developmentClients.title ??
+  trust?.title ??
+  "Equipos que confían en nuestro desarrollo";
+const portfolioDescription =
+  developmentClients.description ??
+  trust?.description ??
+  "Trabajamos con negocios que buscan tecnología estable, segura y con soporte real.";
+const companiesForMarquee =
+  developmentClients.companies && developmentClients.companies.length > 0
+    ? developmentClients.companies
+    : portfolioFallbackCompanies;
+
+const contactContent = {
+  eyebrow: "Hablemos",
+  title:
+    cta?.title ?? "¿Listo para dar el siguiente paso con tu web?",
+  description:
+    cta?.description ??
+    "Cuéntanos lo que tienes en mente y te ayudamos a planificarlo bien desde el inicio.",
+  socialLinks: content.siteSettings.socialLinks,
+};
+const contactSectionId = cta?.sectionId ?? "contacto-desarrollo";
+const contactWhatsappMessage =
+  "Hola! Quiero cotizar un desarrollo web a medida.";
+const contactPrimaryCtaLabel =
+  cta?.ctaLabel ?? "Hablemos de tu desarrollo";
+const secondaryHrefRaw = hero?.secondaryCta?.href ?? "#planes";
+const contactSecondaryCtaLabel =
+  hero?.secondaryCta?.label ?? "Ver planes disponibles";
+const contactSecondaryCtaHref = secondaryHrefRaw.startsWith("#")
+  ? `/desarrollo${secondaryHrefRaw}`
+  : secondaryHrefRaw;
 ---
 
 <Layout
@@ -38,29 +132,126 @@ const servicesForPage = services.filter(
 >
   <Navbar siteSettings={siteSettings} navLinks={content.navLinks} />
   <main class="overflow-x-hidden">
-    <div class="dark">
-      <SectionHero
-        sectionId="desarrollo-hero"
-        title={hero.title}
-        subtitle={hero.subtitle}
-        primaryCta={hero.primaryCta}
-        secondaryCta={hero.secondaryCta}
-        slides={hero.slides}
-        imageSrc={hero.imageSrc}
-        imageAlt={hero.imageAlt}
-      />
-    </div>
+    <section id="desarrollo-hero" class="relative min-h-screen overflow-hidden">
+      <div class="absolute inset-0 z-0">
+        {slides.length > 0 ? (
+          <HeroBackgroundSlideshow
+            client:load
+            slides={slides}
+            intervalMs={7000}
+            transitionMs={1200}
+          />
+        ) : null}
+      </div>
+
+      <div class="absolute inset-0 z-10 bg-gradient-to-t from-black/70 via-black/50 to-transparent"></div>
+      <div class="absolute inset-0 z-10 backdrop-blur-[2px]"></div>
+
+      <div class="section-shell relative z-20 flex min-h-screen items-center py-24 sm:py-28 lg:py-32">
+        <div class="grid w-full gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+          <div class="space-y-5" data-reveal="fade-up">
+            <h1 class="text-4xl font-semibold leading-tight text-white sm:text-5xl lg:text-6xl">
+              {heroValue.title}
+            </h1>
+            <p class="max-w-prose text-lg text-white/80 sm:text-xl">
+              {heroValue.description}
+            </p>
+
+            {heroValue.ctaLabel && heroValue.ctaHref ? (
+              <div class="mt-6 space-y-3">
+                <div class="flex flex-col gap-4 sm:flex-row">
+                  <a
+                    href={heroValue.ctaHref}
+                    target={isExternalCta ? "_blank" : undefined}
+                    rel={isExternalCta ? "noreferrer" : undefined}
+                    class="inline-flex w-full min-w-[240px] items-center justify-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-black/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/90 sm:w-auto sm:min-w-[260px]"
+                  >
+                    <GoogleG size={16} />
+                    <span>{heroValue.ctaLabel}</span>
+                  </a>
+                  <a
+                    href={hero.secondaryCta?.href ?? "#planes"}
+                    class="inline-flex w-full min-w-[240px] items-center justify-center rounded-full border border-white/40 px-7 py-3 text-sm font-semibold text-white/90 transition-all duration-200 hover:-translate-y-0.5 hover:border-white/70 sm:w-auto sm:min-w-[220px]"
+                  >
+                    Ver servicios web
+                  </a>
+                </div>
+                {heroValue.ctaNote ? (
+                  <p class="max-w-[52ch] text-sm leading-snug text-white/70">
+                    {heroValue.ctaNote}
+                  </p>
+                ) : null}
+              </div>
+            ) : null}
+          </div>
+
+          <div class="mt-2 space-y-4 sm:mt-0 sm:space-y-6" data-reveal="fade-up" data-delay="120">
+            <div class="grid gap-4 sm:gap-6">
+              {items.map((item) => {
+                const labelText = (item.label ?? item.title ?? "").toLowerCase();
+                const isGeneric =
+                  labelText.includes("sin sistema") ||
+                  labelText.includes("sin base") ||
+                  labelText.includes("genérico") ||
+                  labelText.includes("generico");
+                const isCustom =
+                  labelText.includes("con método") ||
+                  labelText.includes("con metodo") ||
+                  labelText.includes("a medida");
+
+                const cardTone = isGeneric
+                  ? "border-rose-300/50 bg-rose-500/25 hover:border-rose-200/80"
+                  : isCustom
+                    ? "border-emerald-300/50 bg-emerald-500/25 hover:border-emerald-200/80"
+                    : "border-white/20 bg-white/25 hover:border-white/35";
+
+                const bulletTone = isGeneric
+                  ? "bg-rose-300/90"
+                  : isCustom
+                    ? "bg-emerald-300/90"
+                    : "bg-white/70";
+
+                return (
+                  <article
+                    class:list={[
+                      "group rounded-2xl border p-5 backdrop-blur-lg backdrop-saturate-150 transition-all duration-300 hover:-translate-y-0.5 sm:p-6",
+                      cardTone,
+                    ]}
+                  >
+                    {item.label ? (
+                      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-white/70">
+                        {item.label}
+                      </p>
+                    ) : null}
+                    <h3 class="mt-3 text-lg font-semibold text-white">
+                      {item.title}
+                    </h3>
+                    <p class="mt-2 text-sm text-white/70">
+                      {item.description}
+                    </p>
+                    <ul class="mt-4 space-y-2 text-sm text-white/80">
+                      {item.bullets.map((bullet) => (
+                        <li class="flex items-start gap-2">
+                          <span
+                            class:list={[
+                              "mt-1 h-2 w-2 flex-shrink-0 rounded-full",
+                              bulletTone,
+                            ]}
+                          ></span>
+                          <span>{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <SectionDivider tone="accent" />
-
-    <ValueSection
-      title={value.title}
-      description={value.description}
-      quote={value.quote}
-      items={value.items}
-    />
-
-    <SectionDivider />
 
     <div id="planes" aria-hidden="true"></div>
     <ServicesSection
@@ -70,11 +261,7 @@ const servicesForPage = services.filter(
 
     <SectionDivider />
 
-    <TrustSection
-      title={trust.title}
-      description={trust.description}
-      logos={trust.logos}
-    />
+    {casesForPage.length > 0 && <CasesSection cases={casesForPage} />}
 
     <SectionDivider />
 
@@ -82,12 +269,24 @@ const servicesForPage = services.filter(
 
     <SectionDivider />
 
-    <CtaFormSection
-      title={cta.title}
-      description={cta.description}
-      ctaLabel={cta.ctaLabel}
-      sectionId={cta.sectionId}
-      formId={cta.formId}
+
+    <PortfolioMarqueeSection
+      client:visible
+      title={portfolioTitle}
+      description={portfolioDescription}
+      companies={companiesForMarquee}
+    />
+
+    <SectionDivider />
+
+    <ContactSection
+      content={contactContent}
+      whatsappNumber={siteSettings.whatsappNumber}
+      sectionId={contactSectionId}
+      whatsappMessage={contactWhatsappMessage}
+      primaryCtaLabel={contactPrimaryCtaLabel}
+      secondaryCtaLabel={contactSecondaryCtaLabel}
+      secondaryCtaHref={contactSecondaryCtaHref}
     />
   </main>
   <Footer

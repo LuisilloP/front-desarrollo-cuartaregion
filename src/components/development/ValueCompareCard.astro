@@ -1,0 +1,75 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  tone: "negative" | "positive";
+  title: string;
+  text: string;
+  bullets: string[];
+  icon?: string;
+}
+
+const { tone, title, text, bullets, icon } = Astro.props as Props;
+---
+
+{tone === "negative" ? (
+  <article
+    class="group relative overflow-hidden rounded-3xl border border-rose-500/25 bg-card/85 p-6 shadow-soft ring-1 ring-rose-500/10 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-rose-500/35 hover:shadow-xl"
+  >
+    <div class="absolute -right-6 -top-10 h-28 w-28 rounded-full bg-rose-500/10 blur-2xl">
+    </div>
+    {icon ? (
+      <Icon
+        name={icon}
+        class="absolute right-6 top-6 h-8 w-8 text-rose-300/40"
+        aria-hidden="true"
+      />
+    ) : null}
+    <div class="relative z-10 space-y-3">
+      <h3 class="text-lg font-semibold text-content">{title}</h3>
+      <p class="text-sm text-muted">{text}</p>
+      <ul class="mt-4 space-y-2 text-sm text-muted">
+        {bullets.map((bullet) => (
+          <li class="flex items-start gap-2">
+            <Icon
+              name="lucide:dot"
+              class="mt-1 h-4 w-4 text-rose-300/70"
+              aria-hidden="true"
+            />
+            <span>{bullet}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </article>
+) : (
+  <article
+    class="group relative overflow-hidden rounded-3xl border border-emerald-500/25 bg-card/85 p-6 shadow-soft ring-1 ring-emerald-500/10 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/35 hover:shadow-xl"
+  >
+    <div class="absolute -right-6 -top-10 h-28 w-28 rounded-full bg-emerald-500/10 blur-2xl">
+    </div>
+    {icon ? (
+      <Icon
+        name={icon}
+        class="absolute right-6 top-6 h-8 w-8 text-emerald-300/40"
+        aria-hidden="true"
+      />
+    ) : null}
+    <div class="relative z-10 space-y-3">
+      <h3 class="text-lg font-semibold text-content">{title}</h3>
+      <p class="text-sm text-muted">{text}</p>
+      <ul class="mt-4 space-y-2 text-sm text-muted">
+        {bullets.map((bullet) => (
+          <li class="flex items-start gap-2">
+            <Icon
+              name="lucide:check-circle"
+              class="mt-1 h-4 w-4 text-emerald-300/70"
+              aria-hidden="true"
+            />
+            <span>{bullet}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </article>
+)}
