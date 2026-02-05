@@ -3,7 +3,6 @@ import PlanCard from "../ui/PlanCard.astro";
 
 interface Plan {
   name: string;
-  badge: string;
   idealFor: string;
   price: string;
   currency?: string;
@@ -27,7 +26,6 @@ const { title, description } = Astro.props as Props;
 const plans: Plan[] = [
   {
     name: "Impulso Digital",
-    badge: "Para empezar",
     idealFor: "Primeros leads y validación rápida.",
     price: "$297.000",
     currency: "CLP",
@@ -43,7 +41,6 @@ const plans: Plan[] = [
   },
   {
     name: "Acelerador de Ventas",
-    badge: "Más recomendado",
     idealFor: "Más conversiones y estabilidad.",
     price: "$547.000",
     currency: "CLP",
@@ -63,7 +60,6 @@ const plans: Plan[] = [
   },
   {
     name: "Dominio Digital",
-    badge: "Para escalar",
     idealFor: "Escalar con estrategia full funnel.",
     price: "$997.000",
     currency: "CLP",
@@ -83,12 +79,7 @@ const plans: Plan[] = [
 <section id="planes" class="py-20 lg:py-32">
   <div class="section-shell">
     <div class="mx-auto max-w-3xl text-center" data-reveal="fade-up">
-      <p
-        class="inline-flex items-center rounded-full border border-accent/30 bg-accent/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-accent"
-      >
-        Planes de marketing
-      </p>
-      <h2 class="mt-4 text-3xl font-semibold text-content sm:text-4xl">
+      <h2 class="text-3xl font-semibold text-content sm:text-4xl">
         {title}
       </h2>
       <p class="mt-4 text-lg text-muted">

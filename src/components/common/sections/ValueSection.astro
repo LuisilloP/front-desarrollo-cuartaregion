@@ -4,6 +4,7 @@ import GoogleG from "../../ui/GoogleG.astro";
 
 interface Props extends ValueSectionContent {
   sectionId?: string;
+  showEyebrow?: boolean;
 }
 
 const {
@@ -21,6 +22,7 @@ const {
   diagnosisNote,
   items,
   sectionId = "propuesta",
+  showEyebrow = true,
 } = Astro.props as Props;
 
 const usePremium =
@@ -39,11 +41,11 @@ const isExternalCta = Boolean(ctaHref?.startsWith("http"));
 
       <div class="section-shell grid gap-12 overflow-visible lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
         <div class="space-y-4 sm:space-y-5" data-reveal="fade-up">
-          <p
-            class="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-primary/80"
-          >
-            {eyebrow}
-          </p>
+          {showEyebrow ? (
+            <p class="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-primary/80">
+              {eyebrow}
+            </p>
+          ) : null}
           <h2 class="text-3xl font-semibold leading-tight text-content sm:text-4xl">
             {title}
           </h2>
@@ -141,11 +143,11 @@ const isExternalCta = Boolean(ctaHref?.startsWith("http"));
   ) : (
     <div class="section-shell grid gap-12 overflow-visible lg:grid-cols-2 lg:items-start">
       <div class="space-y-6" data-reveal="fade-up">
-        <p
-          class="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-primary"
-        >
-          {eyebrow}
-        </p>
+        {showEyebrow ? (
+          <p class="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-primary">
+            {eyebrow}
+          </p>
+        ) : null}
         <h2 class="text-3xl font-semibold text-content sm:text-4xl">
           {title}
         </h2>

@@ -3,7 +3,6 @@ import { Icon } from "astro-icon/components";
 
 interface Plan {
   name: string;
-  badge: string;
   idealFor: string;
   price: string;
   currency?: string;
@@ -24,7 +23,6 @@ interface Props {
 const { plan } = Astro.props as Props;
 const {
   name,
-  badge,
   idealFor,
   price,
   currency = "CLP",
@@ -49,17 +47,6 @@ const {
   ]}
 >
   <header class="relative z-10 space-y-4">
-    <span
-      class:list={[
-        "inline-flex items-center rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em]",
-        featured
-          ? "border-primary/30 bg-primary/15 text-primary shadow-sm shadow-primary/10"
-          : "border-border/70 bg-surface-strong/70 text-muted",
-      ]}
-    >
-      {badge}
-    </span>
-
     <div class="space-y-3">
       <h3 class="text-2xl font-semibold tracking-tight text-content sm:text-3xl">
         {name}
