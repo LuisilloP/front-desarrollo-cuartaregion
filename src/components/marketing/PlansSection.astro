@@ -22,21 +22,24 @@ interface Props {
 }
 
 const { title, description } = Astro.props as Props;
-
 const plans: Plan[] = [
   {
     name: "Impulso Digital",
-    idealFor: "Primeros leads y validación rápida.",
+    idealFor: "Partir rápido y conseguir tus primeros leads.",
     price: "$297.000",
     currency: "CLP",
     includes: [
-      "Setup y tracking básico",
+      "Setup y tracking básico (medición lista)",
       "Campañas y segmentación inicial",
       "Creativos iniciales",
       "Optimización semanal",
       "Reporte mensual y próximos pasos",
     ],
-    deliverables: ["Dashboard + reporte", "Plan de acción 30 días"],
+    deliverables: [
+      "Visibilidad inmediata",
+      "Primeros leads",
+      "Datos para escalar",
+    ],
     ctaHref: "#contacto-marketing",
   },
   {
@@ -52,8 +55,9 @@ const plans: Plan[] = [
       "Reporte quincenal y ajustes",
     ],
     deliverables: [
-      "Dashboard + reporte quincenal",
-      "Recomendaciones accionables",
+      "Más ventas",
+      "Leads constantes",
+      "Escalabilidad real",
     ],
     ctaHref: "#contacto-marketing",
     featured: true,
@@ -70,10 +74,16 @@ const plans: Plan[] = [
       "Optimización por etapas",
       "Asesoría directa",
     ],
-    deliverables: ["Roadmap + revisión mensual", "Reporte + insights"],
+    deliverables: [
+      "Alto volumen",
+      "Marca líder",
+      "Máximo retorno",
+    ],
     ctaHref: "#contacto-marketing",
   },
 ];
+
+
 ---
 
 <section id="planes" class="py-20 lg:py-32">
