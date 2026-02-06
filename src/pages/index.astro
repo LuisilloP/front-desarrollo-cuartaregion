@@ -22,7 +22,6 @@ import homeJson from "../data/pages/home.json";
 // Import the marquee component and its data
 import PortfolioMarqueeSection from "../components/sections/PortfolioMarqueeSection.tsx";
 import { companies as portfolioCompanies } from "../content/portfolioProjects";
-import Marketing from "./marketing.astro";
 
 const globalContent = contentJson as Content;
 const homeContent = homeJson as HomePageContent;
@@ -118,11 +117,14 @@ const siteSettings = await fetchSiteSettings();
 const cases = await fetchCases();
 const faqs = await fetchFaqs();
 const recentCases = cases;
+const pageTitle = "Aliado Digital | Web y Marketing para Pymes en Chile";
+const pageDescription =
+  "Desarrollo web, sistemas y marketing digital para pymes en Chile. Estrategia, campañas y resultados medibles desde la Región de Coquimbo.";
 ---
 
 <Layout
-  title={siteSettings.siteName}
-  description={siteSettings.tagline}
+  title={pageTitle}
+  description={pageDescription}
   siteSettings={siteSettings}
 >
   <Navbar siteSettings={siteSettings} navLinks={homeNavLinks} />

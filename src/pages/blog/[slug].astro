@@ -18,6 +18,7 @@ if (!post) throw new Error("Post not found");
 
 const siteSettings = await fetchSiteSettings();
 const pageTitle = post.title || "Blog";
+const seoTitle = `${pageTitle} | ${siteSettings.siteName}`;
 const publishedDate = post.publishedAt ? new Date(post.publishedAt).toLocaleDateString("es-CL") : "";
 const contentParagraphs = post.content ? post.content.split("\n").filter(Boolean) : [];
 const siteUrl = env.siteUrl ?? (Astro.site ? Astro.site.toString() : undefined);
@@ -32,7 +33,7 @@ const publishedTime = post.publishedAt || post.createdAt;
 const modifiedTime = post.updatedAt || post.publishedAt || post.createdAt;
 const articleTags = post.tags?.map((tag) => tag.name).filter(Boolean) ?? [];
 const articleSection = post.category?.name;
-const logoUrl = siteUrl ? new URL("/favicon.svg", siteUrl).toString() : undefined;
+const logoUrl = siteUrl ? new URL("/logo.png", siteUrl).toString() : undefined;
 const ogImageAbsolute = ogImage && siteUrl ? new URL(ogImage, siteUrl).toString() : ogImage;
 const publisher = {
   "@type": "Organization",
@@ -53,17 +54,43 @@ const structuredData = {
   author: { "@type": "Organization", name: siteSettings.siteName },
   publisher
 };
+const toAbsolute = (path: string) =>
+  siteUrl ? new URL(path, siteUrl).toString() : path;
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Inicio",
+      item: toAbsolute("/"),
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Blog",
+      item: toAbsolute("/blog"),
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: pageTitle,
+      item: canonical ?? `/blog/${post.slug}`,
+    },
+  ],
+};
 ---
 
 <Layout
-  title={pageTitle}
+  title={seoTitle}
   description={post.excerpt}
   siteSettings={siteSettings}
   image={ogImage}
   imageAlt={ogImageAlt}
   ogType="article"
   article={{ publishedTime, modifiedTime, section: articleSection, tags: articleTags }}
-  structuredData={structuredData}
+  structuredData={[structuredData, breadcrumbSchema]}
 >
   <Navbar siteSettings={siteSettings} />
   <main class="section-shell py-16 space-y-8">

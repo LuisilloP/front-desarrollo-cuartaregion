@@ -9,14 +9,16 @@ const { data: posts, pagination } = await fetchPostsPage({
   pageSize: 6,
 });
 const siteSettings = await fetchSiteSettings();
-const pageTitle = "Blog";
+const pageTitle = "Blog de Marketing y Web | Aliado Digital";
+const pageDescription =
+  "Guías, casos y consejos sobre marketing digital, desarrollo web y automatización para pymes en Chile.";
 const pageLink = (pageNumber: number) =>
   pageNumber <= 1 ? "/blog" : `/blog/${pageNumber}`;
 ---
 
 <Layout
   title={pageTitle}
-  description={siteSettings.tagline}
+  description={pageDescription}
   siteSettings={siteSettings}
 >
   <Navbar siteSettings={siteSettings} />
@@ -26,7 +28,7 @@ const pageLink = (pageNumber: number) =>
         Blog
       </p>
       <h1 class="text-3xl sm:text-4xl font-bold text-content">
-        Ideas y casos reales
+        Ideas y casos reales de marketing y desarrollo web
       </h1>
       <p class="text-muted">
         Novedades sobre sitios Astro, automatizaciones y marketing local.

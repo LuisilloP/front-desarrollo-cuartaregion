@@ -24,6 +24,7 @@ if (!caseStudy) throw new Error("Case study not found");
 
 const siteSettings = await fetchSiteSettings();
 const pageTitle = caseStudy.title || caseStudy.clientName || "Caso";
+const seoTitle = `Caso: ${pageTitle} | ${siteSettings.siteName}`;
 const summary =
   typeof caseStudy.summary === "string" ? caseStudy.summary.trim() : "";
 const industry =
@@ -38,7 +39,7 @@ const canonical = Astro.url
     ? new URL(`/casos/${caseStudy.slug}`, siteUrl).toString()
     : undefined;
 const ogImageAbsolute = coverImage && siteUrl ? new URL(coverImage, siteUrl).toString() : coverImage;
-const logoUrl = siteUrl ? new URL("/favicon.svg", siteUrl).toString() : undefined;
+const logoUrl = siteUrl ? new URL("/logo.png", siteUrl).toString() : undefined;
 const publisher = {
   "@type": "Organization",
   name: siteSettings.siteName,
@@ -56,6 +57,26 @@ const structuredData = {
   ...(city ? { location: { "@type": "Place", name: city } } : {}),
   author: publisher,
   publisher
+};
+const toAbsolute = (path: string) =>
+  siteUrl ? new URL(path, siteUrl).toString() : path;
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Inicio",
+      item: toAbsolute("/"),
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: pageTitle,
+      item: canonical ?? `/casos/${caseStudy.slug}`,
+    },
+  ],
 };
 
 const toList = (value: string | string[] | undefined) =>
@@ -181,12 +202,12 @@ const backHref = "/#casos-de-exito";
 ---
 
 <Layout
-  title={pageTitle}
+  title={seoTitle}
   description={summary || pageTitle}
   image={coverImage}
   imageAlt={coverAlt}
   siteSettings={siteSettings}
-  structuredData={structuredData}
+  structuredData={[structuredData, breadcrumbSchema]}
 >
   <Navbar siteSettings={siteSettings} />
   <main class="pb-20">

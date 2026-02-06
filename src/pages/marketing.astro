@@ -10,6 +10,7 @@ import ProcessSection from "../components/sections/ProcessSection.astro";
 import CasesSection from "../components/sections/CasesSection.astro";
 import PortfolioMarqueeSection from "../components/sections/PortfolioMarqueeSection.tsx";
 import ContactSection from "../components/sections/ContactSection.astro";
+import ServiceCard from "../components/ui/ServiceCard.astro";
 import { fetchCases, fetchSiteSettings } from "../lib/api/services";
 import type { CaseStudy, Content, MarketingPageContent } from "../lib/api/types";
 import type { Company } from "../content/portfolioProjects";
@@ -17,6 +18,7 @@ import contentJson from "../data/content.json";
 import marketingJson from "../data/pages/marketing.json";
 import marketingClientsJson from "../data/pages/marketing-clients.json";
 import marketingCasesJson from "../data/pages/marketing-cases.json";
+import { env } from "../lib/env";
 
 const siteSettings = await fetchSiteSettings();
 const allCases = await fetchCases();
@@ -43,33 +45,108 @@ const {
 const pageTitle = seo?.title ?? "Marketing Digital para Pymes | Aliado Digital";
 const pageDescription =
   seo?.description ??
-  "Marketing digital enfocado en resultados reales para pymes, profesionales y negocios locales de Chile.";
+  "Campañas de Meta Ads y Google Ads con estrategia y medición. Marketing digital para pymes en Chile.";
 
 const contactContent = {
   eyebrow: contactSection?.eyebrow ?? "Hablemos",
   title: contactSection?.title ?? "Hablemos de tu marketing",
   description:
     contactSection?.description ??
-    "Cuentanos tu objetivo y te proponemos una estrategia clara para atraer mas clientes.",
+    "Cuéntanos tu objetivo y te proponemos una estrategia clara para atraer más clientes.",
   socialLinks: contactSection?.socialLinks ?? content.siteSettings.socialLinks,
 };
 
 const contactSectionId = contactSection?.sectionId ?? "contacto-marketing";
 const contactWhatsappMessage =
   contactSection?.whatsappMessage ??
-  "Hola! Quiero atraer mas clientes con marketing digital.";
+  "Hola! Quiero atraer más clientes con marketing digital.";
 const contactPrimaryCtaLabel =
   contactSection?.primaryCtaLabel ?? "Contactar por WhatsApp";
 const contactSecondaryCtaLabel =
-  contactSection?.secondaryCtaLabel ?? "Completar diagnostico";
+  contactSection?.secondaryCtaLabel ?? "Completar diagnóstico";
 const contactSecondaryCtaHref =
   contactSection?.secondaryCtaHref ?? "https://forms.gle/5MEDYUSc2pZpS4tz8";
+
+const marketingServices = (content.services ?? [])
+  .filter((service) => service.variant === "marketing")
+  .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+
+const siteUrl = env.siteUrl ?? (Astro.site ? Astro.site.toString() : undefined);
+const canonical = Astro.url
+  ? Astro.url.toString()
+  : siteUrl
+    ? new URL("/marketing", siteUrl).toString()
+    : undefined;
+const logoUrl = siteUrl ? new URL("/logo.png", siteUrl).toString() : undefined;
+const provider = {
+  "@type": "Organization",
+  name: siteSettings.siteName,
+  ...(siteUrl ? { url: siteUrl } : {}),
+  ...(logoUrl ? { logo: { "@type": "ImageObject", url: logoUrl } } : {}),
+};
+const toAbsolute = (path: string) =>
+  siteUrl ? new URL(path, siteUrl).toString() : path;
+const areaServedItems = [
+  ...(siteSettings.region
+    ? [{ "@type": "Place", name: siteSettings.region }]
+    : []),
+  { "@type": "Country", name: "Chile" },
+];
+const areaServed =
+  areaServedItems.length === 1 ? areaServedItems[0] : areaServedItems;
+const marketingOfferItems = marketingServices.map((service) => ({
+  "@type": "Offer",
+  itemOffered: {
+    "@type": "Service",
+    name: service.title,
+    description: service.what_it_solves,
+    serviceType: service.title,
+  },
+}));
+const marketingServiceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Marketing digital para pymes",
+  description: pageDescription,
+  serviceType: "Marketing digital",
+  ...(canonical ? { url: canonical } : {}),
+  ...(areaServed ? { areaServed } : {}),
+  provider,
+  ...(marketingOfferItems.length > 0
+    ? {
+        hasOfferCatalog: {
+          "@type": "OfferCatalog",
+          name: "Servicios de marketing digital",
+          itemListElement: marketingOfferItems,
+        },
+      }
+    : {}),
+};
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Inicio",
+      item: toAbsolute("/"),
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Marketing",
+      item: canonical ?? "/marketing",
+    },
+  ],
+};
 ---
 
 <Layout
   title={pageTitle}
   description={pageDescription}
   siteSettings={siteSettings}
+  structuredData={[marketingServiceSchema, breadcrumbSchema]}
 >
   <Navbar
     siteSettings={siteSettings}
@@ -78,6 +155,32 @@ const contactSecondaryCtaHref =
   />
   <main class="overflow-x-hidden">
     <MarketingHero hero={hero} value={value} />
+
+    {marketingServices.length > 0 && (
+      <section id="servicios-marketing" class="py-20 lg:py-32">
+        <div class="section-shell">
+          <div class="mx-auto max-w-3xl text-center" data-reveal="fade-up">
+            <h2 class="text-3xl font-semibold text-content sm:text-4xl">
+              Servicios de marketing digital
+            </h2>
+            <p class="mt-4 text-lg text-muted">
+              Meta Ads, Google Ads, redes sociales y embudos para atraer clientes
+              con estrategia, medición y optimización continua.
+            </p>
+          </div>
+
+          <div class="mt-12 grid gap-6 lg:grid-cols-2">
+            {marketingServices.map((service) => (
+              <ServiceCard
+                service={service}
+                whatsappNumber={siteSettings.whatsappNumber}
+                maxBenefits={3}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
 
      <PlansSection
       title={plansSection?.title ?? "Planes de marketing digital"}

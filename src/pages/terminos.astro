@@ -6,11 +6,14 @@ import { fetchLegalPage, fetchSiteSettings } from "../lib/api/services";
 
 const siteSettings = await fetchSiteSettings();
 const legal = await fetchLegalPage("terminos");
+const pageTitle = legal?.title ?? "Términos y Condiciones";
+const pageDescription =
+  "Condiciones de contratación, pagos y entregas para nuestros servicios digitales.";
 ---
 
 <Layout
-  title={legal?.title ?? "Terminos"}
-  description={siteSettings.tagline}
+  title={pageTitle}
+  description={pageDescription}
   siteSettings={siteSettings}
 >
   <Navbar siteSettings={siteSettings} />
@@ -19,7 +22,7 @@ const legal = await fetchLegalPage("terminos");
       Legal
     </p>
     <h1 class="text-3xl sm:text-4xl font-bold text-content">
-      {legal?.title ?? "Terminos y Condiciones"}
+      {pageTitle}
     </h1>
     <article
       class="prose max-w-3xl text-content prose-headings:text-content prose-p:text-muted prose-a:text-highlight"

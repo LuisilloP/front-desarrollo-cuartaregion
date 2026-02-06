@@ -25,6 +25,10 @@ const whatsappUrl = buildWhatsAppLink(
   `Hola! Quiero cotizar el servicio ${service.title || "servicio"}.`
 );
 const pageTitle = service.title || "Servicio";
+const seoTitle =
+  pageTitle === "Servicio"
+    ? `Servicio | ${siteSettings.siteName}`
+    : `Servicio ${pageTitle} | ${siteSettings.siteName}`;
 const pageDescription = service.what_it_solves ?? "";
 const includes = [...(service.benefits ?? []), ...(service.deliverables ?? [])];
 const price = (service.price ?? "").trim();
@@ -37,7 +41,7 @@ const canonical = Astro.url
   : siteUrl
     ? new URL(`/servicios/${service.slug}`, siteUrl).toString()
     : undefined;
-const logoUrl = siteUrl ? new URL("/favicon.svg", siteUrl).toString() : undefined;
+const logoUrl = siteUrl ? new URL("/logo.png", siteUrl).toString() : undefined;
 const provider = {
   "@type": "Organization",
   name: siteSettings.siteName,
@@ -55,13 +59,33 @@ const structuredData = {
     : {}),
   provider
 };
+const toAbsolute = (path: string) =>
+  siteUrl ? new URL(path, siteUrl).toString() : path;
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Inicio",
+      item: toAbsolute("/"),
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: pageTitle,
+      item: canonical ?? `/servicios/${service.slug}`,
+    },
+  ],
+};
 ---
 
 <Layout
-  title={pageTitle}
+  title={seoTitle}
   description={pageDescription}
   siteSettings={siteSettings}
-  structuredData={structuredData}
+  structuredData={[structuredData, breadcrumbSchema]}
 >
   <Navbar siteSettings={siteSettings} />
   <main class="section-shell py-16 space-y-10">

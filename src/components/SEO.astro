@@ -48,8 +48,8 @@ const canonical = Astro.url ? Astro.url.toString() : undefined;
 const siteUrl = env.siteUrl ?? (Astro.site ? Astro.site.toString() : undefined);
 
 // Ensure image is absolute and valid for OG
-// Fallback to a high-quality raster image (WebP) instead of SVG
-const defaultOgImage = "/images/sections/hero/hero-astro.webp";
+// Use logo as the default share image
+const defaultOgImage = "/logo.png";
 const ogImage = image || defaultOgImage;
 
 const resolvedOgImage =
@@ -59,6 +59,7 @@ const resolvedOgImage =
 
 const resolvedCanonical = canonical ?? siteUrl;
 const ogImageAlt = imageAlt || title || siteName;
+const hasCustomImage = Boolean(image);
 
 // Determine image type based on extension (simple heuristic)
 const imageExt = resolvedOgImage.split(".").pop()?.toLowerCase();
@@ -76,10 +77,10 @@ const robotsDirective = noindex
 // Schema.org - LocalBusiness
 const localBusinessSchema = {
     "@context": "https://schema.org",
-    "@type": ["ProfessionalService", "WebDevelopment"], // Customized for Aliado Digital
+    "@type": ["ProfessionalService", "MarketingAgency", "WebDevelopment"], // Customized for Aliado Digital
     name: siteName,
     url: siteUrl,
-    logo: siteUrl ? new URL("/favicon.svg", siteUrl).toString() : undefined,
+    logo: siteUrl ? new URL("/logo.png", siteUrl).toString() : undefined,
     image: resolvedOgImage,
     description: pageDescription,
     address: {
@@ -132,7 +133,7 @@ const localBusinessSchema = {
 <meta property="og:locale" content="es_CL" />
 
 <!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:card" content={hasCustomImage ? "summary_large_image" : "summary"} />
 <meta name="twitter:url" content={resolvedCanonical} />
 <meta name="twitter:title" content={pageTitle} />
 <meta name="twitter:description" content={pageDescription} />

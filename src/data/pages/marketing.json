@@ -1,17 +1,17 @@
 {
   "seo": {
     "title": "Marketing Digital para Pymes | Aliado Digital",
-    "description": "Marketing digital enfocado en resultados reales para pymes, profesionales y negocios locales de Chile."
+    "description": "Campañas de Meta Ads y Google Ads con estrategia y medición. Marketing digital para pymes en Chile."
   },
   "hero": {
-    "title": "Hacemos crecer tu negocio con marketing digital que funciona",
-    "subtitle": "Estrategia, contenido y campañas enfocadas en resultados medibles para pymes, profesionales y negocios locales de Chile.",
+    "title": "Marketing digital para pymes que genera clientes",
+    "subtitle": "Campañas en Meta Ads y Google Ads, contenido y optimización semanal para atraer clientes en Chile.",
     "primaryCta": {
       "label": "Quiero más clientes",
       "href": "#contacto-marketing"
     },
     "secondaryCta": {
-      "label": "Ver planes",
+      "label": "Ver planes de marketing",
       "href": "#planes"
     },
     "imageSrc": "/images/marketing/fondo.png",
@@ -40,9 +40,9 @@
     ]
   },
   "value": {
-    "eyebrow": "ENFOQUE DE TRABAJO",
-    "title": "Marketing que se mide y se optimiza.",
-    "description": "La transición digital no es \"estar en internet\". Es convertir inversión en oportunidades reales. Con estrategia, medición y optimización, el crecimiento deja de depender de la suerte.",
+    "eyebrow": "MARKETING DIGITAL PARA PYMES",
+    "title": "Estrategia, medición y optimización continua",
+    "description": "No se trata de \"estar en internet\". Es convertir inversión en oportunidades reales con datos, creatividad y mejoras semanales.",
     "ctaLabel": "Solicitar diagnóstico",
     "ctaHref": "https://forms.gle/5MEDYUSc2pZpS4tz8",
     "ctaNote": "Te entregamos un plan inicial en 24h hábiles, basado en una breve revisión de tu caso (10–15 min).",
@@ -70,8 +70,8 @@
     ]
   },
   "plansSection": {
-    "title": "Planes de marketing orientados a resultados",
-    "description": "Estrategia, campañas y optimización continua para generar oportunidades reales, con seguimiento y reportes claros."
+    "title": "Planes de marketing digital orientados a resultados",
+    "description": "Estrategia, campañas y optimización continua para generar oportunidades reales en pymes, con seguimiento y reportes claros."
   },
   "plans": [
     {
@@ -130,13 +130,13 @@
     }
   ],
   "useCasesSection": {
-    "eyebrow": "Como trabajamos",
-    "title": "Asi trabajamos tu marketing",
-    "description": "Orden, medicion y optimizacion continua para atraer clientes con consistencia.",
+    "eyebrow": "Cómo trabajamos",
+    "title": "Así trabajamos tu marketing",
+    "description": "Orden, medición y optimización continua para atraer clientes con consistencia.",
     "cases": [
       {
-        "title": "Diagnostico y objetivo claro",
-        "description": "Definimos a quien quieres llegar, tu oferta y metas reales de conversion.",
+        "title": "Diagnóstico y objetivo claro",
+        "description": "Definimos a quién quieres llegar, tu oferta y metas reales de conversión.",
         "icon": "lucide:target",
         "cardColor": "#0e8522",
         "backgroundImage": "/images/sections/about-us-diana.webp",
@@ -146,18 +146,18 @@
         ]
       },
       {
-        "title": "Campanas con estructura",
+        "title": "Campañas con estructura",
         "description": "Creamos campañas por etapas del funnel con mensajes y creativos coherentes.",
         "icon": "lucide:megaphone",
         "cardColor": "#fb923c",
         "backgroundImage": "/images/backgrounds/why-us-1.webp",
         "bullets": [
-          "Segmentacion por cliente ideal",
+          "Segmentación por cliente ideal",
           "Creativos adaptados a cada etapa"
         ]
       },
       {
-        "title": "Medicion y optimizacion semanal",
+        "title": "Medición y optimización semanal",
         "description": "Medimos, iteramos y escalamos lo que funciona para mejorar resultados.",
         "icon": "lucide:bar-chart-3",
         "cardColor": "#a855f7",
@@ -225,11 +225,11 @@
   "contactSection": {
     "eyebrow": "Hablemos",
     "title": "Hablemos de tu marketing",
-    "description": "Cuentanos tu objetivo y te proponemos una estrategia clara para atraer mas clientes.",
+    "description": "Cuéntanos tu objetivo y te proponemos una estrategia clara para atraer más clientes.",
     "sectionId": "contacto-marketing",
-    "whatsappMessage": "Hola! Quiero atraer mas clientes con marketing digital.",
+    "whatsappMessage": "Hola! Quiero atraer más clientes con marketing digital.",
     "primaryCtaLabel": "Contactar por WhatsApp",
-    "secondaryCtaLabel": "Completar diagnostico",
+    "secondaryCtaLabel": "Completar diagnóstico",
     "secondaryCtaHref": "https://forms.gle/5MEDYUSc2pZpS4tz8"
   },
   "cta": {

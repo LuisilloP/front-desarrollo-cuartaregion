@@ -14,7 +14,9 @@ const hasLegalContent = Boolean(
 );
 const pageTitle = hasLegalContent
   ? (legal?.title ?? "Privacidad")
-  : "Politica de privacidad";
+  : "Política de privacidad";
+const pageDescription =
+  "Cómo usamos y protegemos tus datos cuando solicitas nuestros servicios digitales.";
 
 const fallbackPolicy = {
   title: "Politica de privacidad",
@@ -84,7 +86,7 @@ const fallbackPolicy = {
 
 <Layout
   title={pageTitle}
-  description={siteSettings.tagline}
+  description={pageDescription}
   siteSettings={siteSettings}
 >
   <Navbar siteSettings={siteSettings} />

@@ -19,6 +19,7 @@ import contentJson from "../data/content.json";
 import developmentJson from "../data/pages/development.json";
 import developmentCasesJson from "../data/pages/development-cases.json";
 import developmentClientsJson from "../data/pages/development-clients.json";
+import { env } from "../lib/env";
 
 const siteSettings = await fetchSiteSettings();
 const services = await fetchServices();
@@ -32,10 +33,11 @@ const developmentClients = developmentClientsJson as {
 };
 
 const { hero, trust, cta, seo } = developmentContent;
-const pageTitle = seo?.title ?? "Desarrollo Web y Software | Aliado Digital";
+const pageTitle =
+  seo?.title ?? "Desarrollo Web y Software para Pymes | Aliado Digital";
 const pageDescription =
   seo?.description ??
-  "Desarrollo web y software a medida para pymes, profesionales y negocios locales de Chile.";
+  "Desarrollo web y software a medida para pymes en Chile. Sitios rápidos, escalables y listos para crecer.";
 
 const servicesForPage = services.filter(
   (service) => (service.type ?? "").toLowerCase() !== "digital",
@@ -56,7 +58,7 @@ const slides = hasSlides
     : [];
 
 const heroValue = {
-  title: "Desarrollo web rápido, claro y profesional.",
+  title: "Desarrollo web y software a medida para pymes.",
   description:
     "La transformación digital no es “tener una web”. Es tener una plataforma clara, rápida y preparada para crecer: que genere confianza, capture oportunidades y acompañe tu operación sin volverse un problema.",
   ctaLabel: "Cotizar web",
@@ -123,12 +125,83 @@ const contactSecondaryCtaLabel =
 const contactSecondaryCtaHref = secondaryHrefRaw.startsWith("#")
   ? `/desarrollo${secondaryHrefRaw}`
   : secondaryHrefRaw;
+
+const siteUrl = env.siteUrl ?? (Astro.site ? Astro.site.toString() : undefined);
+const canonical = Astro.url
+  ? Astro.url.toString()
+  : siteUrl
+    ? new URL("/desarrollo", siteUrl).toString()
+    : undefined;
+const logoUrl = siteUrl ? new URL("/logo.png", siteUrl).toString() : undefined;
+const provider = {
+  "@type": "Organization",
+  name: siteSettings.siteName,
+  ...(siteUrl ? { url: siteUrl } : {}),
+  ...(logoUrl ? { logo: { "@type": "ImageObject", url: logoUrl } } : {}),
+};
+const toAbsolute = (path: string) =>
+  siteUrl ? new URL(path, siteUrl).toString() : path;
+const areaServedItems = [
+  ...(siteSettings.region
+    ? [{ "@type": "Place", name: siteSettings.region }]
+    : []),
+  { "@type": "Country", name: "Chile" },
+];
+const areaServed =
+  areaServedItems.length === 1 ? areaServedItems[0] : areaServedItems;
+const developmentOfferItems = servicesForPage.map((service) => ({
+  "@type": "Offer",
+  itemOffered: {
+    "@type": "Service",
+    name: service.title,
+    description: service.what_it_solves ?? undefined,
+    serviceType: "Desarrollo web y software",
+  },
+}));
+const developmentServiceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Desarrollo web y software a medida",
+  description: pageDescription,
+  serviceType: "Desarrollo web y software",
+  ...(canonical ? { url: canonical } : {}),
+  ...(areaServed ? { areaServed } : {}),
+  provider,
+  ...(developmentOfferItems.length > 0
+    ? {
+        hasOfferCatalog: {
+          "@type": "OfferCatalog",
+          name: "Planes de desarrollo y software",
+          itemListElement: developmentOfferItems,
+        },
+      }
+    : {}),
+};
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Inicio",
+      item: toAbsolute("/"),
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Desarrollo",
+      item: canonical ?? "/desarrollo",
+    },
+  ],
+};
 ---
 
 <Layout
   title={pageTitle}
   description={pageDescription}
   siteSettings={siteSettings}
+  structuredData={[developmentServiceSchema, breadcrumbSchema]}
 >
   <Navbar
     siteSettings={siteSettings}

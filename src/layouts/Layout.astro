@@ -33,9 +33,7 @@ const {
   noindex,
 } = Astro.props as Props;
 const siteName = siteSettings?.siteName ?? "Agencia Digital";
-const canonical = Astro.url ? Astro.url.toString() : undefined;
 const siteUrl = env.siteUrl ?? (Astro.site ? Astro.site.toString() : undefined);
-const resolvedCanonical = canonical ?? siteUrl;
 const structuredDataItems = Array.isArray(structuredData)
   ? structuredData
   : structuredData
@@ -71,7 +69,6 @@ const structuredDataItems = Array.isArray(structuredData)
       media="(prefers-color-scheme: dark)"
     />
     <meta name="generator" content="Astro" />
-    {resolvedCanonical && <link rel="canonical" href={resolvedCanonical} />}
     {siteUrl && <link rel="sitemap" href={`${siteUrl}/sitemap.xml`} />}
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
