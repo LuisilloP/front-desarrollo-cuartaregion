@@ -26,7 +26,7 @@ const defaultFeatures: Feature[] = [
     title: "Conocemos tu realidad",
     description:
       "Escuchamos tus objetivos y lo que hoy te quita foco para partir con claridad.",
-    imageSrc: "/images/hero/hero-coquimbo.webp",
+    imageSrc: "/images/sections/hero/hero-coquimbo.webp",
     imageAlt: "Reuni?n de diagn?stico",
     orderClass: "lg:order-1",
     offsetClass: "lg:translate-y-0"
@@ -36,7 +36,7 @@ const defaultFeatures: Feature[] = [
     title: "Definimos el foco",
     description:
       "Ordenamos necesidades y resultados esperados para avanzar con orden.",
-    imageSrc: "/images/hero/hero-serena.webp",
+    imageSrc: "/images/sections/hero/hero-serena.webp",
     imageAlt: "Levantamiento de objetivos",
     orderClass: "lg:order-2",
     offsetClass: "lg:translate-y-6"
@@ -46,7 +46,7 @@ const defaultFeatures: Feature[] = [
     title: "Plan y tiempos claros",
     description:
       "Te proponemos un plan simple con hitos, plazos y costos transparentes.",
-    imageSrc: "/images/hero/hero-astro.webp",
+    imageSrc: "/images/sections/hero/hero-astro.webp",
     imageAlt: "Planificaci?n del proyecto",
     orderClass: "lg:order-3",
     offsetClass: "lg:translate-y-12"
@@ -56,7 +56,7 @@ const defaultFeatures: Feature[] = [
     title: "Construcci?n en etapas",
     description:
       "Desarrollamos por bloques y compartimos avances frecuentes para validar a tiempo.",
-    imageSrc: "/images/hero/hero-cielo.webp",
+    imageSrc: "/images/sections/hero/hero-cielo.webp",
     imageAlt: "Trabajo en construcci?n",
     orderClass: "lg:order-6",
     offsetClass: "lg:translate-y-12",
@@ -191,3 +191,4 @@ const FeaturesGrid: React.FC<FeaturesGridProps> = ({
 };
 
 export default FeaturesGrid;
+

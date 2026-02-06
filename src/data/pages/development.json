@@ -14,26 +14,26 @@
       "label": "Ver planes",
       "href": "#planes"
     },
-    "imageSrc": "/images/hero/hero-astro.webp",
+    "imageSrc": "/images/sections/hero/hero-astro.webp",
     "imageAlt": "Desarrollo web y software",
     "slides": [
       {
-        "src": "/images/hero/hero-coquimbo.webp",
+        "src": "/images/sections/hero/hero-coquimbo.webp",
         "alt": "Bahia y puerto de Coquimbo",
         "position": "left"
       },
       {
-        "src": "/images/hero/hero-serena.webp",
+        "src": "/images/sections/hero/hero-serena.webp",
         "alt": "Atardecer en La Serena",
         "position": "right"
       },
       {
-        "src": "/images/hero/hero-astro.webp",
+        "src": "/images/sections/hero/hero-astro.webp",
         "alt": "Cielo estrellado en Valle del Elqui",
         "position": "left"
       },
       {
-        "src": "/images/hero/hero-cielo.webp",
+        "src": "/images/sections/hero/hero-cielo.webp",
         "alt": "Vista de La Serena desde el cielo",
         "position": "center"
       }
@@ -237,3 +237,4 @@
     "formId": "desarrollo-form"
   }
 }
+

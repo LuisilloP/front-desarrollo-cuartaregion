@@ -49,7 +49,7 @@ const siteUrl = env.siteUrl ?? (Astro.site ? Astro.site.toString() : undefined);
 
 // Ensure image is absolute and valid for OG
 // Fallback to a high-quality raster image (WebP) instead of SVG
-const defaultOgImage = "/images/hero/hero-astro.webp";
+const defaultOgImage = "/images/sections/hero/hero-astro.webp";
 const ogImage = image || defaultOgImage;
 
 const resolvedOgImage =
@@ -185,3 +185,4 @@ const localBusinessSchema = {
             />
         ))
 }
+

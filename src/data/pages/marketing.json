@@ -18,22 +18,22 @@
     "imageAlt": "Marketing digital para pymes",
     "slides": [
       {
-        "src": "/images/hero/hero-coquimbo.webp",
+        "src": "/images/sections/hero/hero-coquimbo.webp",
         "alt": "Bahia y puerto de Coquimbo",
         "position": "left"
       },
       {
-        "src": "/images/hero/hero-serena.webp",
+        "src": "/images/sections/hero/hero-serena.webp",
         "alt": "Atardecer en La Serena",
         "position": "right"
       },
       {
-        "src": "/images/hero/hero-astro.webp",
+        "src": "/images/sections/hero/hero-astro.webp",
         "alt": "Cielo estrellado en Valle del Elqui",
         "position": "left"
       },
       {
-        "src": "/images/hero/hero-cielo.webp",
+        "src": "/images/sections/hero/hero-cielo.webp",
         "alt": "Vista de La Serena desde el cielo",
         "position": "center"
       }
@@ -179,28 +179,28 @@
         "title": "Diagnóstico + plan de acción",
         "desc": "Revisamos tus redes (perfil, contenido, mensajes y consistencia) y armamos un plan simple con prioridades claras y metas medibles.",
         "result": "Auditoría + plan",
-        "img": "/images/nuestro-proceso/paso-01.webp"
+        "img": "/images/marketing/plan/diagnostico.webp"
       },
       {
         "num": "02",
         "title": "Prueba de 3 días (sin compromiso)",
         "desc": "Si aún no te convence nuestro método, activamos una prueba de 3 días para que lo veas en acción: orden, ajustes y mejoras rápidas visibles.",
         "result": "3 días para probar",
-        "img": "/images/nuestro-proceso/paso-02.webp"
+        "img": "/images/marketing/plan/prueba.webp"
       },
       {
         "num": "03",
         "title": "Implementación y publicación",
         "desc": "Ejecutamos el plan: calendario de contenido, creatividades y programación. Dejamos tu comunicación más clara y constante.",
         "result": "En marcha",
-        "img": "/images/nuestro-proceso/paso-03.webp"
+        "img": "/images/marketing/plan/implementacion.webp"
       },
       {
         "num": "04",
         "title": "Reportes y optimización continua",
         "desc": "Medimos resultados, ajustamos el contenido y repetimos lo que funciona. Reportes claros y mejoras semana a semana.",
         "result": "Crecimiento sostenido",
-        "img": "/images/nuestro-proceso/paso-04.webp"
+        "img": "/images/marketing/plan/reportes.webp"
       }
     ]
   },
