@@ -1,11 +1,11 @@
 {
   "seo": {
     "title": "Marketing Digital para Pymes | Aliado Digital",
-    "description": "Campañas de Meta Ads y Google Ads con estrategia y medición. Marketing digital para pymes en Chile."
+    "description": "Servicios de marketing digital para pymes en Chile: Meta Ads, Google Ads y optimización continua."
   },
   "hero": {
-    "title": "Marketing digital para pymes que genera clientes",
-    "subtitle": "Campañas en Meta Ads y Google Ads, contenido y optimización semanal para atraer clientes en Chile.",
+    "title": "Marketing digital para pymes en Chile",
+    "subtitle": "Servicios de marketing digital con Meta Ads, Google Ads y optimización semanal para atraer clientes.",
     "primaryCta": {
       "label": "Quiero más clientes",
       "href": "#contacto-marketing"
@@ -40,8 +40,8 @@
     ]
   },
   "value": {
-    "eyebrow": "MARKETING DIGITAL PARA PYMES",
-    "title": "Estrategia, medición y optimización continua",
+    "eyebrow": "SERVICIOS DE MARKETING DIGITAL",
+    "title": "Estrategia, medición y optimización para pymes",
     "description": "No se trata de \"estar en internet\". Es convertir inversión en oportunidades reales con datos, creatividad y mejoras semanales.",
     "ctaLabel": "Solicitar diagnóstico",
     "ctaHref": "https://forms.gle/5MEDYUSc2pZpS4tz8",
@@ -70,8 +70,8 @@
     ]
   },
   "plansSection": {
-    "title": "Planes de marketing digital orientados a resultados",
-    "description": "Estrategia, campañas y optimización continua para generar oportunidades reales en pymes, con seguimiento y reportes claros."
+    "title": "Planes y servicios de marketing digital para pymes",
+    "description": "Estrategia, campañas y optimización continua para generar oportunidades reales, con seguimiento y reportes claros."
   },
   "plans": [
     {

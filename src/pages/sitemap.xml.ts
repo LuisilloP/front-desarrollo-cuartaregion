@@ -1,7 +1,7 @@
 import { env } from "../lib/env";
 import { fetchAllPosts, fetchCases, fetchPostsPage, fetchServices } from "../lib/api/services";
 
-const SITE_URL = env.siteUrl || "https://example.com";
+const SITE_URL = (env.siteUrl || import.meta.env.SITE || "https://aliadodigital.cl").replace(/\/$/, "");
 
 type SitemapEntry = {
   path: string;

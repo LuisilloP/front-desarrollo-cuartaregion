@@ -10,7 +10,6 @@ import ProcessSection from "../components/sections/ProcessSection.astro";
 import CasesSection from "../components/sections/CasesSection.astro";
 import PortfolioMarqueeSection from "../components/sections/PortfolioMarqueeSection.tsx";
 import ContactSection from "../components/sections/ContactSection.astro";
-import ServiceCard from "../components/ui/ServiceCard.astro";
 import { fetchCases, fetchSiteSettings } from "../lib/api/services";
 import type { CaseStudy, Content, MarketingPageContent } from "../lib/api/types";
 import type { Company } from "../content/portfolioProjects";
@@ -155,32 +154,6 @@ const breadcrumbSchema = {
   />
   <main class="overflow-x-hidden">
     <MarketingHero hero={hero} value={value} />
-
-    {marketingServices.length > 0 && (
-      <section id="servicios-marketing" class="py-20 lg:py-32">
-        <div class="section-shell">
-          <div class="mx-auto max-w-3xl text-center" data-reveal="fade-up">
-            <h2 class="text-3xl font-semibold text-content sm:text-4xl">
-              Servicios de marketing digital
-            </h2>
-            <p class="mt-4 text-lg text-muted">
-              Meta Ads, Google Ads, redes sociales y embudos para atraer clientes
-              con estrategia, medición y optimización continua.
-            </p>
-          </div>
-
-          <div class="mt-12 grid gap-6 lg:grid-cols-2">
-            {marketingServices.map((service) => (
-              <ServiceCard
-                service={service}
-                whatsappNumber={siteSettings.whatsappNumber}
-                maxBenefits={3}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-    )}
 
      <PlansSection
       title={plansSection?.title ?? "Planes de marketing digital"}

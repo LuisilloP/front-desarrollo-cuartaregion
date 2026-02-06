@@ -56,6 +56,8 @@ const slides = hasSlides
   : hero?.imageSrc
     ? [{ src: hero.imageSrc, alt: hero.imageAlt ?? "" }]
     : [];
+const heroSubtitle =
+  hero?.subtitle ?? "Webs rápidas, escalables y listas para crecer.";
 
 const heroValue = {
   title: "Desarrollo web y software a medida para pymes.",
@@ -227,6 +229,9 @@ const breadcrumbSchema = {
       <div class="section-shell relative z-20 flex min-h-screen items-center py-24 sm:py-28 lg:py-32">
         <div class="grid w-full gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
           <div class="space-y-5" data-reveal="fade-up">
+            <p class="text-xs font-semibold uppercase tracking-[0.28em] text-white/70">
+              {heroSubtitle}
+            </p>
             <h1 class="text-4xl font-semibold leading-tight text-white sm:text-5xl lg:text-6xl">
               {heroValue.title}
             </h1>
