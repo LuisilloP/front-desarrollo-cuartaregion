@@ -1,0 +1,68 @@
+﻿---
+import PromoCard from "./PromoCard.astro";
+import type {
+  AccentKey,
+  Intensity,
+  Size,
+  Tone,
+  Variant,
+} from "./config/promo.types";
+
+interface Props {
+  badgeText?: string;
+  badgeIcon?: string;
+  title?: string;
+  description?: string;
+  href?: string;
+  hintText?: string;
+  size?: Size;
+  ariaLabel?: string;
+  bgImage?: string;
+  class?: string;
+  tone?: Tone;
+  intensity?: Intensity;
+  accentKey?: AccentKey;
+  watermarkIcon?: string;
+  arrowIcon?: string;
+}
+
+const {
+  badgeText = "DESARROLLO WEB",
+  badgeIcon = "lucide:monitor",
+  title = "Web rapida y lista para vender",
+  description = "SEO tecnico, performance y estructura solida.",
+  href = "#planes-web",
+  hintText = "Ver planes",
+  size = "tile",
+  ariaLabel = "Ir a planes web",
+  bgImage,
+  class: className = "",
+  tone = "vivid",
+  intensity = "md",
+  accentKey = "auto",
+  watermarkIcon = "lucide:layout-template",
+  arrowIcon,
+} = Astro.props as Props;
+
+const variant: Variant = "web";
+---
+
+<PromoCard
+  badgeText={badgeText}
+  badgeIcon={badgeIcon}
+  title={title}
+  description={description}
+  href={href}
+  hintText={hintText}
+  size={size}
+  ariaLabel={ariaLabel}
+  bgImage={bgImage}
+  variant={variant}
+  class={className}
+  tone={tone}
+  intensity={intensity}
+  accentKey={accentKey}
+  watermarkIcon={watermarkIcon}
+  arrowIcon={arrowIcon}
+/>
+

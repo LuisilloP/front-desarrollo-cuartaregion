@@ -1,0 +1,317 @@
+---
+import { Icon } from "astro-icon/components";
+import { resolveBannerIcons } from "./config/banner.icons";
+import { BANNER_SIZE_TOKENS, resolveBannerLayoutTokens } from "./config/banner.layouts";
+import type { BannerLink, BannerProps } from "./config/banner.types";
+import { isSafeLocalImage, resolveBannerTheme } from "./config/banner.utils";
+
+function sanitizeLink(link?: BannerLink): BannerLink | null {
+  if (!link) {
+    return null;
+  }
+
+  const href = link.href?.trim();
+  const label = link.label?.trim();
+
+  if (!href || !label) {
+    return null;
+  }
+
+  return { href, label };
+}
+
+const iconNamePattern = /^(lucide|simple-icons|mdi):[a-z0-9-]+$/i;
+
+function sanitizeIconName(candidate?: string): string | null {
+  if (!candidate) {
+    return null;
+  }
+
+  const normalized = candidate.trim();
+  return iconNamePattern.test(normalized) ? normalized : null;
+}
+
+const {
+  sectionId,
+  variant = "web",
+  accentKey = "auto",
+  tone = "default",
+  intensity = "md",
+  layout = "split",
+  reverse = false,
+  size = "default",
+  badgeText,
+  badgeIcon,
+  title,
+  subtitle,
+  description,
+  bullets,
+  primaryLink,
+  secondaryLink,
+  ariaLabel,
+  media,
+  bgImage,
+  imageAlt,
+  imageOpacity,
+  watermarkIcon,
+  rightIcon,
+  headerIcon,
+  class: className = "",
+} = Astro.props as BannerProps;
+
+const safeBullets = (bullets ?? []).slice(0, 3);
+const normalizedPrimaryLink = sanitizeLink(primaryLink);
+const normalizedSecondaryLink = sanitizeLink(secondaryLink);
+const hasAnyLinks = Boolean(normalizedPrimaryLink || normalizedSecondaryLink);
+
+const mediaImage = media?.bgImage ?? bgImage;
+const safeBgImage = isSafeLocalImage(mediaImage) ? mediaImage : null;
+const hasImage = Boolean(safeBgImage);
+
+const hasSlotMedia = Astro.slots.has("media");
+const hasLegacySlotVisual = Astro.slots.has("visual");
+const hasMediaPanel = hasImage || hasSlotMedia || hasLegacySlotVisual;
+
+const resolvedImageAlt = imageAlt ?? title;
+const resolvedImageOpacity =
+  typeof imageOpacity === "number"
+    ? Math.min(1, Math.max(0, imageOpacity))
+    : 1;
+const resolvedAriaLabel = ariaLabel ?? normalizedPrimaryLink?.label ?? title;
+const resolvedLayout = hasMediaPanel ? layout : "stack";
+
+const theme = resolveBannerTheme({ variant, accentKey, tone, intensity });
+const sizeTokens = BANNER_SIZE_TOKENS[size];
+const layoutTokens = resolveBannerLayoutTokens(resolvedLayout, reverse);
+
+const resolvedRightIcon = sanitizeIconName(rightIcon ?? media?.icon ?? watermarkIcon ?? undefined);
+const hasRightIcon = Boolean(resolvedRightIcon);
+
+const icons = resolveBannerIcons({
+  watermarkIcon: resolvedRightIcon ?? undefined,
+  badgeIcon: badgeIcon ?? headerIcon,
+});
+---
+
+<section
+  id={sectionId}
+  class:list={[
+    "group relative overflow-hidden rounded-3xl border border-slate-200/70 bg-slate-50 shadow-[0_20px_60px_rgba(15,23,42,0.12)] dark:border-border/70 dark:bg-card/90 dark:shadow-soft",
+    sizeTokens.sectionPadding,
+    className,
+  ]}
+>
+  <div class="pointer-events-none absolute inset-0 dark:hidden">
+    <div class:list={["absolute inset-0", theme.variant.lightOverlay, theme.intensity.lightOverlay]}></div>
+    {layoutTokens.showAccentPanel ? (
+      <div class:list={["absolute inset-y-0 hidden w-2/5 lg:block", layoutTokens.accentPanelPosition]}>
+        <div
+          class:list={["h-full w-full", theme.variant.lightPanel, theme.intensity.lightPanel]}
+          style={layoutTokens.accentPanelClipPath}
+        ></div>
+      </div>
+    ) : null}
+    <div
+      class:list={[
+        "absolute inset-0 [background-image:radial-gradient(circle_at_1px_1px,rgba(30,41,59,0.35)_1px,transparent_0)] [background-size:20px_20px]",
+        theme.intensity.lightPattern,
+      ]}
+    ></div>
+  </div>
+
+  <div class="pointer-events-none absolute inset-0 hidden dark:block">
+    <div
+      class:list={[
+        "absolute -left-20 -top-20 h-56 w-56 rounded-full blur-3xl",
+        theme.variant.darkGlowStart,
+        theme.intensity.darkGlow,
+      ]}
+    ></div>
+    <div
+      class:list={[
+        "absolute -bottom-24 -right-16 h-72 w-72 rounded-full blur-3xl",
+        theme.variant.darkGlowEnd,
+        theme.intensity.darkGlow,
+      ]}
+    ></div>
+    {layoutTokens.showAccentPanel ? (
+      <div class:list={["absolute inset-y-0 hidden w-2/5 lg:block", layoutTokens.accentPanelPosition]}>
+        <div
+          class:list={["h-full w-full", theme.variant.darkPanel, theme.intensity.darkPanel]}
+          style={layoutTokens.accentPanelClipPath}
+        ></div>
+      </div>
+    ) : null}
+    <div
+      class:list={[
+        "absolute inset-0 [background-image:radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.35)_1px,transparent_0)] [background-size:22px_22px]",
+        theme.intensity.darkPattern,
+      ]}
+    ></div>
+  </div>
+
+  {!hasMediaPanel ? (
+    <span class="pointer-events-none absolute right-0 top-0 hidden h-full w-[42%] opacity-70 lg:block">
+      <span class:list={["absolute inset-0 rounded-[2rem]", theme.rightGlow]}></span>
+      <span class:list={["absolute inset-0", theme.rightSheen]}></span>
+    </span>
+  ) : null}
+
+  {!hasMediaPanel && hasRightIcon && icons.watermark ? (
+    <Icon
+      name={icons.watermark}
+      class:list={[
+        "pointer-events-none absolute right-8 top-10 z-[1] h-14 w-14 opacity-60 transition-transform duration-300 sm:h-16 sm:w-16 lg:h-[72px] lg:w-[72px] group-hover:-translate-y-0.5 group-hover:translate-x-0.5",
+        theme.watermarkColor,
+      ]}
+      aria-hidden="true"
+    />
+  ) : null}
+
+  <div
+    class:list={[
+      "relative z-10 grid",
+      sizeTokens.sectionGap,
+      hasMediaPanel ? "lg:grid-cols-[1.1fr_0.9fr] lg:items-center" : "grid-cols-1",
+    ]}
+  >
+    <div
+      class:list={[
+        "space-y-6",
+        layoutTokens.textOrder,
+        hasMediaPanel ? "lg:pr-10" : "lg:pr-0 max-w-[70ch]",
+      ]}
+    >
+      {badgeText ? (
+        <span
+          class:list={[
+            "inline-flex w-fit items-center gap-2 rounded-full font-semibold uppercase tracking-[0.24em]",
+            sizeTokens.badge,
+            theme.badge,
+          ]}
+        >
+          {icons.badge ? (
+            <Icon name={icons.badge} class:list={["h-3.5 w-3.5", theme.badgeIcon]} aria-hidden="true" />
+          ) : null}
+          <span>{badgeText}</span>
+        </span>
+      ) : null}
+
+      <div class="space-y-3">
+        <h2 class:list={["font-semibold leading-tight text-slate-900 dark:text-content", sizeTokens.title]}>
+          {title}
+        </h2>
+        {subtitle ? (
+          <p class:list={["font-medium leading-snug", sizeTokens.subtitle, theme.subtitle]}>
+            {subtitle}
+          </p>
+        ) : null}
+        {description ? (
+          <p
+            class:list={[
+              hasMediaPanel ? "max-w-[60ch]" : "max-w-[70ch]",
+              "leading-relaxed text-slate-600 dark:text-muted",
+              sizeTokens.description,
+            ]}
+          >
+            {description}
+          </p>
+        ) : null}
+      </div>
+
+      {safeBullets.length > 0 ? (
+        <ul class="grid gap-2 text-sm text-slate-700 sm:grid-cols-2 sm:gap-3 dark:text-content/90">
+          {safeBullets.map((bullet) => (
+            <li class="flex items-start gap-2">
+              <span class:list={["mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full", theme.bullet]} aria-hidden="true"></span>
+              <span>{bullet}</span>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+
+      {hasAnyLinks ? (
+        <div class="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center">
+          {normalizedPrimaryLink ? (
+            <a
+              href={normalizedPrimaryLink.href}
+              aria-label={resolvedAriaLabel}
+              class:list={[
+                "group/cta inline-flex items-center justify-center gap-2 rounded-full text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2",
+                sizeTokens.ctaPadding,
+                theme.primaryCta,
+              ]}
+            >
+              <span>{normalizedPrimaryLink.label}</span>
+              <Icon
+                name={icons.arrow}
+                class:list={[
+                  "h-4 w-4 transition-transform duration-200 group-hover/cta:translate-x-0.5",
+                  theme.arrow,
+                ]}
+                aria-hidden="true"
+              />
+            </a>
+          ) : null}
+          {normalizedSecondaryLink ? (
+            <a
+              href={normalizedSecondaryLink.href}
+              class:list={[
+                "inline-flex items-center justify-center rounded-full text-sm font-semibold backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2",
+                sizeTokens.ctaPadding,
+                theme.secondaryCta,
+              ]}
+            >
+              {normalizedSecondaryLink.label}
+            </a>
+          ) : null}
+        </div>
+      ) : null}
+    </div>
+
+    {hasMediaPanel ? (
+      <div class:list={["relative", layoutTokens.visualOrder]}>
+        <div
+          class:list={[
+            "relative overflow-hidden rounded-2xl",
+            sizeTokens.visualMinHeight,
+            sizeTokens.visualPadding,
+            theme.variant.visualWrap,
+          ]}
+        >
+          {hasRightIcon && icons.watermark ? (
+            <Icon
+              name={icons.watermark}
+              class:list={[
+                "pointer-events-none absolute z-10 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5",
+                theme.variant.watermarkPlacement,
+                sizeTokens.watermarkSize,
+                theme.watermark,
+                theme.intensity.watermark,
+              ]}
+              aria-hidden="true"
+            />
+          ) : null}
+
+          {safeBgImage ? (
+            <>
+              <img
+                src={safeBgImage}
+                alt={resolvedImageAlt}
+                loading="lazy"
+                decoding="async"
+                class="h-full w-full rounded-xl object-cover"
+                style={{ opacity: resolvedImageOpacity }}
+              />
+              <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-900/35 via-slate-900/10 to-transparent dark:from-black/45 dark:via-black/15"></div>
+            </>
+          ) : hasSlotMedia ? (
+            <slot name="media" />
+          ) : hasLegacySlotVisual ? (
+            <slot name="visual" />
+          ) : null}
+        </div>
+      </div>
+    ) : null}
+  </div>
+</section>

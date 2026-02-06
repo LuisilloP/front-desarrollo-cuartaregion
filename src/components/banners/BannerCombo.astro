@@ -1,0 +1,45 @@
+---
+import BannerMixed from "./BannerMixed.astro";
+import type {
+  BannerAccentKey,
+  BannerIntensity,
+  BannerLayout,
+  BannerLink,
+  BannerMedia,
+  BannerSize,
+  BannerTone,
+} from "./config/banner.types";
+
+interface Props {
+  sectionId?: string;
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  badgeText?: string;
+  badgeIcon?: string;
+  primaryLink?: BannerLink;
+  secondaryLink?: BannerLink;
+  bullets?: string[];
+  ariaLabel?: string;
+  media?: BannerMedia | null;
+  bgImage?: string;
+  imageAlt?: string;
+  reverse?: boolean;
+  layout?: BannerLayout;
+  size?: BannerSize;
+  tone?: BannerTone;
+  intensity?: BannerIntensity;
+  accentKey?: BannerAccentKey;
+  rightIcon?: string;
+  watermarkIcon?: string;
+  headerIcon?: string;
+  class?: string;
+}
+
+const props = Astro.props as Props;
+const hasVisualSlot = Astro.slots.has("visual");
+---
+
+<BannerMixed {...props}>
+  {hasVisualSlot ? <slot name="visual" slot="media" /> : null}
+</BannerMixed>

@@ -3,18 +3,17 @@ import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/layout/Navbar.astro";
 import Hero from "../components/sections/Hero.astro";
 import ServicesSection from "../components/sections/ServicesSection.astro";
+import HostingSection from "../components/sections/HostingSection.astro";
+import ProcessSection from "../components/sections/ProcessSection.astro";
 import CasesSection from "../components/sections/CasesSection.astro";
 import FAQSection from "../components/sections/FAQSection.astro";
 import ContactSection from "../components/sections/ContactSection.astro";
 import Footer from "../components/layout/Footer.astro";
 import AboutUs from "../components/sections/AboutUs.astro";
 import WhatsAppFloatingButton from "../components/layout/WhatsAppFloatingButton.astro";
-import SectionDivider from "../components/layout/SectionDivider.astro";
-import {
-  fetchSiteSettings,
-  fetchCases,
-  fetchFaqs,
-} from "../lib/api/services";
+import BannerWeb from "../components/banners/BannerWeb.astro";
+import BannerMarketing from "../components/banners/BannerMarketing.astro";
+import { fetchSiteSettings, fetchCases, fetchFaqs } from "../lib/api/services";
 
 import type { Content, HomePageContent, Service } from "../lib/api/types";
 import contentJson from "../data/content.json";
@@ -23,12 +22,23 @@ import homeJson from "../data/pages/home.json";
 // Import the marquee component and its data
 import PortfolioMarqueeSection from "../components/sections/PortfolioMarqueeSection.tsx";
 import { companies as portfolioCompanies } from "../content/portfolioProjects";
+import Marketing from "./marketing.astro";
 
 const globalContent = contentJson as Content;
 const homeContent = homeJson as HomePageContent;
 
-const { heroSection, faqSection, contactSection } = homeContent;
+const { heroSection, useCasesSection, faqSection, contactSection } =
+  homeContent;
 const { legalPages, navLinks } = globalContent;
+const showProcessSection = false;
+const showUseCasesSection = false;
+
+const homeNavLinks = navLinks.filter((link) => {
+  const anchor = link.href.replace(/^\/?#/, "");
+  if (anchor === "proceso" && !showProcessSection) return false;
+  if (anchor === "use-cases" && !showUseCasesSection) return false;
+  return true;
+});
 
 const planSummaries: Service[] = [
   {
@@ -84,7 +94,8 @@ const planSummaries: Service[] = [
     variant: "mixed",
     accent: "orange",
     title: "Plan mixto web + marketing",
-    what_it_solves: "Combina desarrollo web y campañas para lanzar y convertir.",
+    what_it_solves:
+      "Combina desarrollo web y campañas para lanzar y convertir.",
     benefits: [
       "Landing optimizada",
       "Campañas con tracking",
@@ -106,20 +117,7 @@ const planSummaries: Service[] = [
 const siteSettings = await fetchSiteSettings();
 const cases = await fetchCases();
 const faqs = await fetchFaqs();
-const demoBaseCase =
-  cases.find((item) => item.slug === "el-arlequin") ?? cases[cases.length - 1];
-const demoExtraCasesCount =
-  demoBaseCase && cases.length < 6 ? 6 - cases.length : 0;
-const demoCases = demoBaseCase
-  ? [
-      ...cases,
-      ...Array.from({ length: demoExtraCasesCount }, (_, index) => ({
-        ...demoBaseCase,
-        slug: `${demoBaseCase.slug}-demo-${index + 1}`,
-        order: (demoBaseCase.order ?? 99) + index + 10,
-      })),
-    ]
-  : cases;
+const recentCases = cases;
 ---
 
 <Layout
@@ -127,9 +125,14 @@ const demoCases = demoBaseCase
   description={siteSettings.tagline}
   siteSettings={siteSettings}
 >
-  <Navbar siteSettings={siteSettings} navLinks={navLinks} />
+  <Navbar siteSettings={siteSettings} navLinks={homeNavLinks} />
   <main class="space-y-8 overflow-x-hidden max-w-full">
     <Hero siteSettings={siteSettings} content={heroSection} />
+
+    <div id="planes-web" aria-hidden="true"></div>
+    <div id="planes-marketing" aria-hidden="true"></div>
+    <div id="planes-combo" aria-hidden="true"></div>
+    <div id="planes" aria-hidden="true"></div>
 
     {/* Show summary cards for each plan group */}
     <ServicesSection
@@ -138,27 +141,61 @@ const demoCases = demoBaseCase
       singleGrid
     />
 
-    <SectionDivider tone="accent" />
-
     {/* Social proof early - Cases show we deliver results */}
-    <CasesSection cases={demoCases} />
+    <CasesSection cases={recentCases} />
 
-    <SectionDivider />
+    {/* How we work - Premium process section */}
+    {showProcessSection ? <ProcessSection /> : null}
 
     {/* More social proof - Portfolio companies */}
+    <div class="container mx-auto px-6 sm:px-8">
+      <BannerWeb
+        size="compact"
+        title="Convierte visitas en clientes con una web que transmite confianza"
+        subtitle="Diseño premium, velocidad real y estructura para crecer"
+        description="Creamos sitios rápidos y claros, listos para vender desde el primer día, con SEO técnico y base escalable."
+        bgImage="/images/sections/desarrollo.webp"
+        imageAlt="Desarrollo web en dispositivos"
+        bullets={[
+          "UX pensada para conversiones",
+          "Carga rápida y experiencia impecable en móvil",
+          "SEO técnico y analítica para medir resultados",
+        ]}
+        primaryLink={{ label: "Ir a desarrollo", href: "/desarrollo" }}
+        secondaryLink={{ label: "Ver planes web", href: "/desarrollo#planes" }}
+        class="w-full"
+      />
+    </div>
+
     <PortfolioMarqueeSection client:visible companies={portfolioCompanies} />
 
-    <SectionDivider />
+    <div class="container mx-auto px-6 sm:px-8">
+      <BannerMarketing
+        size="compact"
+        title="Campañas que generan demanda y ventas reales"
+        subtitle="Meta Ads con estrategia, creatividad y optimización continua"
+        description="Atrae clientes con anuncios medibles, segmentación precisa y mensajes que convierten."
+        bgImage="/images/sections/marketing.webp"
+        imageAlt="Marketing digital en dispositivos"
+        bullets={[
+          "Leads calificados cada semana",
+          "Creatividades y copies según tu rubro",
+          "Optimización con datos, no con intuición",
+        ]}
+        primaryLink={{ label: "Ir a marketing", href: "/marketing" }}
+        secondaryLink={{ label: "Ver planes de marketing", href: "/marketing#planes" }}
+        class="w-full"
+      />
+    </div>
 
     {/* About Us after user is already interested */}
     <AboutUs />
 
-    <SectionDivider />
+    {/* Why choose us - Reinforcement */}
+    {showUseCasesSection ? <HostingSection content={useCasesSection} /> : null}
 
     {/* FAQ - Handle objections */}
     <FAQSection content={faqSection} faqs={faqs} />
-
-    <SectionDivider />
 
     {/* Final CTA */}
     <ContactSection

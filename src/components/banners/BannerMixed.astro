@@ -1,0 +1,104 @@
+---
+import BannerBase from "./BannerBase.astro";
+import type {
+  BannerAccentKey,
+  BannerIntensity,
+  BannerLayout,
+  BannerLink,
+  BannerMedia,
+  BannerSize,
+  BannerTone,
+  BannerVariant,
+} from "./config/banner.types";
+
+interface Props {
+  sectionId?: string;
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  badgeText?: string;
+  badgeIcon?: string;
+  primaryLink?: BannerLink;
+  secondaryLink?: BannerLink;
+  bullets?: string[];
+  ariaLabel?: string;
+  media?: BannerMedia | null;
+  bgImage?: string;
+  imageAlt?: string;
+  reverse?: boolean;
+  layout?: BannerLayout;
+  size?: BannerSize;
+  tone?: BannerTone;
+  intensity?: BannerIntensity;
+  accentKey?: BannerAccentKey;
+  rightIcon?: string;
+  watermarkIcon?: string;
+  headerIcon?: string;
+  class?: string;
+}
+
+const {
+  sectionId,
+  title = "Lanzamiento digital completo",
+  subtitle = "Web optimizada + campanas activas desde el dia uno",
+  description = "Un plan combinado para lanzar rapido, medir cada paso y escalar con decisiones claras.",
+  badgeText = "Combo recomendado",
+  badgeIcon,
+  primaryLink = { label: "Cotizar combo", href: "#contacto-marketing" },
+  secondaryLink = {
+    label: "Ver detalles",
+    href: "/servicios/plan-mixto-web-marketing",
+  },
+  bullets = [
+    "Landing optimizada",
+    "Meta Ads con tracking",
+    "Reporte y optimizacion mensual",
+  ],
+  ariaLabel,
+  media,
+  bgImage,
+  imageAlt,
+  reverse = false,
+  layout = "split",
+  size = "default",
+  tone = "vivid",
+  intensity = "md",
+  accentKey = "auto",
+  rightIcon,
+  watermarkIcon = "lucide:layers",
+  headerIcon,
+  class: className = "",
+} = Astro.props as Props;
+
+const variant: BannerVariant = "mixed";
+const resolvedBadgeIcon = badgeIcon ?? headerIcon ?? "lucide:sparkles";
+const hasVisualSlot = Astro.slots.has("visual");
+---
+
+<BannerBase
+  sectionId={sectionId}
+  variant={variant}
+  accentKey={accentKey}
+  tone={tone}
+  intensity={intensity}
+  layout={layout}
+  reverse={reverse}
+  size={size}
+  badgeText={badgeText}
+  title={title}
+  subtitle={subtitle}
+  description={description}
+  bullets={bullets}
+  primaryLink={primaryLink}
+  secondaryLink={secondaryLink}
+  ariaLabel={ariaLabel}
+  media={media}
+  bgImage={bgImage}
+  imageAlt={imageAlt}
+  rightIcon={rightIcon}
+  badgeIcon={resolvedBadgeIcon}
+  watermarkIcon={watermarkIcon}
+  class={className}
+>
+  {hasVisualSlot ? <slot name="visual" slot="media" /> : null}
+</BannerBase>

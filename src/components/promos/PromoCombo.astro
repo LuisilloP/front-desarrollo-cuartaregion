@@ -1,0 +1,26 @@
+---
+import PromoMixed from "./PromoMixed.astro";
+import type { AccentKey, Intensity, Size, Tone } from "./config/promo.types";
+
+interface Props {
+  badgeText?: string;
+  badgeIcon?: string;
+  title?: string;
+  description?: string;
+  href?: string;
+  hintText?: string;
+  size?: Size;
+  ariaLabel?: string;
+  bgImage?: string;
+  class?: string;
+  tone?: Tone;
+  intensity?: Intensity;
+  accentKey?: AccentKey;
+  watermarkIcon?: string;
+  arrowIcon?: string;
+}
+
+const props = Astro.props as Props;
+---
+
+<PromoMixed {...props} />
