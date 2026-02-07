@@ -16,10 +16,19 @@ export type StrapiEntity<T> = {
   attributes?: T;
 };
 
+export type StrapiMediaAttributes = {
+  url?: string | null;
+  alternativeText?: string | null;
+};
+
+export type StrapiMediaEntity = StrapiEntity<StrapiMediaAttributes>;
+
+export type StrapiMediaItem = StrapiMediaAttributes | StrapiMediaEntity;
+
 export type StrapiMedia =
-  | { data?: StrapiEntity<{ url?: string; alternativeText?: string }> | StrapiEntity<{ url?: string; alternativeText?: string }>[] | null }
-  | { url?: string; alternativeText?: string }
-  | Array<{ url?: string; alternativeText?: string }>;
+  | { data?: StrapiMediaEntity | StrapiMediaEntity[] | null }
+  | StrapiMediaItem
+  | StrapiMediaItem[];
 
 export type StrapiBullet = { text?: string | null };
 export type StrapiCasePoint = { text?: string | null; tone?: string | null };
@@ -48,7 +57,7 @@ export type SiteSettings = {
   footerText: string;
 };
 
-export type ServiceCategory = "web" | "maintenance" | "digital";
+export type ServiceCategory = "web" | "maintenance" | "digital" | "software";
 
 export type Service = {
   slug: string;
@@ -149,17 +158,17 @@ export type Post = {
   tags?: Tag[];
 };
 
-export interface ContactSectionContent {
+interface BaseSectionContent {
   eyebrow: string;
   title: string;
   description: string;
+}
+
+export interface ContactSectionContent extends BaseSectionContent {
   socialLinks: SocialLink[];
 }
 
-export type ContactSectionConfig = {
-  eyebrow: string;
-  title: string;
-  description: string;
+export type ContactSectionConfig = BaseSectionContent & {
   socialLinks?: SocialLink[];
   sectionId?: string;
   whatsappMessage?: string;
@@ -200,23 +209,11 @@ export type ProcessSectionContent = {
   steps: ProcessStep[];
 };
 
-export interface ReviewsSectionContent {
-  eyebrow: string;
-  title: string;
-  description: string;
-}
+export interface ReviewsSectionContent extends BaseSectionContent {}
 
-export interface FaqSectionContent {
-  eyebrow: string;
-  title: string;
-  description: string;
-}
+export interface FaqSectionContent extends BaseSectionContent {}
 
-export interface HeroSectionContent {
-  eyebrow: string;
-  title: string;
-  description: string;
-}
+export interface HeroSectionContent extends BaseSectionContent {}
 
 export type PageCta = {
   label: string;

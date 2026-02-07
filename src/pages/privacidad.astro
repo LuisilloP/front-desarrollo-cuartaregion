@@ -4,13 +4,15 @@ import Footer from "../components/layout/Footer.astro";
 import Navbar from "../components/layout/Navbar.astro";
 import { fetchLegalPage, fetchSiteSettings } from "../lib/api/services";
 import { useMocks } from "../lib/env";
+import { sanitizeCmsHtml } from "../lib/security/sanitizeHtml";
 
 const siteSettings = await fetchSiteSettings();
 const legal = await fetchLegalPage("privacidad");
 const forceFallback = useMocks();
 const legalContent = legal?.content?.trim();
+const sanitizedLegalContent = legalContent ? sanitizeCmsHtml(legalContent) : "";
 const hasLegalContent = Boolean(
-  !forceFallback && legalContent && legalContent.length > 0,
+  !forceFallback && sanitizedLegalContent.length > 0,
 );
 const pageTitle = hasLegalContent
   ? (legal?.title ?? "Privacidad")
@@ -99,7 +101,7 @@ const fallbackPolicy = {
       hasLegalContent ? (
         <article
           class="prose max-w-3xl text-content prose-headings:text-content prose-p:text-muted prose-a:text-highlight"
-          set:html={legalContent}
+          set:html={sanitizedLegalContent}
         />
       ) : (
         <article class="prose max-w-3xl text-content prose-headings:text-content prose-p:text-muted prose-a:text-highlight space-y-5">

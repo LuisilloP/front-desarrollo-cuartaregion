@@ -1,5 +1,5 @@
 ---
-import type { SiteSettings } from "../data/mock";
+import type { SiteSettings } from "../lib/api/types";
 import SEO from "../components/SEO.astro";
 import { env } from "../lib/env";
 import "../styles/global.css";
@@ -32,7 +32,6 @@ const {
   structuredData,
   noindex,
 } = Astro.props as Props;
-const siteName = siteSettings?.siteName ?? "Agencia Digital";
 const siteUrl = env.siteUrl ?? (Astro.site ? Astro.site.toString() : undefined);
 const structuredDataItems = Array.isArray(structuredData)
   ? structuredData
@@ -74,9 +73,22 @@ const structuredDataItems = Array.isArray(structuredData)
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap"
+    />
+    <link
       href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />

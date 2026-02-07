@@ -1,7 +1,12 @@
 ---
-import type { Service } from "../../data/mock";
+import type { Service } from "../../lib/api/types";
 import { buildWhatsAppLink } from "../../lib/utils";
 import { Icon } from "astro-icon/components";
+import {
+  serviceCardMarketingAccents,
+  serviceCardMixedAccent,
+  serviceCardWebAccent
+} from "../../styles/accents";
 
 interface Props {
   service: Service;
@@ -32,57 +37,12 @@ const isMixed = variant === "mixed";
 const accentTone =
   variant === "web" ? null : service.accent === "amber" ? "amber" : "orange";
 
-const webAccent = {
-  banner:
-    "bg-sky-500/10 text-sky-600 ring-sky-500/20 dark:bg-sky-400/10 dark:text-sky-300 dark:ring-sky-400/20",
-  icon: "bg-sky-500/10 text-sky-600 border-sky-500/20 dark:bg-sky-400/10 dark:text-sky-300 dark:border-sky-400/20",
-  modality:
-    "bg-blue-50 text-blue-700 ring-blue-700/10 dark:bg-blue-400/10 dark:text-blue-400 dark:ring-blue-400/30",
-  check: "text-sky-500 dark:text-sky-300",
-  cta: "text-sky-600 group-hover:text-sky-500 dark:text-sky-300 dark:group-hover:text-sky-200",
-};
-
-const marketingAccents = {
-  amber: {
-    banner:
-      "bg-amber-500/10 text-amber-600 ring-amber-500/20 dark:bg-amber-400/10 dark:text-amber-300 dark:ring-amber-400/20",
-    icon: "bg-amber-500/10 text-amber-600 border-amber-500/20 dark:bg-amber-400/10 dark:text-amber-300 dark:border-amber-400/20",
-    modality:
-      "bg-amber-50 text-amber-700 ring-amber-700/10 dark:bg-amber-400/10 dark:text-amber-400 dark:ring-amber-400/30",
-    check: "text-amber-500 dark:text-amber-300",
-    cta: "text-amber-600 group-hover:text-amber-500 dark:text-amber-300 dark:group-hover:text-amber-200",
-    shine: "rgba(245, 158, 11, 0.16)",
-  },
-  orange: {
-    banner:
-      "bg-orange-500/10 text-orange-600 ring-orange-500/20 dark:bg-orange-400/10 dark:text-orange-300 dark:ring-orange-400/20",
-    icon: "bg-orange-500/10 text-orange-600 border-orange-500/20 dark:bg-orange-400/10 dark:text-orange-300 dark:border-orange-400/20",
-    modality:
-      "bg-orange-50 text-orange-700 ring-orange-700/10 dark:bg-orange-400/10 dark:text-orange-400 dark:ring-orange-400/30",
-    check: "text-orange-500 dark:text-orange-300",
-    cta: "text-orange-600 group-hover:text-orange-500 dark:text-orange-300 dark:group-hover:text-orange-200",
-    shine: "rgba(249, 115, 22, 0.16)",
-  },
-} as const;
-
 const accent =
   variant === "web"
-    ? webAccent
-    : marketingAccents[accentTone ?? "orange"];
+    ? serviceCardWebAccent
+    : serviceCardMarketingAccents[accentTone ?? "orange"];
 
-const mixedAccent = {
-  banner:
-    "bg-sky-500/10 text-sky-600 ring-sky-500/20 dark:bg-sky-400/10 dark:text-sky-300 dark:ring-sky-400/20",
-  icon: "bg-orange-500/10 text-orange-600 border-orange-500/20 dark:bg-orange-400/10 dark:text-orange-300 dark:border-orange-400/20",
-  modality:
-    "bg-orange-50 text-orange-700 ring-orange-700/10 dark:bg-orange-400/10 dark:text-orange-400 dark:ring-orange-400/30",
-  check:
-    "text-amber-500 dark:text-amber-300 group-hover:text-sky-500 dark:group-hover:text-sky-300",
-  cta: "text-amber-500 group-hover:text-sky-500 dark:text-amber-300 dark:group-hover:text-sky-300",
-  shine: "rgba(56, 189, 248, 0.16)",
-};
-
-const resolvedAccent = isMixed ? mixedAccent : accent;
+const resolvedAccent = isMixed ? serviceCardMixedAccent : accent;
 const deliveryChipClass = isMixed
   ? "bg-sky-500/10 text-sky-600 ring-sky-500/20 dark:bg-sky-400/10 dark:text-sky-300 dark:ring-sky-400/20"
   : "bg-slate-100 text-slate-600 ring-slate-500/10 dark:bg-slate-400/10 dark:text-slate-400 dark:ring-slate-400/20";
@@ -125,7 +85,7 @@ const ctaIconClass =
 <a
   href={linkHref}
   target={isExternal ? "_blank" : undefined}
-  rel={isExternal ? "noreferrer" : undefined}
+  rel={isExternal ? "noopener noreferrer" : undefined}
   data-variant={variant}
   data-accent={accentTone ?? undefined}
   style={shineStyle}
@@ -295,30 +255,8 @@ const ctaIconClass =
   }
 </style>
 
-<script is:inline>
-  // This script can be run once, maybe in a global script,
-  // but it's safe to run multiple times.
-  function setupCardShine() {
-    document.querySelectorAll(".card-shine").forEach((card) => {
-      // Check if the listener is already attached
-      if (card.dataset.shineListener === "true") return;
+<script>
+  import { initCardShine } from "../../scripts/ui/cardShine";
 
-      card.addEventListener("mousemove", (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        card.style.setProperty("--mouse-x", `${x}px`);
-        card.style.setProperty("--mouse-y", `${y}px`);
-      });
-
-      card.dataset.shineListener = "true";
-    });
-  }
-
-  // Initial setup
-  setupCardShine();
-
-  // In Astro, view transitions can cause scripts to re-run.
-  // This also helps if cards are loaded dynamically.
-  document.addEventListener("astro:after-swap", setupCardShine);
+  initCardShine(".card-shine");
 </script>

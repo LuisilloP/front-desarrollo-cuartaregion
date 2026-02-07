@@ -1,6 +1,7 @@
 node_modules/
 .astro/
 dist/
+docs/ui-evidence/
 # Environment and local config
 .env
 .env.local
@@ -20,5 +21,3 @@ pnpm-debug.log*
 .idea/
 .vercel/
 .netlify/
-
-dist/

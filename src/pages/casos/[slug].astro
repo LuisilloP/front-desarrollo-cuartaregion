@@ -313,7 +313,7 @@ const backHref = "/#casos-de-exito";
                 <a
                   href={ctaHref}
                   target={isExternalCta ? "_blank" : undefined}
-                  rel={isExternalCta ? "noreferrer" : undefined}
+                  rel={isExternalCta ? "noopener noreferrer" : undefined}
                   class={`inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold shadow-soft transition ${ctaClass}`}
                 >
                   {isContactCta && (
@@ -333,7 +333,7 @@ const backHref = "/#casos-de-exito";
                   class="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card px-5 py-3 text-sm font-semibold text-content transition hover:border-primary/40 hover:text-primary"
                   href={siteUrlExternal}
                   target={isExternalSite ? "_blank" : undefined}
-                  rel={isExternalSite ? "noreferrer" : undefined}
+                  rel={isExternalSite ? "noopener noreferrer" : undefined}
                 >
                   Ver sitio
                   <Icon

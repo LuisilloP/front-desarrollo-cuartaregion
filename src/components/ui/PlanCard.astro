@@ -149,23 +149,8 @@ const {
   }
 </style>
 
-<script is:inline>
-  function setupCardShine() {
-    document.querySelectorAll(".card-shine").forEach((card) => {
-      if (card.dataset.shineListener === "true") return;
+<script>
+  import { initCardShine } from "../../scripts/ui/cardShine";
 
-      card.addEventListener("mousemove", (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        card.style.setProperty("--mouse-x", `${x}px`);
-        card.style.setProperty("--mouse-y", `${y}px`);
-      });
-
-      card.dataset.shineListener = "true";
-    });
-  }
-
-  setupCardShine();
-  document.addEventListener("astro:after-swap", setupCardShine);
+  initCardShine(".card-shine");
 </script>

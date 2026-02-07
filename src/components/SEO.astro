@@ -1,6 +1,7 @@
 ---
-import type { SiteSettings } from "../data/mock";
+import type { SiteSettings } from "../lib/api/types";
 import { env } from "../lib/env";
+import { SITE_DEFAULTS } from "../config/site";
 
 export interface Props {
     title?: string;
@@ -31,10 +32,10 @@ const {
     structuredData,
 } = Astro.props;
 
-const siteName = siteSettings?.siteName ?? "Agencia Digital";
-const tagline = siteSettings?.tagline ?? "Webs y automatizaciones que venden";
-const whatsappNumber = siteSettings?.whatsappNumber ?? "+56900000000";
-const region = siteSettings?.region ?? "La Serena";
+const siteName = siteSettings?.siteName ?? SITE_DEFAULTS.siteName;
+const tagline = siteSettings?.tagline ?? SITE_DEFAULTS.tagline;
+const whatsappNumber = siteSettings?.whatsappNumber ?? SITE_DEFAULTS.whatsappNumber;
+const region = siteSettings?.region ?? SITE_DEFAULTS.region;
 const socialLinks = siteSettings?.socialLinks ?? [];
 
 const pageTitle = title
@@ -49,7 +50,7 @@ const siteUrl = env.siteUrl ?? (Astro.site ? Astro.site.toString() : undefined);
 
 // Ensure image is absolute and valid for OG
 // Use logo as the default share image
-const defaultOgImage = "/logo.png";
+const defaultOgImage = SITE_DEFAULTS.defaultOgImage;
 const ogImage = image || defaultOgImage;
 
 const resolvedOgImage =
@@ -102,11 +103,6 @@ const localBusinessSchema = {
     sameAs: socialLinks.map((link) => link.url),
 };
 ---
-
-<!-- Global Metadata -->
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="generator" content={Astro.generator} />
 
 <!-- Canonical URL -->
 {resolvedCanonical && <link rel="canonical" href={resolvedCanonical} />}
@@ -167,6 +163,7 @@ const localBusinessSchema = {
 
 <!-- Schema.org JSON-LD -->
 <script
+    is:inline
     type="application/ld+json"
     set:html={JSON.stringify(localBusinessSchema)}
 />
@@ -175,12 +172,14 @@ const localBusinessSchema = {
         (Array.isArray(structuredData) ? (
             structuredData.map((item) => (
                 <script
+                    is:inline
                     type="application/ld+json"
                     set:html={JSON.stringify(item)}
                 />
             ))
         ) : (
             <script
+                is:inline
                 type="application/ld+json"
                 set:html={JSON.stringify(structuredData)}
             />

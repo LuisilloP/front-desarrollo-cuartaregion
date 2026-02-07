@@ -39,7 +39,7 @@ const showHint = hasHref && Boolean(hintText?.trim());
 const WrapperTag = hasHref ? "a" : "div";
 const wrapperAttrs = hasHref
   ? { href: resolvedHref, "aria-label": resolvedAriaLabel }
-  : { role: "group", "aria-label": ariaLabel };
+  : { role: "group" as const, "aria-label": ariaLabel };
 
 const watermarkBase = cx(
   "pointer-events-none absolute z-[1] text-slate-900/[0.10] dark:text-white/[0.12] transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:rotate-[1.5deg]",

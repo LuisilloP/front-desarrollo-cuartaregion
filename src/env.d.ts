@@ -22,16 +22,8 @@ declare namespace NodeJS {
 interface ImportMetaEnv {
   readonly PUBLIC_STRAPI_URL?: string;
   readonly PUBLIC_STRAPI_GRAPHQL_URL?: string;
-  readonly STRAPI_TOKEN?: string;
   readonly PUBLIC_SITE_URL?: string;
   readonly PUBLIC_ENV?: string;
-  readonly STRAPI_USE_MOCK?: string;
-  readonly USE_MOCK_DATA?: string;
-  readonly SITE_URL?: string;
-  readonly STRAPI_URL?: string;
-  readonly STRAPI_API_TOKEN?: string;
-  readonly STRAPI_INTERNAL_URL?: string;
-  readonly STRAPI_INTERNAL_GRAPHQL_URL?: string;
   readonly NODE_ENV?: string;
 }
 

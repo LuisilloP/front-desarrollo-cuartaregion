@@ -41,7 +41,7 @@ const activeSlides = slides && slides.length > 0 ? slides : heroImages;
   <!-- Background Slideshow -->
   <div class="absolute inset-0 z-0">
     <HeroBackgroundSlideshow
-      client:load
+      client:idle
       slides={activeSlides}
       intervalMs={7000}
       transitionMs={1200}
@@ -98,7 +98,7 @@ const activeSlides = slides && slides.length > 0 ? slides : heroImages;
         <a
           href={whatsappUrl}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
           class="inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-3.5 text-base font-semibold text-white shadow-lg transition-transform duration-200 hover:scale-105"
         >
           <Icon name="simple-icons:whatsapp" class="h-5 w-5" />
@@ -119,7 +119,7 @@ const activeSlides = slides && slides.length > 0 ? slides : heroImages;
               <a
                 href={link.url}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 aria-label={`Visita nuestro perfil de ${link.name}`}
                 class="text-slate-400 transition-colors hover:text-white"
               >
@@ -131,37 +131,15 @@ const activeSlides = slides && slides.length > 0 ? slides : heroImages;
   </div>
 </section>
 
-<script is:inline>
-  document.addEventListener("DOMContentLoaded", () => {
-    const text = "crecer con marketing digital y desarrollo web";
-    const typewriter = document.getElementById("hero-typewriter");
-    const cursor = document.querySelector(".typewriter-cursor");
+<script>
+  import { initHeroTypewriter } from "../../scripts/ui/heroTypewriter";
 
-    // Safety check
-    if (!typewriter) return;
-
-    // Prefers reduced motion check
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (mediaQuery.matches) {
-      typewriter.textContent = text;
-      // Hide cursor if no animation
-      if (cursor) cursor.style.display = "none";
-      return;
-    }
-
-    let index = 0;
-    const speed = 50; // ms per char
-
-    function type() {
-      if (index < text.length) {
-        typewriter.textContent += text.charAt(index);
-        index++;
-        setTimeout(type, speed);
-      }
-    }
-
-    // Start typing after a short delay (e.g. after fade-in starts)
-    setTimeout(type, 500);
+  initHeroTypewriter({
+    elementId: "hero-typewriter",
+    cursorSelector: ".typewriter-cursor",
+    text: "crecer con marketing digital y desarrollo web",
+    speedMs: 50,
+    startDelayMs: 500
   });
 </script>
 

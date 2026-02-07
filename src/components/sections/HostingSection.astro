@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const grid = document.getElementById("use-cases-grid");
 
   if(grid){
-    const cards = grid.querySelectorAll(".use-case-wrapper");
+    const cards = Array.from(grid.querySelectorAll<HTMLElement>(".use-case-wrapper"));
 
     const observer = new IntersectionObserver(entries=>{
       if(entries[0].isIntersecting){
@@ -171,8 +171,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function setupShine(){
-    document.querySelectorAll(".use-case-card").forEach(card=>{
-      card.addEventListener("mousemove",e=>{
+    document.querySelectorAll<HTMLElement>(".use-case-card").forEach(card=>{
+      card.addEventListener("mousemove",(e: MouseEvent)=>{
         const r=card.getBoundingClientRect();
         card.style.setProperty("--mouse-x",`${e.clientX-r.left}px`);
         card.style.setProperty("--mouse-y",`${e.clientY-r.top}px`);

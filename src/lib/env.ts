@@ -1,27 +1,29 @@
 type EnvMap = Record<string, string | undefined>;
 
 const metaEnv = import.meta.env;
+const isServer = typeof window === "undefined";
+
+const isPublicEnvKey = (key: string): boolean =>
+  key.startsWith("PUBLIC_") || key === "MODE" || key === "NODE_ENV";
+
 const metaEnvMap: EnvMap = {
   PUBLIC_STRAPI_URL: metaEnv.PUBLIC_STRAPI_URL,
   PUBLIC_STRAPI_GRAPHQL_URL: metaEnv.PUBLIC_STRAPI_GRAPHQL_URL,
-  STRAPI_TOKEN: metaEnv.STRAPI_TOKEN,
   PUBLIC_SITE_URL: metaEnv.PUBLIC_SITE_URL,
   SITE: metaEnv.SITE,
   PUBLIC_ENV: metaEnv.PUBLIC_ENV,
-  STRAPI_USE_MOCK: metaEnv.STRAPI_USE_MOCK,
-  USE_MOCK_DATA: metaEnv.USE_MOCK_DATA,
-  SITE_URL: metaEnv.SITE_URL,
-  STRAPI_URL: metaEnv.STRAPI_URL,
-  STRAPI_INTERNAL_URL: metaEnv.STRAPI_INTERNAL_URL,
-  STRAPI_INTERNAL_GRAPHQL_URL: metaEnv.STRAPI_INTERNAL_GRAPHQL_URL,
-  STRAPI_API_TOKEN: metaEnv.STRAPI_API_TOKEN,
   MODE: metaEnv.MODE,
   NODE_ENV: metaEnv.NODE_ENV
 };
 
 const getEnvValue = (key: string, fallback?: string): string | undefined => {
+  if (!isServer && !isPublicEnvKey(key)) {
+    return undefined;
+  }
+
   const processEnv = (globalThis as { process?: { env?: EnvMap } }).process?.env;
-  const value = processEnv?.[key] ?? metaEnvMap[key] ?? fallback;
+  const privateMetaEnv = isServer ? (metaEnv as unknown as EnvMap) : undefined;
+  const value = processEnv?.[key] ?? metaEnvMap[key] ?? privateMetaEnv?.[key] ?? fallback;
   if (value === undefined) return undefined;
   const trimmed = value.toString().trim();
   return trimmed.length > 0 ? trimmed : undefined;
@@ -37,7 +39,6 @@ const stripLeadingSlash = (value: string) => (value.startsWith("/") ? value.slic
 const joinUrl = (base: string, path: string) => `${stripTrailingSlash(base)}/${stripLeadingSlash(path)}`;
 
 const mode = getEnvValue("PUBLIC_ENV") ?? metaEnvMap.MODE ?? getEnvValue("NODE_ENV") ?? "development";
-const isServer = typeof window === "undefined";
 const privateStrapiUrl = getEnvValue("STRAPI_URL");
 const publicStrapiUrl = getEnvValue("PUBLIC_STRAPI_URL");
 const resolvedStrapiUrl = privateStrapiUrl ?? publicStrapiUrl ?? null;
@@ -50,7 +51,7 @@ const strapiGraphqlUrl = graphqlOverride
     ? joinUrl(normalizedStrapiUrl, "/graphql")
     : null;
 
-const strapiToken = getEnvValue("STRAPI_API_TOKEN") ?? getEnvValue("STRAPI_TOKEN") ?? null;
+const strapiToken = isServer ? getEnvValue("STRAPI_API_TOKEN") ?? getEnvValue("STRAPI_TOKEN") ?? null : null;
 const mockFlag = parseBool(getEnvValue("USE_MOCK_DATA") ?? getEnvValue("STRAPI_USE_MOCK"), true);
 const useMockData = mockFlag || !normalizedStrapiUrl;
 
@@ -65,7 +66,12 @@ export const getPublicStrapiUrl = (): string | null => {
 
 export const getStrapiGraphqlUrl = (): string | null => strapiGraphqlUrl;
 
-export const getStrapiToken = (): string | null => strapiToken;
+export const getStrapiToken = (): string | null => {
+  if (!isServer) {
+    throw new Error("Strapi token is only available on the server.");
+  }
+  return strapiToken;
+};
 
 export const assertStrapiConfig = (): void => {
   if (useMockData) return;
@@ -84,7 +90,6 @@ export const env = {
   strapiUrl: normalizedStrapiUrl,
   strapiPublicUrl: getPublicStrapiUrl(),
   strapiGraphqlUrl,
-  strapiToken,
   siteUrl: getEnvValue("PUBLIC_SITE_URL") ?? getEnvValue("SITE_URL") ?? getEnvValue("SITE"),
   useMock: useMockData
 };

@@ -1,4 +1,4 @@
-ï»¿---
+---
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/layout/Navbar.astro";
 import Footer from "../components/layout/Footer.astro";
@@ -37,7 +37,7 @@ const pageTitle =
   seo?.title ?? "Desarrollo Web y Software para Pymes | Aliado Digital";
 const pageDescription =
   seo?.description ??
-  "Desarrollo web y software a medida para pymes en Chile. Sitios rÃ¡pidos, escalables y listos para crecer.";
+  "Desarrollo web y software a medida para pymes en Chile. Sitios rápidos, escalables y listos para crecer.";
 
 const servicesForPage = services.filter(
   (service) => (service.type ?? "").toLowerCase() !== "digital",
@@ -62,7 +62,7 @@ const heroHeading =
 const heroDescription =
   hero?.subtitle ??
   value?.description ??
-  "Webs rÃ¡pidas, escalables y listas para crecer.";
+  "Webs rápidas, escalables y listas para crecer.";
 const primaryCta =
   hero?.primaryCta ??
   (value?.ctaLabel && value?.ctaHref
@@ -77,11 +77,11 @@ const items = value?.items ?? [];
 const portfolioTitle =
   developmentClients.title ??
   trust?.title ??
-  "Equipos que confÃ­an en nuestro desarrollo";
+  "Equipos que confían en nuestro desarrollo";
 const portfolioDescription =
   developmentClients.description ??
   trust?.description ??
-  "Trabajamos con negocios que buscan tecnologÃ­a estable, segura y con soporte real.";
+  "Trabajamos con negocios que buscan tecnología estable, segura y con soporte real.";
 const companiesForMarquee =
   developmentClients.companies && developmentClients.companies.length > 0
     ? developmentClients.companies
@@ -90,10 +90,10 @@ const companiesForMarquee =
 const contactContent = {
   eyebrow: "Hablemos",
   title:
-    cta?.title ?? "Â¿Listo para dar el siguiente paso con tu web?",
+    cta?.title ?? "¿Listo para dar el siguiente paso con tu web?",
   description:
     cta?.description ??
-    "CuÃ©ntanos lo que tienes en mente y te ayudamos a planificarlo bien desde el inicio.",
+    "Cuéntanos lo que tienes en mente y te ayudamos a planificarlo bien desde el inicio.",
   socialLinks: content.siteSettings.socialLinks,
 };
 const contactSectionId = cta?.sectionId ?? "contacto-desarrollo";
@@ -195,7 +195,7 @@ const breadcrumbSchema = {
       <div class="absolute inset-0 z-0">
         {slides.length > 0 ? (
           <HeroBackgroundSlideshow
-            client:load
+            client:idle
             slides={slides}
             intervalMs={7000}
             transitionMs={1200}
@@ -227,7 +227,7 @@ const breadcrumbSchema = {
                   <a
                     href={primaryCta.href}
                     target={isExternalCta ? "_blank" : undefined}
-                    rel={isExternalCta ? "noreferrer" : undefined}
+                    rel={isExternalCta ? "noopener noreferrer" : undefined}
                     class="inline-flex w-full min-w-[240px] items-center justify-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-black/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/90 sm:w-auto sm:min-w-[260px]"
                   >
                     <GoogleG size={16} />
@@ -253,15 +253,20 @@ const breadcrumbSchema = {
             <div class="grid gap-4 sm:gap-6">
               {items.map((item) => {
                 const labelText = (item.label ?? item.title ?? "").toLowerCase();
+                const normalizedLabelText = labelText
+                  .normalize("NFD")
+                  .replace(/[\u0300-\u036f]/g, "")
+                  .replace(/[^a-z0-9\s]/g, "")
+                  .replace(/\s+/g, " ")
+                  .trim();
                 const isGeneric =
-                  labelText.includes("sin sistema") ||
-                  labelText.includes("sin base") ||
-                  labelText.includes("genÃ©rico") ||
-                  labelText.includes("generico");
+                  normalizedLabelText.includes("sin sistema") ||
+                  normalizedLabelText.includes("sin base") ||
+                  normalizedLabelText.includes("generico");
                 const isCustom =
-                  labelText.includes("con mÃ©todo") ||
-                  labelText.includes("con metodo") ||
-                  labelText.includes("a medida");
+                  normalizedLabelText.includes("con metodo") ||
+                  normalizedLabelText.includes("con mtodo") ||
+                  normalizedLabelText.includes("a medida");
 
                 const cardTone = isGeneric
                   ? "border-rose-300/50 bg-rose-500/25 hover:border-rose-200/80"

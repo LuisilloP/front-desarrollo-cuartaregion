@@ -82,17 +82,17 @@ const PortfolioMarqueeSection: React.FC<PortfolioMarqueeSectionProps> = ({
   const lastFrameTimeRef = useRef<number | null>(null);
   const [isAnimating, setIsAnimating] = useState(false);
 
-  const visibleCompanies = companies ?? [];
+  const visibleCompanies = useMemo(() => companies ?? [], [companies]);
 
   const marqueeCompanies = useMemo(
     () =>
       visibleCompanies.length > 0
         ? [
-          ...visibleCompanies,
-          ...visibleCompanies,
-          ...visibleCompanies,
-          ...visibleCompanies,
-        ]
+            ...visibleCompanies,
+            ...visibleCompanies,
+            ...visibleCompanies,
+            ...visibleCompanies
+          ]
         : [],
     [visibleCompanies]
   );

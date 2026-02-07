@@ -1,5 +1,6 @@
 import { env } from "../lib/env";
-import { fetchAllPosts, fetchCases, fetchPostsPage, fetchServices } from "../lib/api/services";
+import { fetchAllPosts, fetchCases, fetchServices } from "../lib/api/services";
+import { SITE_DEFAULTS } from "../config/site";
 
 const SITE_URL = (env.siteUrl || import.meta.env.SITE || "https://aliadodigital.cl").replace(/\/$/, "");
 
@@ -36,10 +37,11 @@ export async function GET() {
     { path: "/terminos", changefreq: "yearly", priority: "0.3" }
   ];
 
-  const [services, cases, postsPage, posts] = await Promise.all([
+  const blogPageSize = SITE_DEFAULTS.blogPageSize;
+
+  const [services, cases, posts] = await Promise.all([
     fetchServices(),
     fetchCases(),
-    fetchPostsPage({ page: 1, pageSize: 6 }),
     fetchAllPosts({ pageSize: 100 })
   ]);
 
@@ -68,7 +70,7 @@ export async function GET() {
       lastmod: toIsoDate(post.updatedAt || post.publishedAt || post.createdAt)
     }));
 
-  const pageCount = Math.max(1, postsPage.pagination.pageCount ?? 1);
+  const pageCount = Math.max(1, Math.ceil(posts.length / blogPageSize));
   const blogPaginationRoutes: SitemapEntry[] = Array.from({ length: pageCount }, (_, index) => index + 1)
     .filter((pageNumber) => pageNumber > 1)
     .map((pageNumber) => ({

@@ -26,7 +26,8 @@ export const fetchGraphQL = async <T>(
   if (token) headers.set("Authorization", `Bearer ${token}`);
 
   if (isDev) {
-    console.log(`[strapi] ${queryName} variables`, variables ?? {});
+    const variableKeys = Object.keys(variables ?? {});
+    console.info(`[strapi] ${queryName} request`, { variableKeys, hasAuth: Boolean(token) });
   }
 
   const response = await fetch(graphqlUrl, {
@@ -55,7 +56,7 @@ export const fetchGraphQL = async <T>(
     throw new Error(`[${queryName}] Strapi GraphQL error: missing data`);
   }
   if (isDev) {
-    console.log(`[strapi] ${queryName} data`, payload.data);
+    console.info(`[strapi] ${queryName} success`);
   }
   return payload.data;
 };
