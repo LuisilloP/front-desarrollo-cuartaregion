@@ -24,6 +24,13 @@ Nota: al ser un build estatico los datos se toman durante la fase de build; si c
 5. Puerto expuesto por la imagen: `80`. Configura Dokploy para publicar ese puerto.
 6. Opcional: habilita auto deploy con webhooks de GitHub para que Dokploy reconstruya al hacer push.
 
+## Despliegue en Dokploy con Nixpacks + Nginx
+- Si usas Nixpacks en vez de Dockerfile, este repo ya incluye `nixpacks.toml` para:
+  - `npm ci` + `npm run build`
+  - levantar `nginx` con `scripts/start-nginx.sh`
+  - servir `dist/` con la misma politica de cache usada en Docker (`nginx.conf`).
+- El puerto se toma desde `PORT` (default `80`).
+
 ## Despliegue en Vercel
 - Recomendado: `USE_MOCK_DATA=true` para previews o cuando no tengas backend.
 - Para usar Strapi: `USE_MOCK_DATA=false`, `STRAPI_URL=https://tu-strapi.com`, `STRAPI_API_TOKEN=<token>` (si aplica). Recuerda que las variables para cliente deben empezar con `PUBLIC_`.

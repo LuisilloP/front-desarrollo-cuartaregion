@@ -1,11 +1,14 @@
 [phases.setup]
-nixPkgs = ["nodejs_24"]
+nixPkgs = ["nodejs_24", "nginx"]
 
 [phases.install]
 cmds = ["npm ci"]
 
 [phases.build]
 cmds = ["npm run build"]
+
+[start]
+cmd = "sh scripts/start-nginx.sh"
 
 [variables]
 NIXPACKS_NODE_VERSION = "24"

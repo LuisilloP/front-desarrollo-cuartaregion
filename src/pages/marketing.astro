@@ -76,7 +76,7 @@ const canonical = Astro.url
   : siteUrl
     ? new URL("/marketing", siteUrl).toString()
     : undefined;
-const logoUrl = siteUrl ? new URL("/logo.png", siteUrl).toString() : undefined;
+const logoUrl = siteUrl ? new URL("/logo.svg", siteUrl).toString() : undefined;
 const provider = {
   "@type": "Organization",
   name: siteSettings.siteName,

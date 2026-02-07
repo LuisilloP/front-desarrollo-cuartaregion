@@ -81,7 +81,7 @@ const localBusinessSchema = {
     "@type": ["ProfessionalService", "MarketingAgency", "WebDevelopment"], // Customized for Aliado Digital
     name: siteName,
     url: siteUrl,
-    logo: siteUrl ? new URL("/logo.png", siteUrl).toString() : undefined,
+    logo: siteUrl ? new URL("/logo.svg", siteUrl).toString() : undefined,
     image: resolvedOgImage,
     description: pageDescription,
     address: {

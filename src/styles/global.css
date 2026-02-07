@@ -46,26 +46,6 @@ a {
   color: rgb(var(--color-content));
 }
 
-.faq-answer {
-  overflow: hidden;
-  will-change: height, opacity, transform;
-}
-
-.faq-item[open] .faq-toggle {
-  transform: rotate(45deg);
-}
-
-[data-animate="reveal"] {
-  opacity: 0;
-  transform: translateY(30px) scale(0.98);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-[data-animate="reveal"].animate-visible {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
 .prose {
   color: rgb(var(--color-content));
 }

@@ -1,9 +1,8 @@
 ---
 import { Icon } from "astro-icon/components";
-import HeroSlideshow from "./HeroSlideshow.astro";
 import type { SiteSettings, HeroSectionContent } from "../../lib/api/types";
 import { buildWhatsAppLink } from "../../lib/utils";
-import HeroBackgroundSlideshow from "../hero/HeroBackgroundSlideshow.tsx";
+import HeroBackgroundSlideshow from "../hero/HeroBackgroundSlideshow.astro";
 
 type Slide = {
   src: string;
@@ -41,7 +40,6 @@ const activeSlides = slides && slides.length > 0 ? slides : heroImages;
   <!-- Background Slideshow -->
   <div class="absolute inset-0 z-0">
     <HeroBackgroundSlideshow
-      client:idle
       slides={activeSlides}
       intervalMs={7000}
       transitionMs={1200}

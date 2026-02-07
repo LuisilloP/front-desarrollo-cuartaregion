@@ -1,147 +1,64 @@
-/**
- * Premium Motion System
- * Inspired by Linear/Vercel/Stripe
- * Uses IntersectionObserver + CSS transforms/opacity
- */
+const REVEAL_SELECTOR = "[data-reveal]";
 
-type RevealType = 'fade-up' | 'blur-up';
+const revealElement = (element: HTMLElement): void => {
+  const delay = Number.parseInt(element.dataset.delay ?? "0", 10);
 
-interface RevealConfig {
-    type: RevealType;
-    delay: number;
-    duration: number;
-    once: boolean;
-    stagger: boolean;
-}
+  if (Number.isFinite(delay) && delay > 0) {
+    window.setTimeout(() => {
+      element.classList.add("is-in");
+    }, delay);
+    return;
+  }
 
-const DEFAULTS: RevealConfig = {
-    type: 'fade-up',
-    delay: 0,
-    duration: 600,
-    once: true,
-    stagger: false,
+  element.classList.add("is-in");
 };
 
-class MotionSystem {
-    private observer: IntersectionObserver | null = null;
-    private prefersReducedMotion: boolean;
+const disableAnimations = (): void => {
+  document.querySelectorAll<HTMLElement>(REVEAL_SELECTOR).forEach((element) => {
+    element.style.opacity = "1";
+    element.style.transform = "none";
+    element.style.transition = "none";
+  });
+};
 
-    constructor() {
-        this.prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        this.init();
-    }
+const observeRevealElements = (observer: IntersectionObserver): void => {
+  document.querySelectorAll<HTMLElement>(REVEAL_SELECTOR).forEach((element) => {
+    if (element.classList.contains("is-in")) return;
+    observer.observe(element);
+  });
+};
 
-    private init() {
-        // If reduced motion, make everything visible immediately
-        if (this.prefersReducedMotion) {
-            this.disableAnimations();
-            return;
-        }
+const initMotion = (): void => {
+  const elements = document.querySelectorAll<HTMLElement>(REVEAL_SELECTOR);
+  if (!elements.length) return;
 
-        // Single observer for all reveal elements
-        this.observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        this.reveal(entry.target as HTMLElement);
-                    }
-                });
-            },
-            {
-                rootMargin: '0px 0px -12% 0px', // Trigger before fully in view
-                threshold: 0.01,
-            }
-        );
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  if (prefersReducedMotion.matches) {
+    disableAnimations();
+    return;
+  }
 
-        // Observe all elements with data-reveal
-        this.observeElements();
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const element = entry.target as HTMLElement;
+        revealElement(element);
+        observer.unobserve(element);
+      });
+    },
+    {
+      rootMargin: "0px 0px -12% 0px",
+      threshold: 0.01,
+    },
+  );
 
-        // Re-observe on Astro page transitions
-        document.addEventListener('astro:after-swap', () => {
-            this.observeElements();
-        });
-    }
+  observeRevealElements(observer);
+  document.addEventListener("astro:after-swap", () => observeRevealElements(observer));
+};
 
-    private observeElements() {
-        const elements = document.querySelectorAll('[data-reveal]');
-        elements.forEach((el) => {
-            if (this.observer) {
-                this.observer.observe(el);
-            }
-        });
-    }
-
-    private reveal(element: HTMLElement) {
-        const config = this.getConfig(element);
-
-        // Apply custom delay and duration via CSS variables
-        if (config.delay > 0) {
-            element.style.setProperty('--delay', `${config.delay}ms`);
-        }
-        if (config.duration !== DEFAULTS.duration) {
-            element.style.setProperty('--dur', `${config.duration}ms`);
-        }
-
-        // Apply reveal after delay
-        setTimeout(() => {
-            element.classList.add('is-in');
-
-            // Handle stagger for children
-            if (config.stagger) {
-                this.applyStagger(element);
-            }
-
-            // Unobserve if once
-            if (config.once && this.observer) {
-                this.observer.unobserve(element);
-            }
-        }, config.delay);
-    }
-
-    private applyStagger(parent: HTMLElement) {
-        const children = parent.querySelectorAll('[data-reveal]');
-        children.forEach((child, index) => {
-            const childDelay = index * 70; // 70ms stagger (Stripe-inspired)
-            const childEl = child as HTMLElement;
-
-            setTimeout(() => {
-                childEl.classList.add('is-in');
-            }, childDelay);
-        });
-    }
-
-    private getConfig(element: HTMLElement): RevealConfig {
-        return {
-            type: (element.dataset.reveal as RevealType) || DEFAULTS.type,
-            delay: parseInt(element.dataset.delay || String(DEFAULTS.delay)),
-            duration: parseInt(element.dataset.duration || String(DEFAULTS.duration)),
-            once: element.dataset.once !== 'false', // Default true
-            stagger: element.dataset.stagger === 'children',
-        };
-    }
-
-    private disableAnimations() {
-        // For reduced motion, make everything visible immediately
-        const elements = document.querySelectorAll('[data-reveal]');
-        elements.forEach((el) => {
-            const htmlEl = el as HTMLElement;
-            htmlEl.style.opacity = '1';
-            htmlEl.style.transform = 'none';
-            htmlEl.style.filter = 'none';
-            htmlEl.style.transition = 'none';
-        });
-    }
+if (typeof window !== "undefined") {
+  initMotion();
 }
 
-// Auto-initialize
-if (typeof window !== 'undefined') {
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-            new MotionSystem();
-        });
-    } else {
-        new MotionSystem();
-    }
-}
-
-export default MotionSystem;
+export {};

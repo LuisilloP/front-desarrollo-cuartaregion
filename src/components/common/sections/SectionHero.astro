@@ -1,6 +1,6 @@
 ---
 import type { PageHero } from "../../../lib/api/types";
-import HeroBackgroundSlideshow from "../../hero/HeroBackgroundSlideshow.tsx";
+import HeroBackgroundSlideshow from "../../hero/HeroBackgroundSlideshow.astro";
 
 interface Props extends PageHero {
   sectionId?: string;
@@ -22,7 +22,6 @@ const {
   <div class="absolute inset-0 -z-10">
     {slides.length > 0 ? (
       <HeroBackgroundSlideshow
-        client:idle
         slides={slides}
         intervalMs={7000}
         transitionMs={1200}

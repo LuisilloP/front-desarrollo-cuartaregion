@@ -33,7 +33,7 @@ const publishedTime = post.publishedAt || post.createdAt;
 const modifiedTime = post.updatedAt || post.publishedAt || post.createdAt;
 const articleTags = post.tags?.map((tag) => tag.name).filter(Boolean) ?? [];
 const articleSection = post.category?.name;
-const logoUrl = siteUrl ? new URL("/logo.png", siteUrl).toString() : undefined;
+const logoUrl = siteUrl ? new URL("/logo.svg", siteUrl).toString() : undefined;
 const ogImageAbsolute = ogImage && siteUrl ? new URL(ogImage, siteUrl).toString() : ogImage;
 const publisher = {
   "@type": "Organization",

@@ -1,5 +1,5 @@
 ---
-import HeroBackgroundSlideshow from "../hero/HeroBackgroundSlideshow.tsx";
+import HeroBackgroundSlideshow from "../hero/HeroBackgroundSlideshow.astro";
 import GoogleG from "../ui/GoogleG.astro";
 import type { PageHero, ValueSection } from "../../lib/api/types";
 
@@ -39,7 +39,6 @@ const items = value.items ?? [];
   <div class="absolute inset-0 z-0">
     {slides.length > 0 ? (
       <HeroBackgroundSlideshow
-        client:idle
         slides={slides}
         intervalMs={7000}
         transitionMs={1200}

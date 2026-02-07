@@ -39,7 +39,7 @@ const canonical = Astro.url
     ? new URL(`/casos/${caseStudy.slug}`, siteUrl).toString()
     : undefined;
 const ogImageAbsolute = coverImage && siteUrl ? new URL(coverImage, siteUrl).toString() : coverImage;
-const logoUrl = siteUrl ? new URL("/logo.png", siteUrl).toString() : undefined;
+const logoUrl = siteUrl ? new URL("/logo.svg", siteUrl).toString() : undefined;
 const publisher = {
   "@type": "Organization",
   name: siteSettings.siteName,

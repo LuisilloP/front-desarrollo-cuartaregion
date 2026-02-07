@@ -1,0 +1,177 @@
+---
+type Slide = {
+  src: string;
+  alt?: string;
+  position?: string;
+  mobileFocus?: "left" | "right" | "center";
+};
+
+interface Props {
+  slides: Slide[];
+  intervalMs?: number;
+  transitionMs?: number;
+  className?: string;
+  showOverlay?: boolean;
+}
+
+const {
+  slides = [],
+  intervalMs = 7000,
+  transitionMs = 1200,
+  className = "",
+  showOverlay = true,
+} = Astro.props as Props;
+
+const safeSlides = (slides ?? []).filter((slide) => Boolean(slide?.src));
+
+const resolvePosition = (slide: Slide) => {
+  if (slide.mobileFocus === "left") return "left center";
+  if (slide.mobileFocus === "right") return "right center";
+  if (slide.mobileFocus === "center") return "center center";
+  return slide.position ?? "center center";
+};
+
+const firstSlide = safeSlides[0];
+const firstPosition = firstSlide ? resolvePosition(firstSlide) : "center center";
+---
+
+{
+  safeSlides.length > 0 && (
+    <div
+      class={`absolute inset-0 -z-10 overflow-hidden pointer-events-none isolate ${className}`}
+      aria-hidden="true"
+      data-hero-slideshow
+      data-slides={JSON.stringify(safeSlides)}
+      data-interval-ms={String(intervalMs)}
+      data-transition-ms={String(transitionMs)}
+    >
+      <img
+        data-hero-slot="a"
+        src={firstSlide.src}
+        alt={firstSlide.alt ?? ""}
+        class="absolute inset-0 h-full w-full object-cover object-[var(--object-position-mobile)] sm:object-center will-change-[opacity,transform] transition-[opacity,transform] ease-in-out"
+        style={`--object-position-mobile:${firstPosition}; opacity:1; transform:translate3d(0,0,0) scale(1); transition-duration:${transitionMs}ms;`}
+        loading="eager"
+        decoding="sync"
+        fetchpriority="high"
+      />
+      <img
+        data-hero-slot="b"
+        src={firstSlide.src}
+        alt={firstSlide.alt ?? ""}
+        class="absolute inset-0 h-full w-full object-cover object-[var(--object-position-mobile)] sm:object-center will-change-[opacity,transform] transition-[opacity,transform] ease-in-out"
+        style={`--object-position-mobile:${firstPosition}; opacity:0; transform:translate3d(10px,0,0) scale(1.01); transition-duration:${transitionMs}ms;`}
+        loading="lazy"
+        decoding="async"
+      />
+      {
+        showOverlay && (
+          <>
+            <div class="absolute inset-0 bg-gradient-to-r from-secondary/85 via-secondary/60 to-secondary/30" />
+            <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-transparent" />
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_18%_25%,rgba(59,130,246,0.18),transparent_40%),radial-gradient(circle_at_78%_10%,rgba(14,165,233,0.16),transparent_36%)]" />
+          </>
+        )
+      }
+    </div>
+  )
+}
+
+<script is:inline>
+  (() => {
+    if (typeof window === "undefined") return;
+
+    const resolvePosition = (slide) => {
+      if (!slide) return "center center";
+      if (slide.mobileFocus === "left") return "left center";
+      if (slide.mobileFocus === "right") return "right center";
+      if (slide.mobileFocus === "center") return "center center";
+      return slide.position || "center center";
+    };
+
+    const applySlide = (image, slide, transitionMs, eager = false) => {
+      image.src = slide.src;
+      image.alt = slide.alt || "";
+      image.style.setProperty("--object-position-mobile", resolvePosition(slide));
+      image.style.transitionDuration = `${transitionMs}ms`;
+      image.loading = eager ? "eager" : "lazy";
+      image.decoding = eager ? "sync" : "async";
+      image.fetchPriority = eager ? "high" : "auto";
+    };
+
+    const initSlideshow = (root) => {
+      if (!root || root.dataset.heroSlideshowReady === "true") return;
+      root.dataset.heroSlideshowReady = "true";
+
+      const rawSlides = root.getAttribute("data-slides") || "[]";
+      let slides = [];
+      try {
+        slides = JSON.parse(rawSlides);
+      } catch {
+        slides = [];
+      }
+
+      if (!Array.isArray(slides) || slides.length === 0) return;
+
+      const slotA = root.querySelector('[data-hero-slot="a"]');
+      const slotB = root.querySelector('[data-hero-slot="b"]');
+      if (!slotA || !slotB) return;
+
+      const intervalMs = Number(root.getAttribute("data-interval-ms")) || 7000;
+      const transitionMs = Number(root.getAttribute("data-transition-ms")) || 1200;
+      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      applySlide(slotA, slides[0], transitionMs, true);
+      applySlide(slotB, slides[0], transitionMs, false);
+
+      if (prefersReduced || slides.length < 2) return;
+
+      let index = 0;
+      let showingA = true;
+
+      const timer = window.setInterval(() => {
+        if (!root.isConnected) {
+          window.clearInterval(timer);
+          return;
+        }
+
+        index = (index + 1) % slides.length;
+        const nextSlide = slides[index];
+
+        const incoming = showingA ? slotB : slotA;
+        const outgoing = showingA ? slotA : slotB;
+
+        applySlide(incoming, nextSlide, transitionMs, false);
+        incoming.style.opacity = "0";
+        incoming.style.transform = "translate3d(10px,0,0) scale(1.01)";
+        outgoing.style.opacity = "1";
+        outgoing.style.transform = "translate3d(0,0,0) scale(1)";
+
+        void incoming.offsetWidth;
+
+        requestAnimationFrame(() => {
+          incoming.style.opacity = "1";
+          incoming.style.transform = "translate3d(0,0,0) scale(1)";
+          outgoing.style.opacity = "0";
+          outgoing.style.transform = "translate3d(-10px,0,0) scale(0.995)";
+        });
+
+        showingA = !showingA;
+      }, intervalMs);
+    };
+
+    const initAll = () => {
+      document
+        .querySelectorAll("[data-hero-slideshow]")
+        .forEach((root) => initSlideshow(root));
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initAll, { once: true });
+    } else {
+      initAll();
+    }
+
+    document.addEventListener("astro:after-swap", initAll);
+  })();
+</script>

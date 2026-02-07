@@ -4,7 +4,7 @@ import Navbar from "../components/layout/Navbar.astro";
 import Footer from "../components/layout/Footer.astro";
 import SectionDivider from "../components/layout/SectionDivider.astro";
 import WhatsAppFloatingButton from "../components/layout/WhatsAppFloatingButton.astro";
-import HeroBackgroundSlideshow from "../components/hero/HeroBackgroundSlideshow.tsx";
+import HeroBackgroundSlideshow from "../components/hero/HeroBackgroundSlideshow.astro";
 import GoogleG from "../components/ui/GoogleG.astro";
 import PlansSection from "../components/development/PlansSection.astro";
 import ProcessSection from "../components/sections/ProcessSection.astro";
@@ -114,7 +114,7 @@ const canonical = Astro.url
   : siteUrl
     ? new URL("/desarrollo", siteUrl).toString()
     : undefined;
-const logoUrl = siteUrl ? new URL("/logo.png", siteUrl).toString() : undefined;
+const logoUrl = siteUrl ? new URL("/logo.svg", siteUrl).toString() : undefined;
 const provider = {
   "@type": "Organization",
   name: siteSettings.siteName,
@@ -195,7 +195,6 @@ const breadcrumbSchema = {
       <div class="absolute inset-0 z-0">
         {slides.length > 0 ? (
           <HeroBackgroundSlideshow
-            client:idle
             slides={slides}
             intervalMs={7000}
             transitionMs={1200}
@@ -372,4 +371,3 @@ const breadcrumbSchema = {
     message="Hola! Quiero un desarrollo a medida."
   />
 </Layout>
-

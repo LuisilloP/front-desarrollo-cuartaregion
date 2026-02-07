@@ -116,7 +116,18 @@ const structuredDataItems = Array.isArray(structuredData)
 
     <!-- Global Motion System -->
     <script>
-      import "../scripts/motion.ts";
+      const initMotion = () => {
+        if (!document.querySelector("[data-reveal]")) return;
+        import("../scripts/motion.ts");
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initMotion, { once: true });
+      } else {
+        initMotion();
+      }
+
+      document.addEventListener("astro:after-swap", initMotion);
     </script>
 
     <style is:global>
@@ -125,46 +136,13 @@ const structuredDataItems = Array.isArray(structuredData)
         opacity: 0;
         transition-property: opacity, transform;
         transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+        transition-duration: 600ms;
         will-change: opacity, transform;
       }
 
-      /* Duration variants */
-      [data-reveal][data-duration="400"] {
-        transition-duration: 400ms;
-      }
-      [data-reveal][data-duration="600"] {
-        transition-duration: 600ms;
-      }
-      [data-reveal][data-duration="800"] {
-        transition-duration: 800ms;
-      }
-      [data-reveal]:not([data-duration]) {
-        transition-duration: 600ms;
-      }
-
-      /* Fade Up (default) */
+      /* Reveal (current use: fade-up) */
       [data-reveal="fade-up"] {
         transform: translateY(1rem);
-      }
-
-      /* Fade */
-      [data-reveal="fade"] {
-        transform: none;
-      }
-
-      /* Zoom */
-      [data-reveal="zoom"] {
-        transform: scale(0.95);
-      }
-
-      /* Slide Left */
-      [data-reveal="slide-left"] {
-        transform: translateX(2rem);
-      }
-
-      /* Slide Right */
-      [data-reveal="slide-right"] {
-        transform: translateX(-2rem);
       }
 
       /* Visible State */
