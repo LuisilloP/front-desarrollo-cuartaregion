@@ -60,36 +60,46 @@ const isHomeDevelopmentPlansCard =
   service.slug === "planes-desarrollo" && linkHref === "/desarrollo#planes";
 const isHomeMarketingPlansCard =
   service.slug === "planes-marketing" && linkHref === "/marketing#planes";
+const isHomeMixedPlansCard = service.slug === "planes-mixto";
 
 const ctaBaseClass =
   "cta-button inline-flex min-h-12 w-full cursor-pointer items-center justify-between gap-3 rounded-2xl px-5 py-3.5 text-lg font-semibold tracking-[0.01em] shadow-md ring-1 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg sm:min-h-11 sm:py-3 sm:text-base lg:min-h-10 lg:py-2.5 lg:text-sm 2xl:w-auto 2xl:justify-center";
 
+const mixedCtaButtonClass = isHomeMixedPlansCard
+  ? "relative overflow-hidden bg-gradient-to-r from-slate-200 via-slate-300 to-zinc-300 text-slate-900 ring-slate-300/65 shadow-lg shadow-slate-400/20 group-hover:from-slate-200 group-hover:via-slate-100 group-hover:to-zinc-200 dark:from-slate-600 dark:via-slate-700 dark:to-zinc-600 dark:text-white dark:ring-slate-500/55 dark:shadow-slate-950/45 dark:group-hover:from-slate-600 dark:group-hover:via-slate-700 dark:group-hover:to-zinc-600"
+  : "bg-gradient-to-r from-blue-600 to-amber-500 text-white ring-blue-300/35 shadow-lg shadow-blue-900/20 group-hover:from-blue-700 group-hover:to-amber-600";
+
 const ctaButtonClass = isMixed
-  ? "bg-gradient-to-r from-blue-600 to-amber-500 text-white ring-blue-300/35 shadow-lg shadow-blue-900/20 group-hover:from-blue-700 group-hover:to-amber-600"
+  ? mixedCtaButtonClass
   : variant === "web"
     ? isHomeDevelopmentPlansCard
-      ? "bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 text-white ring-blue-300/45 shadow-lg shadow-blue-700/25 group-hover:from-sky-600 group-hover:via-blue-700 group-hover:to-indigo-700"
+      ? "bg-gradient-to-r from-sky-300 via-blue-400 to-indigo-500 text-slate-900 dark:text-white ring-blue-300/45 shadow-lg shadow-blue-700/20 group-hover:from-sky-400 group-hover:via-blue-500 group-hover:to-indigo-600 dark:from-sky-500 dark:via-blue-600 dark:to-indigo-700 dark:group-hover:from-sky-600 dark:group-hover:via-blue-700 dark:group-hover:to-indigo-800"
       : "bg-blue-600 text-white ring-blue-900/20 shadow-blue-900/15 group-hover:bg-blue-700"
     : accentTone === "amber"
       ? isHomeMarketingPlansCard
-        ? "bg-gradient-to-r from-amber-500 via-orange-500 to-orange-600 text-white ring-orange-300/45 shadow-lg shadow-orange-600/25 group-hover:from-amber-600 group-hover:via-orange-600 group-hover:to-orange-700"
+        ? "bg-gradient-to-r from-amber-500 via-orange-500 to-orange-600 text-slate-900 dark:text-white ring-orange-300/45 shadow-lg shadow-orange-600/25 group-hover:from-amber-600 group-hover:via-orange-600 group-hover:to-orange-700 dark:from-amber-600 dark:via-orange-600 dark:to-orange-700 dark:ring-orange-400/45 dark:shadow-orange-700/30 dark:group-hover:from-amber-700 dark:group-hover:via-orange-700 dark:group-hover:to-orange-800"
         : "bg-gradient-to-r from-amber-200 to-orange-300 text-slate-900 ring-orange-300/45 shadow-amber-900/10 group-hover:from-amber-300 group-hover:to-orange-400"
       : "bg-gradient-to-r from-amber-200 to-orange-300 text-slate-900 ring-orange-300/45 shadow-amber-900/10 group-hover:from-amber-300 group-hover:to-orange-400";
 
 const ctaFocusClass = isMixed
-  ? "group-focus-visible:ring-2 group-focus-visible:ring-blue-300 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-white dark:group-focus-visible:ring-offset-slate-950"
+  ? isHomeMixedPlansCard
+    ? "group-focus-visible:ring-2 group-focus-visible:ring-slate-300/70 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-white dark:group-focus-visible:ring-slate-500/70 dark:group-focus-visible:ring-offset-slate-950"
+    : "group-focus-visible:ring-2 group-focus-visible:ring-blue-300 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-white dark:group-focus-visible:ring-offset-slate-950"
   : variant === "web"
     ? "group-focus-visible:ring-2 group-focus-visible:ring-blue-300 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-white dark:group-focus-visible:ring-offset-slate-950"
     : "group-focus-visible:ring-2 group-focus-visible:ring-orange-300 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-white dark:group-focus-visible:ring-offset-slate-950";
 
 const ctaIconClass =
-  isHomeMarketingPlansCard
-    ? "text-white"
+  isHomeMixedPlansCard || isHomeMarketingPlansCard || isHomeDevelopmentPlansCard
+    ? "text-slate-900 dark:text-white"
     : variant === "marketing" && accentTone === "amber"
     ? "text-slate-950"
     : variant === "web" || isMixed
       ? "text-white"
       : "text-slate-950";
+
+const ctaLabelClass = "text-left leading-tight";
+const ctaArrowClass = "cta-arrow ml-auto h-4 w-4 flex-shrink-0 transition-transform duration-200";
 ---
 
 <a
@@ -200,10 +210,19 @@ const ctaIconClass =
     <div
       class={`${ctaBaseClass} ${ctaButtonClass} ${ctaFocusClass}`}
     >
-      <span class="text-left leading-tight">{ctaLabel}</span>
+      {
+        isHomeMixedPlansCard && (
+          <span
+            class="pointer-events-none absolute inset-0 rounded-2xl p-[2px] bg-gradient-to-r from-sky-500 via-blue-500 to-orange-500 opacity-90"
+            style="mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;-webkit-mask-composite:xor;"
+            aria-hidden="true"
+          />
+        )
+      }
+      <span class={ctaLabelClass}>{ctaLabel}</span>
       <Icon
         name="lucide:arrow-right"
-        class={`cta-arrow ml-auto h-4 w-4 flex-shrink-0 transition-transform duration-200 ${ctaIconClass}`}
+        class={`${ctaArrowClass} ${ctaIconClass}`}
       />
     </div>
   </div>
