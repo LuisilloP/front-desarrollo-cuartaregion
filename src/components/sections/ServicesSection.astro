@@ -1,7 +1,6 @@
 ---
 import type { Service } from "../../lib/api/types";
 import ServiceCard from "../ui/ServiceCard.astro";
-import { Icon } from "astro-icon/components";
 
 interface Props {
   services: Service[];
@@ -58,7 +57,10 @@ const mixedServices = sortedServices.filter(
         <div class="services-grid grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {webServices.map((service) => (
             <div class="service-card-wrapper">
-              <ServiceCard service={service} whatsappNumber={whatsappNumber} />
+              <ServiceCard
+                service={service}
+                whatsappNumber={whatsappNumber}
+              />
             </div>
           ))}
         </div>
@@ -79,7 +81,10 @@ const mixedServices = sortedServices.filter(
           <div class="services-grid grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {marketingServices.map((service) => (
               <div class="service-card-wrapper">
-                <ServiceCard service={service} whatsappNumber={whatsappNumber} />
+                <ServiceCard
+                  service={service}
+                  whatsappNumber={whatsappNumber}
+                />
               </div>
             ))}
           </div>
@@ -101,7 +106,10 @@ const mixedServices = sortedServices.filter(
           <div class="services-grid grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {mixedServices.map((service) => (
               <div class="service-card-wrapper">
-                <ServiceCard service={service} whatsappNumber={whatsappNumber} />
+                <ServiceCard
+                  service={service}
+                  whatsappNumber={whatsappNumber}
+                />
               </div>
             ))}
           </div>

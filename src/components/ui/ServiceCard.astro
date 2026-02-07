@@ -14,7 +14,7 @@ interface Props {
   maxBenefits?: number;
 }
 
-const { service, whatsappNumber, maxBenefits } = Astro.props;
+const { service, whatsappNumber, maxBenefits } = Astro.props as Props;
 const title = (service.title ?? "").trim();
 const whatItSolves = service.what_it_solves ?? "";
 const whatsappDesc = (service.whatsapp_desc ?? "").trim();
@@ -56,6 +56,10 @@ const deliveryLabel =
 
 const linkHref = isMixed ? whatsappUrl : ctaHref || whatsappUrl;
 const isExternal = linkHref.startsWith("http");
+const isHomeDevelopmentPlansCard =
+  service.slug === "planes-desarrollo" && linkHref === "/desarrollo#planes";
+const isHomeMarketingPlansCard =
+  service.slug === "planes-marketing" && linkHref === "/marketing#planes";
 
 const ctaBaseClass =
   "cta-button inline-flex min-h-12 w-full cursor-pointer items-center justify-between gap-3 rounded-2xl px-5 py-3.5 text-lg font-semibold tracking-[0.01em] shadow-md ring-1 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg sm:min-h-11 sm:py-3 sm:text-base lg:min-h-10 lg:py-2.5 lg:text-sm 2xl:w-auto 2xl:justify-center";
@@ -63,9 +67,13 @@ const ctaBaseClass =
 const ctaButtonClass = isMixed
   ? "bg-gradient-to-r from-blue-600 to-amber-500 text-white ring-blue-300/35 shadow-lg shadow-blue-900/20 group-hover:from-blue-700 group-hover:to-amber-600"
   : variant === "web"
-    ? "bg-blue-600 text-white ring-blue-900/20 shadow-blue-900/15 group-hover:bg-blue-700"
+    ? isHomeDevelopmentPlansCard
+      ? "bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 text-white ring-blue-300/45 shadow-lg shadow-blue-700/25 group-hover:from-sky-600 group-hover:via-blue-700 group-hover:to-indigo-700"
+      : "bg-blue-600 text-white ring-blue-900/20 shadow-blue-900/15 group-hover:bg-blue-700"
     : accentTone === "amber"
-      ? "bg-gradient-to-r from-amber-200 to-orange-300 text-slate-900 ring-orange-300/45 shadow-amber-900/10 group-hover:from-amber-300 group-hover:to-orange-400"
+      ? isHomeMarketingPlansCard
+        ? "bg-gradient-to-r from-amber-500 via-orange-500 to-orange-600 text-white ring-orange-300/45 shadow-lg shadow-orange-600/25 group-hover:from-amber-600 group-hover:via-orange-600 group-hover:to-orange-700"
+        : "bg-gradient-to-r from-amber-200 to-orange-300 text-slate-900 ring-orange-300/45 shadow-amber-900/10 group-hover:from-amber-300 group-hover:to-orange-400"
       : "bg-gradient-to-r from-amber-200 to-orange-300 text-slate-900 ring-orange-300/45 shadow-amber-900/10 group-hover:from-amber-300 group-hover:to-orange-400";
 
 const ctaFocusClass = isMixed
@@ -75,7 +83,9 @@ const ctaFocusClass = isMixed
     : "group-focus-visible:ring-2 group-focus-visible:ring-orange-300 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-white dark:group-focus-visible:ring-offset-slate-950";
 
 const ctaIconClass =
-  variant === "marketing" && accentTone === "amber"
+  isHomeMarketingPlansCard
+    ? "text-white"
+    : variant === "marketing" && accentTone === "amber"
     ? "text-slate-950"
     : variant === "web" || isMixed
       ? "text-white"

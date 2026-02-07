@@ -6,7 +6,7 @@ import SectionDivider from "../components/layout/SectionDivider.astro";
 import WhatsAppFloatingButton from "../components/layout/WhatsAppFloatingButton.astro";
 import HeroBackgroundSlideshow from "../components/hero/HeroBackgroundSlideshow.tsx";
 import GoogleG from "../components/ui/GoogleG.astro";
-import ServicesSection from "../components/sections/ServicesSection.astro";
+import PlansSection from "../components/development/PlansSection.astro";
 import ProcessSection from "../components/sections/ProcessSection.astro";
 import CasesSection from "../components/sections/CasesSection.astro";
 import PortfolioMarqueeSection from "../components/sections/PortfolioMarqueeSection.tsx";
@@ -32,7 +32,7 @@ const developmentClients = developmentClientsJson as {
   companies?: Company[];
 };
 
-const { hero, trust, cta, seo, value } = developmentContent;
+const { hero, trust, cta, seo, value, plansSection, plans } = developmentContent;
 const pageTitle =
   seo?.title ?? "Desarrollo Web y Software para Pymes | Aliado Digital";
 const pageDescription =
@@ -323,9 +323,13 @@ const breadcrumbSchema = {
     <SectionDivider tone="accent" />
 
     <div id="planes" aria-hidden="true"></div>
-    <ServicesSection
-      services={servicesForPage}
-      whatsappNumber={siteSettings.whatsappNumber}
+    <PlansSection
+      title={plansSection?.title ?? "Planes de desarrollo y tecnologia"}
+      description={
+        plansSection?.description ??
+        "Selecciona la solucion que necesitas hoy y te acompanamos en cada etapa."
+      }
+      plans={plans ?? []}
     />
 
     <SectionDivider />
@@ -368,3 +372,4 @@ const breadcrumbSchema = {
     message="Hola! Quiero un desarrollo a medida."
   />
 </Layout>
+

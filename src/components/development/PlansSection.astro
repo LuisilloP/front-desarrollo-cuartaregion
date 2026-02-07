@@ -1,0 +1,71 @@
+---
+import type { MarketingPlan } from "../../lib/api/types";
+import PlanCard from "./PlanCard.astro";
+
+interface PlanCardModel {
+  name: string;
+  idealFor: string;
+  price: string;
+  currency?: string;
+  priceNote?: string;
+  includes: string[];
+  deliverables: string[];
+  ctaLabel?: string;
+  ctaHref?: string;
+  featured?: boolean;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  plans?: MarketingPlan[];
+}
+
+const { title, description, plans = [] } = Astro.props as Props;
+
+const normalizedPlans: PlanCardModel[] = plans.map((plan) => {
+  const rawPrice = (plan.price ?? "").trim();
+  const hasClpSuffix = /\sCLP$/i.test(rawPrice);
+  const normalizedPrice = hasClpSuffix
+    ? rawPrice.replace(/\sCLP$/i, "").trim()
+    : rawPrice;
+
+  return {
+    name: plan.name,
+    idealFor: plan.reach,
+    price: normalizedPrice,
+    currency: hasClpSuffix ? "CLP" : undefined,
+    priceNote: "Pago unico estimado - Ajustable segun alcance",
+    includes: plan.benefits ?? [],
+    deliverables: plan.results ?? [],
+    ctaLabel: plan.ctaLabel ?? "Cotizar este plan",
+    ctaHref: plan.ctaHref ?? "#contacto-desarrollo",
+    featured: Boolean(plan.featured),
+  };
+});
+---
+
+<section id="planes" class="py-20 lg:py-32">
+  <div class="section-shell">
+    <div class="mx-auto max-w-3xl text-center" data-reveal="fade-up">
+      <h2 class="text-3xl font-semibold text-content sm:text-4xl">
+        {title}
+      </h2>
+      <p class="mt-4 text-lg text-muted">
+        {description}
+      </p>
+    </div>
+
+    <div class="mt-12 grid gap-6 lg:grid-cols-3">
+      {normalizedPlans.map((plan, index) => (
+        <div
+          class="h-full"
+          data-reveal="fade-up"
+          data-delay={String(index * 80)}
+        >
+          <PlanCard plan={plan} />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

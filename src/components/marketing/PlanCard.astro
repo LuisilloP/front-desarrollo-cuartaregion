@@ -1,0 +1,154 @@
+﻿---
+import { Icon } from "astro-icon/components";
+
+interface Plan {
+  name: string;
+  idealFor: string;
+  price: string;
+  currency?: string;
+  priceNote?: string;
+  includes: string[];
+  deliverables: string[];
+  ctaLabel?: string;
+  ctaHref?: string;
+  compareLabel?: string;
+  compareHref?: string;
+  featured?: boolean;
+}
+
+interface Props {
+  plan: Plan;
+}
+
+const { plan } = Astro.props as Props;
+const {
+  name,
+  idealFor,
+  price,
+  currency = "CLP",
+  priceNote = "Gestión mensual · Inversión publicitaria no incluida",
+  includes,
+  deliverables,
+  ctaLabel = "Elegir este plan",
+  ctaHref = "#contacto-marketing",
+  compareLabel = "Ver comparativa",
+  compareHref = "#comparar",
+  featured = false,
+} = plan;
+---
+
+<article
+  class:list={[
+    "card-shine group relative flex h-full flex-col rounded-2xl border bg-card/90 p-6 shadow-sm transition-all duration-300",
+    "hover:-translate-y-0.5 hover:border-orange-300/85 hover:shadow-md dark:hover:border-orange-400/50",
+    featured
+      ? "is-featured border-amber-300/90 ring-1 ring-orange-300/45 ring-inset bg-gradient-to-b from-amber-100/65 via-card/95 to-card/95 shadow-md hover:shadow-lg dark:border-amber-400/25 dark:ring-orange-400/15 dark:from-amber-500/10 dark:via-card/98 dark:to-card/98"
+      : "border-orange-200/80 ring-1 ring-orange-200/35 ring-inset dark:border-border/70 dark:ring-0",
+  ]}
+>
+  <header class="relative z-10 space-y-4">
+    <div class="space-y-3">
+      <h3 class="text-2xl font-semibold tracking-tight text-content sm:text-3xl">
+        {name}
+      </h3>
+      <div class="space-y-1">
+        <div class="flex items-end gap-2">
+          <span class="text-4xl font-semibold leading-none tracking-tight text-content sm:text-5xl">
+            {price}
+          </span>
+          <span class="pb-1 text-[10px] font-semibold uppercase tracking-[0.3em] text-muted/70 sm:text-xs">
+            {currency}
+          </span>
+        </div>
+        <p class="text-xs text-muted/80">{priceNote}</p>
+      </div>
+      <p class="text-sm text-muted">Ideal para: {idealFor}</p>
+    </div>
+  </header>
+
+  <div class="relative z-10 mt-6 space-y-3">
+    <p class="text-xs font-semibold uppercase tracking-[0.24em] text-muted">
+      Incluye
+    </p>
+    <ul class="space-y-3 text-sm text-content">
+      {includes.map((item) => (
+        <li class="flex items-start gap-3">
+          <Icon
+            name="lucide:check"
+            class="mt-0.5 h-4 w-4 flex-shrink-0 text-orange-500 dark:text-orange-400"
+            aria-hidden="true"
+          />
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <footer class="relative z-10 mt-auto space-y-4 pt-6">
+    <div class="space-y-2 rounded-xl border border-border/70 bg-surface-strong/60 p-4">
+      <p class="text-xs font-semibold uppercase tracking-[0.24em] text-muted">
+        Entregables
+      </p>
+      <ul class="space-y-2 text-sm text-content">
+        {deliverables.map((item) => (
+          <li class="flex items-start gap-3">
+            <Icon
+              name="lucide:clipboard-check"
+              class="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-600 dark:text-amber-400"
+              aria-hidden="true"
+            />
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="space-y-3">
+      <a
+        href={ctaHref}
+        class="inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-orange-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-orange-600/25 transition hover:from-amber-600 hover:via-orange-600 hover:to-orange-700 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/45"
+      >
+        {ctaLabel}
+      </a>
+      <!-- <a
+        href={compareHref}
+        class="inline-flex w-full items-center justify-center gap-2 rounded-full text-sm font-medium text-muted transition hover:text-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight/30"
+      >
+        {compareLabel}
+        <Icon name="lucide:arrow-right" class="h-4 w-4" aria-hidden="true" />
+      </a> -->
+    </div>
+  </footer>
+</article>
+
+<style>
+  .card-shine {
+    overflow: hidden;
+  }
+  .card-shine::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+      420px circle at var(--mouse-x, -9999px) var(--mouse-y, -9999px),
+      rgba(251, 191, 36, 0.15),
+      transparent 40%
+    );
+    border-radius: inherit;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  :global(.dark) .card-shine.is-featured::before {
+    opacity: 0.18;
+  }
+</style>
+
+<script>
+  import { initCardShine } from "../../scripts/ui/cardShine";
+
+  initCardShine(".card-shine.is-featured");
+</script>
