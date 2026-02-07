@@ -330,8 +330,16 @@ export type DevelopmentPageContent = {
   };
   hero: PageHero;
   value: ValueSection;
-  servicesSection: DevelopmentServicesSectionContent;
+  servicesSection?: DevelopmentServicesSectionContent;
+  plansSection?: {
+    title: string;
+    description: string;
+  };
+  plans?: MarketingPlan[];
   trust: TrustSection;
+  useCasesSection?: UseCasesSectionContent;
+  processSection?: ProcessSectionContent;
+  contactSection?: ContactSectionConfig;
   cta: PageCtaSection;
 };
 

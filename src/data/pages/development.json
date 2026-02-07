@@ -4,8 +4,8 @@
     "description": "Desarrollo web y software a medida para pymes en Chile. Sitios rápidos, escalables y listos para crecer."
   },
   "hero": {
-    "title": "Desarrollo web y software a medida que impulsa tu negocio",
-    "subtitle": "Disenamos plataformas claras, rapidas y escalables para vender mas y operar con orden.",
+    "title": "Soluciones con Tecnología",
+    "subtitle": "Desarrollo web y sistemas a medida para que tu negocio se vea profesional y funcione mejor",
     "primaryCta": {
       "label": "Cotizar desarrollo",
       "href": "#contacto-desarrollo"
@@ -46,26 +46,28 @@
     "quote": "No se trata de tener una web bonita, sino de construir una solucion que ordene tu operacion y genere ventas.",
     "ctaLabel": "Cotizar desarrollo",
     "ctaHref": "#contacto-desarrollo",
-    "ctaNote": "Te guiamos sin compromiso.",
+    "ctaNote": "Propuesta inicial en menos de 24h hábiles.",
     "items": [
       {
         "label": "SIN BASE",
-        "title": "Soluciones genericas en otras paginas",
-        "description": "En otras plataformas se lanzan rapido, pero suelen ser dificiles de escalar.",
+        "title": "Una web apurada termina costando más.",
+        "description": "Se ve bien al principio, pero cuando necesitas cambios o quieres crecer, empieza el problema.",
         "bullets": [
-          "Suelen quedar cortas para procesos reales de negocio",
-          "A menudo son dificiles de mantener o ampliar",
-          "Tienden a ofrecer poca diferenciacion frente a la competencia"
+          "Terminas dependiendo de terceros para cada ajuste",
+          "Se vuelve lenta o se ve mal en celular",
+          "No guía al cliente a contactarte (WhatsApp / formulario)",
+          "Se queda corta cuando quieres agregar cosas (catálogo, reservas, etc.)"
         ]
       },
       {
-        "label": "CON METODO",
-        "title": "Desarrollo a medida",
-        "description": "Se adapta a tu negocio y crece contigo.",
+        "label": "CON MÉTODO",
+        "title": "Un sistema bien hecho desde el inicio.",
+        "description": "Ordenamos la base para que tu web se vea profesional y funcione bien con el tiempo.",
         "bullets": [
-          "Funcionalidades alineadas a tus objetivos",
-          "Base solida para futuras mejoras",
-          "Mejor experiencia para tus clientes"
+          "Estructura clara y mantenible",
+          "Sitio rápido y cómodo en celulares y computadores",
+          "Contacto visible y bien guiado (WhatsApp, formularios, llamadas)",
+          "Preparado para sumar mejoras, secciones o funcionalidades cuando lo necesites"
         ]
       }
     ]
@@ -111,7 +113,7 @@
     },
     {
       "name": "Sistema a medida",
-      "price": "$350.000 CLP",
+      "price": "$650.000 CLP",
       "reach": "Para ordenar procesos y escalar con control.",
       "benefits": [
         "Plataforma adaptada a tu operacion",
