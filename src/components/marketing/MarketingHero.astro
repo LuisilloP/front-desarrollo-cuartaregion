@@ -34,7 +34,7 @@ const items = value.items ?? [];
 
 <section
   id={sectionId}
-  class="relative min-h-screen overflow-hidden"
+  class="relative min-h-[100svh] overflow-hidden"
 >
   <div class="absolute inset-0 z-0">
     {slides.length > 0 ? (
@@ -49,7 +49,7 @@ const items = value.items ?? [];
   <div class="absolute inset-0 z-10 bg-gradient-to-t from-black/70 via-black/50 to-transparent"></div>
   <div class="absolute inset-0 z-10 backdrop-blur-[2px]"></div>
 
-  <div class="section-shell relative z-20 flex min-h-screen items-center py-24 sm:py-28 lg:py-32">
+  <div class="hero-safe-offset section-shell relative z-20 flex min-h-[100svh] items-center pb-24 sm:pb-28 lg:pb-32">
     <div class="grid w-full gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
       <div class="space-y-5" data-reveal="fade-up">
         {value.eyebrow && (

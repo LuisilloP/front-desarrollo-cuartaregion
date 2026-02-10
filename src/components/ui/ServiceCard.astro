@@ -54,8 +54,9 @@ const shineStyle =
 const deliveryLabel =
   service.slug === "mantencion-ti-monitoreo" ? "Activación" : "Entrega";
 
-const linkHref = isMixed ? whatsappUrl : ctaHref || whatsappUrl;
-const isExternal = linkHref.startsWith("http");
+const linkHref = isMixed ? whatsappUrl : ctaHref || whatsappUrl || undefined;
+const isExternal = Boolean(linkHref?.startsWith("http"));
+const isDisabled = !linkHref;
 const isHomeDevelopmentPlansCard =
   service.slug === "planes-desarrollo" && linkHref === "/desarrollo#planes";
 const isHomeMarketingPlansCard =
@@ -106,13 +107,15 @@ const ctaArrowClass = "cta-arrow ml-auto h-4 w-4 flex-shrink-0 transition-transf
   href={linkHref}
   target={isExternal ? "_blank" : undefined}
   rel={isExternal ? "noopener noreferrer" : undefined}
+  aria-disabled={isDisabled ? "true" : undefined}
+  tabindex={isDisabled ? -1 : undefined}
   data-variant={variant}
   data-accent={accentTone ?? undefined}
   style={shineStyle}
   class={`card-shine group relative z-0 flex h-full flex-col rounded-3xl border p-6 backdrop-blur-xl transition-all duration-300 lg:p-8 hover:scale-[1.02] shadow-lg hover:shadow-2xl
   border-slate-900/10 bg-white/40 hover:border-slate-900/20 hover:!bg-white/60
   dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20 dark:hover:!bg-white/[0.07]
-  ${mixedCardClass}`}
+  ${mixedCardClass} ${isDisabled ? "pointer-events-none opacity-70" : ""}`}
 >
   {
     isMixed && (

@@ -70,15 +70,28 @@ const whatsappUrl = buildWhatsAppLink(
 
       <!-- CTAs -->
       <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-        <a
-          href={whatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex min-w-[240px] items-center justify-center gap-2 rounded-full bg-[#25D366] px-8 py-4 text-base font-semibold text-white shadow-lg transition-transform duration-200 hover:scale-105 dark:shadow-emerald-500/20 sm:min-w-[260px]"
-        >
-          <Icon name="simple-icons:whatsapp" class="h-5 w-5" />
-          <span>{primaryCtaLabel}</span>
-        </a>
+        {whatsappUrl ? (
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={primaryCtaLabel}
+            class="inline-flex min-w-[240px] items-center justify-center gap-2 rounded-full bg-[#25D366] px-8 py-4 text-base font-semibold text-white shadow-lg transition-transform duration-200 hover:scale-105 dark:shadow-emerald-500/20 sm:min-w-[260px]"
+          >
+            <Icon name="simple-icons:whatsapp" class="h-5 w-5" />
+            <span>{primaryCtaLabel}</span>
+          </a>
+        ) : (
+          <button
+            type="button"
+            disabled
+            aria-label="WhatsApp no disponible"
+            class="inline-flex min-w-[240px] cursor-not-allowed items-center justify-center gap-2 rounded-full bg-[#25D366]/60 px-8 py-4 text-base font-semibold text-white/90 shadow-lg sm:min-w-[260px]"
+          >
+            <Icon name="simple-icons:whatsapp" class="h-5 w-5" />
+            <span>{primaryCtaLabel}</span>
+          </button>
+        )}
         <a
           href={secondaryCtaHref}
           target="_blank"

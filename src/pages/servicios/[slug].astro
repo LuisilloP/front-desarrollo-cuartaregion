@@ -119,15 +119,28 @@ const breadcrumbSchema = {
     )}
 
     <div class="flex flex-wrap gap-3">
-      <a
-        class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-[#25D366] text-white font-semibold shadow-soft hover:shadow-lg transition"
-        href={whatsappUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Icon name="simple-icons:whatsapp" class="h-4 w-4 text-white" aria-hidden="true" />
-        Cotizar por WhatsApp
-      </a>
+      {whatsappUrl ? (
+        <a
+          class="inline-flex items-center gap-3 rounded-full bg-[#25D366] px-6 py-3 font-semibold text-white shadow-soft transition hover:shadow-lg"
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Cotizar por WhatsApp"
+        >
+          <Icon name="simple-icons:whatsapp" class="h-4 w-4 text-white" aria-hidden="true" />
+          Cotizar por WhatsApp
+        </a>
+      ) : (
+        <button
+          type="button"
+          disabled
+          class="inline-flex cursor-not-allowed items-center gap-3 rounded-full bg-[#25D366]/60 px-6 py-3 font-semibold text-white/90 shadow-soft"
+          aria-label="WhatsApp no disponible"
+        >
+          <Icon name="simple-icons:whatsapp" class="h-4 w-4 text-white" aria-hidden="true" />
+          Cotizar por WhatsApp
+        </button>
+      )}
       <a
         class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-secondary text-contrast border border-border hover:border-highlight transition"
         href="/"

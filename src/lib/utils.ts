@@ -1,8 +1,7 @@
-export const buildWhatsAppLink = (phone: string, message?: string) => {
-  const normalized = phone.replace(/[^0-9]/g, "");
-  const encoded = message ? encodeURIComponent(message) : "";
-  return `https://wa.me/${normalized}${encoded ? `?text=${encoded}` : ""}`;
-};
+import { getWhatsAppUrl } from "../config/contact";
+
+export const buildWhatsAppLink = (phone?: string, message?: string): string | null =>
+  getWhatsAppUrl(message, phone);
 
 export const formatCLP = (value: number) =>
   value.toLocaleString("es-CL", {

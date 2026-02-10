@@ -32,15 +32,16 @@ const processedNavLinks = navLinks.map((link) => ({
     !isTransparent &&
       "bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg shadow-lg",
   ]}
+  style="padding-top: var(--safe-top);"
 >
   <nav
-    class="container mx-auto flex items-center justify-between px-6 py-3 sm:px-8"
+    class="container mx-auto flex h-[var(--nav-h)] items-center justify-between px-6 max-[360px]:px-4 sm:px-8"
   >
     <!-- Logo -->
     <a
       href={withHome("/#inicio")}
       class:list={[
-        "flex items-center gap-2 sm:gap-3 font-bold text-lg sm:text-xl tracking-tight transition-colors",
+        "flex items-center gap-2 font-bold text-lg tracking-tight transition-colors max-[360px]:text-base sm:gap-3 sm:text-xl",
         isTransparent
           ? "text-white group-[.scrolled]:text-slate-900 dark:group-[.scrolled]:text-white"
           : "text-slate-900 dark:text-white",
@@ -51,7 +52,7 @@ const processedNavLinks = navLinks.map((link) => ({
           <img
             src="/logo.svg"
             alt={`Logo de ${siteSettings.siteName}`}
-            class="h-8 w-8 sm:h-10 sm:w-10 object-contain rounded-lg"
+            class="h-8 w-8 rounded-lg object-contain max-[360px]:h-7 max-[360px]:w-7 sm:h-10 sm:w-10"
             loading="eager"
             onerror="this.onerror=null;this.src='/logo.webp';"
           />
@@ -85,7 +86,7 @@ const processedNavLinks = navLinks.map((link) => ({
     <!-- Action Buttons -->
     <div
       class:list={[
-        "flex items-center gap-x-2",
+        "flex items-center gap-x-2 max-[360px]:gap-x-1",
         isTransparent
           ? "text-white group-[.scrolled]:text-slate-700 dark:group-[.scrolled]:text-white"
           : "text-slate-700 dark:text-white",
@@ -93,7 +94,7 @@ const processedNavLinks = navLinks.map((link) => ({
     >
       <button
         id="theme-toggle"
-        class="h-10 w-10 rounded-full flex items-center justify-center transition-colors hover:bg-black/10"
+        class="flex h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-black/10 max-[360px]:hidden"
         type="button"
         aria-label="Cambiar tema"
       >

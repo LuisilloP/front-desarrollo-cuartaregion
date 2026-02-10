@@ -187,7 +187,7 @@ const ctaLabelFinal =
 
 let ctaHref = ctaUrlOverride;
 if (!ctaHref) {
-  if (isFormCta || isContactCta) ctaHref = whatsappUrl;
+  if (isFormCta || isContactCta) ctaHref = whatsappUrl ?? undefined;
   else if (siteUrlExternal) ctaHref = siteUrlExternal;
 }
 

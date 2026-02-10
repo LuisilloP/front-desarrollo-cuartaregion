@@ -18,7 +18,7 @@ const {
 } = Astro.props as Props;
 ---
 
-<section id={sectionId} class="relative min-h-screen overflow-hidden">
+<section id={sectionId} class="relative min-h-[100svh] overflow-hidden">
   <div class="absolute inset-0 -z-10">
     {slides.length > 0 ? (
       <HeroBackgroundSlideshow
@@ -44,7 +44,7 @@ const {
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.18),transparent_40%)] dark:bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.18),transparent_45%)]"></div>
   </div>
 
-  <div class="section-shell relative flex min-h-screen items-center py-24 sm:py-28 lg:py-32">
+  <div class="hero-safe-offset section-shell relative flex min-h-[100svh] items-center pb-24 sm:pb-28 lg:pb-32">
     <div class="grid w-full items-center gap-12 lg:grid-cols-2">
       <div class="space-y-6">
         <h1

@@ -7,6 +7,7 @@ import {
   mockServices,
   mockSiteSettings
 } from "../../../data/mock";
+import { getWhatsAppPhone } from "../../../config/contact";
 import { getMediaAlt, getMediaUrl } from "../media";
 import { blocksToText, bulletsToStrings } from "../strapi";
 import type {
@@ -208,7 +209,7 @@ export const mapSiteSettings = (item: StrapiSiteSetting): SiteSettings => {
     siteName: item.brandName ?? mockSiteSettings.siteName,
     tagline: mockSiteSettings.tagline,
     region,
-    whatsappNumber: item.whatsappNumber ?? mockSiteSettings.whatsappNumber,
+    whatsappNumber: getWhatsAppPhone(item.whatsappNumber ?? mockSiteSettings.whatsappNumber),
     primaryCTA: mockSiteSettings.primaryCTA,
     secondaryCTA: mockSiteSettings.secondaryCTA,
     socialLinks: social.length > 0 ? social : mockSiteSettings.socialLinks,

@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Fixed navbar height to avoid hero jumps when header styles change on scroll. */
+  --nav-h: 64px;
+  --hero-safe-gap: 10px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --hero-safe-offset: calc(var(--nav-h) + var(--safe-top) + var(--hero-safe-gap));
+}
+
+@media (max-width: 360px) {
+  :root {
+    --nav-h: 56px;
+    --hero-safe-gap: 8px;
+  }
+}
+
 body {
   font-family: "Plus Jakarta Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
   background-color: rgb(var(--color-surface));
@@ -15,7 +30,11 @@ html {
 }
 
 [id] {
-  scroll-margin-top: 96px;
+  scroll-margin-top: calc(var(--hero-safe-offset) + 1rem);
+}
+
+.hero-safe-offset {
+  padding-top: var(--hero-safe-offset);
 }
 
 .font-display {

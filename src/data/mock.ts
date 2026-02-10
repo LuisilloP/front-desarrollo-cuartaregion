@@ -1,4 +1,5 @@
 import type { CaseStudy, Faq, LegalPage, Post, Review, Service, SiteSettings } from "../lib/api/types";
+import { getWhatsAppPhone } from "../config/contact";
 import content from "./content.json";
 
 export type { CaseStudy, Faq, LegalPage, Post, Review, Service, SiteSettings };
@@ -14,8 +15,12 @@ type ContentData = {
 };
 
 const contentData = content as ContentData;
+const resolvedSiteSettings: SiteSettings = {
+  ...contentData.siteSettings,
+  whatsappNumber: getWhatsAppPhone(contentData.siteSettings.whatsappNumber)
+};
 
-export const mockSiteSettings = contentData.siteSettings;
+export const mockSiteSettings = resolvedSiteSettings;
 export const mockServices = contentData.services;
 export const mockCases = contentData.cases;
 export const mockReviews = contentData.reviews;
