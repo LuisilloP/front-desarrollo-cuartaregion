@@ -255,7 +255,7 @@ const quickLinks = quickLinksOverride ?? defaultQuickLinks;
     </div>
   </header>
 
-  <div class="relative z-[1] mt-6 space-y-3">
+  <div id="linktree-quicklinks" class="relative z-[1] mt-6 space-y-3">
     {
       quickLinks.map((item) => (
         <LinkPill
@@ -285,11 +285,10 @@ const quickLinks = quickLinksOverride ?? defaultQuickLinks;
 <script is:inline>
   document.addEventListener("DOMContentLoaded", () => {
     const themeToggleBtn = document.getElementById("theme-toggle-linktree");
-    if (!themeToggleBtn) return;
-
     const THEME_KEY = "theme";
 
     const setThemeIcon = (theme) => {
+      if (!themeToggleBtn) return;
       themeToggleBtn.querySelectorAll("[data-theme-icon]").forEach((icon) => {
         const isActive = icon.getAttribute("data-theme-icon") === theme;
         icon.classList.toggle("opacity-100", isActive);
@@ -315,12 +314,135 @@ const quickLinks = quickLinksOverride ?? defaultQuickLinks;
 
     setThemeIcon(initialTheme);
 
-    themeToggleBtn.addEventListener("click", () => {
-      const nextTheme = document.documentElement.classList.contains("dark")
-        ? "light"
-        : "dark";
-      applyTheme(nextTheme);
-    });
+    if (themeToggleBtn) {
+      themeToggleBtn.addEventListener("click", () => {
+        const nextTheme = document.documentElement.classList.contains("dark")
+          ? "light"
+          : "dark";
+        applyTheme(nextTheme);
+      });
+    }
+
+    const quickLinksContainer = document.getElementById("linktree-quicklinks");
+    if (!quickLinksContainer) return;
+
+    const mobileHoverMedia = window.matchMedia("(hover: none), (pointer: coarse)");
+    const reduceMotionMedia = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    let cycleIntervalId = null;
+    let activePill = null;
+    let activePillIndex = -1;
+    let cycleDirection = 1;
+
+    const getPills = () =>
+      Array.from(quickLinksContainer.querySelectorAll("a[data-link-pill]"));
+
+    const getCycleClasses = (pill) => {
+      const raw = pill.getAttribute("data-cycle-classes") ?? "";
+      return raw
+        .split(/\s+/)
+        .map((className) => className.trim())
+        .filter(Boolean);
+    };
+
+    const clearActivePill = () => {
+      if (!activePill) return;
+      const cycleClasses = getCycleClasses(activePill);
+      if (cycleClasses.length > 0) {
+        activePill.classList.remove(...cycleClasses);
+      }
+      activePill.classList.remove("is-cycled");
+      activePill = null;
+      activePillIndex = -1;
+    };
+
+    const activatePill = (pill, index) => {
+      if (activePill === pill) return;
+      clearActivePill();
+      const cycleClasses = getCycleClasses(pill);
+      if (cycleClasses.length > 0) {
+        pill.classList.add(...cycleClasses);
+      }
+      pill.classList.add("is-cycled");
+      activePill = pill;
+      activePillIndex = index;
+    };
+
+    const stepCycle = () => {
+      const pills = getPills();
+      if (pills.length === 0) {
+        clearActivePill();
+        return;
+      }
+
+      if (pills.length === 1) {
+        activatePill(pills[0], 0);
+        cycleDirection = 1;
+        return;
+      }
+
+      if (!activePill || activePillIndex < 0) {
+        cycleDirection = 1;
+        activatePill(pills[0], 0);
+        return;
+      }
+
+      let nextIndex = activePillIndex + cycleDirection;
+      if (nextIndex >= pills.length) {
+        cycleDirection = -1;
+        nextIndex = pills.length - 2;
+      } else if (nextIndex < 0) {
+        cycleDirection = 1;
+        nextIndex = 1;
+      }
+
+      activatePill(pills[nextIndex], nextIndex);
+    };
+
+    const canRunCycle = () =>
+      mobileHoverMedia.matches && !reduceMotionMedia.matches && !document.hidden;
+
+    const stopCycle = () => {
+      if (cycleIntervalId !== null) {
+        window.clearInterval(cycleIntervalId);
+        cycleIntervalId = null;
+      }
+      clearActivePill();
+      cycleDirection = 1;
+    };
+
+    const startCycle = () => {
+      stopCycle();
+      if (!canRunCycle()) return;
+      stepCycle();
+      cycleIntervalId = window.setInterval(stepCycle, 2500);
+    };
+
+    const syncCycleState = () => {
+      if (canRunCycle()) {
+        if (cycleIntervalId === null) {
+          startCycle();
+        }
+      } else {
+        stopCycle();
+      }
+    };
+
+    syncCycleState();
+
+    document.addEventListener("visibilitychange", syncCycleState);
+
+    if (typeof mobileHoverMedia.addEventListener === "function") {
+      mobileHoverMedia.addEventListener("change", syncCycleState);
+    } else if (typeof mobileHoverMedia.addListener === "function") {
+      mobileHoverMedia.addListener(syncCycleState);
+    }
+
+    if (typeof reduceMotionMedia.addEventListener === "function") {
+      reduceMotionMedia.addEventListener("change", syncCycleState);
+    } else if (typeof reduceMotionMedia.addListener === "function") {
+      reduceMotionMedia.addListener(syncCycleState);
+    }
   });
 </script>
 
@@ -407,7 +529,9 @@ const quickLinks = quickLinksOverride ?? defaultQuickLinks;
       box-shadow: 0 0 0 0 rgb(56 189 248 / 0);
     }
     50% {
-      box-shadow: 0 0 0 6px rgb(56 189 248 / 0.18);
+      box-shadow:
+        0 0 0 8px rgb(14 165 233 / 0.34),
+        0 0 22px rgb(14 165 233 / 0.28);
     }
   }
 

@@ -23,6 +23,13 @@ interface Props {
   class?: string;
 }
 
+interface GlowPalette {
+  lightA: string;
+  lightB: string;
+  darkA: string;
+  darkB: string;
+}
+
 const iconNamePattern = /^(lucide|simple-icons|mdi):[a-z0-9-]+$/i;
 const iconImagePattern = /^(\/(?!\/)|https?:\/\/)/i;
 const safeHrefPattern = /^(\/(?!\/)|#|https?:\/\/|mailto:|tel:)/i;
@@ -65,6 +72,70 @@ const safeIconImageSrc = iconImagePattern.test(normalizedIconImageSrc)
 const safeIconImageAlt =
   typeof iconImageAlt === "string" ? iconImageAlt.trim() : "";
 const hasVisualIcon = Boolean(safeIcon || safeIconImageSrc);
+const normalizedAccentKey =
+  typeof accentKey === "string" ? accentKey.trim().toLowerCase() : "";
+
+const DEFAULT_GLOW_PALETTE: GlowPalette = {
+  lightA: "rgb(100 116 139 / 0.22)",
+  lightB: "rgb(71 85 105 / 0.2)",
+  darkA: "rgb(148 163 184 / 0.22)",
+  darkB: "rgb(100 116 139 / 0.2)",
+};
+
+const GLOW_BY_KEY: Record<string, GlowPalette> = {
+  neutral: DEFAULT_GLOW_PALETTE,
+  web: {
+    lightA: "rgb(14 165 233 / 0.28)",
+    lightB: "rgb(56 189 248 / 0.2)",
+    darkA: "rgb(56 189 248 / 0.3)",
+    darkB: "rgb(14 165 233 / 0.2)",
+  },
+  marketing: {
+    lightA: "rgb(251 146 60 / 0.28)",
+    lightB: "rgb(245 158 11 / 0.2)",
+    darkA: "rgb(249 115 22 / 0.3)",
+    darkB: "rgb(251 146 60 / 0.2)",
+  },
+  mixed: {
+    lightA: "rgb(14 165 233 / 0.2)",
+    lightB: "rgb(168 85 247 / 0.24)",
+    darkA: "rgb(56 189 248 / 0.2)",
+    darkB: "rgb(139 92 246 / 0.28)",
+  },
+  whatsapp: {
+    lightA: "rgb(16 185 129 / 0.28)",
+    lightB: "rgb(52 211 153 / 0.2)",
+    darkA: "rgb(16 185 129 / 0.32)",
+    darkB: "rgb(5 150 105 / 0.22)",
+  },
+  github: {
+    lightA: "rgb(71 85 105 / 0.28)",
+    lightB: "rgb(30 41 59 / 0.24)",
+    darkA: "rgb(148 163 184 / 0.24)",
+    darkB: "rgb(100 116 139 / 0.24)",
+  },
+  instagram: {
+    lightA: "rgb(217 70 239 / 0.3)",
+    lightB: "rgb(168 85 247 / 0.26)",
+    darkA: "rgb(232 121 249 / 0.3)",
+    darkB: "rgb(168 85 247 / 0.28)",
+  },
+  facebook: {
+    lightA: "rgb(37 99 235 / 0.3)",
+    lightB: "rgb(59 130 246 / 0.24)",
+    darkA: "rgb(96 165 250 / 0.32)",
+    darkB: "rgb(59 130 246 / 0.24)",
+  },
+};
+
+const glowKey = normalizedAccentKey || variant;
+const glowPalette = GLOW_BY_KEY[glowKey] ?? DEFAULT_GLOW_PALETTE;
+const glowStyle = [
+  `--link-pill-glow-light-a: ${glowPalette.lightA}`,
+  `--link-pill-glow-light-b: ${glowPalette.lightB}`,
+  `--link-pill-glow-dark-a: ${glowPalette.darkA}`,
+  `--link-pill-glow-dark-b: ${glowPalette.darkB}`,
+].join("; ");
 ---
 
 {
@@ -73,7 +144,10 @@ const hasVisualIcon = Boolean(safeIcon || safeIconImageSrc);
       href={normalizedHref}
       target={resolvedTarget}
       rel={resolvedRel}
+      data-link-pill
+      data-cycle-classes={resolvedTokens.active}
       aria-label={hasDescription ? `${safeLabel}. ${normalizedDescription}` : safeLabel}
+      style={glowStyle}
       class:list={[
         "group relative flex min-h-14 w-full items-center gap-3 overflow-hidden rounded-2xl border px-4 py-3",
         "shadow-[0_14px_30px_rgba(15,23,42,0.16)] backdrop-blur-xl",
@@ -151,6 +225,7 @@ const hasVisualIcon = Boolean(safeIcon || safeIconImageSrc);
       ) : null}
 
       <span
+        data-link-pill-chevron
         class:list={[
           "inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-transform duration-200 group-hover:translate-x-0.5 group-focus-visible:translate-x-0.5 motion-reduce:transition-none",
           resolvedTokens.iconWrap,
@@ -232,12 +307,12 @@ const hasVisualIcon = Boolean(safeIcon || safeIconImageSrc);
     background:
       radial-gradient(
         120% 85% at 20% 0%,
-        rgb(56 189 248 / 0.2) 0%,
+        var(--link-pill-glow-light-a, rgb(56 189 248 / 0.2)) 0%,
         transparent 70%
       ),
       radial-gradient(
         100% 80% at 100% 100%,
-        rgb(251 146 60 / 0.18) 0%,
+        var(--link-pill-glow-light-b, rgb(251 146 60 / 0.18)) 0%,
         transparent 72%
       );
     transition: opacity 240ms ease;
@@ -245,20 +320,29 @@ const hasVisualIcon = Boolean(safeIcon || safeIconImageSrc);
   }
 
   a.group:hover .link-pill-glow,
-  a.group:focus-visible .link-pill-glow {
+  a.group:focus-visible .link-pill-glow,
+  a.group.is-cycled .link-pill-glow {
     opacity: 1;
+  }
+
+  a.group.is-cycled {
+    transform: translateY(-2px);
+  }
+
+  a.group.is-cycled [data-link-pill-chevron] {
+    transform: translateX(0.125rem);
   }
 
   :global(.dark) .link-pill-glow {
     background:
       radial-gradient(
         120% 85% at 20% 0%,
-        rgb(56 189 248 / 0.16) 0%,
+        var(--link-pill-glow-dark-a, rgb(56 189 248 / 0.16)) 0%,
         transparent 70%
       ),
       radial-gradient(
         100% 80% at 100% 100%,
-        rgb(251 146 60 / 0.14) 0%,
+        var(--link-pill-glow-dark-b, rgb(251 146 60 / 0.14)) 0%,
         transparent 72%
       );
   }
@@ -272,6 +356,16 @@ const hasVisualIcon = Boolean(safeIcon || safeIconImageSrc);
     }
     100% {
       transform: translate3d(-2px, 1px, 0) scale(0.995);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    a.group.is-cycled {
+      transform: none;
+    }
+
+    a.group.is-cycled [data-link-pill-chevron] {
+      transform: none;
     }
   }
 </style>
