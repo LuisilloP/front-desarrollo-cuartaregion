@@ -97,7 +97,7 @@ const ACCENT_TOKENS: Record<string, Partial<LinkPillTokens>> = {
     background:
       "bg-[linear-gradient(110deg,rgba(241,245,249,0.92)_0%,rgba(226,232,240,0.86)_52%,rgba(203,213,225,0.58)_100%)] dark:bg-[linear-gradient(110deg,rgba(15,23,42,0.94)_0%,rgba(30,41,59,0.86)_52%,rgba(2,6,23,0.74)_100%)]",
     iconWrap:
-      "border-slate-600/80 bg-slate-200/95 dark:border-slate-400/70 dark:bg-slate-700/60",
+      "border-slate-600/80 bg-slate-200/95 dark:border-slate-400/70 dark:bg-slate-700/30",
     iconColor: "text-slate-900 dark:text-slate-100",
     chevron: "text-slate-800 dark:text-slate-200",
     hover:
@@ -110,9 +110,9 @@ const ACCENT_TOKENS: Record<string, Partial<LinkPillTokens>> = {
   instagram: {
     border: "border-fuchsia-600/60 dark:border-fuchsia-300/50",
     background:
-      "bg-[linear-gradient(110deg,rgba(250,232,255,0.96)_0%,rgba(233,213,255,0.9)_38%,rgba(217,70,239,0.42)_100%)] dark:bg-[linear-gradient(110deg,rgba(49,20,78,0.9)_0%,rgba(30,27,75,0.82)_50%,rgba(236,72,153,0.28)_100%)]",
+      "bg-[linear-gradient(110deg,rgba(252,244,255,0.95)_0%,rgba(243,232,255,0.86)_42%,rgba(217,70,239,0.22)_100%)] dark:bg-[linear-gradient(110deg,rgba(39,23,64,0.84)_0%,rgba(30,27,75,0.72)_52%,rgba(232,121,249,0.16)_100%)]",
     iconWrap:
-      "border-fuchsia-600/90 bg-fuchsia-100/95 dark:border-fuchsia-300/80 dark:bg-fuchsia-500/30",
+      "border-fuchsia-600/90 bg-fuchsia-100/95 dark:border-fuchsia-300/70 dark:bg-fuchsia-500/10",
     iconColor: "text-fuchsia-700 dark:text-fuchsia-200",
     chevron: "text-fuchsia-700 dark:text-fuchsia-200",
     hover:
@@ -125,9 +125,9 @@ const ACCENT_TOKENS: Record<string, Partial<LinkPillTokens>> = {
   facebook: {
     border: "border-blue-600/60 dark:border-blue-300/50",
     background:
-      "bg-[linear-gradient(110deg,rgba(219,234,254,0.75)_0%,rgba(191,219,254,0.6)_42%,rgba(96,165,250,0.26)_100%)] dark:bg-[linear-gradient(110deg,rgba(12,27,68,0.9)_0%,rgba(15,23,42,0.82)_52%,rgba(59,130,246,0.32)_100%)]",
+      "bg-[linear-gradient(110deg,rgba(239,246,255,0.94)_0%,rgba(255,255,255,0.9)_52%,rgba(147,197,253,0.32)_100%)] dark:bg-[linear-gradient(110deg,rgba(12,27,68,0.9)_0%,rgba(15,23,42,0.82)_52%,rgba(59,130,246,0.32)_100%)]",
     iconWrap:
-      "border-blue-600/90 bg-blue-100/95 dark:border-blue-300/80 dark:bg-blue-500/30",
+      "border-blue-600/90 bg-blue-100/95 dark:border-blue-300/70 dark:bg-blue-500/10",
     iconColor: "text-blue-700 dark:text-blue-200",
     chevron: "text-blue-700 dark:text-blue-200",
     hover:
