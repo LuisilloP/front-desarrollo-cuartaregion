@@ -199,7 +199,7 @@ const defaultQuickLinks: QuickLinkItem[] = [
 const quickLinks = quickLinksOverride ?? defaultQuickLinks;
 ---
 
-<section class="linktree-card-shell relative w-full max-w-xl rounded-[2rem] border border-slate-200/70 bg-white/84 p-6 text-slate-900 shadow-[0_28px_64px_rgba(15,23,42,0.2)] backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-950/70 dark:text-slate-100 dark:shadow-[0_30px_68px_rgba(2,6,23,0.68)] sm:p-8">
+<section class="linktree-card-shell relative w-full max-w-xl rounded-[2rem] border border-slate-300/75 bg-[linear-gradient(148deg,rgba(255,255,255,0.78)_0%,rgba(241,245,249,0.72)_100%)] p-6 text-slate-900 shadow-[0_30px_72px_rgba(15,23,42,0.24)] backdrop-blur-xl transition-[background,border-color,box-shadow,color] duration-500 dark:border-slate-600/60 dark:bg-[linear-gradient(148deg,rgba(2,6,23,0.76)_0%,rgba(15,23,42,0.72)_100%)] dark:text-slate-100 dark:shadow-[0_32px_72px_rgba(2,6,23,0.76)] sm:p-8">
   <div
     aria-hidden="true"
     class="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-[2rem]"
@@ -212,7 +212,7 @@ const quickLinks = quickLinksOverride ?? defaultQuickLinks;
     id="theme-toggle-linktree"
     type="button"
     aria-label="Cambiar tema"
-    class="linktree-theme-toggle absolute right-6 top-6 z-10 inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-slate-300/70 bg-white/78 text-slate-700 transition-colors hover:bg-slate-100/88 dark:border-slate-600/60 dark:bg-slate-900/76 dark:text-slate-200 dark:hover:bg-slate-800/86"
+    class="linktree-theme-toggle absolute right-6 top-6 z-10 inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-slate-300/75 bg-[linear-gradient(145deg,rgba(255,255,255,0.9),rgba(241,245,249,0.78))] text-slate-700 transition-[background,border-color,color] hover:bg-[linear-gradient(145deg,rgba(255,255,255,0.96),rgba(226,232,240,0.88))] dark:border-slate-600/60 dark:bg-[linear-gradient(145deg,rgba(15,23,42,0.84),rgba(30,41,59,0.76))] dark:text-slate-200 dark:hover:bg-[linear-gradient(145deg,rgba(30,41,59,0.88),rgba(51,65,85,0.8))]"
   >
     <span
       data-theme-icon="light"
@@ -230,7 +230,7 @@ const quickLinks = quickLinksOverride ?? defaultQuickLinks;
 
   <header class="relative z-[1] space-y-4 pr-14">
     <div
-      class="inline-flex items-center gap-3 rounded-2xl border border-slate-300/70 bg-white/70 px-3 py-2 shadow-sm dark:border-slate-600/60 dark:bg-slate-900/55"
+      class="inline-flex items-center gap-3 rounded-2xl border border-slate-300/80 bg-white/72 px-3 py-2 shadow-[0_10px_22px_rgba(15,23,42,0.12)] dark:border-slate-600/65 dark:bg-slate-900/62 dark:shadow-[0_12px_24px_rgba(2,6,23,0.44)]"
       aria-label="Identidad de marca Aliado Digital"
     >
       <img
@@ -249,7 +249,7 @@ const quickLinks = quickLinksOverride ?? defaultQuickLinks;
       <h1 class="text-2xl font-semibold leading-tight text-slate-900 dark:text-white sm:text-3xl">
         {title}
       </h1>
-      <p class="mt-2 text-sm leading-relaxed text-slate-700 dark:text-slate-200/90 sm:text-[0.95rem]">
+      <p class="mt-2 text-sm leading-relaxed text-slate-700/95 dark:text-slate-200/92 sm:text-[0.95rem]">
         {subtitle}
       </p>
     </div>
@@ -276,7 +276,7 @@ const quickLinks = quickLinksOverride ?? defaultQuickLinks;
   </div>
 
   <footer class="relative z-[1] mt-8 pt-5">
-    <p class="text-center text-xs text-slate-600 dark:text-slate-300/82">
+    <p class="text-center text-xs text-slate-700/90 dark:text-slate-300/84">
       {siteSettings.region} - &copy; {currentYear} {siteSettings.siteName}
     </p>
   </footer>
@@ -327,6 +327,7 @@ const quickLinks = quickLinksOverride ?? defaultQuickLinks;
 <style>
   .linktree-card-shell {
     isolation: isolate;
+    overflow: hidden;
   }
 
   .linktree-card-glow {
@@ -363,6 +364,7 @@ const quickLinks = quickLinksOverride ?? defaultQuickLinks;
 
   .linktree-theme-toggle {
     animation: linktree-theme-pulse 3.4s ease-in-out infinite;
+    backdrop-filter: blur(8px);
   }
 
   :global(.dark) .linktree-card-glow--sky {
