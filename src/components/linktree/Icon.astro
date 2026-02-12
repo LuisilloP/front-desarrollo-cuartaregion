@@ -1,0 +1,33 @@
+---
+import { Icon as AstroIcon } from "astro-icon/components";
+
+interface Props {
+  name: string;
+  size?: number | string;
+  class?: string;
+  ariaLabel?: string;
+}
+
+const iconNamePattern = /^(lucide|simple-icons|mdi):[a-z0-9-]+$/i;
+
+const {
+  name,
+  size = 20,
+  class: className = "",
+  ariaLabel,
+} = Astro.props as Props;
+
+const normalizedName = typeof name === "string" ? name.trim() : "";
+const safeName = iconNamePattern.test(normalizedName)
+  ? normalizedName
+  : "lucide:circle";
+const isDecorative = !ariaLabel || ariaLabel.trim().length === 0;
+---
+
+<AstroIcon
+  name={safeName}
+  size={size}
+  class={className}
+  aria-label={isDecorative ? undefined : ariaLabel}
+  aria-hidden={isDecorative ? "true" : undefined}
+/>

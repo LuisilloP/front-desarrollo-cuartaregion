@@ -1,0 +1,52 @@
+---
+import Layout from "../layouts/Layout.astro";
+import LinktreeCard from "../components/linktree/LinktreeCard.astro";
+import { fetchSiteSettings } from "../lib/api/services";
+
+const siteSettings = await fetchSiteSettings();
+const currentYear = new Date().getFullYear();
+---
+
+<Layout
+  title={`${siteSettings.siteName} | Link-in-bio`}
+  description="Canales oficiales para contactar con Aliado Digital."
+  siteSettings={siteSettings}
+>
+  <main class="relative isolate min-h-screen overflow-hidden bg-slate-200 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+    <div class="absolute inset-0">
+      <div class="absolute inset-y-0 left-0 w-1/2 overflow-hidden">
+        <img
+          src="/images/sections/hero/hero-coquimbo.webp"
+          alt="Vista de Coquimbo"
+          class="h-full w-full object-cover object-left"
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
+        />
+      </div>
+      <div class="absolute inset-y-0 right-0 w-1/2 overflow-hidden">
+        <img
+          src="/images/sections/hero/hero-serena.webp"
+          alt="Vista de La Serena"
+          class="h-full w-full object-cover object-right"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+      <div class="absolute inset-y-0 left-1/2 z-[1] w-40 -translate-x-1/2 bg-[linear-gradient(90deg,rgba(226,232,240,0)_0%,rgba(226,232,240,0.32)_50%,rgba(226,232,240,0)_100%)] dark:bg-[linear-gradient(90deg,rgba(2,6,23,0)_0%,rgba(2,6,23,0.52)_50%,rgba(2,6,23,0)_100%)]"></div>
+      <div class="absolute inset-0 z-[2] bg-[linear-gradient(180deg,rgba(241,245,249,0.68)_0%,rgba(226,232,240,0.56)_35%,rgba(203,213,225,0.68)_100%)] dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.82)_0%,rgba(2,6,23,0.66)_38%,rgba(2,6,23,0.84)_100%)]"></div>
+      <div class="absolute inset-0 z-[3] bg-[linear-gradient(110deg,rgba(14,165,233,0.2)_0%,rgba(255,255,255,0)_46%,rgba(251,146,60,0.18)_100%)] dark:bg-[linear-gradient(110deg,rgba(56,189,248,0.12)_0%,rgba(15,23,42,0)_46%,rgba(251,146,60,0.12)_100%)]"></div>
+      <div class="absolute inset-0 z-[4] bg-[radial-gradient(125%_90%_at_50%_50%,rgba(255,255,255,0)_36%,rgba(15,23,42,0.28)_100%)] dark:bg-[radial-gradient(125%_90%_at_50%_50%,rgba(15,23,42,0)_38%,rgba(2,6,23,0.56)_100%)]"></div>
+      <div class="absolute inset-0 z-[5] opacity-[0.08] [background-image:radial-gradient(rgba(15,23,42,0.44)_0.7px,transparent_0.7px)] [background-size:20px_20px] dark:opacity-[0.12] dark:[background-image:radial-gradient(rgba(148,163,184,0.4)_0.7px,transparent_0.7px)]"></div>
+      <div class="absolute inset-0 z-[6] backdrop-blur-[1.5px]"></div>
+    </div>
+
+    <section class="relative z-10 mx-auto flex min-h-screen w-full max-w-4xl items-center justify-center px-4 py-10 sm:px-6 lg:px-8">
+      <LinktreeCard
+        siteSettings={siteSettings}
+        currentYear={currentYear}
+        socialProfiles={siteSettings.socialLinks}
+      />
+    </section>
+  </main>
+</Layout>

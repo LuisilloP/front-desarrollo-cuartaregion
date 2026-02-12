@@ -1,0 +1,428 @@
+---
+import LinkPill from "./LinkPill.astro";
+import Icon from "./Icon.astro";
+import type { SiteSettings, SocialLink } from "../../lib/api/types";
+
+interface QuickLinkItem {
+  label: string;
+  href?: string;
+  variant?: "web" | "marketing" | "mixed" | "neutral";
+  accentKey?: string;
+  icon?: string;
+  iconImageSrc?: string;
+  iconImageAlt?: string;
+  iconPosition?: "left" | "right";
+  description?: string;
+  target?: "_blank" | "_self";
+  rel?: string;
+}
+
+interface Props {
+  siteSettings: SiteSettings;
+  currentYear: number;
+  quickLinks?: QuickLinkItem[];
+  socialProfiles?: SocialLink[];
+  title?: string;
+  subtitle?: string;
+}
+
+const {
+  siteSettings,
+  currentYear,
+  quickLinks: quickLinksOverride,
+  socialProfiles = [],
+  title = "Conecta con Aliado Digital",
+  subtitle = "Canales oficiales para contactar con Aliado Digital.",
+} = Astro.props as Props;
+
+const PLATFORM_ICON_MAP: Record<string, string> = {
+  facebook: "simple-icons:facebook",
+  github: "simple-icons:github",
+  instagram: "simple-icons:instagram",
+  linkedin: "simple-icons:linkedin",
+  tiktok: "simple-icons:tiktok",
+  whatsapp: "simple-icons:whatsapp",
+  x: "simple-icons:x",
+  youtube: "simple-icons:youtube",
+};
+
+const normalizePlatformKey = (value: string): string => {
+  const text = value.trim().toLowerCase();
+  if (!text) return "";
+  if (text.includes("instagram")) return "instagram";
+  if (text.includes("facebook")) return "facebook";
+  if (text.includes("linkedin")) return "linkedin";
+  if (text.includes("github")) return "github";
+  if (text.includes("youtube")) return "youtube";
+  if (text.includes("tiktok")) return "tiktok";
+  if (text.includes("whatsapp") || text.includes("wa.me")) return "whatsapp";
+  if (text === "x" || text.includes("twitter") || text.includes("x.com")) return "x";
+  return text.replace(/[^a-z0-9]+/g, "");
+};
+
+const inferPlatformFromUrl = (value: string): string => {
+  try {
+    const hostname = new URL(value).hostname.toLowerCase();
+    return normalizePlatformKey(hostname);
+  } catch {
+    return "";
+  }
+};
+
+type NormalizedSocialProfile = {
+  key: string;
+  label: string;
+  url: string;
+  icon: string;
+};
+
+const rawSocialProfiles =
+  Array.isArray(socialProfiles) && socialProfiles.length > 0
+    ? socialProfiles
+    : siteSettings.socialLinks ?? [];
+
+const normalizedSocialProfiles = (() => {
+  const seenUrls = new Set<string>();
+  const items: NormalizedSocialProfile[] = [];
+
+  rawSocialProfiles.forEach((item) => {
+    const legacyLabel = (item as unknown as { label?: string }).label;
+    const rawName =
+      typeof item.name === "string" && item.name.trim().length > 0
+        ? item.name.trim()
+        : typeof legacyLabel === "string" && legacyLabel.trim().length > 0
+          ? legacyLabel.trim()
+          : "";
+    const url = typeof item.url === "string" ? item.url.trim() : "";
+    if (!url || seenUrls.has(url)) return;
+
+    const keyFromName = normalizePlatformKey(rawName);
+    const keyFromUrl = inferPlatformFromUrl(url);
+    const key = keyFromName || keyFromUrl || "sitio";
+    const safeLabel =
+      rawName ||
+      (key === "x"
+        ? "X"
+        : key.charAt(0).toUpperCase() + key.slice(1));
+    const safeIcon =
+      typeof item.icon === "string" && item.icon.trim().length > 0
+        ? item.icon.trim()
+        : PLATFORM_ICON_MAP[key] ?? "lucide:globe";
+
+    seenUrls.add(url);
+    items.push({ key, label: safeLabel, url, icon: safeIcon });
+  });
+
+  return items;
+})();
+
+const whatsappNumber = siteSettings.whatsappNumber.replace(/[^0-9]/g, "");
+const whatsappMessage = encodeURIComponent(
+  "Hola, quiero asesoria para mi negocio.",
+);
+const whatsappProfile = normalizedSocialProfiles.find(
+  (profile) => profile.key === "whatsapp",
+);
+const whatsappUrl =
+  whatsappProfile?.url ||
+  (whatsappNumber
+    ? `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`
+    : "");
+
+const websiteQuickLink: QuickLinkItem = {
+  label: "Pagina web oficial",
+  href: "/",
+  variant: "web",
+  iconImageSrc: "/logo.png",
+  iconImageAlt: `Logo de ${siteSettings.siteName}`,
+  description: `Ir al sitio de ${siteSettings.siteName}.`,
+  target: "_self",
+};
+
+const whatsappQuickLink: QuickLinkItem | null = whatsappUrl
+  ? {
+      label: "WhatsApp",
+      href: whatsappUrl,
+      variant: "web",
+      accentKey: "whatsapp",
+      icon: whatsappProfile?.icon || "simple-icons:whatsapp",
+      description: "Contactar por WhatsApp.",
+      target: "_blank",
+      rel: "noopener noreferrer",
+    }
+  : null;
+
+const SOCIAL_ACCENT_KEYS: Record<string, string> = {
+  facebook: "facebook",
+  github: "github",
+  instagram: "instagram",
+};
+
+const socialQuickLinks: QuickLinkItem[] = normalizedSocialProfiles
+  .filter((profile) => profile.key !== "whatsapp")
+  .map((profile, index) => ({
+  label: profile.label,
+  href: profile.url,
+  variant: SOCIAL_ACCENT_KEYS[profile.key] ? "neutral" : index % 2 === 0 ? "mixed" : "marketing",
+  accentKey: SOCIAL_ACCENT_KEYS[profile.key],
+  icon: profile.icon,
+  description: `Abrir ${profile.label} de ${siteSettings.siteName}.`,
+  target: "_blank",
+  rel: "noopener noreferrer",
+}));
+
+const serviceQuickLinks: QuickLinkItem[] = [
+  {
+    label: "Desarrollo web",
+    href: "/desarrollo#planes",
+    variant: "web",
+    icon: "lucide:layout-grid",
+    description: "Ver planes y servicios de desarrollo.",
+    target: "_self",
+  },
+  {
+    label: "Marketing",
+    href: "/marketing#planes",
+    variant: "marketing",
+    icon: "lucide:megaphone",
+    description: "Ver planes y servicios de marketing.",
+    target: "_self",
+  },
+];
+
+const defaultQuickLinks: QuickLinkItem[] = [
+  websiteQuickLink,
+  ...(whatsappQuickLink ? [whatsappQuickLink] : []),
+  ...socialQuickLinks,
+  ...serviceQuickLinks,
+];
+const quickLinks = quickLinksOverride ?? defaultQuickLinks;
+---
+
+<section class="linktree-card-shell relative w-full max-w-xl rounded-[2rem] border border-slate-200/70 bg-white/84 p-6 text-slate-900 shadow-[0_28px_64px_rgba(15,23,42,0.2)] backdrop-blur-xl dark:border-slate-700/50 dark:bg-slate-950/70 dark:text-slate-100 dark:shadow-[0_30px_68px_rgba(2,6,23,0.68)] sm:p-8">
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-[2rem]"
+  >
+    <span class="linktree-card-glow linktree-card-glow--sky"></span>
+    <span class="linktree-card-glow linktree-card-glow--amber"></span>
+  </div>
+
+  <button
+    id="theme-toggle-linktree"
+    type="button"
+    aria-label="Cambiar tema"
+    class="linktree-theme-toggle absolute right-6 top-6 z-10 inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-slate-300/70 bg-white/78 text-slate-700 transition-colors hover:bg-slate-100/88 dark:border-slate-600/60 dark:bg-slate-900/76 dark:text-slate-200 dark:hover:bg-slate-800/86"
+  >
+    <span
+      data-theme-icon="light"
+      class="absolute inset-0 flex items-center justify-center opacity-100 scale-100 rotate-0 transition-all duration-300 ease-out"
+    >
+      <Icon name="lucide:sun-medium" class="h-5 w-5" />
+    </span>
+    <span
+      data-theme-icon="dark"
+      class="absolute inset-0 flex items-center justify-center opacity-0 scale-75 -rotate-45 transition-all duration-300 ease-out"
+    >
+      <Icon name="lucide:moon-star" class="h-5 w-5" />
+    </span>
+  </button>
+
+  <header class="relative z-[1] space-y-4 pr-14">
+    <div
+      class="inline-flex items-center gap-3 rounded-2xl border border-slate-300/70 bg-white/70 px-3 py-2 shadow-sm dark:border-slate-600/60 dark:bg-slate-900/55"
+      aria-label="Identidad de marca Aliado Digital"
+    >
+      <img
+        src="/logo.png"
+        alt={`Logo de ${siteSettings.siteName}`}
+        class="h-11 w-11 rounded-xl object-contain ring-1 ring-slate-900/10 dark:ring-white/15"
+        loading="eager"
+        decoding="async"
+      />
+      <strong class="min-w-0 text-xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-2xl">
+        {siteSettings.siteName}
+      </strong>
+    </div>
+
+    <div>
+      <h1 class="text-2xl font-semibold leading-tight text-slate-900 dark:text-white sm:text-3xl">
+        {title}
+      </h1>
+      <p class="mt-2 text-sm leading-relaxed text-slate-700 dark:text-slate-200/90 sm:text-[0.95rem]">
+        {subtitle}
+      </p>
+    </div>
+  </header>
+
+  <div class="relative z-[1] mt-6 space-y-3">
+    {
+      quickLinks.map((item) => (
+        <LinkPill
+          label={item.label}
+          href={item.href}
+          variant={item.variant}
+          accentKey={item.accentKey}
+          icon={item.icon}
+          iconImageSrc={item.iconImageSrc}
+          iconImageAlt={item.iconImageAlt}
+          iconPosition={item.iconPosition}
+          description={item.description}
+          target={item.target}
+          rel={item.rel}
+        />
+      ))
+    }
+  </div>
+
+  <footer class="relative z-[1] mt-8 pt-5">
+    <p class="text-center text-xs text-slate-600 dark:text-slate-300/82">
+      {siteSettings.region} - &copy; {currentYear} {siteSettings.siteName}
+    </p>
+  </footer>
+</section>
+
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", () => {
+    const themeToggleBtn = document.getElementById("theme-toggle-linktree");
+    if (!themeToggleBtn) return;
+
+    const THEME_KEY = "theme";
+
+    const setThemeIcon = (theme) => {
+      themeToggleBtn.querySelectorAll("[data-theme-icon]").forEach((icon) => {
+        const isActive = icon.getAttribute("data-theme-icon") === theme;
+        icon.classList.toggle("opacity-100", isActive);
+        icon.classList.toggle("scale-100", isActive);
+        icon.classList.toggle("rotate-0", isActive);
+        icon.classList.toggle("opacity-0", !isActive);
+        icon.classList.toggle("scale-75", !isActive);
+        icon.classList.toggle("-rotate-45", !isActive);
+      });
+    };
+
+    const applyTheme = (theme) => {
+      document.documentElement.classList.toggle("dark", theme === "dark");
+      localStorage.setItem(THEME_KEY, theme);
+      setThemeIcon(theme);
+    };
+
+    const storedTheme = localStorage.getItem(THEME_KEY);
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const initialTheme = document.documentElement.classList.contains("dark")
+      ? "dark"
+      : storedTheme || (prefersDark ? "dark" : "light");
+
+    setThemeIcon(initialTheme);
+
+    themeToggleBtn.addEventListener("click", () => {
+      const nextTheme = document.documentElement.classList.contains("dark")
+        ? "light"
+        : "dark";
+      applyTheme(nextTheme);
+    });
+  });
+</script>
+
+<style>
+  .linktree-card-shell {
+    isolation: isolate;
+  }
+
+  .linktree-card-glow {
+    position: absolute;
+    width: 18rem;
+    height: 18rem;
+    border-radius: 9999px;
+    filter: blur(52px);
+    opacity: 0.4;
+    animation: linktree-card-glow-drift 10s ease-in-out infinite;
+  }
+
+  .linktree-card-glow--sky {
+    top: -8rem;
+    left: -7rem;
+    background: radial-gradient(
+      circle,
+      rgb(56 189 248 / 0.4) 0%,
+      transparent 68%
+    );
+  }
+
+  .linktree-card-glow--amber {
+    right: -7rem;
+    bottom: -8rem;
+    background: radial-gradient(
+      circle,
+      rgb(251 146 60 / 0.34) 0%,
+      transparent 68%
+    );
+    animation-delay: -4s;
+    animation-duration: 12s;
+  }
+
+  .linktree-theme-toggle {
+    animation: linktree-theme-pulse 3.4s ease-in-out infinite;
+  }
+
+  :global(.dark) .linktree-card-glow--sky {
+    background: radial-gradient(
+      circle,
+      rgb(56 189 248 / 0.3) 0%,
+      transparent 70%
+    );
+    opacity: 0.36;
+  }
+
+  :global(.dark) .linktree-card-glow--amber {
+    background: radial-gradient(
+      circle,
+      rgb(251 146 60 / 0.28) 0%,
+      transparent 70%
+    );
+    opacity: 0.34;
+  }
+
+  :global(.dark) .linktree-theme-toggle {
+    animation-name: linktree-theme-pulse-dark;
+  }
+
+  @keyframes linktree-card-glow-drift {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(8px, -6px, 0) scale(1.05);
+    }
+    100% {
+      transform: translate3d(-6px, 8px, 0) scale(0.98);
+    }
+  }
+
+  @keyframes linktree-theme-pulse {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgb(56 189 248 / 0);
+    }
+    50% {
+      box-shadow: 0 0 0 6px rgb(56 189 248 / 0.18);
+    }
+  }
+
+  @keyframes linktree-theme-pulse-dark {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgb(56 189 248 / 0);
+    }
+    50% {
+      box-shadow: 0 0 0 6px rgb(56 189 248 / 0.2);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .linktree-card-glow,
+    .linktree-theme-toggle {
+      animation: none !important;
+    }
+  }
+</style>
