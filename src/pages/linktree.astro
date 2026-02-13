@@ -9,7 +9,7 @@ const currentYear = new Date().getFullYear();
 
 <Layout
   title={`${siteSettings.siteName} | Link-in-bio`}
-  description="Canales oficiales para contactar con Aliado Digital."
+  description="Canales oficiales para contactarnos."
   siteSettings={siteSettings}
 >
   <main class="linktree-page relative isolate min-h-screen overflow-hidden text-slate-900 dark:text-slate-100">
@@ -34,7 +34,7 @@ const currentYear = new Date().getFullYear();
         />
       </div>
 
-      <div class="linktree-bg-seam absolute inset-y-0 left-1/2 z-[1] w-40 -translate-x-1/2"></div>
+      <div class="linktree-bg-seam absolute inset-y-0 left-1/2 z-[1] w-72 sm:w-80 -translate-x-1/2"></div>
       <div class="linktree-bg-overlay linktree-bg-overlay--light absolute inset-0 z-[2]"></div>
       <div class="linktree-bg-overlay linktree-bg-overlay--dark absolute inset-0 z-[2]"></div>
       <div class="linktree-bg-tint linktree-bg-tint--light absolute inset-0 z-[3]"></div>
@@ -61,13 +61,24 @@ const currentYear = new Date().getFullYear();
   }
 
   .linktree-bg-seam {
-    background: linear-gradient(
-      90deg,
-      rgb(226 232 240 / 0) 0%,
-      rgb(226 232 240 / 0.34) 50%,
-      rgb(226 232 240 / 0) 100%
-    );
-    transition: background 360ms ease;
+    opacity: 0.96;
+    filter: blur(12px);
+    background:
+      radial-gradient(
+        66% 100% at 50% 50%,
+        rgb(226 232 240 / 0.54) 0%,
+        rgb(226 232 240 / 0.28) 44%,
+        rgb(226 232 240 / 0) 80%
+      ),
+      linear-gradient(
+        90deg,
+        rgb(226 232 240 / 0) 0%,
+        rgb(226 232 240 / 0.18) 32%,
+        rgb(226 232 240 / 0.34) 50%,
+        rgb(226 232 240 / 0.18) 68%,
+        rgb(226 232 240 / 0) 100%
+      );
+    transition: background 360ms ease, opacity 360ms ease, filter 360ms ease;
   }
 
   .linktree-bg-overlay {
@@ -145,12 +156,22 @@ const currentYear = new Date().getFullYear();
   }
 
   :global(.dark) .linktree-bg-seam {
-    background: linear-gradient(
-      90deg,
-      rgb(2 6 23 / 0) 0%,
-      rgb(2 6 23 / 0.54) 50%,
-      rgb(2 6 23 / 0) 100%
-    );
+    opacity: 0.92;
+    background:
+      radial-gradient(
+        66% 100% at 50% 50%,
+        rgb(15 23 42 / 0.6) 0%,
+        rgb(15 23 42 / 0.34) 46%,
+        rgb(15 23 42 / 0) 80%
+      ),
+      linear-gradient(
+        90deg,
+        rgb(2 6 23 / 0) 0%,
+        rgb(2 6 23 / 0.26) 32%,
+        rgb(2 6 23 / 0.54) 50%,
+        rgb(2 6 23 / 0.26) 68%,
+        rgb(2 6 23 / 0) 100%
+      );
   }
 
   :global(.dark) .linktree-bg-overlay--light,
