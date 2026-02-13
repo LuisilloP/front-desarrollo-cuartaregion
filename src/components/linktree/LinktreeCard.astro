@@ -13,6 +13,7 @@ interface QuickLinkItem {
   iconImageAlt?: string;
   iconPosition?: "left" | "right";
   description?: string;
+  descriptionCompact?: boolean;
   target?: "_blank" | "_self";
   rel?: string;
 }
@@ -166,7 +167,8 @@ const socialQuickLinks: QuickLinkItem[] = normalizedSocialProfiles
   variant: SOCIAL_ACCENT_KEYS[profile.key] ? "neutral" : index % 2 === 0 ? "mixed" : "marketing",
   accentKey: SOCIAL_ACCENT_KEYS[profile.key],
   icon: profile.icon,
-  description: `Abrir ${profile.label} de ${siteSettings.siteName}.`,
+  description: `Ver ${profile.label} de ${siteSettings.siteName}.`,
+  descriptionCompact: true,
   target: "_blank",
   rel: "noopener noreferrer",
 }));
@@ -177,7 +179,8 @@ const serviceQuickLinks: QuickLinkItem[] = [
     href: "/desarrollo#planes",
     variant: "web",
     icon: "lucide:layout-grid",
-    description: "Ver planes y servicios de desarrollo.",
+    description: "Ver planes web.",
+    descriptionCompact: true,
     target: "_self",
   },
   {
@@ -185,7 +188,8 @@ const serviceQuickLinks: QuickLinkItem[] = [
     href: "/marketing#planes",
     variant: "marketing",
     icon: "lucide:megaphone",
-    description: "Ver planes y servicios de marketing.",
+    description: "Ver planes marketing.",
+    descriptionCompact: true,
     target: "_self",
   },
 ];
@@ -230,17 +234,17 @@ const quickLinks = quickLinksOverride ?? defaultQuickLinks;
 
   <header class="relative z-[1] space-y-4 pr-14">
     <div
-      class="inline-flex items-center gap-3 rounded-2xl border border-slate-300/80 bg-white/72 px-3 py-2 shadow-[0_10px_22px_rgba(15,23,42,0.12)] dark:border-slate-600/65 dark:bg-slate-900/62 dark:shadow-[0_12px_24px_rgba(2,6,23,0.44)]"
+      class="inline-flex flex-nowrap items-center gap-3 rounded-2xl border border-slate-300/80 bg-white/72 px-3 py-2 shadow-[0_10px_22px_rgba(15,23,42,0.12)] dark:border-slate-600/65 dark:bg-slate-900/62 dark:shadow-[0_12px_24px_rgba(2,6,23,0.44)]"
       aria-label="Identidad de marca Aliado Digital"
     >
       <img
         src="/logo.png"
         alt={`Logo de ${siteSettings.siteName}`}
-        class="h-11 w-11 rounded-xl object-contain ring-1 ring-slate-900/10 dark:ring-white/15"
+        class="h-11 w-11 rounded-xl object-contain"
         loading="eager"
         decoding="async"
       />
-      <strong class="min-w-0 text-xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-2xl">
+      <strong class="shrink-0 whitespace-nowrap text-xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-2xl">
         {siteSettings.siteName}
       </strong>
     </div>
@@ -249,7 +253,7 @@ const quickLinks = quickLinksOverride ?? defaultQuickLinks;
       <h1 class="text-2xl font-semibold leading-tight text-slate-900 dark:text-white sm:text-3xl">
         {title}
       </h1>
-      <p class="mt-2 text-sm leading-relaxed text-slate-700/95 dark:text-slate-200/92 sm:text-[0.95rem]">
+      <p class="mt-2 text-sm leading-relaxed text-slate-700/95 dark:text-slate-400 sm:text-[0.95rem]">
         {subtitle}
       </p>
     </div>
@@ -268,6 +272,7 @@ const quickLinks = quickLinksOverride ?? defaultQuickLinks;
           iconImageAlt={item.iconImageAlt}
           iconPosition={item.iconPosition}
           description={item.description}
+          descriptionCompact={item.descriptionCompact}
           target={item.target}
           rel={item.rel}
         />
@@ -276,7 +281,7 @@ const quickLinks = quickLinksOverride ?? defaultQuickLinks;
   </div>
 
   <footer class="relative z-[1] mt-8 pt-5">
-    <p class="text-center text-xs text-slate-700/90 dark:text-slate-300/84">
+    <p class="text-center text-xs text-slate-700/90 dark:text-slate-400/80">
       {siteSettings.region} - &copy; {currentYear} {siteSettings.siteName}
     </p>
   </footer>
