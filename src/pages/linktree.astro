@@ -1,0 +1,221 @@
+---
+import Layout from "../layouts/Layout.astro";
+import LinktreeCard from "../components/linktree/LinktreeCard.astro";
+import { fetchSiteSettings } from "../lib/api/services";
+
+const siteSettings = await fetchSiteSettings();
+const currentYear = new Date().getFullYear();
+---
+
+<Layout
+  title={`${siteSettings.siteName} | Link-in-bio`}
+  description="Canales oficiales para contactarnos."
+  siteSettings={siteSettings}
+>
+  <main class="linktree-page relative isolate min-h-screen overflow-hidden text-slate-900 dark:text-slate-100">
+    <div class="absolute inset-0" aria-hidden="true">
+      <div class="absolute inset-y-0 left-0 w-1/2 overflow-hidden">
+        <img
+          src="/images/sections/hero/hero-coquimbo.webp"
+          alt="Vista de Coquimbo"
+          class="h-full w-full object-cover object-left"
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
+        />
+      </div>
+      <div class="absolute inset-y-0 right-0 w-1/2 overflow-hidden">
+        <img
+          src="/images/sections/hero/hero-serena.webp"
+          alt="Vista de La Serena"
+          class="h-full w-full object-cover object-right"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+
+      <div class="linktree-bg-seam absolute inset-y-0 left-1/2 z-[1] w-72 sm:w-80 -translate-x-1/2"></div>
+      <div class="linktree-bg-overlay linktree-bg-overlay--light absolute inset-0 z-[2]"></div>
+      <div class="linktree-bg-overlay linktree-bg-overlay--dark absolute inset-0 z-[2]"></div>
+      <div class="linktree-bg-tint linktree-bg-tint--light absolute inset-0 z-[3]"></div>
+      <div class="linktree-bg-tint linktree-bg-tint--dark absolute inset-0 z-[3]"></div>
+      <div class="linktree-bg-vignette absolute inset-0 z-[4]"></div>
+      <div class="linktree-bg-grain absolute inset-0 z-[5]"></div>
+      <div class="linktree-bg-blur absolute inset-0 z-[6]"></div>
+    </div>
+
+    <section class="relative z-10 mx-auto flex min-h-screen w-full max-w-4xl items-center justify-center px-4 py-10 sm:px-6 lg:px-8">
+      <LinktreeCard
+        siteSettings={siteSettings}
+        currentYear={currentYear}
+        socialProfiles={siteSettings.socialLinks}
+      />
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .linktree-page {
+    background: linear-gradient(180deg, #d7dee8 0%, #cfd8e3 100%);
+    transition: background 360ms ease;
+  }
+
+  .linktree-bg-seam {
+    opacity: 0.96;
+    filter: blur(12px);
+    background:
+      radial-gradient(
+        66% 100% at 50% 50%,
+        rgb(226 232 240 / 0.54) 0%,
+        rgb(226 232 240 / 0.28) 44%,
+        rgb(226 232 240 / 0) 80%
+      ),
+      linear-gradient(
+        90deg,
+        rgb(226 232 240 / 0) 0%,
+        rgb(226 232 240 / 0.18) 32%,
+        rgb(226 232 240 / 0.34) 50%,
+        rgb(226 232 240 / 0.18) 68%,
+        rgb(226 232 240 / 0) 100%
+      );
+    transition: background 360ms ease, opacity 360ms ease, filter 360ms ease;
+  }
+
+  .linktree-bg-overlay {
+    transition: opacity 420ms ease;
+  }
+
+  .linktree-bg-overlay--light {
+    opacity: 1;
+    background: linear-gradient(
+      180deg,
+      rgb(226 232 240 / 0.62) 0%,
+      rgb(203 213 225 / 0.5) 38%,
+      rgb(148 163 184 / 0.52) 100%
+    );
+  }
+
+  .linktree-bg-overlay--dark {
+    opacity: 0;
+    background: linear-gradient(
+      180deg,
+      rgb(2 6 23 / 0.8) 0%,
+      rgb(2 6 23 / 0.66) 38%,
+      rgb(2 6 23 / 0.84) 100%
+    );
+  }
+
+  .linktree-bg-tint {
+    animation: linktree-bg-tint-drift 10s ease-in-out infinite;
+    transition: opacity 420ms ease;
+  }
+
+  .linktree-bg-tint--light {
+    opacity: 1;
+    background: linear-gradient(
+      112deg,
+      rgb(14 165 233 / 0.2) 0%,
+      rgb(255 255 255 / 0) 44%,
+      rgb(251 146 60 / 0.2) 100%
+    );
+  }
+
+  .linktree-bg-tint--dark {
+    opacity: 0;
+    background: linear-gradient(
+      112deg,
+      rgb(56 189 248 / 0.14) 0%,
+      rgb(15 23 42 / 0) 44%,
+      rgb(251 146 60 / 0.12) 100%
+    );
+    animation-delay: -5s;
+  }
+
+  .linktree-bg-vignette {
+    background: radial-gradient(
+      125% 90% at 50% 50%,
+      rgb(255 255 255 / 0) 34%,
+      rgb(15 23 42 / 0.34) 100%
+    );
+    transition: background 420ms ease;
+  }
+
+  .linktree-bg-grain {
+    opacity: 0.09;
+    background-image: radial-gradient(rgb(15 23 42 / 0.42) 0.7px, transparent 0.7px);
+    background-size: 20px 20px;
+    transition: opacity 420ms ease, background-image 420ms ease;
+  }
+
+  .linktree-bg-blur {
+    backdrop-filter: blur(1.5px);
+  }
+
+  :global(.dark) .linktree-page {
+    background: linear-gradient(180deg, #030712 0%, #020617 100%);
+  }
+
+  :global(.dark) .linktree-bg-seam {
+    opacity: 0.92;
+    background:
+      radial-gradient(
+        66% 100% at 50% 50%,
+        rgb(15 23 42 / 0.6) 0%,
+        rgb(15 23 42 / 0.34) 46%,
+        rgb(15 23 42 / 0) 80%
+      ),
+      linear-gradient(
+        90deg,
+        rgb(2 6 23 / 0) 0%,
+        rgb(2 6 23 / 0.26) 32%,
+        rgb(2 6 23 / 0.54) 50%,
+        rgb(2 6 23 / 0.26) 68%,
+        rgb(2 6 23 / 0) 100%
+      );
+  }
+
+  :global(.dark) .linktree-bg-overlay--light,
+  :global(.dark) .linktree-bg-tint--light {
+    opacity: 0;
+  }
+
+  :global(.dark) .linktree-bg-overlay--dark,
+  :global(.dark) .linktree-bg-tint--dark {
+    opacity: 1;
+  }
+
+  :global(.dark) .linktree-bg-vignette {
+    background: radial-gradient(
+      125% 90% at 50% 50%,
+      rgb(15 23 42 / 0) 38%,
+      rgb(2 6 23 / 0.58) 100%
+    );
+  }
+
+  :global(.dark) .linktree-bg-grain {
+    opacity: 0.14;
+    background-image: radial-gradient(rgb(148 163 184 / 0.36) 0.7px, transparent 0.7px);
+  }
+
+  @keyframes linktree-bg-tint-drift {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(4px, -3px, 0) scale(1.02);
+    }
+    100% {
+      transform: translate3d(-4px, 3px, 0) scale(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .linktree-bg-overlay,
+    .linktree-bg-tint,
+    .linktree-bg-vignette,
+    .linktree-bg-grain {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+</style>

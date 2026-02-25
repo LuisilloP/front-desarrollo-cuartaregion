@@ -1,0 +1,410 @@
+---
+import Icon from "./Icon.astro";
+import {
+  resolveTokens,
+  type LinkPillVariant,
+} from "../../lib/linktreeTokens";
+
+type IconPosition = "left" | "right";
+type LinkTarget = "_blank" | "_self";
+
+interface Props {
+  label: string;
+  href?: string;
+  variant?: LinkPillVariant;
+  accentKey?: string;
+  icon?: string;
+  iconImageSrc?: string;
+  iconImageAlt?: string;
+  iconPosition?: IconPosition;
+  description?: string;
+  descriptionCompact?: boolean;
+  target?: LinkTarget;
+  rel?: string;
+  class?: string;
+}
+
+interface GlowPalette {
+  lightA: string;
+  lightB: string;
+  darkA: string;
+  darkB: string;
+}
+
+const iconNamePattern = /^(lucide|simple-icons|mdi):[a-z0-9-]+$/i;
+const iconImagePattern = /^(\/(?!\/)|https?:\/\/)/i;
+const safeHrefPattern = /^(\/(?!\/)|#|https?:\/\/|mailto:|tel:)/i;
+
+const {
+  label,
+  href,
+  variant = "neutral",
+  accentKey,
+  icon,
+  iconImageSrc,
+  iconImageAlt,
+  iconPosition = "left",
+  description,
+  descriptionCompact = false,
+  target,
+  rel,
+  class: className = "",
+} = Astro.props as Props;
+
+const safeLabel = label.trim();
+const normalizedHref = typeof href === "string" ? href.trim() : "";
+const hasHref = normalizedHref.length > 0 && safeHrefPattern.test(normalizedHref);
+const normalizedDescription =
+  typeof description === "string" ? description.trim() : "";
+const hasDescription = normalizedDescription.length > 0;
+const externalByHref = /^https?:\/\//i.test(normalizedHref);
+const resolvedTarget = hasHref
+  ? target ?? (externalByHref ? "_blank" : "_self")
+  : undefined;
+const resolvedRel =
+  hasHref && resolvedTarget === "_blank" ? rel ?? "noopener noreferrer" : rel;
+const resolvedTokens = resolveTokens(variant, accentKey);
+const normalizedIcon = typeof icon === "string" ? icon.trim() : "";
+const safeIcon = iconNamePattern.test(normalizedIcon) ? normalizedIcon : "";
+const normalizedIconImageSrc =
+  typeof iconImageSrc === "string" ? iconImageSrc.trim() : "";
+const safeIconImageSrc = iconImagePattern.test(normalizedIconImageSrc)
+  ? normalizedIconImageSrc
+  : "";
+const safeIconImageAlt =
+  typeof iconImageAlt === "string" ? iconImageAlt.trim() : "";
+const hasVisualIcon = Boolean(safeIcon || safeIconImageSrc);
+const normalizedAccentKey =
+  typeof accentKey === "string" ? accentKey.trim().toLowerCase() : "";
+
+const DEFAULT_GLOW_PALETTE: GlowPalette = {
+  lightA: "rgb(100 116 139 / 0.22)",
+  lightB: "rgb(71 85 105 / 0.2)",
+  darkA: "rgb(148 163 184 / 0.22)",
+  darkB: "rgb(100 116 139 / 0.2)",
+};
+
+const GLOW_BY_KEY: Record<string, GlowPalette> = {
+  neutral: DEFAULT_GLOW_PALETTE,
+  web: {
+    lightA: "rgb(14 165 233 / 0.28)",
+    lightB: "rgb(56 189 248 / 0.2)",
+    darkA: "rgb(56 189 248 / 0.3)",
+    darkB: "rgb(14 165 233 / 0.2)",
+  },
+  marketing: {
+    lightA: "rgb(251 146 60 / 0.28)",
+    lightB: "rgb(245 158 11 / 0.2)",
+    darkA: "rgb(249 115 22 / 0.3)",
+    darkB: "rgb(251 146 60 / 0.2)",
+  },
+  mixed: {
+    lightA: "rgb(14 165 233 / 0.2)",
+    lightB: "rgb(168 85 247 / 0.24)",
+    darkA: "rgb(56 189 248 / 0.2)",
+    darkB: "rgb(139 92 246 / 0.28)",
+  },
+  whatsapp: {
+    lightA: "rgb(16 185 129 / 0.28)",
+    lightB: "rgb(52 211 153 / 0.2)",
+    darkA: "rgb(16 185 129 / 0.32)",
+    darkB: "rgb(5 150 105 / 0.22)",
+  },
+  github: {
+    lightA: "rgb(71 85 105 / 0.28)",
+    lightB: "rgb(30 41 59 / 0.24)",
+    darkA: "rgb(148 163 184 / 0.24)",
+    darkB: "rgb(100 116 139 / 0.24)",
+  },
+  instagram: {
+    lightA: "rgb(217 70 239 / 0.3)",
+    lightB: "rgb(168 85 247 / 0.26)",
+    darkA: "rgb(232 121 249 / 0.3)",
+    darkB: "rgb(168 85 247 / 0.28)",
+  },
+  facebook: {
+    lightA: "rgb(37 99 235 / 0.3)",
+    lightB: "rgb(59 130 246 / 0.24)",
+    darkA: "rgb(96 165 250 / 0.32)",
+    darkB: "rgb(59 130 246 / 0.24)",
+  },
+};
+
+const glowKey = normalizedAccentKey || variant;
+const glowPalette = GLOW_BY_KEY[glowKey] ?? DEFAULT_GLOW_PALETTE;
+const glowStyle = [
+  `--link-pill-glow-light-a: ${glowPalette.lightA}`,
+  `--link-pill-glow-light-b: ${glowPalette.lightB}`,
+  `--link-pill-glow-dark-a: ${glowPalette.darkA}`,
+  `--link-pill-glow-dark-b: ${glowPalette.darkB}`,
+].join("; ");
+---
+
+{
+  hasHref ? (
+    <a
+      href={normalizedHref}
+      target={resolvedTarget}
+      rel={resolvedRel}
+      data-link-pill
+      data-cycle-classes={resolvedTokens.active}
+      aria-label={hasDescription ? `${safeLabel}. ${normalizedDescription}` : safeLabel}
+      style={glowStyle}
+      class:list={[
+        "group relative flex min-h-14 w-full items-center gap-2.5 overflow-hidden rounded-2xl border px-3.5 py-2.5 sm:gap-3 sm:px-4 sm:py-3",
+        "shadow-[0_14px_30px_rgba(15,23,42,0.16)] backdrop-blur-xl",
+        "transition-all duration-200 hover:-translate-y-0.5 active:translate-y-px",
+        "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:active:translate-y-0",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100 dark:focus-visible:ring-offset-slate-950",
+        resolvedTokens.background,
+        resolvedTokens.border,
+        resolvedTokens.hover,
+        resolvedTokens.focus,
+        className,
+      ]}
+    >
+      <span aria-hidden="true" class="link-pill-glow"></span>
+
+      {hasVisualIcon && iconPosition === "left" ? (
+        <span
+          class:list={[
+            "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border sm:h-10 sm:w-10",
+            resolvedTokens.iconWrap,
+          ]}
+        >
+          {safeIconImageSrc ? (
+            <img
+              src={safeIconImageSrc}
+              alt={safeIconImageAlt}
+              class="h-[18px] w-[18px] rounded-sm object-contain sm:h-[19px] sm:w-[19px]"
+              loading="lazy"
+              decoding="async"
+            />
+          ) : (
+            <Icon
+              name={safeIcon}
+              size={18}
+              class:list={["h-[18px] w-[18px] sm:h-[19px] sm:w-[19px]", resolvedTokens.iconColor]}
+            />
+          )}
+        </span>
+      ) : null}
+
+      <span class="min-w-0 flex-1">
+        <span class="link-pill-label block text-[0.93rem] font-semibold leading-snug sm:text-base">
+          {safeLabel}
+        </span>
+        {hasDescription ? (
+          <span
+            class:list={[
+              "link-pill-description mt-0.5 block text-[0.72rem] leading-relaxed text-slate-700 dark:text-slate-300/90 sm:text-xs",
+              descriptionCompact ? "link-pill-description--compact" : "",
+            ]}
+          >
+            {normalizedDescription}
+          </span>
+        ) : null}
+      </span>
+
+      {hasVisualIcon && iconPosition === "right" ? (
+        <span
+          class:list={[
+            "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border sm:h-10 sm:w-10",
+            resolvedTokens.iconWrap,
+          ]}
+        >
+          {safeIconImageSrc ? (
+            <img
+              src={safeIconImageSrc}
+              alt={safeIconImageAlt}
+              class="h-[18px] w-[18px] rounded-sm object-contain sm:h-[19px] sm:w-[19px]"
+              loading="lazy"
+              decoding="async"
+            />
+          ) : (
+            <Icon
+              name={safeIcon}
+              size={18}
+              class:list={["h-[18px] w-[18px] sm:h-[19px] sm:w-[19px]", resolvedTokens.iconColor]}
+            />
+          )}
+        </span>
+      ) : null}
+
+      <span
+        data-link-pill-chevron
+        class:list={[
+          "inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-transform duration-200 group-hover:translate-x-0.5 group-focus-visible:translate-x-0.5 motion-reduce:transition-none",
+          resolvedTokens.iconWrap,
+        ]}
+      >
+        <Icon
+          name="lucide:chevron-right"
+          size={15}
+          class:list={[
+            "h-[15px] w-[15px]",
+            resolvedTokens.chevron,
+          ]}
+        />
+      </span>
+    </a>
+  ) : (
+    <div
+      role="group"
+      aria-disabled="true"
+      aria-label={`${safeLabel} (no disponible)`}
+      class:list={[
+        "relative flex min-h-14 w-full items-center gap-2.5 rounded-2xl border px-3.5 py-2.5 sm:gap-3 sm:px-4 sm:py-3",
+        "cursor-not-allowed opacity-65 saturate-50",
+        "shadow-[0_10px_22px_rgba(15,23,42,0.12)] backdrop-blur-xl",
+        "bg-white/72 border-slate-300/60 dark:bg-slate-900/62 dark:border-slate-700/55",
+        className,
+      ]}
+    >
+      {hasVisualIcon ? (
+        <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-slate-300/65 bg-slate-100/82 dark:border-slate-600/55 dark:bg-slate-800/72 sm:h-10 sm:w-10">
+          {safeIconImageSrc ? (
+            <img
+              src={safeIconImageSrc}
+              alt={safeIconImageAlt}
+              class="h-[18px] w-[18px] rounded-sm object-contain sm:h-[19px] sm:w-[19px]"
+              loading="lazy"
+              decoding="async"
+            />
+          ) : (
+            <Icon
+              name={safeIcon}
+              size={18}
+              class="h-[18px] w-[18px] text-slate-500 dark:text-slate-400 sm:h-[19px] sm:w-[19px]"
+            />
+          )}
+        </span>
+      ) : null}
+
+      <span class="min-w-0 flex-1">
+        <span class="link-pill-label block text-[0.93rem] font-semibold leading-snug text-slate-700 dark:text-slate-300 sm:text-base">
+          {safeLabel}
+        </span>
+        {hasDescription ? (
+          <span
+            class:list={[
+              "link-pill-description mt-0.5 block text-[0.72rem] leading-relaxed text-slate-600 dark:text-slate-400 sm:text-xs",
+              descriptionCompact ? "link-pill-description--compact" : "",
+            ]}
+          >
+            {normalizedDescription}
+          </span>
+        ) : null}
+      </span>
+
+      <span class="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-slate-300/70 bg-white/70 dark:border-slate-700/55 dark:bg-slate-800/78">
+        <Icon
+          name="lucide:minus"
+          size={14}
+          class="h-3.5 w-3.5 text-slate-400 dark:text-slate-500"
+          aria-hidden="true"
+        />
+      </span>
+    </div>
+  )
+}
+
+<style>
+  .link-pill-glow {
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    background:
+      radial-gradient(
+        120% 85% at 20% 0%,
+        var(--link-pill-glow-light-a, rgb(56 189 248 / 0.2)) 0%,
+        transparent 70%
+      ),
+      radial-gradient(
+        100% 80% at 100% 100%,
+        var(--link-pill-glow-light-b, rgb(251 146 60 / 0.18)) 0%,
+        transparent 72%
+      );
+    transition: opacity 240ms ease;
+    animation: link-pill-glow-float 7s ease-in-out infinite;
+  }
+
+  a.group:hover .link-pill-glow,
+  a.group:focus-visible .link-pill-glow,
+  a.group.is-cycled .link-pill-glow {
+    opacity: 1;
+  }
+
+  a.group.is-cycled {
+    transform: translateY(-2px);
+  }
+
+  a.group.is-cycled [data-link-pill-chevron] {
+    transform: translateX(0.125rem);
+  }
+
+  :global(.dark) .link-pill-glow {
+    background:
+      radial-gradient(
+        120% 85% at 20% 0%,
+        var(--link-pill-glow-dark-a, rgb(56 189 248 / 0.16)) 0%,
+        transparent 70%
+      ),
+      radial-gradient(
+        100% 80% at 100% 100%,
+        var(--link-pill-glow-dark-b, rgb(251 146 60 / 0.14)) 0%,
+        transparent 72%
+      );
+  }
+
+  @keyframes link-pill-glow-float {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(2px, -1px, 0) scale(1.01);
+    }
+    100% {
+      transform: translate3d(-2px, 1px, 0) scale(0.995);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    a.group.is-cycled {
+      transform: none;
+    }
+
+    a.group.is-cycled [data-link-pill-chevron] {
+      transform: none;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .link-pill-label {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .link-pill-description {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .link-pill-description--compact {
+      display: block;
+      -webkit-line-clamp: unset;
+      -webkit-box-orient: unset;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-size: 0.68rem;
+      line-height: 1.2;
+    }
+  }
+</style>
