@@ -10,6 +10,9 @@ export default {
   site: "https://aliadodigital.cl", // Actualizar al dominio real para sitemap/OG.
   integrations: [tailwind(), icon(), react()],
   output: "static", // Cambia a "server" para SSR si lo necesitas.
+  redirects: {
+    "/linktree": "/enlace",
+  },
   vite: {
     build: {
       cssCodeSplit: true,
