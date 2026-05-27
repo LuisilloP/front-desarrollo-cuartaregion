@@ -1,0 +1,100 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Footer from "../components/layout/Footer.astro";
+import Navbar from "../components/layout/Navbar.astro";
+import { fetchSiteSettings } from "../lib/api/services";
+import { LEGAL_INFO } from "../config/legal";
+
+const siteSettings = await fetchSiteSettings();
+
+const pageTitle = "Información legal";
+const pageDescription =
+  "Información legal de Aliado Digital, nombre comercial de INFORMATICA ALIADO DIGITAL LIMITADA.";
+
+// JSON-LD Organization para verificación de empresa (Meta Business / buscadores).
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: LEGAL_INFO.legalName,
+  alternateName: LEGAL_INFO.commercialName,
+  taxID: LEGAL_INFO.rut,
+  url: LEGAL_INFO.url,
+  email: LEGAL_INFO.email,
+  telephone: LEGAL_INFO.phoneTel,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: LEGAL_INFO.address.street,
+    addressLocality: LEGAL_INFO.address.locality,
+    addressRegion: LEGAL_INFO.address.region,
+    addressCountry: LEGAL_INFO.address.country,
+  },
+};
+
+// Datos de la empresa para la tabla (texto visible e indexable).
+const companyData: Array<{ label: string; value: string; href?: string }> = [
+  { label: "Nombre comercial", value: LEGAL_INFO.commercialName },
+  { label: "Razón social", value: LEGAL_INFO.legalName },
+  { label: "RUT", value: LEGAL_INFO.rut },
+  { label: "Dirección", value: LEGAL_INFO.address.full },
+  { label: "Actividad", value: LEGAL_INFO.activity },
+  {
+    label: "Correo electrónico",
+    value: LEGAL_INFO.email,
+    href: `mailto:${LEGAL_INFO.email}`,
+  },
+  {
+    label: "Teléfono",
+    value: LEGAL_INFO.phone,
+    href: `tel:${LEGAL_INFO.phoneTel}`,
+  },
+];
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  siteSettings={siteSettings}
+  structuredData={organizationSchema}
+>
+  <Navbar siteSettings={siteSettings} />
+  <main class="section-shell py-16 space-y-6 hero-safe-offset">
+    <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">
+      Legal
+    </p>
+    <h1 class="text-3xl sm:text-4xl font-bold text-content">
+      Información legal de {LEGAL_INFO.commercialName}
+    </h1>
+    <p class="max-w-3xl text-muted">
+      {LEGAL_INFO.commercialName} es el nombre comercial de {
+        LEGAL_INFO.legalName
+      }, empresa dedicada al desarrollo de soluciones digitales, software,
+      automatización, marketing digital y servicios tecnológicos.
+    </p>
+
+    <section class="card max-w-3xl">
+      <h2 class="text-lg font-semibold text-content">Datos de la empresa</h2>
+      <dl class="mt-4 divide-y divide-border">
+        {
+          companyData.map((item) => (
+            <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-[180px_1fr] sm:gap-4">
+              <dt class="text-sm font-medium text-muted">{item.label}</dt>
+              <dd class="text-content">
+                {item.href ? (
+                  <a
+                    href={item.href}
+                    class="text-highlight underline underline-offset-2 transition-colors hover:opacity-80"
+                  >
+                    {item.value}
+                  </a>
+                ) : (
+                  item.value
+                )}
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+  </main>
+  <Footer siteSettings={siteSettings} />
+</Layout>

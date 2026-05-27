@@ -7,6 +7,7 @@ import type {
   Content,
 } from "../../lib/api/types";
 import contentJson from "../../data/content.json";
+import { LEGAL_INFO } from "../../config/legal";
 
 interface Props {
   siteSettings: SiteSettings;
@@ -69,6 +70,22 @@ const processedNavLinks = navLinks.map((link) => ({
         <p class="mt-4 text-sm text-slate-400">
           {siteSettings.footerText}
         </p>
+
+        <!-- Información legal (visible para verificación de empresa) -->
+        <div class="mt-6 space-y-1 text-xs leading-relaxed text-slate-500">
+          <p class="font-semibold tracking-wide text-slate-400">
+            Información legal
+          </p>
+          <p>{LEGAL_INFO.legalName}</p>
+          <p>RUT: {LEGAL_INFO.rut}</p>
+          <p>{LEGAL_INFO.address.full}</p>
+          <a
+            href={LEGAL_INFO.pageHref}
+            class="mt-1 inline-block text-slate-400 underline underline-offset-2 transition-colors hover:text-white"
+          >
+            Datos de la empresa
+          </a>
+        </div>
       </div>
 
       <!-- Column 2: Navigation -->
@@ -114,6 +131,14 @@ const processedNavLinks = navLinks.map((link) => ({
               </li>
             ))
           }
+          <li>
+            <a
+              href={LEGAL_INFO.pageHref}
+              class="text-slate-400 transition-colors hover:text-white"
+            >
+              Información legal
+            </a>
+          </li>
         </ul>
       </div>
 

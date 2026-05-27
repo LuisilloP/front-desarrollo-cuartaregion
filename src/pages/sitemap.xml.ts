@@ -34,7 +34,8 @@ export async function GET() {
     { path: "/desarrollo", changefreq: "weekly", priority: "0.9" },
     { path: "/blog", changefreq: "weekly", priority: "0.7" },
     { path: "/privacidad", changefreq: "yearly", priority: "0.3" },
-    { path: "/terminos", changefreq: "yearly", priority: "0.3" }
+    { path: "/terminos", changefreq: "yearly", priority: "0.3" },
+    { path: "/informacion-legal", changefreq: "yearly", priority: "0.3" }
   ];
 
   const blogPageSize = SITE_DEFAULTS.blogPageSize;
