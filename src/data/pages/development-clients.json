@@ -1,10 +1,10 @@
 {
   "title": "Clientes de desarrollo web que confiaron en Aliado Digital",
-  "description": "Paginas web, sistemas y soluciones a medida para negocios reales.",
+  "description": "Páginas web, sistemas y soluciones a medida para negocios reales.",
   "companies": [
     {
       "id": "clinica-montblanc",
-      "name": "Clinica Montblanc",
+      "name": "Clínica Montblanc",
       "logo": "/images/logos/montblanc.webp",
       "href": "https://www.clinicamontblanc.cl"
     },
@@ -28,7 +28,7 @@
     },
     {
       "id": "muebleria-el-florentino",
-      "name": "Muebleria El Florentino",
+      "name": "Mueblería El Fiorentino",
       "logo": "/images/logos/muebleria-florentino.webp",
       "href": "https://elfiorentino.vercel.app/"
     },
@@ -37,6 +37,30 @@
       "name": "Propiedades Arenas",
       "logo": "/images/logos/propiedades-arenas.webp",
       "href": "https://propiedadesarenas.cl/"
+    },
+    {
+      "id": "peluqueria-max",
+      "name": "Peluquería Canina Max",
+      "logo": "/images/logos/peluqueria-max.webp",
+      "href": "https://peluqueriamax.cl/"
+    },
+    {
+      "id": "reybozz-control-plagas",
+      "name": "Reybozz Control de Plagas",
+      "logo": "/images/logos/reybozz-plagas.webp",
+      "href": "https://reybozzplagas.cl/"
+    },
+    {
+      "id": "academia-tiro-ovalle",
+      "name": "Academia de Tiro Ovalle",
+      "logo": "/images/logos/academia-tiro-ovalle.webp",
+      "href": "https://academiadetiroovalle.cl/"
+    },
+    {
+      "id": "asatecnic",
+      "name": "ASA Tecnic",
+      "logo": "/images/logos/asatecnic.webp",
+      "href": "https://asatecnic.cl/"
     }
   ]
 }

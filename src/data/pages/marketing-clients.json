@@ -1,10 +1,10 @@
 {
   "title": "Clientes de marketing que confiaron en Aliado Digital",
-  "description": "Campanas, contenido y optimizacion para negocios reales.",
+  "description": "Campañas, contenido y optimización para negocios reales.",
   "companies": [
     {
       "id": "clinica-montblanc",
-      "name": "Clinica Montblanc",
+      "name": "Clínica Montblanc",
       "logo": "/images/logos/montblanc.webp",
       "href": "https://www.clinicamontblanc.cl"
     },
@@ -28,7 +28,7 @@
     },
     {
       "id": "muebleria-el-florentino",
-      "name": "Muebleria El Florentino",
+      "name": "Mueblería El Fiorentino",
       "logo": "/images/logos/muebleria-florentino.webp",
       "href": "https://elfiorentino.vercel.app/"
     },

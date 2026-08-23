@@ -16,12 +16,18 @@ export interface Company {
 
 /**
  * The master list of companies we have worked with.
+ *
+ * This is the single source of truth for the "Conocer todas las marcas" grid
+ * in PortfolioMarqueeSection. Each page may pass a shorter, curated list to the
+ * marquee itself (see src/data/pages/*-clients.json), but the grid always
+ * renders this list. Add every new brand here.
+ *
  * Use transparent logos whenever possible for better visual balance.
  */
 export const companies: Company[] = [
   {
     id: "clinica-montblanc",
-    name: "Clinica Montblanc",
+    name: "Clínica Montblanc",
     logo: "/images/logos/montblanc.webp",
     href: "https://www.clinicamontblanc.cl",
   },
@@ -45,7 +51,7 @@ export const companies: Company[] = [
   },
   {
     id: "muebleria-el-florentino",
-    name: "Muebleria El Florentino",
+    name: "Mueblería El Fiorentino",
     logo: "/images/logos/muebleria-florentino.webp",
     href: "https://elfiorentino.vercel.app/",
   },
@@ -54,5 +60,29 @@ export const companies: Company[] = [
     name: "Propiedades Arenas",
     logo: "/images/logos/propiedades-arenas.webp",
     href: "https://propiedadesarenas.cl/",
+  },
+  {
+    id: "peluqueria-max",
+    name: "Peluquería Canina Max",
+    logo: "/images/logos/peluqueria-max.webp",
+    href: "https://peluqueriamax.cl/",
+  },
+  {
+    id: "reybozz-control-plagas",
+    name: "Reybozz Control de Plagas",
+    logo: "/images/logos/reybozz-plagas.webp",
+    href: "https://reybozzplagas.cl/",
+  },
+  {
+    id: "academia-tiro-ovalle",
+    name: "Academia de Tiro Ovalle",
+    logo: "/images/logos/academia-tiro-ovalle.webp",
+    href: "https://academiadetiroovalle.cl/",
+  },
+  {
+    id: "asatecnic",
+    name: "ASA Tecnic",
+    logo: "/images/logos/asatecnic.webp",
+    href: "https://asatecnic.cl/",
   },
 ];
