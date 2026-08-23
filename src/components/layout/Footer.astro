@@ -8,6 +8,7 @@ import type {
 } from "../../lib/api/types";
 import contentJson from "../../data/content.json";
 import { LEGAL_INFO } from "../../config/legal";
+import { CITY_LANDINGS } from "../../config/cities";
 
 interface Props {
   siteSettings: SiteSettings;
@@ -164,6 +165,28 @@ const processedNavLinks = navLinks.map((link) => ({
             ))
           }
         </div>
+
+        <!-- Site-wide links to the city landings: they are the entry points
+             for local search, so every page should point at them. -->
+        <h3
+          class="mt-8 text-sm font-semibold tracking-wider uppercase text-slate-300"
+        >
+          Zonas
+        </h3>
+        <ul class="mt-4 space-y-3">
+          {
+            CITY_LANDINGS.map((city) => (
+              <li>
+                <a
+                  href={`/diseno-web-${city.slug}`}
+                  class="text-slate-400 transition-colors hover:text-white"
+                >
+                  Diseño web en {city.city}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
       </div>
     </div>
   </div>

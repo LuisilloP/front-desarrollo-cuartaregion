@@ -1,6 +1,7 @@
 import { env } from "../lib/env";
 import { fetchAllPosts, fetchCases, fetchServices } from "../lib/api/services";
 import { SITE_DEFAULTS } from "../config/site";
+import { CITY_LANDINGS } from "../config/cities";
 
 const SITE_URL = (env.siteUrl || import.meta.env.SITE || "https://aliadodigital.cl").replace(/\/$/, "");
 
@@ -46,6 +47,14 @@ export async function GET() {
     { path: "/informacion-legal", changefreq: "yearly", priority: "0.3" }
   ];
 
+  // Derived from the same config the pages are built from, so a new city can
+  // never end up live but missing from the sitemap.
+  const cityRoutes: SitemapEntry[] = CITY_LANDINGS.map((entry) => ({
+    path: `/diseno-web-${entry.slug}`,
+    changefreq: "monthly",
+    priority: "0.8"
+  }));
+
   const blogPageSize = SITE_DEFAULTS.blogPageSize;
 
   const [services, cases, posts] = await Promise.all([
@@ -90,6 +99,7 @@ export async function GET() {
 
   const urls = [
     ...staticRoutes,
+    ...cityRoutes,
     ...serviceRoutes,
     ...caseRoutes,
     ...postRoutes,
