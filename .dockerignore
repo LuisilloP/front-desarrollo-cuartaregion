@@ -8,3 +8,8 @@ yarn-error.log*
 pnpm-debug.log*
 .env
 .env.*
+
+# El build genera dist dentro de la imagen; copiarlo solo infla el contexto.
+dist
+.github
+.vscode
