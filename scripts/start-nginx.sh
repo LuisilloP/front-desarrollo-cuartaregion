@@ -47,6 +47,13 @@ http {
     root ${APP_ROOT}/dist;
     index index.html;
 
+    # Behind a TLS-terminating proxy nginx only sees http, so an absolute
+    # Location header downgrades the scheme: /desarrollo became
+    # https -> http -> https, three hops with an insecure one in the middle,
+    # on every slashless URL. Relative redirects keep the client scheme.
+    # Keep in sync with nginx.conf, which the Docker path uses instead.
+    absolute_redirect off;
+
     add_header X-Content-Type-Options "nosniff" always;
     add_header X-Frame-Options "SAMEORIGIN" always;
     add_header Referrer-Policy "strict-origin-when-cross-origin" always;
