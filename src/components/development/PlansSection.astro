@@ -35,7 +35,7 @@ const normalizedPlans: PlanCardModel[] = plans.map((plan) => {
     idealFor: plan.reach,
     price: normalizedPrice,
     currency: hasClpSuffix ? "CLP" : undefined,
-    priceNote: "Pago unico estimado - Ajustable segun alcance",
+    priceNote: "Pago único estimado - Ajustable según alcance",
     includes: plan.benefits ?? [],
     deliverables: plan.results ?? [],
     ctaLabel: plan.ctaLabel ?? "Cotizar este plan",

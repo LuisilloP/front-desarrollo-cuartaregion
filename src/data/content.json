@@ -460,10 +460,10 @@
       "summary": "Ejecutamos un servicio de impulso digital para Ansar con publicaciones en redes sociales, estrategia, contenido y campañas de Meta Ads, logrando un promedio de 80 a 160+ clientes potenciales que escribieron por redes sociales.",
       "coverImage": "/images/marketing/ansar/img.webp",
       "beforeTitle": "Antes",
-      "afterTitle": "Despues",
+      "afterTitle": "Después",
       "beforePoints": [
         {
-          "text": "Publicaciones sin una linea estrategica continua",
+          "text": "Publicaciones sin una línea estratégica continua",
           "tone": "warning"
         },
         {
@@ -511,10 +511,10 @@
       "title": "Plan mixto: desarrollo web y presencia digital",
       "industry": "Salud",
       "city": "Ovalle",
-      "summary": "Plan mixto que incluyo desarrollo de página web y mejora de presencia digital en redes sociales, con creacion de cuenta de Google, implementacion de WhatsApp Business, optimizacion de LinkedIn y contenido para fortalecer su posicionamiento online.",
+      "summary": "Plan mixto que incluyo desarrollo de página web y mejora de presencia digital en redes sociales, con creación de cuenta de Google, implementación de WhatsApp Business, optimización de LinkedIn y contenido para fortalecer su posicionamiento online.",
       "coverImage": "/images/portfolio/cases/haraldziller.webp",
       "beforeTitle": "Antes",
-      "afterTitle": "Despues",
+      "afterTitle": "Después",
       "beforePoints": [
         {
           "text": "Presencia digital dispersa y sin una estrategia unificada",
@@ -525,21 +525,21 @@
           "tone": "danger"
         },
         {
-          "text": "Contenido poco consistente para sostener comunicacion en redes",
+          "text": "Contenido poco consistente para sostener comunicación en redes",
           "tone": "warning"
         }
       ],
       "afterPoints": [
         {
-          "text": "Pagina web profesional desarrollada como base de su presencia digital",
+          "text": "Página web profesional desarrollada como base de su presencia digital",
           "tone": "success"
         },
         {
-          "text": "Implementacion de Google, WhatsApp Business y optimizacion de perfil en LinkedIn",
+          "text": "Implementación de Google, WhatsApp Business y optimización de perfil en LinkedIn",
           "tone": "success"
         },
         {
-          "text": "Plan de contenido y mejoras en redes sociales con enfoque de presencia y conversion",
+          "text": "Plan de contenido y mejoras en redes sociales con enfoque de presencia y conversión",
           "tone": "success"
         }
       ],
@@ -565,17 +565,17 @@
     },
     {
       "slug": "muebleria-el-fiorentino",
-      "clientName": "Muebleria El Fiorentino",
-      "title": "Pagina web para iniciar presencia digital y mostrar muebles a medida",
-      "industry": "Muebleria",
+      "clientName": "Mueblería El Fiorentino",
+      "title": "Página web para iniciar presencia digital y mostrar muebles a medida",
+      "industry": "Mueblería",
       "city": "Punitaqui",
-      "summary": "Desarrollamos su primera página web para que la muebleria pudiera comenzar con presencia digital, mostrar su empresa y exhibir sus muebles a medida con un catalogo claro, CTA directos por WhatsApp y mejor visibilidad local en la Region de Coquimbo.",
+      "summary": "Desarrollamos su primera página web para que la mueblería pudiera comenzar con presencia digital, mostrar su empresa y exhibir sus muebles a medida con un catálogo claro, CTA directos por WhatsApp y mejor visibilidad local en la Región de Coquimbo.",
       "coverImage": "/images/portfolio/cases/fiorentino.webp",
       "beforeTitle": "Antes",
-      "afterTitle": "Despues",
+      "afterTitle": "Después",
       "beforePoints": [
         {
-          "text": "No tenian sitio web para presentar la muebleria y sus trabajos",
+          "text": "No tenían sitio web para presentar la mueblería y sus trabajos",
           "tone": "warning"
         },
         {
@@ -583,7 +583,7 @@
           "tone": "danger"
         },
         {
-          "text": "Costaba mostrar catalogo, proceso y confianza a nuevos clientes",
+          "text": "Costaba mostrar catálogo, proceso y confianza a nuevos clientes",
           "tone": "warning"
         }
       ],
@@ -593,15 +593,15 @@
           "tone": "success"
         },
         {
-          "text": "Catalogo organizado por categorias para facilitar la eleccion del mueble",
+          "text": "Catálogo organizado por categorías para facilitar la elección del mueble",
           "tone": "success"
         },
         {
-          "text": "CTA de cotizacion por WhatsApp y mejor canal de contacto para conversion",
+          "text": "CTA de cotización por WhatsApp y mejor canal de contacto para conversión",
           "tone": "success"
         },
         {
-          "text": "Refuerzo de confianza con trayectoria (+20 anos), ubicacion en Punitaqui y marcas que los avalan",
+          "text": "Refuerzo de confianza con trayectoria (+20 años), ubicación en Punitaqui y marcas que los avalan",
           "tone": "success"
         }
       ],
@@ -611,7 +611,7 @@
           "variant": "green"
         },
         {
-          "text": "Catalogo mas claro y navegable",
+          "text": "Catálogo mas claro y navegable",
           "variant": "blue"
         },
         {
@@ -631,39 +631,39 @@
       "title": "Sistema de pedidos administrable",
       "industry": "Gastronomia",
       "city": null,
-      "summary": "Disenamos una plataforma integral de pedidos para profesionalizar la operacion de El Arlequin. El sistema esta pensado para el meson y el ejecutivo de venta, con administracion completa de catalogo, clientes y zonas de despacho, ademas de un configurador avanzado de productos.",
+      "summary": "Diseñamos una plataforma integral de pedidos para profesionalizar la operación de El Arlequin. El sistema esta pensado para el mesón y el ejecutivo de venta, con administración completa de catálogo, clientes y zonas de despacho, además de un configurador avanzado de productos.",
       "coverImage": "/images/portfolio/cases/el-arlequin.webp",
       "beforeTitle": "Antes",
-      "afterTitle": "Despues",
+      "afterTitle": "Después",
       "beforePoints": [
         {
           "text": "Toma y seguimiento de pedidos con procesos manuales, con riesgo de errores y tiempos de respuesta altos",
           "tone": "warning"
         },
         {
-          "text": "Catalogo dificil de mantener: productos con multiples tamanos, personalizaciones y extras sin control centralizado",
+          "text": "Catálogo difícil de mantener: productos con múltiples tamaños, personalizaciones y extras sin control centralizado",
           "tone": "danger"
         },
         {
-          "text": "Despacho y calculo de envio sin zonificacion formal, afectando la consistencia del cobro y la atencion",
+          "text": "Despacho y cálculo de envio sin zonificación formal, afectando la consistencia del cobro y la atención",
           "tone": "warning"
         }
       ],
       "afterPoints": [
         {
-          "text": "Flujo unificado para meson y ventas: creacion, administracion y seguimiento de pedidos desde un solo panel",
+          "text": "Flujo unificado para mesón y ventas: creación, administración y seguimiento de pedidos desde un solo panel",
           "tone": "success"
         },
         {
-          "text": "Backoffice administrable: gestion de productos, clientes y reglas de despacho con control y trazabilidad",
+          "text": "Backoffice administrable: gestión de productos, clientes y reglas de despacho con control y trazabilidad",
           "tone": "success"
         },
         {
-          "text": "Zonas de reparto configurables con calculo automatico de envio para estandarizar la operacion",
+          "text": "Zonas de reparto configurables con cálculo automático de envio para estandarizar la operación",
           "tone": "success"
         },
         {
-          "text": "Configurador avanzado: productos con mas de un tamano, ingredientes adicionales y creador de pizzas con precios dinamicos",
+          "text": "Configurador avanzado: productos con mas de un tamaño, ingredientes adicionales y creador de pizzas con precios dinamicos",
           "tone": "success"
         }
       ],
@@ -673,7 +673,7 @@
           "variant": "green"
         },
         {
-          "text": "Gestion centralizada",
+          "text": "Gestión centralizada",
           "variant": "blue"
         },
         {
@@ -681,7 +681,7 @@
           "variant": "orange"
         },
         {
-          "text": "Personalizacion avanzada",
+          "text": "Personalización avanzada",
           "variant": "purple"
         }
       ],

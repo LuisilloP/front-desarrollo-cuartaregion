@@ -27,7 +27,7 @@ const defaultFeatures: Feature[] = [
     description:
       "Escuchamos tus objetivos y lo que hoy te quita foco para partir con claridad.",
     imageSrc: "/images/sections/hero/hero-coquimbo.webp",
-    imageAlt: "Reuni?n de diagn?stico",
+    imageAlt: "Reunión de diagnóstico",
     orderClass: "lg:order-1",
     offsetClass: "lg:translate-y-0"
   },
@@ -47,37 +47,37 @@ const defaultFeatures: Feature[] = [
     description:
       "Te proponemos un plan simple con hitos, plazos y costos transparentes.",
     imageSrc: "/images/sections/hero/hero-astro.webp",
-    imageAlt: "Planificaci?n del proyecto",
+    imageAlt: "Planificación del proyecto",
     orderClass: "lg:order-3",
     offsetClass: "lg:translate-y-12"
   },
   {
     step: "PASO 04",
-    title: "Construcci?n en etapas",
+    title: "Construcción en etapas",
     description:
       "Desarrollamos por bloques y compartimos avances frecuentes para validar a tiempo.",
     imageSrc: "/images/sections/hero/hero-cielo.webp",
-    imageAlt: "Trabajo en construcci?n",
+    imageAlt: "Trabajo en construcción",
     orderClass: "lg:order-6",
     offsetClass: "lg:translate-y-12",
     reverse: true
   },
   {
     step: "PASO 05",
-    title: "Validaci?n contigo",
+    title: "Validación contigo",
     description:
       "Revisamos cada hito y ajustamos lo necesario antes de avanzar.",
     imageSrc: "/images/portfolio/cases/inventario-sistemas.webp",
-    imageAlt: "Revisi?n de avances",
+    imageAlt: "Revisión de avances",
     orderClass: "lg:order-5",
     offsetClass: "lg:translate-y-6",
     reverse: true
   },
   {
     step: "PASO 06",
-    title: "Entrega y acompa?amiento",
+    title: "Entrega y acompañamiento",
     description:
-      "Dejamos todo funcionando y te apoyamos despu?s para que la soluci?n rinda.",
+      "Dejamos todo funcionando y te apoyamos después para que la solución rinda.",
     imageSrc: "/images/portfolio/cases/turismo-coquimbo.webp",
     imageAlt: "Entrega y seguimiento",
     orderClass: "lg:order-4",

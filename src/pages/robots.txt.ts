@@ -18,7 +18,7 @@ const aiCrawlers = [
 export function GET() {
   const lines: string[] = [
     "# robots.txt generado por Astro",
-    "# Directivas no estandar como 'Content-Signal' se eliminaron para evitar errores de validacion.",
+    "# Directivas no estándar como 'Content-Signal' se eliminaron para evitar errores de validacion.",
     "User-agent: *",
     "Allow: /",
     ""
