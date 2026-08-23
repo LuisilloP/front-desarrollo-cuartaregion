@@ -1,4 +1,4 @@
-const DEFAULT_WHATSAPP_PHONE = "56975274598";
+const DEFAULT_WHATSAPP_PHONE = "56987359575";
 
 const stripPhoneDigits = (value?: string | null): string =>
   typeof value === "string" ? value.replace(/\D/g, "") : "";

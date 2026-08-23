@@ -17,9 +17,9 @@ export const LEGAL_INFO = {
   /** Correo de contacto legal/administrativo. */
   email: "aliadodigitalsp@gmail.com",
   /** Teléfono de contacto (formato visible). */
-  phone: "+56 9 7527 4598",
+  phone: "+56 9 8735 9575",
   /** Teléfono en formato tel: (solo dígitos con prefijo). */
-  phoneTel: "+56975274598",
+  phoneTel: "+56987359575",
   /** Sitio web oficial. */
   url: "https://aliadodigital.cl",
   /** Ruta de la página legal pública. */
