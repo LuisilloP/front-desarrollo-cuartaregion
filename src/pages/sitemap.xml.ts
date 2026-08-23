@@ -18,10 +18,18 @@ const toIsoDate = (value?: string): string | undefined => {
   return date.toISOString();
 };
 
+/**
+ * Astro builds to directories, so every canonical URL ends in a slash. The
+ * sitemap has to match: listing /desarrollo instead of /desarrollo/ sends
+ * Googlebot through a redirect on every entry and contradicts the canonical
+ * tag on the page it lands on.
+ */
+const withTrailingSlash = (path: string) => (path.endsWith("/") ? path : `${path}/`);
+
 const buildUrl = (entry: SitemapEntry) => {
   const lastmodTag = entry.lastmod ? `\n  <lastmod>${entry.lastmod}</lastmod>` : "";
   return `<url>
-  <loc>${SITE_URL}${entry.path}</loc>${lastmodTag}
+  <loc>${SITE_URL}${withTrailingSlash(entry.path)}</loc>${lastmodTag}
   <changefreq>${entry.changefreq}</changefreq>
   <priority>${entry.priority}</priority>
 </url>`;

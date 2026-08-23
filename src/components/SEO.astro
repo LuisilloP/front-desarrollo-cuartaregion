@@ -2,6 +2,7 @@
 import type { SiteSettings } from "../lib/api/types";
 import { env } from "../lib/env";
 import { SITE_DEFAULTS } from "../config/site";
+import { LEGAL_INFO } from "../config/legal";
 
 export interface Props {
     title?: string;
@@ -60,7 +61,6 @@ const resolvedOgImage =
 
 const resolvedCanonical = canonical ?? siteUrl;
 const ogImageAlt = imageAlt || title || siteName;
-const hasCustomImage = Boolean(image);
 
 // Determine image type based on extension (simple heuristic)
 const imageExt = resolvedOgImage.split(".").pop()?.toLowerCase();
@@ -76,22 +76,49 @@ const robotsDirective = noindex
     : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
 
 // Schema.org - LocalBusiness
+//
+// The type must be a real schema.org term. This previously declared
+// ["ProfessionalService", "MarketingAgency", "WebDevelopment"]; the last two
+// do not exist in the vocabulary, and an invalid type can make Google discard
+// the whole entity. ProfessionalService is a LocalBusiness subtype and is
+// what Google expects for an agency.
+//
+// The address comes from LEGAL_INFO so the NAP (name, address, phone) stays
+// identical to the footer, /informacion-legal and the Google Business Profile.
+// Local ranking depends on those three matching exactly.
+const { address: legalAddress } = LEGAL_INFO;
+
+// schema.org/telephone expects E.164. getWhatsAppPhone() strips the plus
+// because wa.me links need bare digits, so it goes back on here.
+const schemaTelephone = whatsappNumber.startsWith("+")
+    ? whatsappNumber
+    : `+${whatsappNumber}`;
+
 const localBusinessSchema = {
     "@context": "https://schema.org",
-    "@type": ["ProfessionalService", "MarketingAgency", "WebDevelopment"], // Customized for Aliado Digital
+    "@type": "ProfessionalService",
     name: siteName,
+    legalName: LEGAL_INFO.legalName,
     url: siteUrl,
-    logo: siteUrl ? new URL("/logo.svg", siteUrl).toString() : undefined,
+    logo: siteUrl ? new URL("/logo.webp", siteUrl).toString() : undefined,
     image: resolvedOgImage,
     description: pageDescription,
     address: {
         "@type": "PostalAddress",
-        addressLocality: region,
-        addressRegion: "Coquimbo",
-        addressCountry: "CL",
+        streetAddress: legalAddress.street,
+        addressLocality: legalAddress.locality,
+        addressRegion: legalAddress.region,
+        addressCountry: legalAddress.country,
     },
+    areaServed: [
+        { "@type": "AdministrativeArea", name: region },
+        { "@type": "City", name: "La Serena" },
+        { "@type": "City", name: "Coquimbo" },
+        { "@type": "City", name: "Ovalle" },
+    ],
     priceRange: "$$", // Reasonable default for agencies
-    telephone: whatsappNumber,
+    telephone: schemaTelephone,
+    email: LEGAL_INFO.email,
     openingHoursSpecification: [
         {
             "@type": "OpeningHoursSpecification",
@@ -129,7 +156,9 @@ const localBusinessSchema = {
 <meta property="og:locale" content="es_CL" />
 
 <!-- Twitter -->
-<meta name="twitter:card" content={hasCustomImage ? "summary_large_image" : "summary"} />
+<!-- The fallback image is now a real 1200x630 card, so the large layout
+     applies whether or not the page supplied its own image. -->
+<meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:url" content={resolvedCanonical} />
 <meta name="twitter:title" content={pageTitle} />
 <meta name="twitter:description" content={pageDescription} />
