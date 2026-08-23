@@ -1,0 +1,43 @@
+---
+/**
+ * Google Tag Manager.
+ *
+ * GTM ships as two snippets that must sit in two different places, so this
+ * component takes a `placement` instead of being rendered once:
+ *   - "head": the loader, as high in <head> as possible
+ *   - "body": the <noscript> fallback, immediately after <body> opens
+ *
+ * The loader is `is:inline` on purpose. Astro would otherwise treat it as a
+ * module, bundle it and defer it, which both moves it out of the head and
+ * delays it past the point where GTM expects to be initialising dataLayer.
+ */
+import { GTM_ID, isGtmEnabled } from "../../config/analytics";
+
+interface Props {
+  placement: "head" | "body";
+}
+
+const { placement } = Astro.props as Props;
+
+const loaderScript = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${GTM_ID}');`;
+---
+
+{isGtmEnabled && placement === "head" && <script is:inline set:html={loaderScript} />}
+
+{
+  isGtmEnabled && placement === "body" && (
+    <noscript>
+      <iframe
+        src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+        title="Google Tag Manager"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"
+      />
+    </noscript>
+  )
+}

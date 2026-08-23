@@ -1,6 +1,7 @@
 ---
 import type { SiteSettings } from "../lib/api/types";
 import SEO from "../components/SEO.astro";
+import GoogleTagManager from "../components/analytics/GoogleTagManager.astro";
 import { env } from "../lib/env";
 import "../styles/global.css";
 
@@ -45,6 +46,9 @@ const structuredDataItems = Array.isArray(structuredData)
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <GoogleTagManager placement="head" />
+
     <meta
       name="facebook-domain-verification"
       content="hl9dao0yom2ug4e7lzncmfb7xdudy7"
@@ -116,6 +120,8 @@ const structuredDataItems = Array.isArray(structuredData)
     </script>
   </head>
   <body class="min-h-screen transition-colors overflow-x-hidden">
+    <GoogleTagManager placement="body" />
+
     <slot />
 
     <!-- Global Motion System -->
