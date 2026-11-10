@@ -29,7 +29,7 @@ const sections: LegalBlock[] = [
       rows: [
         [
           "Visitas al sitio web",
-          "Datos técnicos mínimos necesarios para entregar el sitio (dirección IP, navegador, fecha y hora) en los registros de nuestros servidores y de Cloudflare. No usamos cookies de publicidad ni de analítica de terceros.",
+          "Datos técnicos mínimos necesarios para entregar el sitio (dirección IP, navegador, fecha y hora) en los registros de nuestros servidores y de Cloudflare, y datos de navegación (páginas visitadas, dispositivo, origen de la visita) recogidos mediante Google Tag Manager y las herramientas de medición que carga, como Google Analytics.",
         ],
         [
           "WhatsApp, Instagram y Facebook Messenger (vía APIs de Meta)",
@@ -59,6 +59,7 @@ const sections: LegalBlock[] = [
         ["Prestar los servicios contratados, facturar y dar soporte", "Ejecución del contrato y obligaciones legales (tributarias)"],
         ["Organizar conversaciones y contactos en nuestra bandeja y CRM, y automatizar respuestas frecuentes", "Interés legítimo en atender de forma ordenada y oportuna"],
         ["Enviar novedades u ofertas comerciales", "Tu consentimiento, que puedes retirar en cualquier momento"],
+        ["Medir en forma agregada cómo se usa el sitio para mejorarlo", "Interés legítimo; puedes oponerte bloqueando las cookies de medición"],
         ["Seguridad del sitio y prevención de fraude o abuso", "Interés legítimo"],
       ],
     },
@@ -150,7 +151,9 @@ const sections: LegalBlock[] = [
     id: "cookies",
     title: "Cookies y almacenamiento local",
     paragraphs: [
-      "Este sitio no usa cookies de publicidad ni de analítica de terceros. Solo guarda en tu navegador (almacenamiento local) tu preferencia de tema claro u oscuro, y nunca sale de tu dispositivo. Si en el futuro incorporamos analítica u otras cookies no esenciales, actualizaremos esta política y te pediremos consentimiento cuando corresponda.",
+      "Este sitio usa Google Tag Manager, que carga herramientas de medición como Google Analytics. Estas herramientas instalan cookies propias de Google para contar visitas y entender cómo se navega el sitio, de forma agregada. No usamos los datos de Meta para publicidad ni vendemos información de navegación.",
+      "Además guardamos en tu navegador (almacenamiento local) tu preferencia de tema claro u oscuro, que nunca sale de tu dispositivo.",
+      "Puedes bloquear o borrar las cookies desde la configuración de tu navegador, o usar el complemento de inhabilitación de Google Analytics (tools.google.com/dlpage/gaoptout). El sitio sigue funcionando sin ellas.",
     ],
   },
   {

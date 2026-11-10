@@ -1,16 +1,18 @@
 // Fuente única de datos para las páginas legales (privacidad, términos, eliminación de datos).
 // Si cambia algún proveedor o dato de contacto, se edita aquí y se actualizan todas las páginas.
 
+import { LEGAL_INFO } from "../config/legal";
+
 export const LEGAL = {
+  // Datos de la empresa: vienen de src/config/legal.ts (los mismos que se
+  // muestran en /informacion-legal y se usaron para verificar la empresa en Meta).
   companyName: "Informática Aliado Digital Limitada",
-  brandName: "Aliado Digital",
-  rut: "78.337.874-4",
-  // TODO: completar con dirección comercial si se quiere publicar.
-  address: "Región de Coquimbo, Chile",
-  jurisdiction: "La Serena",
-  // TODO: confirmar que este buzón existe y se revisa.
-  privacyEmail: "contacto@aliadodigital.cl",
-  siteUrl: "https://aliadodigital.cl",
+  brandName: LEGAL_INFO.commercialName,
+  rut: LEGAL_INFO.rut,
+  address: LEGAL_INFO.address.full,
+  jurisdiction: LEGAL_INFO.address.locality,
+  privacyEmail: LEGAL_INFO.email,
+  siteUrl: LEGAL_INFO.url,
   // Plazos (días)
   ackDays: 5, // acuse de recibo de solicitudes (días hábiles)
   rightsResponseDays: 30, // respuesta a derechos (días corridos, Ley 21.719)
@@ -43,8 +45,9 @@ export const PROCESSORS: { name: string; purpose: string; location: string }[] =
     location: "Estados Unidos",
   },
   {
-    name: "Google (Workspace / Forms)",
-    purpose: "Correo, formularios de diagnóstico y documentos de trabajo",
+    name: "Google (Workspace / Forms, Tag Manager y Analytics)",
+    purpose:
+      "Correo, formularios de diagnóstico, documentos de trabajo y medición agregada de visitas al sitio",
     location: "Estados Unidos",
   },
   {
