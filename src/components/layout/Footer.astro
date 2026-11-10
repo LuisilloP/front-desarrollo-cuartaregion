@@ -27,7 +27,10 @@ const {
   navLinks = fallbackNavLinks,
   legalPages = fallbackLegalPages,
 } = Astro.props;
-const legalLinks = Object.values(legalPages ?? {});
+const legalLinks = [
+  ...Object.values(legalPages ?? {}),
+  { slug: "eliminacion-de-datos", title: "Eliminación de datos", content: "" },
+];
 const pathname = Astro.url?.pathname ?? "/";
 const isHome = pathname === "/" || pathname === "";
 const withHome = (href: string) =>

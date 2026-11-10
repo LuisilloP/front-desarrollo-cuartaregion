@@ -44,7 +44,8 @@ export async function GET() {
     { path: "/blog", changefreq: "weekly", priority: "0.7" },
     { path: "/privacidad", changefreq: "yearly", priority: "0.3" },
     { path: "/terminos", changefreq: "yearly", priority: "0.3" },
-    { path: "/informacion-legal", changefreq: "yearly", priority: "0.3" }
+    { path: "/informacion-legal", changefreq: "yearly", priority: "0.3" },
+    { path: "/eliminacion-de-datos", changefreq: "yearly", priority: "0.3" }
   ];
 
   // Derived from the same config the pages are built from, so a new city can

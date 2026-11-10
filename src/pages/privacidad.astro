@@ -5,6 +5,7 @@ import Navbar from "../components/layout/Navbar.astro";
 import { fetchLegalPage, fetchSiteSettings } from "../lib/api/services";
 import { useMocks } from "../lib/env";
 import { sanitizeCmsHtml } from "../lib/security/sanitizeHtml";
+import { LEGAL } from "../lib/legal";
 
 const siteSettings = await fetchSiteSettings();
 const legal = await fetchLegalPage("privacidad");
@@ -71,7 +72,7 @@ const fallbackPolicy = {
       list: [
         "Acceso, rectificación, supresión, oposición, limitación y portabilidad de tus datos.",
         "Retirar el consentimiento en cualquier momento para comunicaciones comerciales.",
-        "Ejercer estos derechos escribiendo a contacto@novatechdigital.com.",
+        `Ejercer estos derechos escribiendo a ${LEGAL.privacyEmail}. Para datos recibidos por Facebook, Instagram o WhatsApp, revisa /eliminacion-de-datos.`,
       ],
     },
     {
@@ -80,7 +81,7 @@ const fallbackPolicy = {
     },
     {
       title: "Contacto",
-      body: "Escríbenos a contacto@novatechdigital.com para cualquier consulta sobre privacidad.",
+      body: `Escríbenos a ${LEGAL.privacyEmail} para cualquier consulta sobre privacidad.`,
     },
   ],
 };

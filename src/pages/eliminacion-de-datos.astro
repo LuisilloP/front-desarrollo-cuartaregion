@@ -1,0 +1,160 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Footer from "../components/layout/Footer.astro";
+import Navbar from "../components/layout/Navbar.astro";
+import { fetchSiteSettings } from "../lib/api/services";
+import { LEGAL } from "../lib/legal";
+
+const siteSettings = await fetchSiteSettings();
+const pageTitle = "Eliminación de datos de usuario";
+const pageDescription =
+  "Cómo solicitar la eliminación de los datos que Aliado Digital recibe a través de Facebook, Instagram, Messenger y WhatsApp.";
+
+const email = LEGAL.privacyEmail;
+const mailSubject = "Solicitud de eliminación de datos";
+const mailBody = [
+  "Hola, solicito la eliminación de mis datos personales.",
+  "",
+  "Nombre:",
+  "Canal por el que los contacté (WhatsApp / Instagram / Facebook Messenger):",
+  "Número de teléfono, usuario de Instagram o nombre de perfil de Facebook:",
+].join("\n");
+const mailto = `mailto:${email}?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
+
+const waDigits = siteSettings.whatsappNumber.replace(/\D/g, "");
+const waLink = `https://wa.me/${waDigits}?text=${encodeURIComponent(
+  "Hola, quiero solicitar la eliminación de mis datos personales.",
+)}`;
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  siteSettings={siteSettings}
+>
+  <Navbar siteSettings={siteSettings} />
+  <main class="section-shell py-16 space-y-6">
+    <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">
+      Legal
+    </p>
+    <h1 class="text-3xl sm:text-4xl font-bold text-content">{pageTitle}</h1>
+    <p class="text-sm text-muted">Última actualización: {LEGAL.lastUpdated}</p>
+
+    <article
+      class="prose max-w-3xl text-content prose-headings:text-content prose-p:text-muted prose-a:text-highlight space-y-8"
+    >
+      <p>
+        {LEGAL.companyName} ("{LEGAL.brandName}", RUT {LEGAL.rut}) usa las
+        plataformas de Meta (Facebook, Instagram, Messenger y WhatsApp) para
+        responder las consultas que nos envías. Puedes pedir en cualquier
+        momento que eliminemos los datos que hemos recibido por esos canales.
+        Este derecho está reconocido por la Ley N° 19.628 y la Ley N° 21.719
+        sobre protección de datos personales.
+      </p>
+
+      <section class="space-y-2">
+        <h2 class="text-xl font-semibold">Qué datos recibimos a través de Meta</h2>
+        <ul class="list-disc">
+          <li>Nombre público e identificador de tu perfil de Facebook o Instagram, o tu número de WhatsApp.</li>
+          <li>Los mensajes, imágenes y archivos que nos envías en la conversación.</li>
+          <li>Fecha y hora de cada mensaje.</li>
+        </ul>
+        <p>
+          Usamos estos datos solo para responder tus consultas, preparar
+          cotizaciones y dar seguimiento a los servicios contratados. No los
+          vendemos ni los usamos para publicidad de terceros.
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-xl font-semibold">Cómo solicitar la eliminación</h2>
+        <ol class="list-decimal space-y-2">
+          <li>
+            Escríbenos a <a href={mailto}>{email}</a> con el asunto
+            <strong>"{mailSubject}"</strong>, o por
+            <a href={waLink} target="_blank" rel="noopener noreferrer">WhatsApp</a>.
+          </li>
+          <li>
+            Indica tu nombre, el canal por el que nos contactaste y tu número de
+            teléfono, usuario de Instagram o nombre de perfil de Facebook, para
+            poder ubicar tus datos.
+          </li>
+          <li>
+            Te confirmaremos la recepción dentro de {LEGAL.ackDays} días hábiles
+            junto con un código de seguimiento.
+          </li>
+          <li>
+            Eliminaremos tus datos de nuestros sistemas (bandeja de mensajes,
+            CRM y automatizaciones) en un plazo máximo de {LEGAL.deletionDays}
+            días corridos y te avisaremos cuando esté hecho.
+          </li>
+        </ol>
+        <p class="not-prose pt-2">
+          <a
+            href={mailto}
+            class="inline-flex items-center rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-white transition hover:opacity-90"
+          >
+            Solicitar eliminación por correo
+          </a>
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-xl font-semibold">Quitar el acceso desde Facebook o Instagram</h2>
+        <p>
+          También puedes revocar el acceso de nuestra aplicación desde tu
+          cuenta:
+        </p>
+        <ul class="list-disc">
+          <li>
+            <strong>Facebook:</strong> Configuración y privacidad → Configuración
+            → Integraciones comerciales (o "Apps y sitios web") → selecciona
+            {LEGAL.brandName} → Eliminar.
+          </li>
+          <li>
+            <strong>Instagram:</strong> Configuración → Seguridad / Centro de
+            cuentas → Apps y sitios web → selecciona {LEGAL.brandName} → Eliminar.
+          </li>
+        </ul>
+        <p>
+          Revocar el acceso impide que recibamos datos nuevos. Para borrar lo que
+          ya recibimos, envía además la solicitud descrita arriba.
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-xl font-semibold">Excepciones</h2>
+        <p>
+          Podemos conservar la información mínima que la ley nos obliga a
+          guardar, por ejemplo datos asociados a boletas o facturas emitidas,
+          solo por el plazo legal correspondiente y sin usarla para otros fines.
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-xl font-semibold">Más información</h2>
+        <p>
+          Revisa nuestra <a href="/privacidad">Política de privacidad</a>. Para
+          cualquier duda escríbenos a <a href={`mailto:${email}`}>{email}</a>.
+        </p>
+      </section>
+
+      <section class="space-y-2 border-t border-border pt-6" lang="en">
+        <h2 class="text-xl font-semibold">User data deletion (English)</h2>
+        <p>
+          To request deletion of the data {LEGAL.brandName} received through
+          Facebook, Instagram, Messenger or WhatsApp, email
+          <a href={mailto}>{email}</a> with the subject "Data deletion request",
+          including your name and the phone number, Instagram username or
+          Facebook profile name you used to contact us. We will acknowledge your
+          request within {LEGAL.ackDays} business days with a confirmation code
+          and delete your data within {LEGAL.deletionDays} days, except records
+          we are legally required to keep (e.g. tax invoices). You can also
+          remove our app from your Facebook or Instagram settings under
+          "Apps and websites".
+        </p>
+      </section>
+    </article>
+  </main>
+  <Footer siteSettings={siteSettings} />
+</Layout>
