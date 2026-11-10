@@ -1,39 +1,168 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Footer from "../components/layout/Footer.astro";
-import Navbar from "../components/layout/Navbar.astro";
-import { fetchLegalPage, fetchSiteSettings } from "../lib/api/services";
+import LegalDocument, { type LegalBlock } from "../components/legal/LegalDocument.astro";
+import { LEGAL } from "../lib/legal";
 
-const siteSettings = await fetchSiteSettings();
-const legal = await fetchLegalPage("terminos");
-const pageTitle = legal?.title ?? "Términos y Condiciones";
-const pageDescription =
-  "Condiciones de contratación, pagos y entregas para nuestros servicios digitales.";
+const mail = `<a href="mailto:${LEGAL.privacyEmail}">${LEGAL.privacyEmail}</a>`;
+
+const intro = [
+  `Estos Términos y Condiciones regulan el uso del sitio ${LEGAL.siteUrl.replace("https://", "")} y la contratación de los servicios de <strong>${LEGAL.companyName}</strong> ("${LEGAL.brandName}"), RUT ${LEGAL.rut}, con domicilio en ${LEGAL.address}.`,
+  "Al usar el sitio, escribirnos por nuestros canales o aceptar una propuesta, aceptas estos términos. Si una propuesta o contrato firmado dice algo distinto, prevalece lo que diga ese documento.",
+];
+
+const sections: LegalBlock[] = [
+  {
+    id: "servicios",
+    title: "Servicios",
+    paragraphs: [
+      "Ofrecemos desarrollo de sitios y aplicaciones web, automatizaciones (WhatsApp, CRM y flujos de trabajo), marketing digital, hosting administrado y mantención TI. El alcance, entregables, plazos y precio de cada servicio se definen en la propuesta o cotización que te enviamos.",
+      "La información del sitio (precios de referencia, plazos y ejemplos) es orientativa y no constituye una oferta vinculante hasta que se emita una propuesta.",
+    ],
+  },
+  {
+    id: "contratacion",
+    title: "Propuestas y contratación",
+    list: [
+      "Las propuestas se cotizan en pesos chilenos (CLP) e indican si los valores incluyen IVA. Tienen la vigencia que se señale en ellas; si no la indican, 15 días.",
+      "El servicio se entiende contratado cuando aceptas la propuesta por escrito (correo, WhatsApp o firma) y pagas el anticipo correspondiente.",
+      "Los cambios o funcionalidades fuera del alcance acordado se cotizan aparte antes de ejecutarse.",
+    ],
+  },
+  {
+    id: "pagos",
+    title: "Pagos y facturación",
+    list: [
+      "Salvo que la propuesta diga otra cosa, los proyectos se pagan 50% al inicio y 50% contra entrega.",
+      "Los servicios recurrentes (hosting administrado, mantención, marketing mensual) se facturan mes a mes por adelantado.",
+      "Emitimos boleta o factura electrónica según corresponda.",
+      "Si un pago se atrasa más de 15 días, podemos suspender el servicio recurrente afectado, avisándote antes. La reactivación no tiene costo una vez regularizado el pago.",
+    ],
+  },
+  {
+    id: "obligaciones-cliente",
+    title: "Lo que necesitamos de ti",
+    list: [
+      "Entregar a tiempo los contenidos, accesos y aprobaciones necesarios. Los plazos de entrega corren desde que contamos con esa información; los retrasos de tu parte extienden el plazo en el mismo tiempo.",
+      "Garantizar que tienes derecho a usar los textos, imágenes, marcas y datos que nos entregas, y que su uso no infringe derechos de terceros.",
+      "Designar a una persona de contacto que pueda aprobar entregables.",
+    ],
+  },
+  {
+    id: "entrega",
+    title: "Entrega, revisiones y garantía",
+    list: [
+      "Cada propuesta indica el número de rondas de revisión incluidas.",
+      "Tras la entrega tienes 5 días hábiles para informar observaciones; pasado ese plazo sin comentarios, el entregable se considera aprobado.",
+      "Corregimos sin costo los errores de funcionamiento atribuibles a nuestro trabajo que informes dentro de los 30 días siguientes a la entrega. No cubre cambios de alcance, modificaciones hechas por terceros ni fallas de servicios externos.",
+    ],
+  },
+  {
+    id: "propiedad",
+    title: "Propiedad intelectual",
+    list: [
+      "Una vez pagado el total del proyecto, te pertenecen el diseño y los contenidos desarrollados específicamente para ti, y te entregamos los accesos y el código que correspondan según la propuesta.",
+      "Conservamos la propiedad de nuestras herramientas, librerías, plantillas y componentes reutilizables, y te otorgamos una licencia de uso indefinida y no exclusiva sobre ellos para el proyecto entregado.",
+      "El software de terceros (por ejemplo, plugins, plantillas comerciales o librerías de código abierto) se rige por sus propias licencias.",
+      "Podemos mostrar el proyecto en nuestro portafolio, salvo que nos pidas por escrito que no lo hagamos.",
+    ],
+  },
+  {
+    id: "terceros",
+    title: "Servicios de terceros",
+    paragraphs: [
+      "Muchos servicios dependen de plataformas externas, como Meta (WhatsApp, Instagram, Facebook), Google, proveedores de dominio, hosting y pasarelas de pago. Al usarlas aceptas también sus condiciones. No somos responsables por cambios de precio, políticas, suspensiones de cuentas o caídas de esas plataformas, aunque te ayudaremos a resolverlas.",
+      "Cuando sea posible, las cuentas, dominios y activos digitales quedarán a tu nombre.",
+    ],
+  },
+  {
+    id: "whatsapp",
+    title: "Automatizaciones y mensajería (WhatsApp, Instagram y Messenger)",
+    paragraphs: ["Si contratas automatizaciones o atención por mensajería conectada a las APIs de Meta:"],
+    list: [
+      "Debes cumplir la Política de WhatsApp Business, la Política de Comercio y las Condiciones de Meta. Solo puedes enviar mensajes iniciados por la empresa a personas que te hayan dado su autorización (opt-in), y debes respetar sus solicitudes de no recibir más mensajes.",
+      "No puedes usar los servicios para enviar spam, contenido ilegal o engañoso, ni para solicitar datos sensibles o financieros completos (como números de tarjeta) por chat.",
+      "Debes informar a tus clientes, en tu propia política de privacidad, que sus mensajes se procesan con herramientas automatizadas y proveedores tecnológicos.",
+      "Las respuestas automáticas o generadas con inteligencia artificial pueden contener errores; recomendamos revisar los flujos y ofrecer siempre la opción de hablar con una persona.",
+      "Si Meta bloquea o limita tu número o cuenta por incumplimiento de sus políticas atribuible a tu uso, no será responsabilidad de Aliado Digital.",
+    ],
+  },
+  {
+    id: "datos",
+    title: "Protección de datos personales",
+    paragraphs: [
+      "Tratamos tus datos según nuestra <a href=\"/privacidad\">Política de Privacidad</a>.",
+      "Cuando, para prestar el servicio, tratamos datos de tus clientes o usuarios, actuamos como <strong>encargado del tratamiento</strong> y tú como responsable, conforme a la Ley N° 19.628 modificada por la Ley N° 21.719. En ese rol nos comprometemos a:",
+    ],
+    list: [
+      "Tratar los datos solo para prestar el servicio y según tus instrucciones documentadas.",
+      "Mantenerlos confidenciales y exigir lo mismo a nuestro equipo.",
+      "Aplicar medidas de seguridad adecuadas al riesgo.",
+      "Usar subencargados (proveedores de infraestructura) solo cuando sean necesarios para el servicio, con obligaciones equivalentes, e informarte cuáles son si lo pides.",
+      "Ayudarte a responder solicitudes de acceso, rectificación, supresión y otros derechos de los titulares.",
+      "Avisarte sin demora indebida si detectamos un incidente de seguridad que afecte esos datos.",
+      "Al terminar el servicio, devolverte o eliminar los datos, según elijas, salvo que la ley exija conservarlos.",
+    ],
+    after: [
+      "Tú eres responsable de contar con una base legal para el tratamiento (por ejemplo, el consentimiento de tus clientes) y de informarles en tu propia política de privacidad. Si necesitas un acuerdo de tratamiento de datos firmado, lo incluimos en el contrato.",
+    ],
+  },
+  {
+    id: "confidencialidad",
+    title: "Confidencialidad",
+    paragraphs: [
+      "Ambas partes mantendrán reservada la información no pública que conozcan con motivo del servicio (accesos, datos comerciales, estrategias), durante la relación y hasta 2 años después de terminada, salvo que la ley obligue a revelarla.",
+    ],
+  },
+  {
+    id: "responsabilidad",
+    title: "Limitación de responsabilidad",
+    list: [
+      "Prestamos los servicios con diligencia profesional, pero no garantizamos resultados comerciales específicos (ventas, posicionamiento o alcance en redes), porque dependen de factores externos.",
+      "Nuestra responsabilidad total por un servicio se limita al monto efectivamente pagado por ese servicio en los últimos 12 meses, salvo en casos de dolo o culpa grave.",
+      "No respondemos por daños indirectos, lucro cesante ni pérdida de datos derivados de fallas de terceros, de un uso indebido de tu parte o de causas de fuerza mayor.",
+      "Nada de lo anterior limita los derechos que te correspondan como consumidor según la Ley N° 19.496.",
+    ],
+  },
+  {
+    id: "termino",
+    title: "Duración y término",
+    list: [
+      "Los servicios recurrentes se renuevan cada mes y puedes terminarlos avisando con al menos 30 días de anticipación.",
+      "Si un proyecto se cancela a mitad de camino, se paga el trabajo realizado hasta esa fecha; el anticipo se imputa a ese trabajo.",
+      "Al terminar, te entregamos los accesos, archivos y datos que te pertenezcan, una vez saldadas las sumas pendientes.",
+    ],
+  },
+  {
+    id: "uso-sitio",
+    title: "Uso del sitio web",
+    paragraphs: [
+      "Los contenidos, marca y diseño de este sitio pertenecen a Aliado Digital o a sus licenciantes. No está permitido copiarlos con fines comerciales, ni intentar vulnerar la seguridad del sitio o usarlo para fines ilícitos.",
+    ],
+  },
+  {
+    id: "cambios",
+    title: "Cambios a estos términos",
+    paragraphs: [
+      "Podemos modificar estos términos. La versión vigente es la publicada en esta página. Los cambios no afectan los proyectos ya contratados, que se rigen por los términos aceptados en su momento.",
+    ],
+  },
+  {
+    id: "ley",
+    title: "Ley aplicable y jurisdicción",
+    paragraphs: [
+      `Estos términos se rigen por las leyes de la República de Chile. Las controversias se someterán a los tribunales ordinarios de justicia de ${LEGAL.jurisdiction}, sin perjuicio de los derechos que la ley entregue a los consumidores para demandar en su domicilio.`,
+    ],
+  },
+  {
+    id: "contacto",
+    title: "Contacto",
+    paragraphs: [`Para consultas sobre estos términos escríbenos a ${mail}.`],
+  },
+];
 ---
 
-<Layout
-  title={pageTitle}
-  description={pageDescription}
-  siteSettings={siteSettings}
->
-  <Navbar siteSettings={siteSettings} />
-  <main class="section-shell py-16 space-y-6">
-    <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">
-      Legal
-    </p>
-    <h1 class="text-3xl sm:text-4xl font-bold text-content">
-      {pageTitle}
-    </h1>
-    <article
-      class="prose max-w-3xl text-content prose-headings:text-content prose-p:text-muted prose-a:text-highlight"
-    >
-      <p>
-        {
-          legal?.content ??
-            "Actualiza esta sección desde tu panel para mostrar terminos y condiciones vigentes."
-        }
-      </p>
-    </article>
-  </main>
-  <Footer siteSettings={siteSettings} />
-</Layout>
+<LegalDocument
+  title="Términos y Condiciones"
+  description="Condiciones de contratación, pagos, propiedad intelectual, mensajería y protección de datos de los servicios de Aliado Digital."
+  intro={intro}
+  sections={sections}
+/>

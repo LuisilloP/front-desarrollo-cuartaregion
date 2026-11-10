@@ -1,0 +1,114 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Footer from "../layout/Footer.astro";
+import Navbar from "../layout/Navbar.astro";
+import { fetchSiteSettings } from "../../lib/api/services";
+import { LEGAL } from "../../lib/legal";
+
+export type LegalBlock = {
+  id: string;
+  title: string;
+  // Los textos admiten HTML simple (enlaces, <strong>).
+  paragraphs?: string[];
+  list?: string[];
+  ordered?: boolean;
+  after?: string[];
+  table?: { head: string[]; rows: string[][] };
+};
+
+interface Props {
+  title: string;
+  description: string;
+  intro: string[];
+  sections: LegalBlock[];
+  summaryEn?: string;
+}
+
+const { title, description, intro, sections, summaryEn } = Astro.props;
+const siteSettings = await fetchSiteSettings();
+---
+
+<Layout title={title} description={description} siteSettings={siteSettings}>
+  <Navbar siteSettings={siteSettings} />
+  <main class="section-shell py-16 space-y-6">
+    <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">Legal</p>
+    <h1 class="text-3xl sm:text-4xl font-bold text-content">{title}</h1>
+    <p class="text-sm text-muted">Última actualización: {LEGAL.lastUpdated}</p>
+
+    <nav
+      aria-label="Contenido"
+      class="max-w-3xl rounded-xl border border-border p-5 text-sm"
+    >
+      <p class="mb-2 font-semibold text-content">Contenido</p>
+      <ol class="list-decimal space-y-1 pl-5 text-muted">
+        {
+          sections.map((s) => (
+            <li>
+              <a href={`#${s.id}`} class="hover:text-highlight">
+                {s.title}
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
+
+    <article class="prose max-w-3xl text-content space-y-8">
+      {intro.map((p) => <p set:html={p} />)}
+
+      {
+        sections.map((s, i) => (
+          <section id={s.id} class="scroll-mt-24 space-y-2">
+            <h2 class="text-xl font-semibold">
+              {i + 1}. {s.title}
+            </h2>
+            {s.paragraphs?.map((p) => <p set:html={p} />)}
+            {s.list &&
+              (s.ordered ? (
+                <ol class="list-decimal space-y-1">
+                  {s.list.map((li) => <li set:html={li} />)}
+                </ol>
+              ) : (
+                <ul class="list-disc space-y-1">
+                  {s.list.map((li) => <li set:html={li} />)}
+                </ul>
+              ))}
+            {s.table && (
+              <div class="not-prose overflow-x-auto">
+                <table class="w-full border-collapse text-left text-sm">
+                  <thead>
+                    <tr>
+                      {s.table.head.map((h) => (
+                        <th class="border-b border-border px-3 py-2 font-semibold text-content">{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {s.table.rows.map((row) => (
+                      <tr>
+                        {row.map((cell) => (
+                          <td class="border-b border-border px-3 py-2 align-top text-muted" set:html={cell} />
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+            {s.after?.map((p) => <p set:html={p} />)}
+          </section>
+        ))
+      }
+
+      {
+        summaryEn && (
+          <section class="space-y-2 border-t border-border pt-6" lang="en">
+            <h2 class="text-xl font-semibold">Summary in English</h2>
+            <p set:html={summaryEn} />
+          </section>
+        )
+      }
+    </article>
+  </main>
+  <Footer siteSettings={siteSettings} />
+</Layout>

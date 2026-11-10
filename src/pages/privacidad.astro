@@ -1,128 +1,186 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Footer from "../components/layout/Footer.astro";
-import Navbar from "../components/layout/Navbar.astro";
-import { fetchLegalPage, fetchSiteSettings } from "../lib/api/services";
-import { useMocks } from "../lib/env";
-import { sanitizeCmsHtml } from "../lib/security/sanitizeHtml";
-import { LEGAL } from "../lib/legal";
+import LegalDocument, { type LegalBlock } from "../components/legal/LegalDocument.astro";
+import { LEGAL, PROCESSORS } from "../lib/legal";
 
-const siteSettings = await fetchSiteSettings();
-const legal = await fetchLegalPage("privacidad");
-const forceFallback = useMocks();
-const legalContent = legal?.content?.trim();
-const sanitizedLegalContent = legalContent ? sanitizeCmsHtml(legalContent) : "";
-const hasLegalContent = Boolean(
-  !forceFallback && sanitizedLegalContent.length > 0,
-);
-const pageTitle = hasLegalContent
-  ? (legal?.title ?? "Privacidad")
-  : "Política de privacidad";
-const pageDescription =
-  "Cómo usamos y protegemos tus datos cuando solicitas nuestros servicios digitales.";
+const mail = `<a href="mailto:${LEGAL.privacyEmail}">${LEGAL.privacyEmail}</a>`;
+const deletionLink = `<a href="/eliminacion-de-datos">${LEGAL.siteUrl.replace("https://", "")}/eliminacion-de-datos</a>`;
 
-const fallbackPolicy = {
-  title: "Politica de privacidad",
-  intro:
-    "Esta politica explica como tratamos los datos personales cuando navegas en nuestro sitio y nos contactas. Usamos solo lo necesario para responder y prestar el servicio.",
-  sections: [
-    {
-      title: "Que datos recopilamos",
-      list: [
-        "Datos de contacto que envias en formularios: nombre, correo, teléfono, empresa y mensaje.",
-        "Datos técnicos de navegación (IP, dispositivo, navegador, páginas visitadas) mediante cookies y analítica.",
-        "Comunicaciones posteriores (correo, WhatsApp o llamadas) para dar seguimiento a tus solicitudes.",
+const intro = [
+  `Esta Política de Privacidad explica cómo <strong>${LEGAL.companyName}</strong> ("${LEGAL.brandName}", "nosotros") trata los datos personales de quienes visitan este sitio, nos contactan por nuestros canales (WhatsApp, Instagram, Facebook Messenger, correo) o contratan nuestros servicios.`,
+  `La aplicamos conforme a la Ley N° 19.628 sobre Protección de la Vida Privada, con las modificaciones de la Ley N° 21.719, y a las Condiciones de la Plataforma de Meta para las aplicaciones que usan sus APIs.`,
+];
+
+const sections: LegalBlock[] = [
+  {
+    id: "responsable",
+    title: "Responsable del tratamiento",
+    list: [
+      `Razón social: ${LEGAL.companyName}`,
+      `RUT: ${LEGAL.rut}`,
+      `Domicilio: ${LEGAL.address}`,
+      `Contacto para privacidad: ${mail}`,
+    ],
+  },
+  {
+    id: "datos",
+    title: "Qué datos tratamos",
+    table: {
+      head: ["Origen", "Datos"],
+      rows: [
+        [
+          "Visitas al sitio web",
+          "Datos técnicos mínimos necesarios para entregar el sitio (dirección IP, navegador, fecha y hora) en los registros de nuestros servidores y de Cloudflare. No usamos cookies de publicidad ni de analítica de terceros.",
+        ],
+        [
+          "WhatsApp, Instagram y Facebook Messenger (vía APIs de Meta)",
+          "Nombre de perfil, identificador de la cuenta o número de teléfono, contenido de los mensajes (texto, imágenes, audios y archivos que nos envíes) y fecha y hora.",
+        ],
+        [
+          "Correo, formularios y reuniones",
+          "Nombre, correo, teléfono, empresa, cargo y la información de tu proyecto que nos compartas.",
+        ],
+        [
+          "Clientes",
+          "Datos de facturación (razón social, RUT, giro, dirección), datos de los representantes y contactos de la empresa, e historial de servicios y pagos.",
+        ],
       ],
     },
-    {
-      title: "Para que usamos los datos",
-      list: [
-        "Responder tus solicitudes y preparar propuestas o contratos.",
-        "Enviar información comercial solo con tu consentimiento (puedes retirarlo en cualquier momento).",
-        "Medir el uso del sitio para mejorar contenido y rendimiento.",
-        "Prevenir fraude o uso indebido de nuestros servicios.",
+    after: [
+      "No solicitamos datos sensibles (salud, origen étnico, opiniones políticas, etc.). Si nos los envías espontáneamente en una conversación, no los usamos y los eliminamos.",
+    ],
+  },
+  {
+    id: "finalidades",
+    title: "Para qué usamos los datos y base de licitud",
+    table: {
+      head: ["Finalidad", "Base de licitud"],
+      rows: [
+        ["Responder tus consultas y preparar cotizaciones", "Medidas precontractuales solicitadas por ti"],
+        ["Prestar los servicios contratados, facturar y dar soporte", "Ejecución del contrato y obligaciones legales (tributarias)"],
+        ["Organizar conversaciones y contactos en nuestra bandeja y CRM, y automatizar respuestas frecuentes", "Interés legítimo en atender de forma ordenada y oportuna"],
+        ["Enviar novedades u ofertas comerciales", "Tu consentimiento, que puedes retirar en cualquier momento"],
+        ["Seguridad del sitio y prevención de fraude o abuso", "Interés legítimo"],
       ],
     },
-    {
-      title: "Base legal",
-      list: [
-        "Consentimiento para comunicaciones comerciales y uso de cookies no esenciales.",
-        "Interes legitimo para analítica agregada y seguridad del sitio.",
-        "Cumplimiento de obligaciones legales cuando corresponda (facturación, retención mínima).",
-      ],
+    after: [
+      "No vendemos ni arrendamos datos personales, no los usamos para publicidad de terceros y no creamos perfiles para tomar decisiones con efectos jurídicos sobre ti de forma exclusivamente automatizada.",
+    ],
+  },
+  {
+    id: "meta",
+    title: "Datos recibidos a través de las plataformas de Meta",
+    paragraphs: [
+      "Usamos la WhatsApp Business Platform y las APIs de Instagram y Messenger para recibir y responder los mensajes que nos envías. Respecto de esos datos (\"Datos de la Plataforma\"):",
+    ],
+    list: [
+      "Solo los usamos para atender la conversación que iniciaste y dar seguimiento a tu solicitud o servicio.",
+      "No los vendemos, no los usamos para publicidad, ni los compartimos con terceros salvo los proveedores que nos prestan servicios de infraestructura indicados en la sección 5, bajo deber de confidencialidad.",
+      "Solo te escribimos fuera de una conversación activa si nos diste tu autorización (opt-in), y puedes pedir que dejemos de hacerlo respondiendo \"STOP\" o escribiéndonos.",
+      `Puedes pedir su eliminación en cualquier momento. Las instrucciones están en ${deletionLink}. La completamos en un máximo de ${LEGAL.deletionDays} días corridos.`,
+      "Si revocas el acceso de nuestra app desde la configuración de Facebook o Instagram, dejamos de recibir datos nuevos de esa cuenta.",
+    ],
+  },
+  {
+    id: "terceros",
+    title: "Con quién compartimos los datos",
+    paragraphs: [
+      "Compartimos datos solo con proveedores que los tratan por cuenta nuestra (encargados), con contratos o condiciones que les exigen confidencialidad y medidas de seguridad, y únicamente para las finalidades indicadas:",
+    ],
+    table: {
+      head: ["Proveedor", "Para qué", "Ubicación"],
+      rows: PROCESSORS.map((p) => [p.name, p.purpose, p.location]),
     },
-    {
-      title: "Conservacion",
-      body: "Guardamos los datos de contacto mientras gestionamos tu solicitud y, si eres cliente, por el tiempo necesario para la relación contractual y obligaciones legales. Los datos de analítica se conservan en forma agregada por periodos acotados.",
-    },
-    {
-      title: "Con quien los compartimos",
-      list: [
-        "No vendemos tus datos.",
-        "Proveedores que nos ayudan con infraestructura, analítica o soporte (bajo acuerdos de confidencialidad y protección de datos).",
-        "Autoridades u obligaciones legales si fuera requerido.",
-      ],
-    },
-    {
-      title: "Transferencias internacionales",
-      body: "Si un proveedor procesa datos fuera de tu pais, aplicamos clausulas contractuales estándar o mecanismos equivalentes para protegerlos.",
-    },
-    {
-      title: "Tus derechos",
-      list: [
-        "Acceso, rectificación, supresión, oposición, limitación y portabilidad de tus datos.",
-        "Retirar el consentimiento en cualquier momento para comunicaciones comerciales.",
-        `Ejercer estos derechos escribiendo a ${LEGAL.privacyEmail}. Para datos recibidos por Facebook, Instagram o WhatsApp, revisa /eliminacion-de-datos.`,
-      ],
-    },
-    {
-      title: "Cookies",
-      body: "Usamos cookies técnicas y de analítica agregada. Puedes gestionarlas desde tu navegador; desactivarlas puede afectar algunas funcionalidades.",
-    },
-    {
-      title: "Contacto",
-      body: `Escríbenos a ${LEGAL.privacyEmail} para cualquier consulta sobre privacidad.`,
-    },
-  ],
-};
+    after: [
+      "También podemos comunicar datos a autoridades cuando una ley o una resolución judicial lo exija.",
+    ],
+  },
+  {
+    id: "transferencias",
+    title: "Transferencias internacionales",
+    paragraphs: [
+      "Algunos proveedores procesan datos fuera de Chile, principalmente en Estados Unidos y la Unión Europea. En esos casos elegimos proveedores que ofrecen garantías adecuadas (cláusulas contractuales tipo, certificaciones o compromisos equivalentes) y transferimos solo los datos necesarios.",
+    ],
+  },
+  {
+    id: "conservacion",
+    title: "Cuánto tiempo los conservamos",
+    list: [
+      `Consultas y conversaciones de personas que no llegan a contratar: hasta ${LEGAL.prospectRetentionMonths} meses desde la última interacción, salvo que pidas antes su eliminación.`,
+      "Datos de clientes: mientras dure la relación contractual y, luego, por el plazo que exijan las leyes tributarias y comerciales (en general, hasta 6 años para documentos de respaldo tributario).",
+      "Registros técnicos del sitio: períodos breves, por razones de seguridad.",
+      "Datos para comunicaciones comerciales: hasta que retires tu consentimiento.",
+    ],
+    after: ["Cumplidos esos plazos, eliminamos o anonimizamos los datos."],
+  },
+  {
+    id: "derechos",
+    title: "Tus derechos",
+    paragraphs: ["Como titular de los datos puedes ejercer, de forma gratuita, los derechos de:"],
+    list: [
+      "<strong>Acceso:</strong> saber qué datos tuyos tratamos, para qué y con quién se comparten.",
+      "<strong>Rectificación:</strong> corregir datos inexactos o incompletos.",
+      "<strong>Supresión:</strong> pedir que eliminemos tus datos.",
+      "<strong>Oposición:</strong> oponerte a ciertos tratamientos, como el envío de comunicaciones comerciales.",
+      "<strong>Portabilidad:</strong> recibir tus datos en un formato estructurado y de uso común.",
+      "<strong>Bloqueo:</strong> pedir la suspensión temporal del tratamiento mientras se resuelve otra solicitud.",
+      "No ser objeto de decisiones basadas únicamente en tratamiento automatizado que te afecten significativamente.",
+      "Retirar tu consentimiento en cualquier momento, sin afectar el tratamiento previo.",
+    ],
+    after: [
+      `Para ejercerlos escríbenos a ${mail} indicando tu nombre, el derecho que quieres ejercer y un dato que nos permita encontrarte (teléfono, usuario o correo). Podemos pedirte información adicional para verificar tu identidad. Respondemos dentro de ${LEGAL.rightsResponseDays} días corridos, plazo que puede extenderse una vez por igual período en casos justificados, avisándote.`,
+      "Si no quedas conforme con nuestra respuesta, puedes reclamar ante la Agencia de Protección de Datos Personales.",
+    ],
+  },
+  {
+    id: "seguridad",
+    title: "Seguridad",
+    paragraphs: [
+      "Aplicamos medidas técnicas y organizativas para proteger los datos: conexiones cifradas (HTTPS/TLS), control de acceso por usuario con permisos mínimos, servidores actualizados, respaldos cifrados y acuerdos de confidencialidad con nuestro equipo.",
+      "Si ocurre un incidente de seguridad que afecte datos personales, lo notificaremos a la autoridad competente y a las personas afectadas cuando corresponda según la ley, y a Meta cuando involucre Datos de la Plataforma.",
+    ],
+  },
+  {
+    id: "clientes",
+    title: "Datos que tratamos por cuenta de nuestros clientes",
+    paragraphs: [
+      "Cuando desarrollamos o administramos sitios, automatizaciones o sistemas para otras empresas, los datos de sus usuarios y clientes son responsabilidad de esa empresa. Nosotros actuamos como encargado del tratamiento: seguimos sus instrucciones, no usamos esos datos para fines propios y los devolvemos o eliminamos al terminar el servicio. Para ejercer tus derechos sobre esos datos, dirígete a la empresa correspondiente; si nos llega la solicitud, se la reenviaremos.",
+    ],
+  },
+  {
+    id: "cookies",
+    title: "Cookies y almacenamiento local",
+    paragraphs: [
+      "Este sitio no usa cookies de publicidad ni de analítica de terceros. Solo guarda en tu navegador (almacenamiento local) tu preferencia de tema claro u oscuro, y nunca sale de tu dispositivo. Si en el futuro incorporamos analítica u otras cookies no esenciales, actualizaremos esta política y te pediremos consentimiento cuando corresponda.",
+    ],
+  },
+  {
+    id: "menores",
+    title: "Menores de edad",
+    paragraphs: [
+      "Nuestros servicios están dirigidos a empresas y personas adultas. No recopilamos a sabiendas datos de menores de 14 años sin el consentimiento de sus padres o representantes legales. Si detectamos que lo hicimos, los eliminaremos.",
+    ],
+  },
+  {
+    id: "cambios",
+    title: "Cambios a esta política",
+    paragraphs: [
+      "Podemos actualizar esta política cuando cambien nuestros servicios, proveedores o la ley. Publicaremos la nueva versión en esta página con su fecha de actualización y, si el cambio es relevante, lo comunicaremos por los canales habituales.",
+    ],
+  },
+  {
+    id: "contacto",
+    title: "Contacto",
+    paragraphs: [`Para cualquier consulta sobre privacidad escríbenos a ${mail}.`],
+  },
+];
+
+const summaryEn = `${LEGAL.companyName} (RUT ${LEGAL.rut}, Chile) processes personal data from website visitors, people who contact us via WhatsApp, Instagram, Facebook Messenger or email, and clients, only to answer inquiries, provide and invoice our services, and organize our customer service. Data received through Meta platforms is never sold, used for advertising, or shared beyond the infrastructure providers listed above. You may request access, correction or deletion of your data at any time by emailing <a href="mailto:${LEGAL.privacyEmail}">${LEGAL.privacyEmail}</a>; deletion instructions are available at <a href="/eliminacion-de-datos">/eliminacion-de-datos</a> and requests are completed within ${LEGAL.deletionDays} days.`;
 ---
 
-<Layout
-  title={pageTitle}
-  description={pageDescription}
-  siteSettings={siteSettings}
->
-  <Navbar siteSettings={siteSettings} />
-  <main class="section-shell py-16 space-y-6">
-    <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">
-      Legal
-    </p>
-    <h1 class="text-3xl sm:text-4xl font-bold text-content">{pageTitle}</h1>
-    {
-      hasLegalContent ? (
-        <article
-          class="prose max-w-3xl text-content prose-headings:text-content prose-p:text-muted prose-a:text-highlight"
-          set:html={sanitizedLegalContent}
-        />
-      ) : (
-        <article class="prose max-w-3xl text-content prose-headings:text-content prose-p:text-muted prose-a:text-highlight space-y-5">
-          <p>{fallbackPolicy.intro}</p>
-          {fallbackPolicy.sections.map((section) => (
-            <section class="space-y-2">
-              <h2>{section.title}</h2>
-              {section.body && <p>{section.body}</p>}
-              {section.list && (
-                <ul>
-                  {section.list.map((item) => (
-                    <li>{item}</li>
-                  ))}
-                </ul>
-              )}
-            </section>
-          ))}
-        </article>
-      )
-    }
-  </main>
-  <Footer siteSettings={siteSettings} />
-</Layout>
+<LegalDocument
+  title="Política de Privacidad"
+  description="Cómo Aliado Digital trata y protege los datos personales recibidos por su sitio web, WhatsApp, Instagram y Messenger, conforme a la Ley 21.719."
+  intro={intro}
+  sections={sections}
+  summaryEn={summaryEn}
+/>
