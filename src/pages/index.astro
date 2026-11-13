@@ -1,4 +1,4 @@
-﻿---
+---
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/layout/Navbar.astro";
 import Hero from "../components/sections/Hero.astro";
@@ -18,7 +18,7 @@ import { fetchSiteSettings, fetchCases, fetchFaqs } from "../lib/api/services";
 import type { Content, HomePageContent } from "../lib/api/types";
 import contentJson from "../data/content.json";
 import homeJson from "../data/pages/home.json";
-import { planSummaries } from "../data/plans";
+import { planesComoServicios } from "../data/planes";
 
 // Import the marquee component and its data
 import PortfolioMarqueeSection from "../components/sections/PortfolioMarqueeSection.tsx";
@@ -40,6 +40,7 @@ const homeNavLinks = navLinks.filter((link) => {
   return true;
 });
 
+const planSummaries = planesComoServicios("/planes");
 const siteSettings = await fetchSiteSettings();
 const cases = await fetchCases();
 const faqs = await fetchFaqs();
@@ -68,6 +69,8 @@ const pageDescription =
       services={planSummaries}
       whatsappNumber={siteSettings.whatsappNumber}
       singleGrid
+      title="Planes mensuales"
+      description="Tres planes con precio publicado. Elige según lo que necesitas hoy y cambia de plan cuando crezcas."
     />
 
     {/* Social proof early - Cases show we deliver results */}
@@ -91,7 +94,7 @@ const pageDescription =
           "SEO técnico y analítica para medir resultados",
         ]}
         primaryLink={{ label: "Ir a desarrollo", href: "/desarrollo" }}
-        secondaryLink={{ label: "Ver planes web", href: "/desarrollo#planes" }}
+        secondaryLink={{ label: "Ver precios", href: "/planes#setups" }}
         class="w-full"
       />
     </div>
@@ -112,7 +115,7 @@ const pageDescription =
           "Optimización con datos, no con intuición",
         ]}
         primaryLink={{ label: "Ir a marketing", href: "/marketing" }}
-        secondaryLink={{ label: "Ver planes de marketing", href: "/marketing#planes" }}
+        secondaryLink={{ label: "Ver planes", href: "/planes" }}
         class="w-full"
       />
     </div>

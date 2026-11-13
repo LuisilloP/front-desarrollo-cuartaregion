@@ -1,0 +1,218 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/layout/Navbar.astro";
+import Footer from "../components/layout/Footer.astro";
+import WhatsAppFloatingButton from "../components/layout/WhatsAppFloatingButton.astro";
+import PlansSection from "../components/development/PlansSection.astro";
+import { Icon } from "astro-icon/components";
+import { fetchSiteSettings } from "../lib/api/services";
+import { buildWhatsAppLink } from "../lib/utils";
+import { env } from "../lib/env";
+import type { Content } from "../lib/api/types";
+import contentJson from "../data/content.json";
+import {
+  planesMensuales,
+  planesComoTarjetas,
+  setups,
+  setupsComoTarjetas,
+  comparativa,
+  reglasPlanes,
+  formatoCLP,
+  conIVA,
+} from "../data/planes";
+
+const content = contentJson as Content;
+const siteSettings = await fetchSiteSettings();
+const whatsappMessage = "Hola, quiero saber qué plan de Aliado Digital me conviene.";
+const whatsappUrl = buildWhatsAppLink(siteSettings.whatsappNumber, whatsappMessage);
+const linkWhatsApp = (mensaje: string) =>
+  buildWhatsAppLink(siteSettings.whatsappNumber, mensaje) ?? "#";
+
+const planDesde = formatoCLP(Math.min(...planesMensuales.map((p) => p.precio)));
+const setupDesde = formatoCLP(
+  Math.min(...setups.flatMap((s) => (s.precio ? [s.precio] : []))),
+);
+
+const pageTitle = "Planes y precios | Aliado Digital";
+const pageDescription = `Planes mensuales desde ${planDesde} + IVA y páginas web desde ${setupDesde} + IVA. Precios publicados para pymes de la Región de Coquimbo y todo Chile.`;
+
+const siteUrl = env.siteUrl ?? (Astro.site ? Astro.site.toString() : undefined);
+const toAbsolute = (path: string) =>
+  siteUrl ? new URL(path, siteUrl).toString() : path;
+
+const offerSchema = {
+  "@context": "https://schema.org",
+  "@type": "OfferCatalog",
+  name: "Planes de Aliado Digital",
+  url: toAbsolute("/planes/"),
+  itemListElement: [
+    ...planesMensuales.map((plan) => ({
+      "@type": "Offer",
+      name: plan.nombre,
+      description: plan.resumen,
+      priceCurrency: "CLP",
+      price: conIVA(plan.precio),
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: conIVA(plan.precio),
+        priceCurrency: "CLP",
+        unitText: "MONTH",
+        valueAddedTaxIncluded: true,
+      },
+    })),
+    ...setups
+      .filter((setup) => setup.precio)
+      .map((setup) => ({
+        "@type": "Offer",
+        name: setup.nombre,
+        description: setup.descripcion,
+        priceCurrency: "CLP",
+        priceSpecification: {
+          "@type": "PriceSpecification",
+          minPrice: conIVA(setup.precio ?? 0),
+          priceCurrency: "CLP",
+          valueAddedTaxIncluded: true,
+        },
+      })),
+  ],
+};
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Inicio", item: toAbsolute("/") },
+    { "@type": "ListItem", position: 2, name: "Planes", item: toAbsolute("/planes/") },
+  ],
+};
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  siteSettings={siteSettings}
+  structuredData={[offerSchema, breadcrumbSchema]}
+>
+  <Navbar siteSettings={siteSettings} navLinks={content.navLinks} />
+
+  <main class="hero-safe-offset overflow-x-hidden">
+    <header class="section-shell pt-12 pb-4 text-center sm:pt-16">
+      <p class="pill mx-auto w-fit">Precios publicados</p>
+      <h1 class="mx-auto mt-4 max-w-3xl text-4xl font-bold tracking-tight text-content sm:text-5xl">
+        Planes y precios de Aliado Digital
+      </h1>
+      <p class="mx-auto mt-4 max-w-2xl text-lg text-muted">
+        Un pago único para construir tu web y un plan mensual para mantenerla,
+        aparecer en Google y conseguir más consultas. Sin letra chica.
+      </p>
+      <nav class="mt-8 flex flex-wrap justify-center gap-3 text-sm" aria-label="Secciones de la página">
+        <a href="#mensuales" class="rounded-full border border-border/70 px-4 py-2 text-content transition hover:border-primary/60">Planes mensuales</a>
+        <a href="#comparar" class="rounded-full border border-border/70 px-4 py-2 text-content transition hover:border-primary/60">Comparar planes</a>
+        <a href="#setups" class="rounded-full border border-border/70 px-4 py-2 text-content transition hover:border-primary/60">Páginas web (pago único)</a>
+      </nav>
+    </header>
+
+    <PlansSection
+      sectionId="mensuales"
+      title="Planes mensuales"
+      description="Elige según lo que necesitas hoy. Puedes subir o bajar de plan cuando quieras."
+      plans={planesComoTarjetas(linkWhatsApp)}
+    />
+
+    <section id="comparar" class="section-shell scroll-mt-28 pb-20">
+      <div class="mx-auto max-w-3xl text-center">
+        <h2 class="text-3xl font-semibold text-content sm:text-4xl">Compara los planes</h2>
+        <p class="mt-3 text-muted">
+          Precios netos mensuales. Con IVA incluido:
+          {planesMensuales.map((p, i) => (
+            <span>{i > 0 ? " · " : " "}{p.nombre} {formatoCLP(conIVA(p.precio))}</span>
+          ))}.
+        </p>
+      </div>
+
+      <div class="mt-10 overflow-x-auto rounded-2xl border border-border/70 bg-card/90">
+        <table class="w-full min-w-[640px] text-left text-sm">
+          <thead>
+            <tr class="border-b border-border/70">
+              <th scope="col" class="p-4 font-semibold text-muted">Incluye</th>
+              {planesMensuales.map((plan) => (
+                <th scope="col" class:list={["p-4 text-center", plan.recomendado && "bg-primary/5"]}>
+                  <span class="block text-base font-semibold text-content">{plan.nombre}</span>
+                  <span class="block text-xs font-normal text-muted">{formatoCLP(plan.precio)} / mes + IVA</span>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {comparativa.map((row) => (
+              <tr class="border-b border-border/50 last:border-0">
+                <th scope="row" class="p-4 font-medium text-content">{row.item}</th>
+                {[row.presencia, row.crecimiento, row.socio].map((value, i) => (
+                  <td class:list={["p-4 text-center", planesMensuales[i]?.recomendado && "bg-primary/5"]}>
+                    {value === true ? (
+                      <Icon name="lucide:check" class="mx-auto h-5 w-5 text-accent" aria-label="Incluido" />
+                    ) : value === false ? (
+                      <span class="text-muted/60" aria-label="No incluido">—</span>
+                    ) : (
+                      <span class="text-content">{value}</span>
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <PlansSection
+      sectionId="setups"
+      title="Páginas web y sistemas"
+      description="Pago único por construir. Al terminar puedes sumar cualquier plan mensual."
+      plans={setupsComoTarjetas(linkWhatsApp)}
+    />
+
+    <section class="section-shell pb-24">
+      <div class="mx-auto grid max-w-5xl gap-8 rounded-2xl border border-border/70 bg-card/90 p-8 md:grid-cols-2">
+        <div>
+          <h2 class="text-2xl font-semibold text-content">Cómo trabajamos</h2>
+          <ul class="mt-4 space-y-3 text-sm text-muted">
+            {reglasPlanes.map((regla) => (
+              <li class="flex items-start gap-3">
+                <Icon name="lucide:info" class="mt-0.5 h-4 w-4 flex-shrink-0 text-accent" aria-hidden="true" />
+                <span>{regla}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="flex flex-col justify-center gap-4 md:border-l md:border-border/70 md:pl-8">
+          <h2 class="text-2xl font-semibold text-content">¿No sabes cuál elegir?</h2>
+          <p class="text-muted">
+            Cuéntanos qué tienes hoy y qué quieres lograr. Te respondemos con una
+            recomendación en 1 día hábil.
+          </p>
+          {whatsappUrl && (
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener"
+              class="inline-flex w-fit items-center gap-2 rounded-full bg-[#25D366] px-6 py-3 font-semibold text-white shadow-soft transition hover:shadow-lg"
+            >
+              <Icon name="simple-icons:whatsapp" class="h-5 w-5" aria-hidden="true" />
+              Escribir por WhatsApp
+            </a>
+          )}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer
+    siteSettings={siteSettings}
+    navLinks={content.navLinks}
+    legalPages={content.legalPages}
+  />
+  <WhatsAppFloatingButton
+    whatsappNumber={siteSettings.whatsappNumber}
+    message={whatsappMessage}
+  />
+</Layout>

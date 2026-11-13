@@ -1,92 +1,23 @@
-﻿---
+---
 import PlanCard from "./PlanCard.astro";
-
-interface Plan {
-  name: string;
-  idealFor: string;
-  price: string;
-  currency?: string;
-  priceNote?: string;
-  includes: string[];
-  deliverables: string[];
-  ctaLabel?: string;
-  ctaHref?: string;
-  compareLabel?: string;
-  compareHref?: string;
-  featured?: boolean;
-}
+import { planesComoTarjetas } from "../../data/planes";
+import { buildWhatsAppLink } from "../../lib/utils";
 
 interface Props {
   title: string;
   description: string;
+  whatsappNumber?: string;
 }
 
-const { title, description } = Astro.props as Props;
-const plans: Plan[] = [
-  {
-    name: "Impulso Digital",
-    idealFor: "Partir rápido y conseguir tus primeros leads.",
-    price: "$297.000",
-    currency: "CLP",
-    includes: [
-      "Setup y tracking básico (medición lista)",
-      "Campañas y segmentación inicial",
-      "Creativos iniciales",
-      "Optimización semanal",
-      "Reporte mensual y próximos pasos",
-    ],
-    deliverables: [
-      "Visibilidad inmediata",
-      "Primeros leads",
-      "Datos para escalar",
-    ],
-    ctaHref: "#contacto-marketing",
-  },
-  {
-    name: "Acelerador de Ventas",
-    idealFor: "Más conversiones y estabilidad.",
-    price: "$547.000",
-    currency: "CLP",
-    includes: [
-      "Campañas y segmentación optimizada",
-      "Pruebas A/B de creativos",
-      "Optimización por CPA/ROAS",
-      "Retargeting estratégico",
-      "Reporte quincenal y ajustes",
-    ],
-    deliverables: [
-      "Más ventas",
-      "Leads constantes",
-      "Escalabilidad real",
-    ],
-    ctaHref: "#contacto-marketing",
-    featured: true,
-  },
-  {
-    name: "Dominio Digital",
-    idealFor: "Escalar con estrategia full funnel.",
-    price: "$997.000",
-    currency: "CLP",
-    includes: [
-      "Estrategia full funnel",
-      "Creativos premium iterativos",
-      "Escalado y control de presupuesto",
-      "Optimización por etapas",
-      "Asesoría directa",
-    ],
-    deliverables: [
-      "Alto volumen",
-      "Marca líder",
-      "Máximo retorno",
-    ],
-    ctaHref: "#contacto-marketing",
-  },
-];
+const { title, description, whatsappNumber } = Astro.props as Props;
 
-
+// Precios desde la fuente única (src/data/planes.ts)
+const plans = planesComoTarjetas(
+  (mensaje) => buildWhatsAppLink(whatsappNumber, mensaje) ?? "#contacto-marketing",
+);
 ---
 
-<section id="planes" class="py-20 lg:py-32">
+<section id="planes" class="scroll-mt-28 py-20 lg:py-32">
   <div class="section-shell">
     <div class="mx-auto max-w-3xl text-center" data-reveal="fade-up">
       <h2 class="text-3xl font-semibold text-content sm:text-4xl">
@@ -100,7 +31,8 @@ const plans: Plan[] = [
     <div class="mt-12 grid gap-6 lg:grid-cols-3">
       {plans.map((plan, index) => (
         <div
-          class="h-full"
+          id={plan.id}
+          class="h-full scroll-mt-28"
           data-reveal="fade-up"
           data-delay={String(index * 80)}
         >

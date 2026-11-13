@@ -17,6 +17,8 @@ import { fetchSiteSettings, fetchServices, fetchCases } from "../lib/api/service
 import type { CaseStudy, Content, DevelopmentPageContent } from "../lib/api/types";
 import contentJson from "../data/content.json";
 import developmentJson from "../data/pages/development.json";
+import { setupsComoTarjetas } from "../data/planes";
+import { buildWhatsAppLink } from "../lib/utils";
 import developmentCasesJson from "../data/pages/development-cases.json";
 import developmentClientsJson from "../data/pages/development-clients.json";
 import { env } from "../lib/env";
@@ -32,7 +34,7 @@ const developmentClients = developmentClientsJson as {
   companies?: Company[];
 };
 
-const { hero, trust, cta, seo, value, plansSection, plans } = developmentContent;
+const { hero, trust, cta, seo, value, plansSection } = developmentContent;
 const pageTitle =
   seo?.title ?? "Desarrollo Web y Software para Pymes | Aliado Digital";
 const pageDescription =
@@ -328,8 +330,16 @@ const breadcrumbSchema = {
         plansSection?.description ??
         "Selecciona la solución que necesitas hoy y te acompañamos en cada etapa."
       }
-      plans={plans ?? []}
+      plans={setupsComoTarjetas(
+        (mensaje) =>
+          buildWhatsAppLink(siteSettings.whatsappNumber, mensaje) ??
+          "#contacto-desarrollo",
+      )}
     />
+    <p class="section-shell -mt-12 mb-12 text-center text-sm text-muted lg:-mt-20">
+      ¿Quieres mantenimiento, Google y campañas después del lanzamiento?
+      <a class="font-semibold text-accent hover:underline dark:text-highlight" href="/planes">Ver planes mensuales</a>
+    </p>
 
     <SectionDivider />
 

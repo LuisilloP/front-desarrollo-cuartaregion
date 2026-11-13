@@ -70,65 +70,9 @@
     ]
   },
   "plansSection": {
-    "title": "Planes y servicios de marketing digital para pymes",
-    "description": "Estrategia, campañas y optimización continua para generar oportunidades reales, con seguimiento y reportes claros."
+    "title": "Planes mensuales de marketing y presencia digital",
+    "description": "Tres planes con precio publicado. Gestión de campañas, contenido y Google en uno solo; la inversión en anuncios la pagas tú."
   },
-  "plans": [
-    {
-      "name": "Impulso Digital",
-      "price": "$297.000 CLP",
-      "reach": "80–180 clientes potenciales aprox.",
-      "benefits": [
-        "Configuración de campañas + segmentación",
-        "Optimización inicial (presupuesto, públicos y anuncios)",
-        "Copy de anuncios y propuesta clara",
-        "Creatividades simples (adaptadas a formatos base)"
-      ],
-      "results": [
-        "Más visibilidad en tu público objetivo",
-        "Primeras consultas/leads",
-        "Base de datos para mejorar y escalar"
-      ],
-      "ctaHref": "#contacto-marketing"
-    },
-    {
-      "name": "Acelerador de Ventas",
-      "price": "$547.000 CLP",
-      "reach": "200–450 clientes potenciales aprox.",
-      "benefits": [
-        "Todo lo del plan Impulso",
-        "Estrategia comercial (oferta, mensaje y embudo)",
-        "Pruebas A/B (anuncios, copys y públicos)",
-        "Optimización avanzada semana a semana",
-        "Reporte de resultados con próximos pasos"
-      ],
-      "results": [
-        "Mejor conversión (más leads por el mismo presupuesto)",
-        "Flujo más constante de consultas",
-        "Sistema listo para escalar con control"
-      ],
-      "featured": true,
-      "highlightLabel": "Más elegido",
-      "ctaHref": "#contacto-marketing"
-    },
-    {
-      "name": "Dominio Digital",
-      "price": "$997.000 CLP",
-      "reach": "500–1.000 clientes potenciales aprox.",
-      "benefits": [
-        "Estrategia full funnel (atracción + conversión + seguimiento)",
-        "Escalado planificado según resultados",
-        "Creatividades premium y variaciones continuas",
-        "Asesoría directa y acompañamiento cercano"
-      ],
-      "results": [
-        "Mayor volumen de oportunidades",
-        "Presencia de marca más fuerte",
-        "Mejor retorno con optimización constante"
-      ],
-      "ctaHref": "#contacto-marketing"
-    }
-  ],
   "useCasesSection": {
     "eyebrow": "Cómo trabajamos",
     "title": "Así trabajamos tu marketing",

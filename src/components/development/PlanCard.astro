@@ -8,7 +8,7 @@ interface Plan {
   currency?: string;
   priceNote?: string;
   includes: string[];
-  deliverables: string[];
+  deliverables?: string[];
   ctaLabel?: string;
   ctaHref?: string;
   compareLabel?: string;
@@ -28,7 +28,7 @@ const {
   currency = "CLP",
   priceNote = "Implementación estimada - Ajustable según alcance",
   includes,
-  deliverables,
+  deliverables = [],
   ctaLabel = "Cotizar este plan",
   ctaHref = "#contacto-desarrollo",
   featured = false,
@@ -44,6 +44,11 @@ const {
       : "border-blue-200/75 ring-1 ring-blue-200/35 ring-inset dark:border-border/70 dark:ring-0",
   ]}
 >
+  {featured && (
+    <span class="absolute right-6 top-6 z-10 rounded-full bg-blue-600 text-white px-3 py-1 text-xs font-semibold">
+      Recomendado
+    </span>
+  )}
   <header class="relative z-10 space-y-4">
     <div class="space-y-3">
       <h3 class="text-2xl font-semibold tracking-tight text-content sm:text-3xl">
@@ -87,6 +92,7 @@ const {
   </div>
 
   <footer class="relative z-10 mt-auto space-y-4 pt-6">
+    {deliverables.length > 0 && (
     <div class="space-y-2 rounded-xl border border-border/70 bg-surface-strong/60 p-4">
       <p class="text-xs font-semibold uppercase tracking-[0.24em] text-muted">
         Entregables
@@ -104,10 +110,13 @@ const {
         ))}
       </ul>
     </div>
+    )}
 
     <div class="space-y-3">
       <a
         href={ctaHref}
+        target={ctaHref.startsWith("http") ? "_blank" : undefined}
+        rel={ctaHref.startsWith("http") ? "noopener" : undefined}
         class="inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-sky-300 via-blue-400 to-indigo-500 px-5 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-blue-700/20 transition hover:from-sky-400 hover:via-blue-500 hover:to-indigo-600 hover:shadow-xl dark:from-sky-500 dark:via-blue-600 dark:to-indigo-700 dark:text-white dark:hover:from-sky-600 dark:hover:via-blue-700 dark:hover:to-indigo-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300/45"
       >
         {ctaLabel}

@@ -199,13 +199,13 @@ const ctaArrowClass = "cta-arrow ml-auto h-4 w-4 flex-shrink-0 transition-transf
       price && (
         <div class="shrink-0">
           <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-500/80 dark:text-white/60">
-            Desde
+            {service.priceLabel ?? "Desde"}
           </span>
           <span class="mt-1 block text-lg font-semibold text-slate-900 dark:text-white">
             {price}
           </span>
           <span class="block text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 font-medium">
-            NO Incluye IVA
+            {service.priceNote ?? "+ IVA"}
           </span>
         </div>
       )

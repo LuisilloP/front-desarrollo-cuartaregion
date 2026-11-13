@@ -72,6 +72,8 @@ export type Service = {
   deliverables?: string[];
   delivery_time?: string;
   price?: string;
+  priceLabel?: string;
+  priceNote?: string;
   ctaLabel?: string;
   ctaHref?: string;
   ctaType?: string;
@@ -305,7 +307,7 @@ export type MarketingPageContent = {
     title: string;
     description: string;
   };
-  plans: MarketingPlan[];
+  plans?: MarketingPlan[];
   trust: TrustSection;
   useCasesSection?: UseCasesSectionContent;
   processSection?: ProcessSectionContent;

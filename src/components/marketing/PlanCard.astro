@@ -1,4 +1,4 @@
-﻿---
+---
 import { Icon } from "astro-icon/components";
 
 interface Plan {
@@ -8,7 +8,7 @@ interface Plan {
   currency?: string;
   priceNote?: string;
   includes: string[];
-  deliverables: string[];
+  deliverables?: string[];
   ctaLabel?: string;
   ctaHref?: string;
   compareLabel?: string;
@@ -28,7 +28,7 @@ const {
   currency = "CLP",
   priceNote = "Gestión mensual · Inversión publicitaria no incluida",
   includes,
-  deliverables,
+  deliverables = [],
   ctaLabel = "Elegir este plan",
   ctaHref = "#contacto-marketing",
   compareLabel = "Ver comparativa",
@@ -46,6 +46,11 @@ const {
       : "border-orange-200/80 ring-1 ring-orange-200/35 ring-inset dark:border-border/70 dark:ring-0",
   ]}
 >
+  {featured && (
+    <span class="absolute right-6 top-6 z-10 rounded-full bg-orange-500 text-white px-3 py-1 text-xs font-semibold">
+      Recomendado
+    </span>
+  )}
   <header class="relative z-10 space-y-4">
     <div class="space-y-3">
       <h3 class="text-2xl font-semibold tracking-tight text-content sm:text-3xl">
@@ -85,6 +90,7 @@ const {
   </div>
 
   <footer class="relative z-10 mt-auto space-y-4 pt-6">
+    {deliverables.length > 0 && (
     <div class="space-y-2 rounded-xl border border-border/70 bg-surface-strong/60 p-4">
       <p class="text-xs font-semibold uppercase tracking-[0.24em] text-muted">
         Entregables
@@ -102,10 +108,13 @@ const {
         ))}
       </ul>
     </div>
+    )}
 
     <div class="space-y-3">
       <a
         href={ctaHref}
+        target={ctaHref.startsWith("http") ? "_blank" : undefined}
+        rel={ctaHref.startsWith("http") ? "noopener" : undefined}
         class="inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-orange-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-orange-600/25 transition hover:from-amber-600 hover:via-orange-600 hover:to-orange-700 hover:shadow-xl dark:from-amber-600 dark:via-orange-600 dark:to-orange-700 dark:hover:from-amber-700 dark:hover:via-orange-700 dark:hover:to-orange-800 dark:shadow-orange-700/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/45 dark:focus-visible:ring-amber-400/45"
       >
         {ctaLabel}

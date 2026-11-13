@@ -73,61 +73,9 @@
     ]
   },
   "plansSection": {
-    "title": "Planes de desarrollo y tecnología",
-    "description": "Selecciona la solución que necesitas hoy y acompañamos tu crecimiento con mejoras constantes."
+    "title": "Páginas web y sistemas: precios",
+    "description": "Pago único por construir tu sitio. Después puedes sumar un plan mensual para mantenerlo y hacerlo crecer."
   },
-  "plans": [
-    {
-      "name": "Landing profesional",
-      "price": "$160.000 CLP",
-      "reach": "Ideal para validar tu oferta y empezar a vender.",
-      "benefits": [
-        "Página rápida y clara",
-        "Diseño adaptable a móvil y desktop",
-        "Boton directo a WhatsApp y formulario"
-      ],
-      "results": [
-        "Presencia online profesional",
-        "Mayor confianza desde el primer día",
-        "Consultas mas ordenadas"
-      ],
-      "ctaHref": "#contacto-desarrollo"
-    },
-    {
-      "name": "Web administrable",
-      "price": "$250.000 CLP",
-      "reach": "Para negocios que necesitan actualizar contenido sin depender de terceros.",
-      "benefits": [
-        "Panel de administración simple",
-        "Integración de contacto y formularios",
-        "SEO técnico básico incluido"
-      ],
-      "results": [
-        "Autonomia para actualizar la web",
-        "Mejor organización del contenido",
-        "Base lista para crecer"
-      ],
-      "featured": true,
-      "highlightLabel": "Mas solicitado",
-      "ctaHref": "#contacto-desarrollo"
-    },
-    {
-      "name": "Sistema a medida",
-      "price": "$650.000 CLP",
-      "reach": "Para ordenar procesos y escalar con control.",
-      "benefits": [
-        "Plataforma adaptada a tu operación",
-        "Automatización de tareas clave",
-        "Soporte en la implementación"
-      ],
-      "results": [
-        "Operaciones mas ordenadas",
-        "Mejor control del negocio",
-        "Escalabilidad real"
-      ],
-      "ctaHref": "#contacto-desarrollo"
-    }
-  ],
   "useCasesSection": {
     "eyebrow": "Como trabajamos",
     "title": "Así construimos tu desarrollo",
@@ -239,4 +187,3 @@
     "formId": "desarrollo-form"
   }
 }
-
