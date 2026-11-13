@@ -333,6 +333,7 @@
       "city": "Ovalle",
       "summary": "Landing page profesional y personalizada para una clínica dental en Ovalle, creada para reforzar su presencia digital con una imagen premium, clara y confiable.",
       "coverImage": "/images/portfolio/cases/clinica-montblanc.webp",
+      "coverImageMobile": "/images/portfolio/cases/clinica-montblanc-movil.webp",
       "beforeTitle": "Antes",
       "afterTitle": "Después",
       "beforePoints": [
@@ -381,6 +382,7 @@
       "city": "La Serena / Coquimbo",
       "summary": "Primera fase de digitalización para una corredora de propiedades: diseñamos una landing premium que funciona como vitrina digital, con catálogo ordenado, búsqueda con filtros y llamados a la acción visibles para convertir visitas en consultas reales.",
       "coverImage": "/images/portfolio/cases/propiedades-arenas.webp",
+      "coverImageMobile": "/images/portfolio/cases/propiedades-arenas-movil.webp",
       "beforeTitle": "Antes",
       "afterTitle": "Después",
       "beforePoints": [
@@ -503,6 +505,7 @@
       "city": "Ovalle",
       "summary": "Plan mixto que incluyó desarrollo de página web y mejora de presencia digital en redes sociales, con creación de cuenta de Google, implementación de WhatsApp Business, optimización de LinkedIn y contenido para fortalecer su posicionamiento online.",
       "coverImage": "/images/portfolio/cases/haraldziller.webp",
+      "coverImageMobile": "/images/portfolio/cases/haraldziller-movil.webp",
       "beforeTitle": "Antes",
       "afterTitle": "Después",
       "beforePoints": [
@@ -563,6 +566,7 @@
       "city": "Punitaqui",
       "summary": "Desarrollamos su primera página web para que la mueblería pudiera comenzar con presencia digital, mostrar su empresa y exhibir sus muebles a medida con un catálogo claro, CTA directos por WhatsApp y mejor visibilidad local en la Región de Coquimbo.",
       "coverImage": "/images/portfolio/cases/fiorentino.webp",
+      "coverImageMobile": "/images/portfolio/cases/fiorentino-movil.webp",
       "beforeTitle": "Antes",
       "afterTitle": "Después",
       "beforePoints": [

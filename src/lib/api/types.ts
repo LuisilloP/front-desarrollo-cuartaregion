@@ -94,6 +94,8 @@ export type CaseStudy = {
   title?: string;
   coverImage?: string;
   coverImageAlt?: string;
+  /** Captura del sitio en celular (390 px de ancho). */
+  coverImageMobile?: string;
   beforeTitle?: string;
   afterTitle?: string;
   beforePoints?: Array<{ text: string; tone?: string }>;

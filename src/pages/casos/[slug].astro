@@ -47,6 +47,7 @@ const city = clean(caseStudy.city);
 const service = clean(caseStudy.service);
 const logo = clean(caseStudy.logo);
 const coverImage = clean(caseStudy.coverImage);
+const coverImageMobile = clean(caseStudy.coverImageMobile) || undefined;
 const coverAlt =
   clean(caseStudy.coverImageAlt) || `Sitio de ${clientName || pageTitle}`;
 
@@ -215,7 +216,7 @@ const fichaRows = [
         </div>
 
         <!-- 3. Imagen grande -->
-        {coverImage && <DeviceMockup image={coverImage} alt={coverAlt} />}
+        {coverImage && <DeviceMockup image={coverImage} mobileImage={coverImageMobile} alt={coverAlt} />}
       </div>
     </section>
 
@@ -361,7 +362,7 @@ const fichaRows = [
 
     <!-- 7. Siguiente caso + CTA -->
     <section class="section-shell">
-      <div class="grid gap-6 lg:grid-cols-2">
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {nextCase && (
           <a
             href={`/casos/${nextCase.slug}`}
