@@ -8,7 +8,7 @@ This project uses a single, stable convention for component organization:
 - `common/`: shared higher-level section building blocks.
 - `marketing/`: marketing page-specific components.
 - `development/`: development page-specific components.
-- `banners/`, `promos/`, `hero/`: feature-specific shared component families.
+- `banners/`, `hero/`: feature-specific shared component families.
 
 ## Rules
 

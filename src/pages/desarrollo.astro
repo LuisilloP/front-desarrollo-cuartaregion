@@ -5,7 +5,6 @@ import Footer from "../components/layout/Footer.astro";
 import SectionDivider from "../components/layout/SectionDivider.astro";
 import WhatsAppFloatingButton from "../components/layout/WhatsAppFloatingButton.astro";
 import HeroBackgroundSlideshow from "../components/hero/HeroBackgroundSlideshow.astro";
-import GoogleG from "../components/ui/GoogleG.astro";
 import PlansSection from "../components/development/PlansSection.astro";
 import ProcessSection from "../components/sections/ProcessSection.astro";
 import CasesSection from "../components/sections/CasesSection.astro";
@@ -17,7 +16,7 @@ import { fetchSiteSettings, fetchServices, fetchCases } from "../lib/api/service
 import type { CaseStudy, Content, DevelopmentPageContent } from "../lib/api/types";
 import contentJson from "../data/content.json";
 import developmentJson from "../data/pages/development.json";
-import { setupsComoTarjetas } from "../data/planes";
+import { setups, setupsComoTarjetas, formatoCLP } from "../data/planes";
 import { buildWhatsAppLink } from "../lib/utils";
 import developmentCasesJson from "../data/pages/development-cases.json";
 import developmentClientsJson from "../data/pages/development-clients.json";
@@ -61,10 +60,16 @@ const slides =
 const heroEyebrow = value?.eyebrow ?? "PROPUESTA DE VALOR";
 const heroHeading =
   hero?.title ?? value?.title ?? "Desarrollo web y software a medida para pymes.";
-const heroDescription =
+const setupDesde = Math.min(
+  ...setups.flatMap((setup) => (setup.precio ? [setup.precio] : [])),
+);
+const heroBaseDescription = (
   hero?.subtitle ??
   value?.description ??
-  "Webs rápidas, escalables y listas para crecer.";
+  "Webs rápidas, escalables y listas para crecer."
+).replace(/\.$/, "");
+// "Desde cuánto" calculado desde la fuente única de precios.
+const heroDescription = `${heroBaseDescription}. Páginas web desde ${formatoCLP(setupDesde)} + IVA.`;
 const primaryCta =
   hero?.primaryCta ??
   (value?.ctaLabel && value?.ctaHref
@@ -231,7 +236,6 @@ const breadcrumbSchema = {
                     rel={isExternalCta ? "noopener noreferrer" : undefined}
                     class="inline-flex w-full min-w-[240px] items-center justify-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-black/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/90 sm:w-auto sm:min-w-[260px]"
                   >
-                    <GoogleG size={16} />
                     <span>{primaryCta.label}</span>
                   </a>
                   <a

@@ -71,20 +71,17 @@ const activeSlides = slides && slides.length > 0 ? slides : heroImages;
       </div>
 
       <h1
-        class="mx-auto max-w-[18ch] text-[clamp(1.625rem,9.2vw,4.5rem)] font-bold leading-[1.06] tracking-tight text-white [text-wrap:balance] min-[481px]:max-w-none"
+        class="mx-auto max-w-[22ch] text-[clamp(1.625rem,7.4vw,3.75rem)] font-bold leading-[1.08] tracking-tight text-white [text-wrap:balance]"
         style="animation: fade-in-in-up 0.8s 0.2s both cubic-bezier(0.25, 0.46, 0.45, 0.94);"
-        aria-label="Diseño web y marketing digital en La Serena y Coquimbo"
       >
-        Diseño web y marketing digital<span id="hero-typewriter"></span><span
-          class="typewriter-cursor">|</span
-        >
+        Páginas web y campañas que traen clientes a pymes de la Región de Coquimbo
       </h1>
 
       <p
         class="max-w-[62ch] text-base leading-relaxed text-white/85 [text-wrap:pretty] max-[480px]:max-w-[34ch] max-[480px]:text-[0.98rem] max-[360px]:text-[0.92rem] sm:text-lg md:text-xl"
         style="animation: fade-in-up 0.8s 0.4s both cubic-bezier(0.25, 0.46, 0.45, 0.94);"
       >
-        Somos una agencia de la Región de Coquimbo. Diseñamos y desarrollamos sitios rápidos, automatizamos tareas y activamos campañas que convierten, para pymes de La Serena, Coquimbo, Ovalle y todo Chile.
+        Somos un equipo de ingenieros en La Serena. Hacemos tu web, la conectamos a WhatsApp y medimos cada consulta, para pymes de La Serena, Coquimbo, Ovalle y todo Chile.
       </p>
 
       <div
@@ -141,17 +138,6 @@ const activeSlides = slides && slides.length > 0 ? slides : heroImages;
   </div>
 </section>
 
-<script>
-  import { initHeroTypewriter } from "../../scripts/ui/heroTypewriter";
-
-  initHeroTypewriter({
-    elementId: "hero-typewriter",
-    cursorSelector: ".typewriter-cursor",
-    text: " en La Serena y Coquimbo",
-    speedMs: 50,
-    startDelayMs: 500
-  });
-</script>
 
 <style>
   @keyframes fade-in-up {
@@ -167,26 +153,6 @@ const activeSlides = slides && slides.length > 0 ? slides : heroImages;
 
   .animate-fade-in-up {
     animation: fade-in-up 0.8s both cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-
-  /* Typewriter Cursor */
-  .typewriter-cursor {
-    display: inline-block;
-    font-weight: 100; /* Thinner */
-    color: inherit;
-    margin-left: 2px;
-    animation: blink 1s step-end infinite;
-    opacity: 1;
-  }
-
-  @keyframes blink {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0;
-    }
   }
 </style>
 

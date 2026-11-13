@@ -50,12 +50,7 @@ const processedNavLinks = navLinks.map((link) => ({
         <!-- Logo -->
         <a
           href={withHome("/#inicio")}
-          class:list={[
-            "flex items-center gap-2 sm:gap-3 font-bold text-lg sm:text-xl tracking-tight transition-colors",
-            isHome
-              ? "text-white group-[.scrolled]:text-slate-900 dark:group-[.scrolled]:text-white"
-              : "text-slate-900 dark:text-white",
-          ]}
+          class="flex items-center gap-2 sm:gap-3 font-bold text-lg sm:text-xl tracking-tight text-white transition-colors"
         >
           <div class="relative rounded-lg p-[1px]">
             <div class="rounded-lg">

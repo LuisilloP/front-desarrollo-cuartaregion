@@ -8,11 +8,6 @@
     "secondaryCTA": "Ver servicios",
     "socialLinks": [
       {
-        "name": "GitHub",
-        "url": "https://github.com/Aliadodigital-cl",
-        "icon": "simple-icons:github"
-      },
-      {
         "name": "Instagram",
         "url": "https://www.instagram.com/aliadodigital.cl/",
         "icon": "simple-icons:instagram"
@@ -482,7 +477,7 @@
       ],
       "impactTags": [
         {
-          "text": "Mas conversaciones calificadas",
+          "text": "Más conversaciones calificadas",
           "variant": "green"
         },
         {
@@ -606,11 +601,11 @@
           "variant": "green"
         },
         {
-          "text": "Catálogo mas claro y navegable",
+          "text": "Catálogo más claro y navegable",
           "variant": "blue"
         },
         {
-          "text": "Mas consultas por WhatsApp",
+          "text": "Más consultas por WhatsApp",
           "variant": "orange"
         }
       ],
@@ -626,7 +621,7 @@
       "title": "Sistema de pedidos administrable",
       "industry": "Gastronomia",
       "city": null,
-      "summary": "Diseñamos una plataforma integral de pedidos para profesionalizar la operación de El Arlequin. El sistema esta pensado para el mesón y el ejecutivo de venta, con administración completa de catálogo, clientes y zonas de despacho, además de un configurador avanzado de productos.",
+      "summary": "Diseñamos una plataforma integral de pedidos para profesionalizar la operación de El Arlequin. El sistema está pensado para el mesón y el ejecutivo de venta, con administración completa de catálogo, clientes y zonas de despacho, además de un configurador avanzado de productos.",
       "coverImage": "/images/portfolio/cases/el-arlequin.webp",
       "beforeTitle": "Antes",
       "afterTitle": "Después",
@@ -658,7 +653,7 @@
           "tone": "success"
         },
         {
-          "text": "Configurador avanzado: productos con mas de un tamaño, ingredientes adicionales y creador de pizzas con precios dinamicos",
+          "text": "Configurador avanzado: productos con más de un tamaño, ingredientes adicionales y creador de pizzas con precios dinámicos",
           "tone": "success"
         }
       ],

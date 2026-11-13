@@ -10,11 +10,6 @@
     "description": "Cuéntanos tu visión. Agenda una conversación sin compromiso y descubre cómo podemos potenciar tu negocio como tu aliado tecnológico.",
     "socialLinks": [
       {
-        "name": "GitHub",
-        "url": "https://github.com/Aliadodigital-cl",
-        "icon": "simple-icons:github"
-      },
-      {
         "name": "Instagram",
         "url": "https://www.instagram.com/aliadodigital.cl/",
         "icon": "simple-icons:instagram"
