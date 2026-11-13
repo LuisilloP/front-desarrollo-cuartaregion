@@ -106,7 +106,28 @@ export type CaseStudy = {
   gallery?: string[];
   screenshotsBefore?: string[];
   screenshotsAfter?: string[];
-  impactMetrics?: Array<{ label?: string; value?: string; suffix?: string; variant?: string }>;
+  /** Métricas con número. `before` es opcional (antes/después). */
+  impactMetrics?: Array<{
+    label?: string;
+    value?: string;
+    before?: string;
+    suffix?: string;
+    variant?: string;
+  }>;
+  /** Frase de resultado con número para el encabezado. */
+  headline?: string;
+  /** Servicio contratado, p. ej. "Landing page". */
+  service?: string;
+  /** Logo del cliente (bajo /public). */
+  logo?: string;
+  /** Pasos de "lo que hicimos", con captura opcional. */
+  steps?: Array<{ title: string; text?: string; image?: string; imageAlt?: string }>;
+  testimonial?: {
+    quote: string;
+    name: string;
+    role?: string;
+    photo?: string;
+  };
   problem?: string[] | string;
   results?: string[] | string;
   order?: number;

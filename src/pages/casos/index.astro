@@ -1,0 +1,159 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/layout/Navbar.astro";
+import Footer from "../../components/layout/Footer.astro";
+import WhatsAppFloatingButton from "../../components/layout/WhatsAppFloatingButton.astro";
+import CaseCard from "../../components/ui/CaseCard.astro";
+import { fetchCases, fetchSiteSettings } from "../../lib/api/services";
+import type { Content } from "../../lib/api/types";
+import { grupoDeCaso, gruposConCasos, ordenarCasos } from "../../data/casos";
+import contentJson from "../../data/content.json";
+import { env } from "../../lib/env";
+
+const content = contentJson as Content;
+const siteSettings = await fetchSiteSettings();
+const cases = ordenarCasos((await fetchCases()).filter((item) => Boolean(item.slug)));
+const grupos = gruposConCasos(cases);
+
+const pageTitle = "Casos de éxito | Aliado Digital";
+const pageDescription =
+  "Proyectos reales de páginas web, sistemas y marketing para pymes de La Serena, Coquimbo, Ovalle y la Región de Coquimbo.";
+
+const siteUrl = env.siteUrl ?? (Astro.site ? Astro.site.toString() : undefined);
+const toAbsolute = (path: string) =>
+  siteUrl ? new URL(path, siteUrl).toString() : path;
+const itemListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Casos de éxito de Aliado Digital",
+  itemListElement: cases.map((item, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: item.clientName,
+    url: toAbsolute(`/casos/${item.slug}/`),
+  })),
+};
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Inicio", item: toAbsolute("/") },
+    { "@type": "ListItem", position: 2, name: "Casos", item: toAbsolute("/casos/") },
+  ],
+};
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  siteSettings={siteSettings}
+  structuredData={[itemListSchema, breadcrumbSchema]}
+>
+  <Navbar siteSettings={siteSettings} navLinks={content.navLinks} />
+
+  <main class="hero-safe-offset overflow-x-hidden pb-24">
+    <header class="section-shell pt-12 pb-10 text-center sm:pt-16">
+      <h1 class="mx-auto max-w-3xl text-4xl font-bold tracking-tight text-content sm:text-5xl">
+        Casos de éxito
+      </h1>
+      <p class="mx-auto mt-4 max-w-2xl text-lg text-muted">
+        Proyectos reales para pymes de la Región de Coquimbo: qué problema
+        tenían, qué hicimos y cómo quedó.
+      </p>
+    </header>
+
+    <section class="section-shell">
+      {grupos.length > 1 && (
+        <div
+          class="mb-10 flex flex-wrap justify-center gap-2"
+          role="group"
+          aria-label="Filtrar casos por rubro"
+          data-case-filters
+        >
+          <button
+            type="button"
+            data-filter="todos"
+            aria-pressed="true"
+            class="case-filter rounded-full border border-border/70 px-4 py-2 text-sm font-medium text-content transition"
+          >
+            Todos
+          </button>
+          {grupos.map((grupo) => (
+            <button
+              type="button"
+              data-filter={grupo.slug}
+              aria-pressed="false"
+              class="case-filter rounded-full border border-border/70 px-4 py-2 text-sm font-medium text-content transition"
+            >
+              {grupo.nombre}
+            </button>
+          ))}
+        </div>
+      )}
+
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" data-case-grid>
+        {cases.map((caseItem) => (
+          <div data-grupo={grupoDeCaso(caseItem)}>
+            <CaseCard caseItem={caseItem} />
+          </div>
+        ))}
+      </div>
+
+      <p class="mt-8 text-center text-sm text-muted" data-case-empty hidden>
+        No hay casos en este rubro todavía.
+      </p>
+    </section>
+  </main>
+
+  <Footer
+    siteSettings={siteSettings}
+    navLinks={content.navLinks}
+    legalPages={content.legalPages}
+  />
+  <WhatsAppFloatingButton
+    whatsappNumber={siteSettings.whatsappNumber}
+    message="Hola! Vi sus casos de éxito y quiero algo así para mi negocio."
+  />
+</Layout>
+
+<style>
+  .case-filter[aria-pressed="true"] {
+    @apply border-primary bg-primary text-contrast;
+  }
+  .case-filter[aria-pressed="false"]:hover {
+    @apply border-primary/60;
+  }
+</style>
+
+<script>
+  const filters = document.querySelectorAll<HTMLButtonElement>(".case-filter");
+  const items = document.querySelectorAll<HTMLElement>("[data-case-grid] > [data-grupo]");
+  const empty = document.querySelector<HTMLElement>("[data-case-empty]");
+
+  const apply = (grupo: string) => {
+    let visible = 0;
+    items.forEach((item) => {
+      const show = grupo === "todos" || item.dataset.grupo === grupo;
+      item.hidden = !show;
+      if (show) visible += 1;
+    });
+    filters.forEach((button) =>
+      button.setAttribute("aria-pressed", String(button.dataset.filter === grupo)),
+    );
+    if (empty) empty.hidden = visible > 0;
+  };
+
+  filters.forEach((button) =>
+    button.addEventListener("click", () => {
+      const grupo = button.dataset.filter ?? "todos";
+      apply(grupo);
+      const url = new URL(window.location.href);
+      if (grupo === "todos") url.searchParams.delete("rubro");
+      else url.searchParams.set("rubro", grupo);
+      history.replaceState(null, "", url);
+    }),
+  );
+
+  const inicial = new URL(window.location.href).searchParams.get("rubro");
+  if (inicial && [...filters].some((b) => b.dataset.filter === inicial)) apply(inicial);
+</script>

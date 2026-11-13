@@ -22,10 +22,6 @@
   },
   "navLinks": [
     {
-      "href": "/#inicio",
-      "label": "Inicio"
-    },
-    {
       "href": "/#servicios",
       "label": "Servicios"
     },
@@ -34,16 +30,8 @@
       "label": "Planes"
     },
     {
-      "href": "/desarrollo",
-      "label": "Desarrollo"
-    },
-    {
-      "href": "/marketing",
-      "label": "Marketing"
-    },
-    {
-      "href": "/#casos-de-exito",
-      "label": "Casos de éxito"
+      "href": "/casos",
+      "label": "Casos"
     },
     {
       "href": "/#nosotros",
@@ -381,7 +369,9 @@
       "ctaPrimaryLabel": "Quiero una landing premium",
       "siteUrl": "https://clinicamontblanc.cl",
       "order": 1,
-      "featured": true
+      "featured": true,
+      "service": "Landing page",
+      "logo": "/images/logos/montblanc.webp"
     },
     {
       "slug": "propiedades-arenas",
@@ -439,7 +429,9 @@
       "ctaPrimaryLabel": "Quiero una vitrina inmobiliaria",
       "siteUrl": "https://propiedadesarenas.cl",
       "order": 2,
-      "featured": true
+      "featured": true,
+      "service": "Landing page",
+      "logo": "/images/logos/propiedades-arenas.webp"
     },
     {
       "slug": "ansar",
@@ -493,7 +485,15 @@
       "ctaPrimaryLabel": "Quiero impulsar mis redes con estrategia",
       "siteUrl": "https://www.instagram.com/ansarautomotriz/",
       "order": 3,
-      "featured": true
+      "featured": true,
+      "service": "Marketing digital",
+      "headline": "Un promedio de 80 a 160+ clientes potenciales escribiendo por redes sociales",
+      "impactMetrics": [
+        {
+          "label": "Clientes potenciales que escribieron por redes (promedio)",
+          "value": "80–160+"
+        }
+      ]
     },
     {
       "slug": "dr-harald-ziller",
@@ -501,7 +501,7 @@
       "title": "Plan mixto: desarrollo web y presencia digital",
       "industry": "Salud",
       "city": "Ovalle",
-      "summary": "Plan mixto que incluyo desarrollo de página web y mejora de presencia digital en redes sociales, con creación de cuenta de Google, implementación de WhatsApp Business, optimización de LinkedIn y contenido para fortalecer su posicionamiento online.",
+      "summary": "Plan mixto que incluyó desarrollo de página web y mejora de presencia digital en redes sociales, con creación de cuenta de Google, implementación de WhatsApp Business, optimización de LinkedIn y contenido para fortalecer su posicionamiento online.",
       "coverImage": "/images/portfolio/cases/haraldziller.webp",
       "beforeTitle": "Antes",
       "afterTitle": "Después",
@@ -551,7 +551,9 @@
       "ctaPrimaryLabel": "Quiero un plan mixto para mi consulta",
       "siteUrl": "https://drharaldziller.cl/",
       "order": 4,
-      "featured": false
+      "featured": false,
+      "service": "Web + presencia digital",
+      "logo": "/images/logos/dr-harald-ziller.webp"
     },
     {
       "slug": "muebleria-el-fiorentino",
@@ -613,7 +615,9 @@
       "ctaPrimaryLabel": "Quiero una web para mi negocio",
       "siteUrl": "https://elfiorentino.vercel.app/",
       "order": 5,
-      "featured": true
+      "featured": true,
+      "service": "Página web",
+      "logo": "/images/logos/muebleria-florentino.webp"
     },
     {
       "slug": "el-arlequin",
@@ -678,7 +682,8 @@
       "ctaPrimaryType": "contact",
       "ctaPrimaryLabel": "Quiero una plataforma de pedidos",
       "siteUrl": null,
-      "order": 6
+      "order": 6,
+      "service": "Sistema a medida"
     }
   ],
   "reviews": [

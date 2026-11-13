@@ -3,542 +3,412 @@ import Layout from "../../layouts/Layout.astro";
 import Navbar from "../../components/layout/Navbar.astro";
 import Footer from "../../components/layout/Footer.astro";
 import WhatsAppFloatingButton from "../../components/layout/WhatsAppFloatingButton.astro";
+import DeviceMockup from "../../components/cases/DeviceMockup.astro";
 import { fetchCases, fetchSiteSettings } from "../../lib/api/services";
-import type { CaseStudy } from "../../lib/api/types";
+import type { CaseStudy, Content } from "../../lib/api/types";
 import { buildWhatsAppLink } from "../../lib/utils";
+import { ordenarCasos } from "../../data/casos";
+import contentJson from "../../data/content.json";
 import { Icon } from "astro-icon/components";
 import { env } from "../../lib/env";
 
 export async function getStaticPaths() {
-  const cases = await fetchCases();
-  return cases
-    .filter((item) => Boolean(item.slug))
-    .map((item) => ({
-      params: { slug: item.slug },
-      props: { caseStudy: item },
-    }));
+  const cases = ordenarCasos(
+    (await fetchCases()).filter((item) => Boolean(item.slug)),
+  );
+  return cases.map((item, index) => ({
+    params: { slug: item.slug },
+    props: {
+      caseStudy: item,
+      nextCase: cases.length > 1 ? cases[(index + 1) % cases.length] : undefined,
+    },
+  }));
 }
 
-const { caseStudy } = Astro.props as { caseStudy: CaseStudy };
+const { caseStudy, nextCase } = Astro.props as {
+  caseStudy: CaseStudy;
+  nextCase?: CaseStudy;
+};
 if (!caseStudy) throw new Error("Case study not found");
 
+const content = contentJson as Content;
 const siteSettings = await fetchSiteSettings();
-const pageTitle = caseStudy.title || caseStudy.clientName || "Caso";
-const seoTitle = `Caso: ${pageTitle} | ${siteSettings.siteName}`;
-const summary =
-  typeof caseStudy.summary === "string" ? caseStudy.summary.trim() : "";
-const industry =
-  typeof caseStudy.industry === "string" ? caseStudy.industry.trim() : "";
-const city = typeof caseStudy.city === "string" ? caseStudy.city.trim() : "";
-const coverImage = caseStudy.coverImage;
-const coverAlt = caseStudy.coverImageAlt || `Caso ${pageTitle}`;
+
+const clean = (value?: string | null) =>
+  typeof value === "string" ? value.trim() : "";
+
+const clientName = clean(caseStudy.clientName);
+const pageTitle = clean(caseStudy.title) || clientName || "Caso";
+const headline = clean(caseStudy.headline) || pageTitle;
+const seoTitle = `Caso ${clientName || pageTitle} | ${siteSettings.siteName}`;
+const summary = clean(caseStudy.summary);
+const industry = clean(caseStudy.industry);
+const city = clean(caseStudy.city);
+const service = clean(caseStudy.service);
+const logo = clean(caseStudy.logo);
+const coverImage = clean(caseStudy.coverImage);
+const coverAlt =
+  clean(caseStudy.coverImageAlt) || `Sitio de ${clientName || pageTitle}`;
+
+// --- Enlace real al sitio -------------------------------------------------
+const normalizeUrl = (value?: string | null) => {
+  const trimmed = clean(value);
+  if (!trimmed) return undefined;
+  return /^https?:\/\//.test(trimmed) ? trimmed : `https://${trimmed}`;
+};
+const siteLink = normalizeUrl(caseStudy.siteUrl);
+const siteLabel = siteLink
+  ? siteLink.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")
+  : "";
+const siteIsSocial = siteLink ? /instagram\.com|facebook\.com/.test(siteLink) : false;
+
+// --- Métricas con número (solo se muestran si existen) -------------------
+const metrics = (caseStudy.impactMetrics ?? [])
+  .filter((metric) => clean(metric?.value) && clean(metric?.label))
+  .slice(0, 3);
+
+// --- Problema y lo que hicimos -------------------------------------------
+const toTexts = (
+  points: CaseStudy["beforePoints"],
+  fallback: string | string[] | undefined,
+) => {
+  const fromPoints = (points ?? []).map((point) => clean(point?.text)).filter(Boolean);
+  if (fromPoints.length > 0) return fromPoints;
+  return (Array.isArray(fallback) ? fallback : fallback ? [fallback] : [])
+    .map((text) => clean(text))
+    .filter(Boolean);
+};
+const problemPoints = toTexts(caseStudy.beforePoints, caseStudy.problem);
+const steps = (caseStudy.steps ?? []).filter((step) => clean(step?.title));
+const donePoints = toTexts(caseStudy.afterPoints, caseStudy.results);
+
+const testimonial =
+  caseStudy.testimonial && clean(caseStudy.testimonial.quote) && clean(caseStudy.testimonial.name)
+    ? caseStudy.testimonial
+    : undefined;
+
+// --- CTA --------------------------------------------------------------------
+const whatsappUrl = buildWhatsAppLink(
+  siteSettings.whatsappNumber,
+  `Hola! Vi el caso de ${clientName || pageTitle} y quiero algo así para mi negocio.`,
+);
+
+// --- Datos estructurados --------------------------------------------------
 const siteUrl = env.siteUrl ?? (Astro.site ? Astro.site.toString() : undefined);
+const toAbsolute = (path: string) =>
+  siteUrl ? new URL(path, siteUrl).toString() : path;
 const canonical = Astro.url
   ? Astro.url.toString()
-  : siteUrl
-    ? new URL(`/casos/${caseStudy.slug}`, siteUrl).toString()
-    : undefined;
-const ogImageAbsolute = coverImage && siteUrl ? new URL(coverImage, siteUrl).toString() : coverImage;
+  : toAbsolute(`/casos/${caseStudy.slug}/`);
 const logoUrl = siteUrl ? new URL("/logo.svg", siteUrl).toString() : undefined;
 const publisher = {
   "@type": "Organization",
   name: siteSettings.siteName,
-  ...(logoUrl ? { logo: { "@type": "ImageObject", url: logoUrl } } : {})
+  ...(logoUrl ? { logo: { "@type": "ImageObject", url: logoUrl } } : {}),
 };
-const aboutItems = [industry, caseStudy.clientName].filter(Boolean);
+const aboutItems = [industry, clientName].filter(Boolean);
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "CaseStudy",
-  name: pageTitle,
-  description: summary || pageTitle,
-  ...(canonical ? { url: canonical } : {}),
-  ...(ogImageAbsolute ? { image: ogImageAbsolute } : {}),
+  name: headline,
+  description: summary || headline,
+  url: canonical,
+  ...(coverImage ? { image: toAbsolute(coverImage) } : {}),
   ...(aboutItems.length > 0 ? { about: aboutItems } : {}),
   ...(city ? { location: { "@type": "Place", name: city } } : {}),
   author: publisher,
-  publisher
+  publisher,
 };
-const toAbsolute = (path: string) =>
-  siteUrl ? new URL(path, siteUrl).toString() : path;
 const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Inicio",
-      item: toAbsolute("/"),
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: pageTitle,
-      item: canonical ?? `/casos/${caseStudy.slug}`,
-    },
+    { "@type": "ListItem", position: 1, name: "Inicio", item: toAbsolute("/") },
+    { "@type": "ListItem", position: 2, name: "Casos", item: toAbsolute("/casos/") },
+    { "@type": "ListItem", position: 3, name: clientName || pageTitle, item: canonical },
   ],
 };
 
-const toList = (value: string | string[] | undefined) =>
-  Array.isArray(value) ? value : value ? [value] : [];
-const normalizePoints = (
-  items: CaseStudy["beforePoints"] | undefined,
-  fallback: string | string[] | undefined,
-  defaultTone: string,
-) => {
-  if (Array.isArray(items) && items.length > 0) {
-    return items
-      .map((item) => {
-        const text = typeof item?.text === "string" ? item.text.trim() : "";
-        if (!text) return null;
-        const tone = typeof item?.tone === "string" ? item.tone.trim() : "";
-        return { text, tone: tone || defaultTone };
-      })
-      .filter(Boolean) as Array<{ text: string; tone: string }>;
-  }
-  return toList(fallback).map((text) => ({ text, tone: defaultTone }));
-};
-
-const beforeTitle = (caseStudy.beforeTitle ?? "Antes").trim() || "Antes";
-const afterTitle = (caseStudy.afterTitle ?? "Despues").trim() || "Despues";
-const beforePoints = normalizePoints(
-  caseStudy.beforePoints,
-  caseStudy.problem,
-  "danger",
-);
-const afterPoints = normalizePoints(
-  caseStudy.afterPoints,
-  caseStudy.results,
-  "success",
-);
-const hasComparison = beforePoints.length > 0 || afterPoints.length > 0;
-
-const impactTags = (caseStudy.impactTags ?? []).filter(
-  (tag) => typeof tag?.text === "string" && tag.text.trim().length > 0,
-);
-const heroTags = impactTags.slice(0, 3);
-
-const toneDots: Record<string, string> = {
-  danger: "bg-content/40",
-  warning: "bg-content/40",
-  success: "bg-content/40",
-  info: "bg-content/40",
-  neutral: "bg-content/20",
-};
-
-const getDotClass = (tone?: string, fallback?: string) => {
-  const key = (tone ?? fallback ?? "").toLowerCase();
-  return toneDots[key] ?? toneDots.neutral;
-};
-
-const tagStyles: Record<string, string> = {
-  blue:
-    "border-sky-500/30 bg-sky-500/10 text-sky-700 dark:border-sky-400/30 dark:bg-sky-500/20 dark:text-sky-200",
-  green:
-    "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:border-emerald-400/30 dark:bg-emerald-500/20 dark:text-emerald-200",
-  red:
-    "border-rose-500/30 bg-rose-500/10 text-rose-700 dark:border-rose-400/30 dark:bg-rose-500/20 dark:text-rose-200",
-  yellow:
-    "border-amber-500/30 bg-amber-500/10 text-amber-700 dark:border-amber-400/30 dark:bg-amber-500/20 dark:text-amber-200",
-  orange:
-    "border-orange-500/30 bg-orange-500/10 text-orange-700 dark:border-orange-400/30 dark:bg-orange-500/20 dark:text-orange-200",
-  purple:
-    "border-violet-500/30 bg-violet-500/10 text-violet-700 dark:border-violet-400/30 dark:bg-violet-500/20 dark:text-violet-200",
-  slate: "border-border/70 bg-surface-strong/40 text-content",
-};
-
-const getTagClass = (variant?: string) => {
-  const key = (variant ?? "").trim().toLowerCase();
-  return tagStyles[key] ?? tagStyles.slate;
-};
-
-const normalizeUrl = (value?: string | null) => {
-  if (!value) return undefined;
-  const trimmed = value.trim();
-  if (!trimmed) return undefined;
-  if (trimmed.startsWith("#") || trimmed.startsWith("/")) return trimmed;
-  if (trimmed.startsWith("http://") || trimmed.startsWith("https://"))
-    return trimmed;
-  return `https://${trimmed}`;
-};
-
-const siteUrlExternal = normalizeUrl(caseStudy.siteUrl ?? undefined);
-const isExternalSite = Boolean(
-  siteUrlExternal && !siteUrlExternal.startsWith("#") && !siteUrlExternal.startsWith("/"),
-);
-const whatsappMessage = `Hola! Me interesa el caso ${pageTitle}.`;
-const whatsappUrl = buildWhatsAppLink(
-  siteSettings.whatsappNumber,
-  whatsappMessage,
-);
-const ctaType = (caseStudy.ctaPrimaryType ?? "").trim().toLowerCase();
-const ctaLabel =
-  (caseStudy.ctaPrimaryLabel ?? "").trim() || "Quiero algo similar";
-const ctaUrlOverride = normalizeUrl(caseStudy.ctaPrimaryUrl ?? undefined);
-const isFormCta = ["form", "formulario"].includes(ctaType);
-const isContactCta = ["contact", "contacto", "whatsapp", "wpp"].includes(
-  ctaType,
-);
-const labelIncludesWhatsApp = ctaLabel.toLowerCase().includes("whatsapp");
-const ctaLabelFinal =
-  (isFormCta || isContactCta) && !labelIncludesWhatsApp
-    ? `${ctaLabel} por WhatsApp`
-    : ctaLabel;
-
-let ctaHref = ctaUrlOverride;
-if (!ctaHref) {
-  if (isFormCta || isContactCta) ctaHref = whatsappUrl ?? undefined;
-  else if (siteUrlExternal) ctaHref = siteUrlExternal;
-}
-
-const isExternalCta = Boolean(
-  ctaHref && !ctaHref.startsWith("#") && !ctaHref.startsWith("/"),
-);
-const ctaClass = isContactCta
-  ? "bg-[#25D366] text-white hover:brightness-95"
-  : "bg-gradient-to-r from-primary to-accent text-contrast hover:brightness-105";
-const showSiteButton = Boolean(siteUrlExternal && siteUrlExternal !== ctaHref);
-const backHref = "/#casos-de-exito";
+const fichaRows = [
+  { label: "Cliente", value: clientName },
+  { label: "Rubro", value: industry },
+  { label: "Ciudad", value: city },
+  { label: "Servicio", value: service },
+].filter((row) => row.value);
 ---
 
 <Layout
   title={seoTitle}
-  description={summary || pageTitle}
-  image={coverImage}
+  description={summary || headline}
+  image={coverImage || undefined}
   imageAlt={coverAlt}
   siteSettings={siteSettings}
   structuredData={[structuredData, breadcrumbSchema]}
 >
-  <Navbar siteSettings={siteSettings} />
-  <main class="pb-20">
-    <section class="py-16">
-      <div
-        class="section-shell grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center"
+  <Navbar siteSettings={siteSettings} navLinks={content.navLinks} />
+
+  <main class="hero-safe-offset overflow-x-hidden pb-24">
+    <!-- 1. Encabezado -->
+    <section class="section-shell pt-10 pb-12 sm:pt-14">
+      <a
+        id="case-back-link"
+        href="/casos"
+        class="inline-flex items-center gap-1.5 text-sm font-medium text-muted transition hover:text-content"
       >
+        <Icon name="lucide:arrow-left" class="h-4 w-4" aria-hidden="true" />
+        Todos los casos
+      </a>
+
+      <div class="mt-8 grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:items-center">
         <div class="space-y-6">
-          <div class="space-y-3">
-            <div class="flex flex-wrap items-center gap-3 mt-10">
+          <div class="flex items-center gap-4">
+            {logo && (
+              <img
+                src={logo}
+                alt={`Logo de ${clientName}`}
+                class="h-14 w-14 shrink-0 rounded-xl border border-border/70 bg-white object-contain p-1.5"
+                loading="eager"
+              />
+            )}
+            <div>
+              {clientName && <p class="text-lg font-semibold text-content">{clientName}</p>}
+              <p class="text-sm text-muted">
+                {[industry, city].filter(Boolean).join(" · ")}
+              </p>
+            </div>
+          </div>
+
+          {service && (
+            <p class="pill w-fit">{service}</p>
+          )}
+
+          <h1 class="text-3xl font-bold leading-tight tracking-tight text-content [text-wrap:balance] sm:text-4xl lg:text-5xl">
+            {headline}
+          </h1>
+
+          {summary && <p class="max-w-prose text-lg text-muted">{summary}</p>}
+
+          <div class="flex flex-wrap gap-3">
+            {whatsappUrl && (
               <a
-                  id="case-back-link"
-                  class="pill gap-0 border border-border/70 bg-card px-3 py-1 text-content/90 transition hover:border-primary/40 hover:text-primary"
-                  href={backHref}
-                >
-                  <Icon
-                    name="lucide:arrow-left"
-                    class="h-4 w-4"
-                    aria-hidden="true"
-                  />
-                  Volver
-                </a>
-            </div>
-            {
-              caseStudy.clientName && (
-                <p class="text-sm font-semibold text-content/80">
-                  {caseStudy.clientName}
-                </p>
-              )
-            }
-            <h1 class="text-3xl sm:text-4xl font-bold text-content">
-              {pageTitle}
-            </h1>
-            {
-              summary && (
-                <p class="border-l-2 border-primary/40 pl-4 text-content/80">
-                  {summary}
-                </p>
-              )
-            }
-          </div>
-
-          {
-            (industry || city || heroTags.length > 0) && (
-              <div class="flex flex-wrap items-center gap-2 text-xs font-semibold text-content/70">
-                {industry && (
-                  <span class="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card px-3 py-1 text-content/80">
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      class="h-4 w-4"
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M4 20V4h10v16M14 20V8h6v12M3 20h18"
-                        stroke="currentColor"
-                        stroke-width="1.6"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                    {industry}
-                  </span>
-                )}
-                {city && (
-                  <span class="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card px-3 py-1 text-content/80">
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      class="h-4 w-4"
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M12 21s6-6.4 6-11a6 6 0 1 0-12 0c0 4.6 6 11 6 11z"
-                        stroke="currentColor"
-                        stroke-width="1.6"
-                      />
-                      <circle
-                        cx="12"
-                        cy="10"
-                        r="2.5"
-                        stroke="currentColor"
-                        stroke-width="1.6"
-                      />
-                    </svg>
-                    {city}
-                  </span>
-                )}
-                {heroTags.map((tag) => (
-                  <span
-                    class={`inline-flex items-center rounded-full border px-3 py-1 ${getTagClass(tag.variant)}`}
-                  >
-                    {tag.text}
-                  </span>
-                ))}
-              </div>
-            )
-          }
-
-          <div class="flex flex-wrap items-center gap-3">
-            {
-              ctaHref && (
-                <a
-                  href={ctaHref}
-                  target={isExternalCta ? "_blank" : undefined}
-                  rel={isExternalCta ? "noopener noreferrer" : undefined}
-                  class={`inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold shadow-soft transition ${ctaClass}`}
-                >
-                  {isContactCta && (
-                    <Icon
-                      name="simple-icons:whatsapp"
-                      class="h-4 w-4 text-white"
-                      aria-hidden="true"
-                    />
-                  )}
-                  {ctaLabelFinal}
-                </a>
-              )
-            }
-            {
-              showSiteButton && (
-                <a
-                  class="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card px-5 py-3 text-sm font-semibold text-content transition hover:border-primary/40 hover:text-primary"
-                  href={siteUrlExternal}
-                  target={isExternalSite ? "_blank" : undefined}
-                  rel={isExternalSite ? "noopener noreferrer" : undefined}
-                >
-                  Ver sitio
-                  <Icon
-                    name="lucide:arrow-up-right"
-                    class="h-4 w-4"
-                    aria-hidden="true"
-                  />
-                </a>
-              )
-            }
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-3 text-sm font-semibold text-white shadow-soft transition hover:shadow-lg"
+              >
+                <Icon name="simple-icons:whatsapp" class="h-4 w-4" aria-hidden="true" />
+                Quiero algo así para mi negocio
+              </a>
+            )}
+            {siteLink && (
+              <a
+                href={siteLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card px-6 py-3 text-sm font-semibold text-content transition hover:border-primary/50"
+              >
+                {siteIsSocial ? "Ver perfil" : "Ver sitio"}
+                <Icon name="lucide:arrow-up-right" class="h-4 w-4" aria-hidden="true" />
+              </a>
+            )}
           </div>
         </div>
 
-        <div class="relative">
-          <div
-            class="overflow-hidden rounded-3xl border border-border/70 bg-card shadow-soft"
-          >
-            <div class="relative aspect-video w-full bg-surface-strong/40">
-              {
-                coverImage ? (
-                  <img
-                    src={coverImage}
-                    alt={coverAlt}
-                    class="h-full w-full object-cover object-left-top"
-                    loading="lazy"
-                  />
-                ) : (
-                  <div class="h-full w-full bg-gradient-to-br from-primary/20 via-surface-strong/50 to-accent/20" />
-                )
-              }
-              <div
-                class="absolute inset-0 bg-gradient-to-t from-secondary/60 via-secondary/10 to-transparent"
-              >
-              </div>
-              <div
-                class="absolute bottom-4 left-4 right-4 text-sm font-semibold text-contrast/90"
-              >
-                {caseStudy.clientName ? caseStudy.clientName : pageTitle}
-              </div>
-            </div>
-          </div>
-        </div>
+        <!-- 3. Imagen grande -->
+        {coverImage && <DeviceMockup image={coverImage} alt={coverAlt} />}
       </div>
     </section>
 
-    <section class="section-shell grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
-      <article class="card space-y-6">
+    <!-- 2. Métricas (solo si hay números reales) -->
+    {metrics.length > 0 && (
+      <section class="section-shell pb-16" aria-labelledby="case-metrics-title">
+        <h2 id="case-metrics-title" class="sr-only">Resultados</h2>
         <div
-          class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
+          class:list={[
+            "grid gap-4",
+            metrics.length === 1 ? "max-w-md" : metrics.length === 2 ? "sm:grid-cols-2" : "sm:grid-cols-3",
+          ]}
         >
-          <div>
-            <p class="text-xs uppercase tracking-wide text-content/70">
-              Comparativo
-            </p>
-            <h2 class="text-2xl font-semibold text-content">
-              {beforeTitle} vs {afterTitle}
-            </h2>
-          </div>
-          {
-            hasComparison && (
-              <p class="text-sm text-muted">
-                Problema, respuesta y resultado en contexto real.
+          {metrics.map((metric) => (
+            <div class="rounded-2xl border border-border/70 bg-card p-6">
+              <p class="text-4xl font-bold tracking-tight text-content sm:text-5xl">
+                {metric.value}{metric.suffix && <span class="text-2xl">{metric.suffix}</span>}
               </p>
-            )
-          }
-        </div>
-
-        {
-          hasComparison ? (
-            <div
-              class={`grid items-stretch gap-4 ${beforePoints.length > 0 && afterPoints.length > 0 ? "md:grid-cols-2" : ""}`}
-            >
-              {beforePoints.length > 0 && (
-                <div class="h-full overflow-hidden rounded-3xl border border-red-500/20 bg-card">
-                  <div class="bg-red-500/10 px-4 py-2 text-sm font-semibold text-red-600 dark:bg-red-500/20 dark:text-red-200">
-                    {beforeTitle}
-                  </div>
-                  <ul class="space-y-3 p-4 text-sm text-muted">
-                    {beforePoints.map((point) => (
-                      <li class="flex items-start gap-3">
-                        <Icon
-                          name="lucide:x"
-                          class="mt-0.5 h-5 w-5 shrink-0 text-red-500"
-                          aria-hidden="true"
-                        />
-                        <span>{point.text}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              {metric.before && (
+                <p class="mt-1 text-sm text-muted">
+                  Antes: {metric.before}{metric.suffix}
+                </p>
               )}
-              {afterPoints.length > 0 && (
-                <div class="h-full overflow-hidden rounded-3xl border border-emerald-500/20 bg-card">
-                  <div class="bg-emerald-500/10 px-4 py-2 text-sm font-semibold text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-200">
-                    {afterTitle}
-                  </div>
-                  <ul class="space-y-3 p-4 text-sm text-muted">
-                    {afterPoints.map((point) => (
-                      <li class="flex items-start gap-3">
-                        <Icon
-                          name="lucide:check"
-                          class="mt-0.5 h-5 w-5 shrink-0 text-green-500"
-                          aria-hidden="true"
-                        />
-                        <span>{point.text}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+              <p class="mt-3 text-sm font-medium text-muted">{metric.label}</p>
             </div>
-          ) : (
-            <p class="text-sm text-muted">
-              Aun no hay puntos comparativos registrados para este caso.
-            </p>
-          )
-        }
-      </article>
+          ))}
+        </div>
+      </section>
+    )}
 
-      <aside class="space-y-4 lg:sticky lg:top-24">
-        <div class="card space-y-3">
-          <div class="flex items-center justify-between">
-            <h3 class="text-lg font-semibold text-content">Impacto</h3>
-            <Icon
-              name="lucide:activity"
-              class="h-4 w-4 text-primary"
-              aria-hidden="true"
-            />
+    <!-- 4. Problema y lo que hicimos -->
+    {(problemPoints.length > 0 || steps.length > 0 || donePoints.length > 0) && (
+      <section class="section-shell grid gap-6 pb-16 lg:grid-cols-[0.8fr_1.2fr]">
+        {problemPoints.length > 0 && (
+          <div class="rounded-2xl border border-border/70 bg-card p-6 sm:p-8">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-muted">El problema</p>
+            <ul class="mt-5 space-y-3 text-content">
+              {problemPoints.map((text) => (
+                <li class="flex items-start gap-3">
+                  <Icon name="lucide:circle-alert" class="mt-0.5 h-5 w-5 shrink-0 text-rose-500" aria-hidden="true" />
+                  <span>{text}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-          {
-            impactTags.length > 0 ? (
-              <div class="flex flex-wrap gap-2">
-                {impactTags.map((tag) => (
-                  <span
-                    class={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold ${getTagClass(
-                      tag.variant,
-                    )}`}
-                  >
-                    {tag.text}
+        )}
+
+        <div class="rounded-2xl border border-border/70 bg-card p-6 sm:p-8">
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-muted">Lo que hicimos</p>
+          {steps.length > 0 ? (
+            <ol class="mt-5 space-y-8">
+              {steps.map((step, index) => (
+                <li class="grid gap-4 sm:grid-cols-[auto_1fr]">
+                  <span class="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-content">
+                    {index + 1}
                   </span>
-                ))}
-              </div>
-            ) : (
-              <p class="text-sm text-muted">
-                Metricas de impacto en preparacion.
-              </p>
-            )
-          }
+                  <div class="space-y-3">
+                    <h3 class="font-semibold text-content">{step.title}</h3>
+                    {step.text && <p class="text-muted">{step.text}</p>}
+                    {step.image && (
+                      <img
+                        src={step.image}
+                        alt={step.imageAlt ?? step.title}
+                        class="w-full rounded-xl border border-border/70"
+                        loading="lazy"
+                      />
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <ol class="mt-5 space-y-4">
+              {donePoints.map((text, index) => (
+                <li class="flex items-start gap-4">
+                  <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-content">
+                    {index + 1}
+                  </span>
+                  <span class="pt-1 text-content">{text}</span>
+                </li>
+              ))}
+            </ol>
+          )}
         </div>
+      </section>
+    )}
 
-        <div class="card space-y-4">
-          <div class="flex items-center justify-between">
-            <h3 class="text-lg font-semibold text-content">
-              Ficha del proyecto
-            </h3>
-            <Icon
-              name="lucide:clipboard-list"
-              class="h-4 w-4 text-accent"
-              aria-hidden="true"
-            />
-          </div>
-          <dl class="space-y-3 text-sm">
-            <div class="flex items-center justify-between gap-3">
-              <dt class="text-muted">Cliente</dt>
-              <dd class="font-semibold text-content">
-                {caseStudy.clientName || "Sin definir"}
+    <!-- 5. Testimonio (solo si existe) -->
+    {testimonial && (
+      <section class="section-shell pb-16">
+        <figure class="mx-auto max-w-3xl rounded-2xl border border-border/70 bg-card p-8 text-center sm:p-10">
+          <Icon name="lucide:quote" class="mx-auto h-8 w-8 text-accent" aria-hidden="true" />
+          <blockquote class="mt-4 text-xl font-medium leading-relaxed text-content [text-wrap:pretty]">
+            “{testimonial.quote}”
+          </blockquote>
+          <figcaption class="mt-6 flex items-center justify-center gap-3">
+            {testimonial.photo && (
+              <img
+                src={testimonial.photo}
+                alt={testimonial.name}
+                class="h-12 w-12 rounded-full object-cover"
+                loading="lazy"
+              />
+            )}
+            <span class="text-left">
+              <span class="block font-semibold text-content">{testimonial.name}</span>
+              {testimonial.role && <span class="block text-sm text-muted">{testimonial.role}</span>}
+            </span>
+          </figcaption>
+        </figure>
+      </section>
+    )}
+
+    <!-- 6. Ficha -->
+    <section class="section-shell pb-16">
+      <div class="rounded-2xl border border-border/70 bg-card p-6 sm:p-8">
+        <h2 class="text-lg font-semibold text-content">Ficha del proyecto</h2>
+        <dl class="mt-5 grid gap-x-8 gap-y-4 text-sm sm:grid-cols-2 lg:grid-cols-5">
+          {fichaRows.map((row) => (
+            <div>
+              <dt class="text-muted">{row.label}</dt>
+              <dd class="mt-0.5 font-semibold text-content">{row.value}</dd>
+            </div>
+          ))}
+          {siteLink && (
+            <div>
+              <dt class="text-muted">{siteIsSocial ? "Perfil" : "Sitio"}</dt>
+              <dd class="mt-0.5 font-semibold">
+                <a
+                  href={siteLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="break-all text-accent hover:underline dark:text-highlight"
+                >
+                  {siteLabel}
+                </a>
               </dd>
             </div>
-            <div class="flex items-center justify-between gap-3">
-              <dt class="text-muted">Industria</dt>
-              <dd class="font-semibold text-content">
-                {industry || "Sin definir"}
-              </dd>
-            </div>
-            <div class="flex items-center justify-between gap-3">
-              <dt class="text-muted">Ciudad</dt>
-              <dd class="font-semibold text-content">
-                {city || "Sin definir"}
-              </dd>
-            </div>
-            <div class="flex items-center justify-between gap-3">
-              <dt class="text-muted">Sitio</dt>
-              <dd class="font-semibold text-content">
-                {siteUrlExternal ? "Disponible" : "No publicado"}
-              </dd>
-            </div>
-          </dl>
+          )}
+        </dl>
+      </div>
+    </section>
+
+    <!-- 7. Siguiente caso + CTA -->
+    <section class="section-shell">
+      <div class="grid gap-6 lg:grid-cols-2">
+        {nextCase && (
+          <a
+            href={`/casos/${nextCase.slug}`}
+            class="group flex items-center gap-5 rounded-2xl border border-border/70 bg-card p-6 transition hover:border-primary/50"
+          >
+            {nextCase.coverImage && (
+              <img
+                src={nextCase.coverImage}
+                alt=""
+                class="h-20 w-28 shrink-0 rounded-lg object-cover object-left-top"
+                loading="lazy"
+              />
+            )}
+            <span class="min-w-0 flex-1">
+              <span class="block text-xs font-semibold uppercase tracking-[0.2em] text-muted">Siguiente caso</span>
+              <span class="mt-1 block font-semibold text-content">{nextCase.clientName}</span>
+              <span class="block truncate text-sm text-muted">{nextCase.title}</span>
+            </span>
+            <Icon name="lucide:arrow-right" class="h-5 w-5 shrink-0 text-muted transition group-hover:translate-x-1 group-hover:text-content" aria-hidden="true" />
+          </a>
+        )}
+        <div class="flex flex-col justify-center gap-4 rounded-2xl bg-slate-900 p-6 text-white sm:p-8">
+          <p class="text-xl font-semibold">¿Quieres algo así para tu negocio?</p>
+          <p class="text-white/70">Cuéntanos qué necesitas y te respondemos en 1 día hábil.</p>
+          {whatsappUrl && (
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex w-fit items-center gap-2 rounded-full bg-[#25D366] px-6 py-3 text-sm font-semibold text-white transition hover:shadow-lg"
+            >
+              <Icon name="simple-icons:whatsapp" class="h-4 w-4" aria-hidden="true" />
+              Quiero algo así para mi negocio
+            </a>
+          )}
         </div>
-      </aside>
+      </div>
     </section>
   </main>
 
-  <Footer siteSettings={siteSettings} />
+  <Footer
+    siteSettings={siteSettings}
+    navLinks={content.navLinks}
+    legalPages={content.legalPages}
+  />
   <WhatsAppFloatingButton
     whatsappNumber={siteSettings.whatsappNumber}
-    message="Hola! Me interesa este caso."
+    message={`Hola! Vi el caso de ${clientName || pageTitle} y quiero algo así para mi negocio.`}
   />
 </Layout>
-
-<script is:inline>
-  const backLink = document.getElementById("case-back-link");
-  if (backLink) {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("from") === "marketing") {
-      backLink.setAttribute("href", "/marketing#casos-de-exito");
-    }
-  }
-</script>
