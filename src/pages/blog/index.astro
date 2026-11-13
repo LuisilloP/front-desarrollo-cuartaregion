@@ -2,91 +2,104 @@
 import Layout from "../../layouts/Layout.astro";
 import Navbar from "../../components/layout/Navbar.astro";
 import Footer from "../../components/layout/Footer.astro";
-import { fetchPostsPage, fetchSiteSettings } from "../../lib/api/services";
+import WhatsAppFloatingButton from "../../components/layout/WhatsAppFloatingButton.astro";
+import PostCard from "../../components/blog/PostCard.astro";
+import { fetchSiteSettings } from "../../lib/api/services";
+import { obtenerPosts } from "../../lib/blog";
+import { categoriasBlog } from "../../data/blog";
+import type { Content } from "../../lib/api/types";
+import contentJson from "../../data/content.json";
+import { env } from "../../lib/env";
 
-const { data: posts, pagination } = await fetchPostsPage({
-  page: 1,
-  pageSize: 6,
-});
+const content = contentJson as Content;
 const siteSettings = await fetchSiteSettings();
-const pageTitle = "Blog de Marketing y Web | Aliado Digital";
+const posts = await obtenerPosts();
+// El marcado como `destacado` va primero; si no hay, el más reciente.
+const principal = posts.find((post) => post.data.destacado) ?? posts[0];
+const destacado = principal;
+const resto = posts.filter((post) => post !== principal);
+const categoriasConPosts = categoriasBlog.filter((cat) =>
+  posts.some((post) => post.data.category === cat.slug),
+);
+
+const pageTitle = "Blog: páginas web, marketing y datos personales para pymes | Aliado Digital";
 const pageDescription =
-  "Guías, casos y consejos sobre marketing digital, desarrollo web y automatización para pymes en Chile.";
-const pageLink = (pageNumber: number) =>
-  pageNumber <= 1 ? "/blog" : `/blog/${pageNumber}`;
+  "Guías prácticas para pymes de la Región de Coquimbo: páginas web, campañas, WhatsApp y cómo cumplir la Ley 21.719 de datos personales.";
+
+const siteUrl = env.siteUrl ?? (Astro.site ? Astro.site.toString() : undefined);
+const toAbsolute = (path: string) => (siteUrl ? new URL(path, siteUrl).toString() : path);
+const blogSchema = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  name: "Blog de Aliado Digital",
+  url: toAbsolute("/blog/"),
+  blogPost: posts.map((post) => ({
+    "@type": "BlogPosting",
+    headline: post.data.title,
+    url: toAbsolute(`/blog/${post.id}/`),
+    datePublished: post.data.pubDate.toISOString(),
+  })),
+};
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Inicio", item: toAbsolute("/") },
+    { "@type": "ListItem", position: 2, name: "Blog", item: toAbsolute("/blog/") },
+  ],
+};
 ---
 
 <Layout
   title={pageTitle}
   description={pageDescription}
   siteSettings={siteSettings}
+  structuredData={[blogSchema, breadcrumbSchema]}
 >
-  <Navbar siteSettings={siteSettings} />
-  <main class="section-shell py-16 space-y-10">
-    <header class="space-y-2 max-w-2xl">
-      <p class="pill w-fit bg-primary/10 border-primary/40 text-highlight">
-        Blog
-      </p>
-      <h1 class="text-3xl sm:text-4xl font-bold text-content">
-        Ideas y casos reales de marketing y desarrollo web
+  <link slot="head" rel="alternate" type="application/rss+xml" title="Blog de Aliado Digital" href="/blog/rss.xml" />
+  <Navbar siteSettings={siteSettings} navLinks={content.navLinks} />
+
+  <main class="hero-safe-offset overflow-x-hidden pb-24">
+    <header class="section-shell pt-12 pb-10 text-center sm:pt-16">
+      <p class="text-xs font-semibold uppercase tracking-[0.24em] text-accent dark:text-highlight">Blog</p>
+      <h1 class="mx-auto mt-3 max-w-3xl text-4xl font-bold tracking-tight text-content [text-wrap:balance] sm:text-5xl">
+        Guías prácticas para que tu negocio crezca en internet
       </h1>
-      <p class="text-muted">
-        Novedades sobre sitios Astro, automatizaciones y marketing local.
+      <p class="mx-auto mt-4 max-w-2xl text-lg text-muted">
+        Páginas web, campañas, WhatsApp y datos personales, explicado en simple
+        por ingenieros que lo hacen todos los días.
       </p>
+
+      {categoriasConPosts.length > 0 && (
+        <nav class="mt-8 flex flex-wrap justify-center gap-2" aria-label="Categorías del blog">
+          {categoriasConPosts.map((cat) => (
+            <a
+              href={`/blog/categoria/${cat.slug}`}
+              class="rounded-full border border-border/70 px-4 py-2 text-sm font-medium text-content transition hover:border-primary/60"
+            >
+              {cat.nombre}
+            </a>
+          ))}
+        </nav>
+      )}
     </header>
 
-    <section class="grid md:grid-cols-2 gap-6">
-      {
-        posts.map((post) => (
-          <article class="card flex flex-col gap-4">
-            {post.cover?.url && (
-              <img
-                src={post.cover.url}
-                alt={post.cover.alternativeText ?? post.title}
-                class="h-48 w-full object-cover rounded-2xl"
-                loading="lazy"
-              />
-            )}
-            <div class="space-y-2">
-              <h2 class="text-xl font-semibold text-content">{post.title}</h2>
-              {post.excerpt && <p class="text-sm text-muted">{post.excerpt}</p>}
-              <a
-                class="text-sm font-semibold text-highlight hover:text-contrast"
-                href={`/blog/${post.slug}`}
-              >
-                Leer articulo
-              </a>
+    <section class="section-shell">
+      {posts.length === 0 ? (
+        <p class="text-center text-muted">Pronto publicaremos el primer artículo.</p>
+      ) : (
+        <div class="space-y-6">
+          {destacado && <PostCard post={destacado} destacado />}
+          {resto.length > 0 && (
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {resto.map((post) => <PostCard post={post} />)}
             </div>
-          </article>
-        ))
-      }
+          )}
+        </div>
+      )}
     </section>
-
-    {
-      pagination.pageCount > 1 && (
-        <nav class="flex items-center gap-3">
-          {pagination.page > 1 && (
-            <a
-              class="text-sm font-semibold text-highlight hover:text-contrast"
-              href={pageLink(pagination.page - 1)}
-            >
-              Anterior
-            </a>
-          )}
-          <span class="text-sm text-muted/80">
-            Pagina {pagination.page} de {pagination.pageCount}
-          </span>
-          {pagination.page < pagination.pageCount && (
-            <a
-              class="text-sm font-semibold text-highlight hover:text-contrast"
-              href={pageLink(pagination.page + 1)}
-            >
-              Siguiente
-            </a>
-          )}
-        </nav>
-      )
-    }
   </main>
-  <Footer siteSettings={siteSettings} />
+
+  <Footer siteSettings={siteSettings} navLinks={content.navLinks} legalPages={content.legalPages} />
+  <WhatsAppFloatingButton whatsappNumber={siteSettings.whatsappNumber} message="Hola, leí su blog y tengo una consulta." />
 </Layout>

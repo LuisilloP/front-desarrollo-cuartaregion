@@ -1,0 +1,65 @@
+---
+/**
+ * Video de YouTube liviano: muestra la miniatura y carga el reproductor
+ * solo al hacer clic (no pesa en la carga de la página). Agrega el schema
+ * VideoObject para que Google muestre el video en resultados.
+ *
+ * Uso en MDX:
+ *   <VideoEmbed id="dQw4w9WgXcQ" title="..." uploadDate="2026-11-20" description="..." />
+ */
+interface Props {
+  id: string;
+  title: string;
+  uploadDate: string;
+  description?: string;
+  duration?: string; // ISO 8601, p. ej. "PT2M30S"
+}
+
+const { id, title, uploadDate, description, duration } = Astro.props as Props;
+const thumbnail = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  name: title,
+  description: description ?? title,
+  thumbnailUrl: thumbnail,
+  uploadDate,
+  embedUrl: `https://www.youtube-nocookie.com/embed/${id}`,
+  ...(duration ? { duration } : {}),
+};
+---
+
+<figure class="not-prose my-10">
+  <div class="relative aspect-video overflow-hidden rounded-2xl bg-slate-900" data-video={id}>
+    <button
+      type="button"
+      class="group absolute inset-0 h-full w-full"
+      aria-label={`Reproducir video: ${title}`}
+    >
+      <img src={thumbnail} alt="" class="h-full w-full object-cover opacity-90" loading="lazy" decoding="async" />
+      <span class="absolute inset-0 m-auto flex h-16 w-16 items-center justify-center rounded-full bg-black/70 transition group-hover:scale-110 group-hover:bg-red-600">
+        <svg viewBox="0 0 24 24" class="ml-1 h-7 w-7 fill-white" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
+      </span>
+    </button>
+  </div>
+  <figcaption class="mt-3 text-sm text-muted">{title}</figcaption>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+</figure>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-video]").forEach((box) => {
+    box.querySelector("button")?.addEventListener(
+      "click",
+      () => {
+        const iframe = document.createElement("iframe");
+        iframe.src = `https://www.youtube-nocookie.com/embed/${box.dataset.video}?autoplay=1`;
+        iframe.title = box.querySelector("button")?.getAttribute("aria-label") ?? "Video";
+        iframe.allow = "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture";
+        iframe.allowFullscreen = true;
+        iframe.className = "absolute inset-0 h-full w-full";
+        box.replaceChildren(iframe);
+      },
+      { once: true },
+    );
+  });
+</script>

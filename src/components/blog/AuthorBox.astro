@@ -1,0 +1,49 @@
+---
+/**
+ * Caja de autor. Si el nombre coincide con un socio de src/data/equipo.ts
+ * usa su rol, foto y LinkedIn; si no, firma el equipo.
+ */
+import { Icon } from "astro-icon/components";
+import { equipo, iniciales } from "../../data/equipo";
+import { AUTOR_EQUIPO } from "../../data/blog";
+
+interface Props {
+  author?: string;
+}
+
+const nombre = (Astro.props as Props).author?.trim() || AUTOR_EQUIPO;
+const socio = equipo.find((s) => s.nombre && s.nombre === nombre);
+const descripcion = socio
+  ? `${socio.rol} · ${socio.titulo}`
+  : "Ingenieros en informática en La Serena. Hacemos páginas web, sistemas y campañas para pymes de la Región de Coquimbo.";
+---
+
+<div class="mt-14 flex items-start gap-4 rounded-2xl border border-border/70 bg-card p-6">
+  {socio?.foto ? (
+    <img src={socio.foto} alt={nombre} class="h-14 w-14 shrink-0 rounded-full object-cover" loading="lazy" />
+  ) : socio ? (
+    <span class="author-avatar flex h-14 w-14 shrink-0 items-center justify-center rounded-full text-lg font-bold text-white">
+      {iniciales(nombre)}
+    </span>
+  ) : (
+    <img src="/logo.svg" alt="" class="h-14 w-14 shrink-0 rounded-full border border-border/70 bg-white p-2" loading="lazy" />
+  )}
+  <div class="min-w-0">
+    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-muted">Escrito por</p>
+    <p class="mt-1 flex items-center gap-2 font-semibold text-content">
+      {nombre}
+      {socio?.linkedin && (
+        <a href={socio.linkedin} target="_blank" rel="noopener noreferrer" aria-label={`LinkedIn de ${nombre}`} class="text-muted hover:text-content">
+          <Icon name="simple-icons:linkedin" class="h-4 w-4" />
+        </a>
+      )}
+    </p>
+    <p class="mt-1 text-sm leading-relaxed text-muted">{descripcion}</p>
+  </div>
+</div>
+
+<style>
+  .author-avatar {
+    background: linear-gradient(135deg, rgb(var(--color-primary)) 0%, rgb(20 40 95) 100%);
+  }
+</style>

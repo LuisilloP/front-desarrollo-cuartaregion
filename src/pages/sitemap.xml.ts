@@ -1,6 +1,7 @@
 import { env } from "../lib/env";
-import { fetchAllPosts, fetchCases, fetchServices } from "../lib/api/services";
-import { SITE_DEFAULTS } from "../config/site";
+import { fetchCases, fetchServices } from "../lib/api/services";
+import { obtenerPosts } from "../lib/blog";
+import { categoriasBlog } from "../data/blog";
 import { CITY_LANDINGS } from "../config/cities";
 
 const SITE_URL = (env.siteUrl || import.meta.env.SITE || "https://aliadodigital.cl").replace(/\/$/, "");
@@ -58,12 +59,10 @@ export async function GET() {
     priority: "0.8"
   }));
 
-  const blogPageSize = SITE_DEFAULTS.blogPageSize;
-
   const [services, cases, posts] = await Promise.all([
     fetchServices(),
     fetchCases(),
-    fetchAllPosts({ pageSize: 100 })
+    obtenerPosts()
   ]);
 
   const serviceRoutes: SitemapEntry[] = services
@@ -82,20 +81,18 @@ export async function GET() {
       priority: "0.8"
     }));
 
-  const postRoutes: SitemapEntry[] = posts
-    .filter((post) => Boolean(post.slug))
-    .map((post) => ({
-      path: `/blog/${post.slug}`,
-      changefreq: "weekly",
-      priority: "0.7",
-      lastmod: toIsoDate(post.updatedAt || post.publishedAt || post.createdAt)
-    }));
+  const postRoutes: SitemapEntry[] = posts.map((post) => ({
+    path: `/blog/${post.id}`,
+    changefreq: "monthly",
+    priority: "0.7",
+    lastmod: toIsoDate((post.data.updatedDate ?? post.data.pubDate).toISOString())
+  }));
 
-  const pageCount = Math.max(1, Math.ceil(posts.length / blogPageSize));
-  const blogPaginationRoutes: SitemapEntry[] = Array.from({ length: pageCount }, (_, index) => index + 1)
-    .filter((pageNumber) => pageNumber > 1)
-    .map((pageNumber) => ({
-      path: `/blog/${pageNumber}`,
+  // Solo categorías con artículos publicados (las vacías no generan página).
+  const categoryRoutes: SitemapEntry[] = categoriasBlog
+    .filter((categoria) => posts.some((post) => post.data.category === categoria.slug))
+    .map((categoria) => ({
+      path: `/blog/categoria/${categoria.slug}`,
       changefreq: "weekly",
       priority: "0.5"
     }));
@@ -106,7 +103,7 @@ export async function GET() {
     ...serviceRoutes,
     ...caseRoutes,
     ...postRoutes,
-    ...blogPaginationRoutes
+    ...categoryRoutes
   ]
     .map(buildUrl)
     .join("");

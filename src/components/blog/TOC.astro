@@ -1,0 +1,63 @@
+---
+/** Índice del artículo a partir de los títulos H2 y H3. */
+import type { MarkdownHeading } from "astro";
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+const items = (Astro.props as Props).headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{items.length > 2 && (
+  <nav aria-labelledby="toc-title" class="rounded-2xl border border-border/70 bg-card p-5">
+    <p id="toc-title" class="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
+      En este artículo
+    </p>
+    <ol class="mt-3 space-y-2 text-sm" data-toc>
+      {items.map((heading) => (
+        <li class:list={[heading.depth === 3 && "pl-4"]}>
+          <a
+            href={`#${heading.slug}`}
+            data-toc-link={heading.slug}
+            class="block leading-snug text-muted transition hover:text-content"
+          >
+            {heading.text}
+          </a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+)}
+
+<script>
+  // Marca la sección visible en el índice.
+  const links = new Map(
+    [...document.querySelectorAll<HTMLAnchorElement>("[data-toc-link]")].map((a) => [
+      a.dataset.tocLink,
+      a,
+    ]),
+  );
+  if (links.size > 0 && "IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          links.forEach((a) => a.classList.remove("toc-active"));
+          links.get(entry.target.id)?.classList.add("toc-active");
+        });
+      },
+      { rootMargin: "-20% 0px -70% 0px" },
+    );
+    links.forEach((_, id) => {
+      const target = id ? document.getElementById(id) : null;
+      if (target) observer.observe(target);
+    });
+  }
+</script>
+
+<style>
+  :global(.toc-active) {
+    @apply font-semibold text-content;
+  }
+</style>

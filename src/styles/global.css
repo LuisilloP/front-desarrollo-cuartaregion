@@ -149,3 +149,64 @@ a {
     animation: none;
   }
 }
+
+/* ---------------------------------------------------------------------------
+ * Cuerpo de los artículos del blog (MDX)
+ * ------------------------------------------------------------------------- */
+.article-body {
+  @apply text-[1.0625rem] leading-[1.8] text-content/90;
+}
+.article-body > * + * {
+  @apply mt-5;
+}
+.article-body h2 {
+  @apply mt-14 scroll-mt-28 text-2xl font-bold leading-tight tracking-tight text-content sm:text-3xl;
+}
+.article-body h3 {
+  @apply mt-10 scroll-mt-28 text-xl font-semibold leading-snug text-content;
+}
+.article-body h2 + *,
+.article-body h3 + * {
+  @apply mt-4;
+}
+.article-body a:not(.not-prose *) {
+  @apply font-medium text-accent underline decoration-accent/30 underline-offset-4 transition hover:decoration-accent dark:text-highlight dark:decoration-highlight/30;
+}
+.article-body strong {
+  @apply font-semibold text-content;
+}
+.article-body ul:not(.not-prose *),
+.article-body ol:not(.not-prose *) {
+  @apply space-y-2 pl-6;
+}
+.article-body ul {
+  @apply list-disc marker:text-accent dark:marker:text-highlight;
+}
+.article-body ol {
+  @apply list-decimal marker:font-semibold marker:text-muted;
+}
+.article-body li > ul,
+.article-body li > ol {
+  @apply mt-2;
+}
+.article-body blockquote {
+  @apply rounded-r-xl border-l-4 border-primary/60 bg-primary/5 px-5 py-4 text-content;
+}
+.article-body blockquote p {
+  @apply m-0;
+}
+.article-body hr {
+  @apply my-12 border-border/70;
+}
+.article-body code {
+  @apply rounded bg-surface-strong px-1.5 py-0.5 text-[0.9em];
+}
+.article-body table {
+  @apply block w-full overflow-x-auto border-collapse text-left text-[0.95rem];
+}
+.article-body th {
+  @apply border-b border-border/70 bg-surface-strong/60 px-4 py-3 font-semibold text-content;
+}
+.article-body td {
+  @apply border-b border-border/50 px-4 py-3 align-top;
+}

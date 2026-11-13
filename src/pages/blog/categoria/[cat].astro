@@ -1,0 +1,80 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Navbar from "../../../components/layout/Navbar.astro";
+import Footer from "../../../components/layout/Footer.astro";
+import WhatsAppFloatingButton from "../../../components/layout/WhatsAppFloatingButton.astro";
+import PostCard from "../../../components/blog/PostCard.astro";
+import { Icon } from "astro-icon/components";
+import { fetchSiteSettings } from "../../../lib/api/services";
+import { obtenerPosts, type PostBlog } from "../../../lib/blog";
+import { categoriasBlog } from "../../../data/blog";
+import type { Content } from "../../../lib/api/types";
+import contentJson from "../../../data/content.json";
+import { env } from "../../../lib/env";
+
+// Solo se generan las categorías que tienen al menos un artículo.
+export async function getStaticPaths() {
+  const posts = await obtenerPosts();
+  return categoriasBlog
+    .map((categoria) => ({
+      categoria,
+      posts: posts.filter((post) => post.data.category === categoria.slug),
+    }))
+    .filter(({ posts: lista }) => lista.length > 0)
+    .map(({ categoria, posts: lista }) => ({
+      params: { cat: categoria.slug },
+      props: { categoria, posts: lista },
+    }));
+}
+
+const { categoria, posts } = Astro.props as {
+  categoria: (typeof categoriasBlog)[number];
+  posts: PostBlog[];
+};
+const content = contentJson as Content;
+const siteSettings = await fetchSiteSettings();
+
+const siteUrl = env.siteUrl ?? (Astro.site ? Astro.site.toString() : undefined);
+const toAbsolute = (path: string) => (siteUrl ? new URL(path, siteUrl).toString() : path);
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Inicio", item: toAbsolute("/") },
+    { "@type": "ListItem", position: 2, name: "Blog", item: toAbsolute("/blog/") },
+    { "@type": "ListItem", position: 3, name: categoria.nombre, item: toAbsolute(`/blog/categoria/${categoria.slug}/`) },
+  ],
+};
+---
+
+<Layout
+  title={`${categoria.nombre} | Blog de Aliado Digital`}
+  description={categoria.descripcion}
+  siteSettings={siteSettings}
+  structuredData={[breadcrumbSchema]}
+>
+  <link slot="head" rel="alternate" type="application/rss+xml" title="Blog de Aliado Digital" href="/blog/rss.xml" />
+  <Navbar siteSettings={siteSettings} navLinks={content.navLinks} />
+
+  <main class="hero-safe-offset overflow-x-hidden pb-24">
+    <header class="section-shell pt-10 pb-10 sm:pt-14">
+      <a href="/blog" class="inline-flex items-center gap-1.5 text-sm font-medium text-muted transition hover:text-content">
+        <Icon name="lucide:arrow-left" class="h-4 w-4" aria-hidden="true" />
+        Todo el blog
+      </a>
+      <h1 class="mt-6 text-4xl font-bold tracking-tight text-content [text-wrap:balance] sm:text-5xl">
+        {categoria.nombre}
+      </h1>
+      <p class="mt-4 max-w-2xl text-lg text-muted">{categoria.descripcion}</p>
+    </header>
+
+    <section class="section-shell">
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {posts.map((post) => <PostCard post={post} />)}
+      </div>
+    </section>
+  </main>
+
+  <Footer siteSettings={siteSettings} navLinks={content.navLinks} legalPages={content.legalPages} />
+  <WhatsAppFloatingButton whatsappNumber={siteSettings.whatsappNumber} message="Hola, leí su blog y tengo una consulta." />
+</Layout>

@@ -1,0 +1,47 @@
+---
+/**
+ * Llamada a la acción dentro de un artículo. Uso en MDX:
+ *   <ArticleCTA title="..." text="..." mensaje="Hola, ..." />
+ * Por defecto abre WhatsApp; con `href` lleva a otra página.
+ */
+import { Icon } from "astro-icon/components";
+import { getWhatsAppUrl } from "../../config/contact";
+
+interface Props {
+  title?: string;
+  text?: string;
+  label?: string;
+  href?: string;
+  mensaje?: string;
+}
+
+const {
+  title = "¿Quieres que lo revisemos por ti?",
+  text = "Te decimos qué ajustar en tu sitio y te respondemos en 1 día hábil.",
+  label,
+  href,
+  mensaje = "Hola, leí un artículo del blog de Aliado Digital y quiero una revisión.",
+} = Astro.props as Props;
+
+const esWhatsApp = !href;
+const destino = href ?? getWhatsAppUrl(mensaje) ?? "/#contacto";
+const etiqueta = label ?? (esWhatsApp ? "Escribir por WhatsApp" : "Ver más");
+---
+
+<aside class="not-prose my-10 overflow-hidden rounded-2xl bg-slate-900 p-6 text-white sm:p-8">
+  <p class="text-xl font-semibold">{title}</p>
+  <p class="mt-2 text-white/70">{text}</p>
+  <a
+    href={destino}
+    target={esWhatsApp ? "_blank" : undefined}
+    rel={esWhatsApp ? "noopener noreferrer" : undefined}
+    class:list={[
+      "mt-5 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition hover:shadow-lg",
+      esWhatsApp ? "bg-[#25D366] text-white" : "bg-primary text-contrast",
+    ]}
+  >
+    {esWhatsApp && <Icon name="simple-icons:whatsapp" class="h-4 w-4" aria-hidden="true" />}
+    {etiqueta}
+    {!esWhatsApp && <Icon name="lucide:arrow-right" class="h-4 w-4" aria-hidden="true" />}
+  </a>
+</aside>

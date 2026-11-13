@@ -1,0 +1,87 @@
+---
+import { Icon } from "astro-icon/components";
+import type { PostBlog } from "../../lib/blog";
+import { categoriaPorSlug, formatoFecha, minutosLectura } from "../../data/blog";
+
+interface Props {
+  post: PostBlog;
+  destacado?: boolean;
+}
+
+const { post, destacado = false } = Astro.props as Props;
+const { title, description, pubDate, category, cover, coverAlt } = post.data;
+const categoria = categoriaPorSlug(category);
+const minutos = minutosLectura(post.body ?? "");
+---
+
+<a
+  href={`/blog/${post.id}`}
+  class:list={[
+    "group flex h-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl",
+    destacado && "lg:flex-row",
+  ]}
+>
+  <div
+    class:list={[
+      "post-cover relative overflow-hidden",
+      destacado ? "aspect-[16/9] lg:aspect-auto lg:w-1/2" : "aspect-[16/9]",
+    ]}
+  >
+    {cover ? (
+      <img
+        src={cover}
+        alt={coverAlt ?? title}
+        class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+        loading={destacado ? "eager" : "lazy"}
+        decoding="async"
+      />
+    ) : (
+      <>
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(255,255,255,0.18),transparent_55%)]" aria-hidden="true"></div>
+      {categoria && (
+        <Icon
+          name={categoria.icono}
+          class="absolute -bottom-6 -right-6 h-44 w-44 text-white/10 transition duration-500 group-hover:scale-105 sm:h-56 sm:w-56"
+          aria-hidden="true"
+        />
+      )}
+      <div class="absolute inset-0 flex flex-col justify-end gap-3 p-6 sm:p-8">
+        {categoria && (
+          <span class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-white/15 text-white ring-1 ring-inset ring-white/25 backdrop-blur-sm">
+            <Icon name={categoria.icono} class="h-5 w-5" aria-hidden="true" />
+          </span>
+        )}
+        <span class="text-xs font-semibold uppercase tracking-[0.2em] text-white/80">
+          {categoria?.nombre}
+        </span>
+      </div>
+      </>
+    )}
+  </div>
+
+  <div class:list={["flex flex-1 flex-col gap-3 p-6", destacado && "lg:justify-center lg:p-10"]}>
+    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-accent dark:text-highlight">
+      {categoria?.nombre}
+    </p>
+    <h3
+      class:list={[
+        "font-bold leading-snug tracking-tight text-content [text-wrap:balance]",
+        destacado ? "text-2xl sm:text-3xl" : "text-xl",
+      ]}
+    >
+      {title}
+    </h3>
+    <p class="line-clamp-3 text-sm leading-relaxed text-muted">{description}</p>
+    <p class="mt-auto pt-2 text-xs text-muted">
+      <time datetime={pubDate.toISOString()}>{formatoFecha(pubDate)}</time>
+      <span aria-hidden="true"> · </span>
+      {minutos} min de lectura
+    </p>
+  </div>
+</a>
+
+<style>
+  .post-cover {
+    background: linear-gradient(135deg, rgb(var(--color-primary)) 0%, rgb(20 40 95) 100%);
+  }
+</style>

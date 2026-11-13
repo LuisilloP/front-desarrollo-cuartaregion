@@ -11,7 +11,8 @@ type ContentData = {
   reviews: Review[];
   faqs: Faq[];
   legalPages: Record<string, LegalPage>;
-  posts: Post[];
+  /** El blog ahora vive en src/content/blog (MDX); se conserva por compatibilidad. */
+  posts?: Post[];
 };
 
 const contentData = content as ContentData;
@@ -26,4 +27,4 @@ export const mockCases = contentData.cases;
 export const mockReviews = contentData.reviews;
 export const mockFaqs = contentData.faqs;
 export const mockLegalPages = contentData.legalPages;
-export const mockPosts = contentData.posts;
+export const mockPosts: Post[] = contentData.posts ?? [];
