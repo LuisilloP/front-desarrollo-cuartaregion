@@ -8,12 +8,14 @@ interface Props {
   singleGrid?: boolean;
   title?: string;
   description?: string;
+  sectionId?: string;
 }
 
 const {
   services,
   whatsappNumber,
   singleGrid = false,
+  sectionId = "servicios",
   title = "Planes",
   description = "Revisa nuestras opciones y contáctanos para una cotización en menos de 24 horas hábiles.",
 } = Astro.props as Props;
@@ -31,7 +33,7 @@ const mixedServices = sortedServices.filter(
 );
 ---
 
-<section id="servicios" class="py-20 lg:py-32">
+<section id={sectionId} class="scroll-mt-24 py-16 lg:py-24">
   <div class="container mx-auto px-6 sm:px-8">
     <!-- Section Header -->
     <div class="mx-auto mb-16 max-w-3xl text-center">

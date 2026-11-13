@@ -1,0 +1,162 @@
+---
+/**
+ * "Qué hacemos": reemplaza los banners de Desarrollo y Marketing del home.
+ * Muestra trabajo real (capturas de casos) en vez de imágenes genéricas,
+ * y los precios salen de la fuente única (src/data/planes.ts).
+ */
+import { Icon } from "astro-icon/components";
+import DeviceMockup from "../cases/DeviceMockup.astro";
+import { planesMensuales, setups, formatoCLP } from "../../data/planes";
+
+const setupDesde = Math.min(...setups.flatMap((s) => (s.precio ? [s.precio] : [])));
+const planCampanas = planesMensuales.find((plan) => plan.slug === "crecimiento");
+
+const lineas = [
+  {
+    id: "web",
+    eyebrow: "Páginas web y sistemas",
+    titulo: "Una web que convierte visitas en consultas",
+    texto:
+      "Sitios rápidos hechos a medida, con WhatsApp, formulario y medición listos desde el primer día. Si tu operación lo necesita, también sistemas a medida.",
+    puntos: [
+      "Diseño a medida de tu marca",
+      "Carga rápida en celular y SEO técnico",
+      "Botón de WhatsApp y formulario conectados",
+    ],
+    precio: `Desde ${formatoCLP(setupDesde)} + IVA`,
+    precioNota: "Pago único",
+    cta: { label: "Ver precios de páginas web", href: "/planes#setups" },
+    secundario: { label: "Más sobre desarrollo web", href: "/desarrollo" },
+    caso: { label: "Ejemplo: Propiedades Arenas", href: "/casos/propiedades-arenas" },
+  },
+  {
+    id: "campanas",
+    eyebrow: "Campañas y presencia",
+    titulo: "Campañas y contenido que traen clientes cada mes",
+    texto:
+      "Gestionamos tus anuncios en Meta y Google, tus redes y tu ficha de Google, y te mostramos cada mes qué está funcionando.",
+    puntos: [
+      "Meta Ads y Google Ads con medición",
+      "8 publicaciones al mes en redes",
+      "SEO local y Google Business Profile",
+    ],
+    precio: planCampanas
+      ? `${formatoCLP(planCampanas.precio)} / mes + IVA`
+      : "",
+    precioNota: planCampanas ? `Incluido en el plan ${planCampanas.nombre}` : "",
+    cta: { label: "Ver planes mensuales", href: "/planes#mensuales" },
+    secundario: { label: "Más sobre marketing digital", href: "/marketing" },
+    caso: { label: "Ejemplo: Ansar", href: "/casos/ansar" },
+  },
+];
+---
+
+<section id="que-hacemos" class="py-16 lg:py-24">
+  <div class="container mx-auto px-6 sm:px-8">
+    <div class="mx-auto max-w-3xl text-center" data-reveal="fade-up">
+      <p class="text-xs font-semibold uppercase tracking-[0.24em] text-accent dark:text-highlight">
+        Qué hacemos
+      </p>
+      <h2 class="mt-3 text-3xl font-bold tracking-tight text-content [text-wrap:balance] sm:text-4xl lg:text-5xl">
+        Dos formas de conseguir más clientes
+      </h2>
+      <p class="mt-4 text-lg text-muted">
+        Empieza por una o combínalas. Todo se mide para que sepas qué te trae
+        consultas.
+      </p>
+    </div>
+
+    <div class="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-2">
+      {lineas.map((linea, index) => (
+        <article
+          class="flex flex-col overflow-hidden rounded-3xl border border-border/70 bg-card shadow-sm"
+          data-reveal="fade-up"
+          data-delay={String(index * 100)}
+        >
+          <!-- Visual: trabajo real sobre fondo de marca -->
+          <div class="brand-panel relative flex aspect-[16/10] items-end justify-center overflow-hidden px-6 pt-8 sm:px-10">
+            <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(255,255,255,0.18),transparent_55%)]" aria-hidden="true"></div>
+            {linea.id === "web" ? (
+              <DeviceMockup
+                image="/images/portfolio/cases/propiedades-arenas.webp"
+                mobileImage="/images/portfolio/cases/propiedades-arenas-movil.webp"
+                alt="Sitio de Propiedades Arenas hecho por Aliado Digital"
+                class="!max-w-lg translate-y-6 !pb-0"
+              />
+            ) : (
+              <div class="relative flex w-full max-w-lg items-end justify-center">
+                <div class="w-[46%] max-w-[210px] translate-y-6 rounded-[1.6rem] border border-slate-700/80 bg-slate-900 p-1.5 shadow-2xl">
+                  <div class="mx-auto mb-1 h-1 w-10 rounded-full bg-slate-700" aria-hidden="true"></div>
+                  <div class="aspect-[9/16] overflow-hidden rounded-[1.15rem] bg-slate-800">
+                    <img
+                      src="/images/marketing/ansar/img.webp"
+                      alt="Perfil de Instagram de Ansar gestionado por Aliado Digital"
+                      class="h-full w-full object-cover object-top"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                </div>
+                <div class="absolute left-0 top-[18%] hidden flex-col gap-3 sm:flex sm:left-[4%]">
+                  <span class="chip"><Icon name="simple-icons:meta" class="h-4 w-4" aria-hidden="true" /> Meta Ads</span>
+                  <span class="chip"><Icon name="simple-icons:googleads" class="h-4 w-4" aria-hidden="true" /> Google Ads</span>
+                </div>
+                <div class="absolute right-0 top-[30%] hidden flex-col gap-3 sm:flex sm:right-[4%]">
+                  <span class="chip"><Icon name="simple-icons:instagram" class="h-4 w-4" aria-hidden="true" /> Redes</span>
+                  <span class="chip"><Icon name="lucide:map-pin" class="h-4 w-4" aria-hidden="true" /> Google Maps</span>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div class="flex flex-1 flex-col gap-5 p-6 sm:p-8">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-muted">{linea.eyebrow}</p>
+              <h3 class="mt-2 text-2xl font-bold tracking-tight text-content [text-wrap:balance]">{linea.titulo}</h3>
+              <p class="mt-3 text-muted">{linea.texto}</p>
+            </div>
+
+            <ul class="space-y-2.5 text-sm text-content">
+              {linea.puntos.map((punto) => (
+                <li class="flex items-start gap-3">
+                  <Icon name="lucide:check" class="mt-0.5 h-4 w-4 shrink-0 text-accent dark:text-highlight" aria-hidden="true" />
+                  <span>{punto}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div class="mt-auto flex flex-col gap-5 border-t border-border/70 pt-5 sm:flex-row sm:items-end sm:justify-between">
+              {linea.precio && (
+                <div>
+                  <p class="text-xl font-bold text-content">{linea.precio}</p>
+                  <p class="text-xs text-muted">{linea.precioNota}</p>
+                </div>
+              )}
+              <a
+                href={linea.cta.href}
+                class="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-contrast shadow-lg shadow-primary/20 transition hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight/40"
+              >
+                {linea.cta.label}
+                <Icon name="lucide:arrow-right" class="h-4 w-4" aria-hidden="true" />
+              </a>
+            </div>
+
+            <div class="flex flex-wrap gap-x-5 gap-y-2 text-sm">
+              <a href={linea.caso.href} class="font-medium text-accent hover:underline dark:text-highlight">{linea.caso.label}</a>
+              <a href={linea.secundario.href} class="font-medium text-muted hover:text-content hover:underline">{linea.secundario.label}</a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .brand-panel {
+    background: linear-gradient(135deg, rgb(var(--color-primary)) 0%, rgb(20 40 95) 100%);
+  }
+  .chip {
+    @apply inline-flex items-center gap-2 rounded-full bg-white/95 px-3 py-1.5 text-xs font-semibold text-slate-900 shadow-lg shadow-black/20;
+  }
+</style>

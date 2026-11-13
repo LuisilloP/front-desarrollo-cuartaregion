@@ -11,8 +11,7 @@ import ContactSection from "../components/sections/ContactSection.astro";
 import Footer from "../components/layout/Footer.astro";
 import AboutUs from "../components/sections/AboutUs.astro";
 import WhatsAppFloatingButton from "../components/layout/WhatsAppFloatingButton.astro";
-import BannerWeb from "../components/banners/BannerWeb.astro";
-import BannerMarketing from "../components/banners/BannerMarketing.astro";
+import QueHacemosSection from "../components/sections/QueHacemosSection.astro";
 import { fetchSiteSettings, fetchCases, fetchFaqs } from "../lib/api/services";
 
 import type { Content, HomePageContent } from "../lib/api/types";
@@ -56,16 +55,19 @@ const pageDescription =
   siteSettings={siteSettings}
 >
   <Navbar siteSettings={siteSettings} navLinks={homeNavLinks} />
-  <main class="space-y-8 overflow-x-hidden max-w-full">
+  <main class="overflow-x-hidden max-w-full">
     <Hero siteSettings={siteSettings} content={heroSection} />
 
     <div id="planes-web" aria-hidden="true"></div>
     <div id="planes-marketing" aria-hidden="true"></div>
     <div id="planes-combo" aria-hidden="true"></div>
-    <div id="planes" aria-hidden="true"></div>
 
-    {/* Show summary cards for each plan group */}
+    {/* Qué hacemos: web y campañas con trabajo real */}
+    <QueHacemosSection />
+
+    {/* Planes mensuales con precio publicado */}
     <ServicesSection
+      sectionId="planes"
       services={planSummaries}
       whatsappNumber={siteSettings.whatsappNumber}
       singleGrid
@@ -80,45 +82,9 @@ const pageDescription =
     {showProcessSection ? <ProcessSection /> : null}
 
     {/* More social proof - Portfolio companies */}
-    <div class="container mx-auto px-6 sm:px-8">
-      <BannerWeb
-        size="compact"
-        title="Convierte visitas en clientes con una web que transmite confianza"
-        subtitle="Diseño premium, velocidad real y estructura para crecer"
-        description="Creamos sitios rápidos y claros, listos para vender desde el primer día, con SEO técnico y base escalable."
-        bgImage="/images/sections/desarrollo.webp"
-        imageAlt="Desarrollo web en dispositivos"
-        bullets={[
-          "UX pensada para conversiones",
-          "Carga rápida y experiencia impecable en móvil",
-          "SEO técnico y analítica para medir resultados",
-        ]}
-        primaryLink={{ label: "Ir a desarrollo", href: "/desarrollo" }}
-        secondaryLink={{ label: "Ver precios", href: "/planes#setups" }}
-        class="w-full"
-      />
-    </div>
 
     <PortfolioMarqueeSection client:visible companies={portfolioCompanies} />
 
-    <div class="container mx-auto px-6 sm:px-8">
-      <BannerMarketing
-        size="compact"
-        title="Campañas que generan demanda y ventas reales"
-        subtitle="Meta Ads con estrategia, creatividad y optimización continua"
-        description="Atrae clientes con anuncios medibles, segmentación precisa y mensajes que convierten."
-        bgImage="/images/sections/marketing.webp"
-        imageAlt="Marketing digital en dispositivos"
-        bullets={[
-          "Leads calificados cada semana",
-          "Creatividades y copies según tu rubro",
-          "Optimización con datos, no con intuición",
-        ]}
-        primaryLink={{ label: "Ir a marketing", href: "/marketing" }}
-        secondaryLink={{ label: "Ver planes", href: "/planes" }}
-        class="w-full"
-      />
-    </div>
 
     {/* About Us after user is already interested */}
     <AboutUs />

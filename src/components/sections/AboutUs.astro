@@ -1,155 +1,128 @@
 ---
-// src/components/AboutUs.astro
-// Modern About Us section with dark mode support
+// Sección "Nosotros": quiénes somos, cómo trabajamos y los socios.
+// Los socios se configuran en src/data/equipo.ts y solo se muestran
+// cuando los tres están completos.
+import { Icon } from "astro-icon/components";
+import { equipo, equipoCompleto, iniciales } from "../../data/equipo";
+
+const diferenciales = [
+  {
+    icono: "lucide:message-circle",
+    titulo: "Hablas con quien hace el trabajo",
+    texto: "Sin intermediarios ni ejecutivos de cuenta. Te responde el ingeniero que construye tu proyecto.",
+  },
+  {
+    icono: "lucide:gauge",
+    titulo: "Sitios rápidos y medibles",
+    texto: "Cada web sale con WhatsApp, formulario y medición de visitas listos desde el primer día.",
+  },
+  {
+    icono: "lucide:map-pin",
+    titulo: "Cerca de tu negocio",
+    texto: "Estamos en La Serena. Nos juntamos contigo en la Región de Coquimbo o por videollamada.",
+  },
+];
 ---
 
-<section id="nosotros" class="relative py-20 lg:py-32 overflow-visible">
-  <!-- Background with gradient glow -->
-  <div class="absolute inset-0 -z-10">
-    <!-- Gradient glow effects -->
-    <div
-      class="absolute top-0 left-1/4 w-96 h-96 bg-sky-500/10 dark:bg-sky-400/5 rounded-full blur-3xl"
-    >
-    </div>
-    <div
-      class="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 dark:bg-blue-400/5 rounded-full blur-3xl"
-    >
-    </div>
-
-    <!-- Subtle pattern overlay -->
-    <div
-      class="absolute inset-0 opacity-[0.015] dark:opacity-[0.02]"
-      style="background-image: radial-gradient(circle at 1px 1px, rgb(0 0 0) 1px, transparent 0); background-size: 40px 40px;"
-    >
-    </div>
+<section id="nosotros" class="relative overflow-hidden py-16 lg:py-24">
+  <div class="absolute inset-0 -z-10" aria-hidden="true">
+    <div class="absolute -top-24 left-1/4 h-96 w-96 rounded-full bg-sky-500/10 blur-3xl dark:bg-sky-400/5"></div>
+    <div class="absolute bottom-0 right-1/4 h-96 w-96 rounded-full bg-blue-500/10 blur-3xl dark:bg-blue-400/5"></div>
   </div>
 
   <div class="container mx-auto px-6 sm:px-8">
-    <!-- Two-column layout -->
-    <div class="grid lg:grid-cols-11 lg:gap-16 items-center">
-      <!-- Left: Text content -->
-      <div class="lg:col-span-5 space-y-8" data-reveal="fade-up">
-        <!-- Headline -->
+    <div class="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:items-center lg:gap-16">
+      <div class="space-y-6" data-reveal="fade-up">
+        <p class="text-xs font-semibold uppercase tracking-[0.24em] text-accent dark:text-highlight">
+          Nosotros
+        </p>
         <h2
           id="about-title"
-          class="text-3xl font-bold tracking-tight text-content sm:text-4xl lg:text-5xl"
-          data-reveal="fade-up"
-          data-delay="80"
+          class="text-3xl font-bold tracking-tight text-content [text-wrap:balance] sm:text-4xl lg:text-5xl"
         >
-          Un equipo claro, práctico y comprometido
+          Ingenieros en informática que trabajan para pymes
         </h2>
-
-        <!-- Paragraph -->
-        <p
-          class="text-lg font-400 leading-relaxed text-zinc-600 dark:text-zinc-300"
-          data-reveal="fade-up"
-          data-delay="160"
-        >
-          Somos un equipo de ingenieros. Creamos sitios web y soluciones a
-          medida, y ahora también te acompañamos con planes de crecimiento
-          digital para atraer leads y convertirlos en clientes: estrategia,
-          campañas y mejoras continuas que se notan.
+        <p class="max-w-prose text-lg leading-relaxed text-muted">
+          Somos un equipo de ingenieros en informática en La Serena. Hacemos
+          páginas web, sistemas y campañas con el mismo criterio técnico con
+          que se construye software serio, pero explicado en simple y pensado
+          para que tu negocio reciba más consultas.
         </p>
-
-        <!-- Bullet points -->
-        <ul class="space-y-6 pt-4" data-reveal="fade-up" data-delay="240">
-          <li class="flex items-start">
-            <div class="flex-shrink-0">
-              <div
-                class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-sky-500/10 dark:bg-sky-400/10 text-sky-600 dark:text-sky-400"
-              >
-                <svg
-                  class="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  ><path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"
-                  ></path></svg
-                >
-              </div>
-            </div>
-            <div class="ml-4">
-              <h4 class="text-lg font-600 text-zinc-800 dark:text-zinc-100">
-                Cercanía real
-              </h4>
-              <p class="text-base text-zinc-600 dark:text-zinc-300 mt-1">
-                Hablamos simple, te acompañamos y resolvemos rápido.
-              </p>
-            </div>
-          </li>
-          <li class="flex items-start">
-            <div class="flex-shrink-0">
-              <div
-                class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-blue-500/10 dark:bg-blue-400/10 text-blue-600 dark:text-blue-400"
-              >
-                <svg
-                  class="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  ><path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg
-                >
-              </div>
-            </div>
-            <div class="ml-4">
-              <h4 class="text-lg font-600 text-zinc-800 dark:text-zinc-100">
-                Diseño + performance
-              </h4>
-              <p class="text-base text-zinc-600 dark:text-zinc-300 mt-1">
-                Sitios rápidos, claros y pensados para convertir.
-              </p>
-            </div>
-          </li>
-          <li class="flex items-start">
-            <div class="flex-shrink-0">
-              <div
-                class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-indigo-500/10 dark:bg-indigo-400/10 text-indigo-600 dark:text-indigo-400"
-              >
-                <svg
-                  class="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  ><path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path></svg
-                >
-              </div>
-            </div>
-            <div class="ml-4">
-              <h4 class="text-lg font-600 text-zinc-800 dark:text-zinc-100">
-                Crecimiento con foco en leads
-              </h4>
-              <p class="text-base text-zinc-600 dark:text-zinc-300 mt-1">
-                Plan de acción, ejecución y optimización para que lleguen más
-                consultas y ventas.
-              </p>
-            </div>
-          </li>
-        </ul>
       </div>
 
-      <!-- Right: Visual element (decorative graphic) -->
-      <div
-        class="lg:col-span-6 relative mt-12 lg:mt-0"
-        data-reveal="fade-up"
-        data-delay="200"
-      >
-        <div class="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-soft">
-            <img src="/aboutus-bg2.webp" alt="Nuestro equipo en una sesión de trabajo colaborativo" class="w-full h-full object-fill">
+      <ul class="grid gap-4" data-reveal="fade-up" data-delay="120">
+        {diferenciales.map((item) => (
+          <li class="flex items-start gap-4 rounded-2xl border border-border/70 bg-card/80 p-5 backdrop-blur-sm">
+            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary dark:bg-highlight/10 dark:text-highlight">
+              <Icon name={item.icono} class="h-5 w-5" aria-hidden="true" />
+            </span>
+            <span>
+              <span class="block text-base font-semibold text-content">{item.titulo}</span>
+              <span class="mt-1 block text-sm leading-relaxed text-muted">{item.texto}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    {equipoCompleto && (
+      <div class="mt-16 lg:mt-20">
+        <h3 class="text-center text-2xl font-semibold text-content sm:text-3xl">
+          Los socios
+        </h3>
+        <div class="mx-auto mt-10 grid max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {equipo.map((socio, index) => (
+            <article
+              class="group overflow-hidden rounded-2xl border border-border/70 bg-card"
+              data-reveal="fade-up"
+              data-delay={String(index * 80)}
+            >
+              <div class="team-photo relative aspect-[4/3] overflow-hidden sm:aspect-[4/5]">
+                {socio.foto ? (
+                  <img
+                    src={socio.foto}
+                    alt={`${socio.nombre}, ${socio.rol}`}
+                    class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <span class="absolute inset-0 flex items-center justify-center text-6xl font-bold tracking-tight text-white/90">
+                    {iniciales(socio.nombre)}
+                  </span>
+                )}
+              </div>
+              <div class="space-y-1 p-6">
+                <div class="flex items-start justify-between gap-3">
+                  <div>
+                    <p class="text-lg font-semibold text-content">{socio.nombre}</p>
+                    <p class="text-sm font-medium text-accent dark:text-highlight">{socio.rol}</p>
+                  </div>
+                  {socio.linkedin && (
+                    <a
+                      href={socio.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`LinkedIn de ${socio.nombre}`}
+                      class="text-muted transition hover:text-content"
+                    >
+                      <Icon name="simple-icons:linkedin" class="h-5 w-5" />
+                    </a>
+                  )}
+                </div>
+                <p class="text-xs uppercase tracking-[0.16em] text-muted">{socio.titulo}</p>
+                {socio.enfoque && <p class="pt-2 text-sm leading-relaxed text-muted">{socio.enfoque}</p>}
+              </div>
+            </article>
+          ))}
         </div>
       </div>
-    </div>
+    )}
   </div>
 </section>
+
+<style>
+  .team-photo {
+    background: linear-gradient(135deg, rgb(var(--color-primary)) 0%, rgb(20 40 95) 100%);
+  }
+</style>
